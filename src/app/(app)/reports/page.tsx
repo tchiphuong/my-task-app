@@ -1,0 +1,417 @@
+"use client";
+
+import {
+  ArrowDownTrayIcon,
+  ChartPieIcon,
+  CheckCircleIcon,
+  ClipboardDocumentListIcon,
+  ClockIcon,
+  DocumentTextIcon,
+  ExclamationCircleIcon,
+  TableCellsIcon,
+} from "@heroicons/react/24/outline";
+import { Button, Chip, ListBox, Select, Table } from "@heroui/react";
+import { endOfMonth, format, isWithinInterval, parseISO, startOfMonth } from "date-fns";
+import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
+import { useEffect, useState } from "react";
+import { Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+import * as XLSX from "xlsx";
+
+import { AppCard as Card } from "@/components/common/AppCard";
+import { CHART_COLORS, PRIORITY_OPTIONS, STATUS_OPTIONS } from "@/constants";
+import { Task, useTaskStore } from "@/store/useTaskStore";
+
+export default function ReportsPage() {
+  const [mounted, setMounted] = useState(false);
+  const account = useTaskStore((state) => state.getCurrentAccount());
+
+  // Chọn tháng báo cáo (Định dạng YYYY-MM)
+  const currentMonthStr = format(new Date(), "yyyy-MM");
+  const [selectedMonth, setSelectedMonth] = useState(currentMonthStr);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  const tasks = account?.tasks || [];
+
+  // Tạo danh sách 6 tháng gần nhất để chọn lựa
+  const monthOptions = Array.from({ length: 6 }).map((_, i) => {
+    const d = subMonths(new Date(), i);
+    return {
+      key: format(d, "yyyy-MM"),
+      label: `Tháng ${format(d, "MM/yyyy")}`
+    };
+  });
+
+  // Lọc các task thuộc tháng đã chọn (bao gồm task thông thường và daily tasks đã có tích chọn trong tháng đó)
+  const start = startOfMonth(parseISO(`${selectedMonth}-01`));
+  const end = endOfMonth(parseISO(`${selectedMonth}-01`));
+
+  const monthlyTasks = tasks.filter((task) => {
+    const createdDate = parseISO(task.createdAt);
+    const isCreatedInMonth = isWithinInterval(createdDate, { start, end });
+    
+    const hasDailyInMonth = task.isDaily && task.completedDates?.some(d => {
+      const p = parseISO(d);
+      return isWithinInterval(p, { start, end });
+    });
+
+    return isCreatedInMonth || hasDailyInMonth;
+  });
+
+  // Thống kê số lượng
+  const totalTasks = monthlyTasks.length;
+  
+  const completedCount = monthlyTasks.filter(t => t.status === "done").length;
+  const inProgressCount = monthlyTasks.filter(t => t.status === "in_progress").length;
+  
+  const completionRate = totalTasks > 0 ? Math.round((completedCount / totalTasks) * 100) : 0;
+
+  // Tính số lượng task trễ hạn trong tháng
+  const todayStr = format(new Date(), "yyyy-MM-dd");
+  const overdueCount = monthlyTasks.filter(t => 
+    !t.isDaily && t.status !== "done" && t.dueDate && t.dueDate < todayStr
+  ).length;
+
+  // Thống kê theo danh mục (Category)
+  const categoryStats: { [name: string]: number } = {};
+  monthlyTasks.forEach(t => {
+    const cat = t.category || "Khác";
+    categoryStats[cat] = (categoryStats[cat] || 0) + 1;
+  });
+
+  
+  const pieData = Object.keys(categoryStats).map((name, index) => ({
+    name,
+    value: categoryStats[name],
+    fill: CHART_COLORS[index % CHART_COLORS.length]
+  }));
+
+  // Hàm chuyển đổi tiếng Việt có dấu thành không dấu để xuất PDF không lỗi font
+  const removeVietnameseTones = (str: string) => {
+    return str
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replaceAll("đ", "d")
+      .replaceAll("Đ", "D");
+  };
+
+  const getPriorityLabelNoTone = (priority: Task["priority"]) => {
+    const opt = PRIORITY_OPTIONS.find(o => o.code === priority);
+    return removeVietnameseTones(opt?.name || "Thấp");
+  };
+
+  const getStatusLabelNoTone = (status: Task["status"]) => {
+    const opt = STATUS_OPTIONS.find(o => o.code === status);
+    return removeVietnameseTones(opt?.name || "Cần làm");
+  };
+
+  const getStatusLabel = (status: Task["status"]) => {
+    return STATUS_OPTIONS.find(o => o.code === status)?.name || "Cần làm";
+  };
+
+  const getStatusColor = (status: Task["status"]) => {
+    return STATUS_OPTIONS.find(o => o.code === status)?.color || "default";
+  };
+
+  // 1. Xuất file Excel
+  const handleExportExcel = () => {
+    if (monthlyTasks.length === 0) return;
+
+    const data = monthlyTasks.map((t) => ({
+      "Tieu de": removeVietnameseTones(t.title),
+      "Loai": t.isDaily ? "Hang ngay" : "Thong thuong",
+      "Danh muc": removeVietnameseTones(t.category),
+      "Do uu tien": getPriorityLabelNoTone(t.priority),
+      "Han chot": t.isDaily ? "Hang ngay" : t.dueDate,
+      "Trang thai": getStatusLabelNoTone(t.status),
+      "Hoan thanh luc": t.completedAt ? format(parseISO(t.completedAt), "dd/MM/yyyy HH:mm") : "",
+      "Ngay tao": format(parseISO(t.createdAt), "dd/MM/yyyy")
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Tasks Report");
+    XLSX.writeFile(workbook, `Bao_cao_cong_viec_thang_${selectedMonth}.xlsx`);
+  };
+
+  // 2. Xuất file PDF
+  const handleExportPDF = () => {
+    if (monthlyTasks.length === 0) return;
+
+    const doc = new jsPDF();
+    
+    doc.setFont("Helvetica", "bold");
+    doc.setFontSize(18);
+    doc.text(removeVietnameseTones("BAO CAO TIEN DO CONG VIEC THANG " + selectedMonth), 14, 20);
+    
+    doc.setFont("Helvetica", "normal");
+    doc.setFontSize(11);
+    doc.text(`Tong so cong viec: ${totalTasks}`, 14, 30);
+    doc.text(`Da hoan thanh: ${completedCount} (${completionRate}%)`, 14, 37);
+    doc.text(`Dang thuc hien: ${inProgressCount}`, 14, 44);
+    doc.text(`Cong viec tre han: ${overdueCount}`, 14, 51);
+    
+    const tableData = monthlyTasks.map((t) => [
+      removeVietnameseTones(t.title),
+      t.isDaily ? "Hang ngay" : "Thuong",
+      removeVietnameseTones(t.category),
+      getPriorityLabelNoTone(t.priority),
+      t.isDaily ? "Hang ngay" : t.dueDate,
+      getStatusLabelNoTone(t.status)
+    ]);
+
+    autoTable(doc, {
+      head: [["Tieu de", "Loai", "Danh muc", "Uu tien", "Han chot", "Trang thai"]],
+      body: tableData,
+      startY: 60,
+      theme: "striped",
+      styles: { fontSize: 9 }
+    });
+
+    doc.save(`Bao_cao_thang_${selectedMonth}.pdf`);
+  };
+
+  return (
+    <div className="flex flex-col gap-6">
+      {/* 1. Header Trang & Chọn tháng */}
+      <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+        <div>
+          <h1 className="text-xl md:text-2xl font-black text-transparent bg-clip-text bg-linear-to-r from-primary to-secondary tracking-tight">Báo cáo</h1>
+          <p className="text-xs text-default-400 mt-0.5 font-medium">
+            Phân tích tiến độ công việc và xuất báo cáo hiệu suất của bạn.
+          </p>
+        </div>
+        
+        <Select
+          aria-label="Chọn tháng"
+          value={selectedMonth}
+          onChange={(key) => setSelectedMonth(key as string)}
+          className="w-44 shrink-0"
+        >
+          <Select.Trigger>
+            <Select.Value />
+            <Select.Indicator />
+          </Select.Trigger>
+          <Select.Popover>
+            <ListBox>
+              {monthOptions.map((opt) => (
+                <ListBox.Item key={opt.key} id={opt.key} textValue={opt.label}>
+                  {opt.label}
+                  <ListBox.ItemIndicator />
+                </ListBox.Item>
+              ))}
+            </ListBox>
+          </Select.Popover>
+        </Select>
+      </div>
+
+      {/* 2. Thống kê chung bằng thẻ số liệu */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-linear-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/10 p-5 shadow-sm backdrop-blur-md transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+          <div className="mb-3 flex items-center justify-between relative z-10">
+            <h3 className="text-xs font-bold text-primary-700 dark:text-primary-300 uppercase tracking-wide">Tổng số việc</h3>
+            <div className="rounded-xl p-2.5 bg-white/60 dark:bg-primary-500/20 shadow-sm backdrop-blur-sm">
+              <ClipboardDocumentListIcon className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+            </div>
+          </div>
+          <p className="mb-1 text-4xl font-black text-primary-800 dark:text-primary-100 relative z-10">
+            {totalTasks}
+          </p>
+          <div className="flex items-center text-xs text-primary-600 dark:text-primary-300 font-medium relative z-10">
+            <span>Tạo mới & Thói quen</span>
+          </div>
+          <div className="absolute -top-6 -right-6 h-32 w-32 rounded-full opacity-30 dark:opacity-20 bg-linear-to-br from-primary-300 to-primary-500 blur-2xl pointer-events-none" />
+          <div className="absolute -bottom-8 -left-8 h-24 w-24 rounded-full opacity-20 dark:opacity-10 bg-linear-to-tr from-primary-400 to-primary-200 blur-xl pointer-events-none" />
+        </div>
+
+        <div className="relative overflow-hidden rounded-2xl border border-success/20 bg-linear-to-br from-success-50 to-success-100 dark:from-success-900/20 dark:to-success-800/10 p-5 shadow-sm backdrop-blur-md transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+          <div className="mb-3 flex items-center justify-between relative z-10">
+            <h3 className="text-xs font-bold text-success-700 dark:text-success-300 uppercase tracking-wide">Hoàn thành</h3>
+            <div className="rounded-xl p-2.5 bg-white/60 dark:bg-success-500/20 shadow-sm backdrop-blur-sm">
+              <CheckCircleIcon className="w-5 h-5 text-success-600 dark:text-success-400" />
+            </div>
+          </div>
+          <p className="mb-1 text-4xl font-black text-success-800 dark:text-success-100 relative z-10">
+            {completionRate}%
+          </p>
+          <div className="flex items-center text-xs text-success-600 dark:text-success-300 font-medium relative z-10">
+            <span>Đã xong {completedCount} việc</span>
+          </div>
+          <div className="absolute -top-6 -right-6 h-32 w-32 rounded-full opacity-30 dark:opacity-20 bg-linear-to-br from-success-300 to-success-500 blur-2xl pointer-events-none" />
+          <div className="absolute -bottom-8 -left-8 h-24 w-24 rounded-full opacity-20 dark:opacity-10 bg-linear-to-tr from-success-400 to-success-200 blur-xl pointer-events-none" />
+        </div>
+
+        <div className="relative overflow-hidden rounded-2xl border border-warning/20 bg-linear-to-br from-warning-50 to-warning-100 dark:from-warning-900/20 dark:to-warning-800/10 p-5 shadow-sm backdrop-blur-md transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+          <div className="mb-3 flex items-center justify-between relative z-10">
+            <h3 className="text-xs font-bold text-warning-700 dark:text-warning-300 uppercase tracking-wide">Đang làm</h3>
+            <div className="rounded-xl p-2.5 bg-white/60 dark:bg-warning-500/20 shadow-sm backdrop-blur-sm">
+              <ClockIcon className="w-5 h-5 text-warning-600 dark:text-warning-400" />
+            </div>
+          </div>
+          <p className="mb-1 text-4xl font-black text-warning-800 dark:text-warning-100 relative z-10">
+            {inProgressCount} <span className="text-xl">việc</span>
+          </p>
+          <div className="flex items-center text-xs text-warning-600 dark:text-warning-300 font-medium relative z-10">
+            <span>Đang tiếp tục xử lý</span>
+          </div>
+          <div className="absolute -top-6 -right-6 h-32 w-32 rounded-full opacity-30 dark:opacity-20 bg-linear-to-br from-warning-300 to-warning-500 blur-2xl pointer-events-none" />
+          <div className="absolute -bottom-8 -left-8 h-24 w-24 rounded-full opacity-20 dark:opacity-10 bg-linear-to-tr from-warning-400 to-warning-200 blur-xl pointer-events-none" />
+        </div>
+
+        <div className="relative overflow-hidden rounded-2xl border border-danger/20 bg-linear-to-br from-danger-50 to-danger-100 dark:from-danger-900/20 dark:to-danger-800/10 p-5 shadow-sm backdrop-blur-md transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+          <div className="mb-3 flex items-center justify-between relative z-10">
+            <h3 className="text-xs font-bold text-danger-700 dark:text-danger-300 uppercase tracking-wide">Trễ hạn chót</h3>
+            <div className="rounded-xl p-2.5 bg-white/60 dark:bg-danger-500/20 shadow-sm backdrop-blur-sm">
+              <ExclamationCircleIcon className="w-5 h-5 text-danger-600 dark:text-danger-400" />
+            </div>
+          </div>
+          <p className="mb-1 text-4xl font-black text-danger-800 dark:text-danger-100 relative z-10">
+            {overdueCount} <span className="text-xl">việc</span>
+          </p>
+          <div className="flex items-center text-xs text-danger-600 dark:text-danger-300 font-medium relative z-10">
+            <span>Cần làm gấp</span>
+          </div>
+          <div className="absolute -top-6 -right-6 h-32 w-32 rounded-full opacity-30 dark:opacity-20 bg-linear-to-br from-danger-300 to-danger-500 blur-2xl pointer-events-none" />
+          <div className="absolute -bottom-8 -left-8 h-24 w-24 rounded-full opacity-20 dark:opacity-10 bg-linear-to-tr from-danger-400 to-danger-200 blur-xl pointer-events-none" />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        {/* 3. Phân bổ danh mục - Biểu đồ tròn (2 phần) */}
+        <Card className="lg:col-span-2 shadow-lg shadow-default-100/50 border border-default-200/50 bg-background/50 backdrop-blur-xl">
+          <Card.Header className="px-5 pt-5 pb-3">
+            <h2 className="font-black text-sm tracking-tight flex items-center gap-1.5">
+              <ChartPieIcon className="w-4 h-4 text-default-500" />
+              Công việc theo danh mục
+            </h2>
+          </Card.Header>
+          <Card.Content className="p-4 flex items-center justify-center min-h-65">
+            {pieData.length === 0 ? (
+              <div className="text-center text-default-400 text-xs">Chưa có dữ liệu danh mục.</div>
+            ) : (
+              <div className="w-full h-55">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={pieData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={50}
+                      outerRadius={80}
+                      paddingAngle={3}
+                      dataKey="value"
+                    />
+                    <Tooltip 
+                      contentStyle={{ 
+                        borderRadius: "12px", 
+                        border: "1px solid hsl(var(--border))",
+                        backgroundColor: "rgba(var(--background), 0.95)",
+                        fontSize: "12px"
+                      }}
+                    />
+                    <Legend iconSize={8} iconType="circle" wrapperStyle={{ fontSize: "11px" }} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            )}
+          </Card.Content>
+        </Card>
+
+        {/* 4. Thống kê chi tiết & Xuất báo cáo (3 phần) */}
+        <Card className="lg:col-span-3 shadow-lg shadow-default-100/50 border border-default-200/50 bg-background/50 backdrop-blur-xl">
+          <Card.Header className="px-5 pt-5 pb-3 flex justify-between items-center">
+            <h2 className="font-black text-sm tracking-tight flex items-center gap-1.5">
+              <DocumentTextIcon className="w-4 h-4 text-default-500" />
+              Xuất báo cáo tổng hợp
+            </h2>
+            <div className="flex gap-2">
+              <Button
+                size="sm"
+                variant="secondary"
+                className="font-bold text-xs text-primary"
+                onClick={handleExportExcel}
+                isDisabled={monthlyTasks.length === 0}
+              >
+                <TableCellsIcon className="w-4 h-4" />
+                Excel
+              </Button>
+              <Button
+                size="sm"
+                variant="secondary"
+                className="font-bold text-xs text-secondary"
+                onClick={handleExportPDF}
+                isDisabled={monthlyTasks.length === 0}
+              >
+                <ArrowDownTrayIcon className="w-4 h-4" />
+                PDF
+              </Button>
+            </div>
+          </Card.Header>
+          <Card.Content className="p-0">
+            <div className="max-h-65 overflow-y-auto w-full px-5 pb-5">
+              {monthlyTasks.length === 0 ? (
+                <div className="text-center py-16 text-default-400 text-xs">
+                  Tháng này bạn chưa tạo công việc nào hết.
+                </div>
+              ) : (
+                <Table className="w-full">
+                  <Table.ScrollContainer>
+                    <Table.Content aria-label="Bảng tóm tắt công việc tháng">
+                      <Table.Header>
+                        <Table.Column isRowHeader className="text-xs font-bold">CÔNG VIỆC</Table.Column>
+                        <Table.Column className="text-xs font-bold text-center">HẠN CHÓT</Table.Column>
+                        <Table.Column className="text-xs font-bold text-center">TRẠNG THÁI</Table.Column>
+                      </Table.Header>
+                      <Table.Body>
+                        {monthlyTasks.map((t) => (
+                          <Table.Row key={t.id}>
+                            <Table.Cell className="py-2.5">
+                              <div className="flex flex-col gap-0.5">
+                                <span className="text-xs font-bold text-default-900 truncate max-w-45">
+                                  {t.title}
+                                </span>
+                                <span className="text-xs text-default-400">
+                                  {t.category} • {t.isDaily ? "Hằng ngày" : "Thường"}
+                                </span>
+                              </div>
+                            </Table.Cell>
+                            <Table.Cell className="text-center py-2.5">
+                              <span className="text-xs text-default-500 font-medium">
+                                {t.isDaily ? "Mỗi ngày" : t.dueDate}
+                              </span>
+                            </Table.Cell>
+                            <Table.Cell className="text-center py-2.5">
+                              <Chip
+                                size="sm"
+                                variant="soft"
+                                color={getStatusColor(t.status)}
+                              >
+                                {getStatusLabel(t.status)}
+                              </Chip>
+                            </Table.Cell>
+                          </Table.Row>
+                        ))}
+                      </Table.Body>
+                    </Table.Content>
+                  </Table.ScrollContainer>
+                </Table>
+              )}
+            </div>
+          </Card.Content>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+function subMonths(date: Date, months: number): Date {
+  const result = new Date(date);
+  result.setMonth(result.getMonth() - months);
+  return result;
+}
