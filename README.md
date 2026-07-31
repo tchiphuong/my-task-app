@@ -69,6 +69,8 @@ npm run dev
 
 Navigate to `http://localhost:3000` to view the application.
 
-## License
+## Copyright
 
-This project is licensed under the MIT License.
+© 2026 tchiphuong. All Rights Reserved.
+
+This software and associated documentation files are the proprietary property of the author. Unauthorized copying, reproduction, modification, or distribution of this software, via any medium, is strictly prohibited.
