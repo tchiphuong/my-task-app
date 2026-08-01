@@ -43,8 +43,7 @@ export default function IosInstallPrompt() {
             isIconOnly
             size="sm"
             variant="ghost"
-            radius="full"
-            className="absolute right-2 top-2 z-10 text-default-400 border-none hover:bg-default-100"
+            className="absolute right-2 top-2 z-10 text-default-400 border-none hover:bg-default-100 rounded-full"
             onPress={handleDismiss}
           >
             <XMarkIcon className="w-4 h-4" />
