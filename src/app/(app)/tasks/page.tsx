@@ -17,22 +17,16 @@ import {
 } from "@heroicons/react/24/solid";
 import {
   Button,
-  Calendar,
   Chip,
-  DateField,
-  DatePicker,
   Dropdown,
   FieldError,
   Form,
-  Input,
   Label,
   ListBox,
   Modal,
   SearchField,
-  Select,
   Switch,
   Tabs,
-  TextArea,
   TextField
 } from "@heroui/react";
 import { getLocalTimeZone, parseDate, today } from "@internationalized/date";
@@ -40,9 +34,14 @@ import { format, parseISO } from "date-fns";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { AppCard as Card } from "@/components/common/AppCard";
+import {
+  AppCard as Card,
+  AppDatePicker as DatePicker,
+  AppInput as Input,
+  AppSelect as Select,
+  AppTextArea as TextArea} from "@/components/common";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
-import { PRIORITY_OPTIONS, TASK_CATEGORIES, TASK_STATUS, TASK_PRIORITY } from "@/constants";
+import { PRIORITY_OPTIONS, TASK_CATEGORIES, TASK_PRIORITY, TASK_STATUS } from "@/constants";
 import { Task, useTaskStore } from "@/store/useTaskStore";
 
 export default function TasksPage() {
@@ -503,7 +502,7 @@ export default function TasksPage() {
                     isRequired
                   >
                     <Label>{t("tasks.form.title")}</Label>
-                    <Input variant="secondary" placeholder={t("tasks.form.titlePlaceholder")} />
+                    <Input placeholder={t("tasks.form.titlePlaceholder")} />
                     <FieldError />
                   </TextField>
                 </div>
@@ -514,7 +513,7 @@ export default function TasksPage() {
                     defaultValue={editingTask?.description || ""}
                   >
                     <Label>{t("tasks.form.desc")}</Label>
-                    <TextArea variant="secondary" placeholder={t("tasks.form.descPlaceholder")} />
+                    <TextArea placeholder={t("tasks.form.descPlaceholder")} />
                     <FieldError />
                   </TextField>
                 </div>
@@ -550,42 +549,9 @@ export default function TasksPage() {
                   <div className="w-full">
                     <DatePicker
                       name="dueDate"
+                      label={t("tasks.form.dueDate")}
                       defaultValue={editingTask?.dueDate ? parseDate(editingTask.dueDate) : today(getLocalTimeZone())}
-                    >
-                      <Label>{t("tasks.form.dueDate")}</Label>
-                      <DateField.Group fullWidth>
-                        <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>
-                        <DateField.Suffix>
-                          <DatePicker.Trigger>
-                            <DatePicker.TriggerIndicator />
-                          </DatePicker.Trigger>
-                        </DateField.Suffix>
-                      </DateField.Group>
-                      <FieldError />
-                      <DatePicker.Popover>
-                        <Calendar aria-label={t("tasks.form.dueDate")}>
-                          <Calendar.Header>
-                            <Calendar.YearPickerTrigger>
-                              <Calendar.YearPickerTriggerHeading />
-                              <Calendar.YearPickerTriggerIndicator />
-                            </Calendar.YearPickerTrigger>
-                            <Calendar.NavButton slot="previous" />
-                            <Calendar.NavButton slot="next" />
-                          </Calendar.Header>
-                          <Calendar.Grid>
-                            <Calendar.GridHeader>
-                              {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}
-                            </Calendar.GridHeader>
-                            <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
-                          </Calendar.Grid>
-                          <Calendar.YearPickerGrid>
-                            <Calendar.YearPickerGridBody>
-                              {({ year }) => <Calendar.YearPickerCell year={year} />}
-                            </Calendar.YearPickerGridBody>
-                          </Calendar.YearPickerGrid>
-                        </Calendar>
-                      </DatePicker.Popover>
-                    </DatePicker>
+                    />
                   </div>
                 </div>
 
@@ -595,7 +561,7 @@ export default function TasksPage() {
                     defaultValue={editingTask?.category || "Công việc"}
                   >
                     <Label>{t("tasks.category")}</Label>
-                    <Input variant="secondary" placeholder={t("tasks.form.categoryPlaceholder")} />
+                    <Input placeholder={t("tasks.form.categoryPlaceholder")} />
                     <FieldError />
                   </TextField>
                 </div>
