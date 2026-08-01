@@ -1,0 +1,20 @@
+import { MetadataRoute } from 'next';
+
+export default function manifest(): MetadataRoute.Manifest {
+  return {
+    name: 'My Task App',
+    short_name: 'Task App',
+    description: 'Ứng dụng quản lý công việc thông minh, theo dõi mục tiêu hàng ngày.',
+    start_url: '/dashboard',
+    display: 'standalone',
+    background_color: '#ffffff',
+    theme_color: '#000000',
+    icons: [
+      {
+        src: '/favicon.ico',
+        sizes: 'any',
+        type: 'image/x-icon',
+      },
+    ],
+  };
+}
