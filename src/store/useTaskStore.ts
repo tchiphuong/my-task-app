@@ -402,14 +402,6 @@ export const useTaskStore = create<TaskStore>()(
                                 createdAt: new Date().toISOString(),
                                 completedDates: taskData.isDaily ? [] : null,
                             });
-
-                            get().addNotification(
-                                i18n.t("notifications.addSuccessTitle"),
-                                i18n.t("notifications.addSuccessMessage", {
-                                    title: taskData.title,
-                                }),
-                                NOTIFICATION_TYPE.SUCCESS,
-                            );
                         } catch (err) {
                             console.error("Lỗi thêm task lên Firestore:", err);
                         }
@@ -438,12 +430,6 @@ export const useTaskStore = create<TaskStore>()(
                                 },
                             };
                         });
-
-                        get().addNotification(
-                            "Tạo việc thành công",
-                            `Công việc "${taskData.title}" đã được thêm vào danh sách của bạn.`,
-                            "success",
-                        );
                     }
                 },
 
@@ -541,12 +527,6 @@ export const useTaskStore = create<TaskStore>()(
                                 taskId,
                             );
                             await deleteDoc(taskDocRef);
-
-                            get().addNotification(
-                                i18n.t("notifications.deleteSuccessTitle"),
-                                i18n.t("notifications.deleteSuccessMessage"),
-                                NOTIFICATION_TYPE.INFO,
-                            );
                         } catch (err) {
                             console.error("Lỗi xóa task trên Firestore:", err);
                         }
@@ -570,12 +550,6 @@ export const useTaskStore = create<TaskStore>()(
                                 },
                             };
                         });
-
-                        get().addNotification(
-                            i18n.t("notifications.deleteSuccessTitle"),
-                            i18n.t("notifications.deleteSuccessMessage"),
-                            NOTIFICATION_TYPE.INFO,
-                        );
                     }
                 },
 
@@ -713,7 +687,6 @@ export const useTaskStore = create<TaskStore>()(
                         "Notification" in window
                     ) {
                         if (Notification.permission === "granted") {
-                            // eslint-disable-next-line no-new
                             new Notification(title, { body: message });
                         }
                     }
