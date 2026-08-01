@@ -32,6 +32,8 @@ import {
 } from "recharts";
 
 import { AppCard as Card } from "@/components/common/AppCard";
+import { AppProgressBar } from "@/components/common/AppProgressBar";
+import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
 import { Mascot } from "@/components/ui/Mascot";
 import { MascotEmotion, PRIORITY_OPTIONS, TASK_PRIORITY, TASK_STATUS } from "@/constants";
 import { Task, useTaskStore } from "@/store/useTaskStore";
@@ -190,17 +192,19 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Bạn đồng hành Mascot Ba Khía bong bóng thoại kiểu Duolingo */}
-      <div className="flex items-center gap-4 bg-default-100/50 dark:bg-zinc-900/50 border-2 border-b-6 border-default-200/80 rounded-2xl p-4 relative overflow-hidden transition-all duration-300">
-        <Mascot emotion={mascotEmotion} size={90} className="shrink-0 transition-transform duration-300 hover:scale-110 active:rotate-12" />
-        <div className="flex-1 min-w-0 bg-white dark:bg-zinc-800 border-2 border-default-200 p-3.5 rounded-2xl relative shadow-sm">
-          {/* Bong bóng thoại mũi tên bên trái */}
-          <div className="absolute top-1/2 -left-2 -translate-y-1/2 w-4 h-4 bg-white dark:bg-zinc-800 border-l-2 border-b-2 border-default-200 rotate-45" />
-          <p className="text-xs md:text-sm font-bold text-default-900 leading-relaxed z-10 relative">
-            {mascotSpeech}
-          </p>
+      {/* Bạn đồng hành Mascot Bơ Sữa bong bóng thoại kiểu Duolingo (Tạm ẩn theo yêu cầu) */}
+      {false && (
+        <div className="flex items-center gap-4 bg-default-100/50 dark:bg-zinc-900/50 border-2 border-b-6 border-default-200/80 rounded-2xl p-4 relative overflow-hidden transition-all duration-300">
+          <Mascot emotion={mascotEmotion} size={90} className="shrink-0 transition-transform duration-300 hover:scale-110 active:rotate-12" />
+          <div className="flex-1 min-w-0 bg-white dark:bg-zinc-800 border-2 border-default-200 p-3.5 rounded-2xl relative shadow-sm">
+            {/* Bong bóng thoại mũi tên bên trái */}
+            <div className="absolute top-1/2 -left-2 -translate-y-1/2 w-4 h-4 bg-white dark:bg-zinc-800 border-l-2 border-b-2 border-default-200 rotate-45" />
+            <p className="text-xs md:text-sm font-bold text-default-900 leading-relaxed z-10 relative">
+              {mascotSpeech}
+            </p>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* 2. Quick Progress Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -213,19 +217,15 @@ export default function DashboardPage() {
               <CheckCircleIcon className="w-5 h-5 text-primary" />
             </div>
             <div className="flex items-baseline gap-2 mt-2">
-              <span className="text-3xl font-black text-primary">{progressPercent}%</span>
+              <span className="text-3xl font-black text-primary">
+                <AnimatedNumber value={progressPercent} />%
+              </span>
               <span className="text-xs text-primary/70 font-semibold">
                 {t("dashboard.tasksCount", { completed: completedTodayCount, total: totalTasksToday })}
               </span>
             </div>
             <div className="mt-3">
-              {/* Custom Duolingo progress bar */}
-              <div className="h-4 w-full bg-default-200/50 rounded-full border-2 border-default-300 relative overflow-hidden">
-                <div 
-                  className="h-full bg-success border-t-2 border-success-200 rounded-full transition-all duration-500" 
-                  style={{ width: `${progressPercent}%` }} 
-                />
-              </div>
+              <AppProgressBar value={progressPercent} />
             </div>
             <p className="text-2xs text-primary/70 mt-1.5 italic font-semibold">
               {getProgressHelperText()}
@@ -243,7 +243,7 @@ export default function DashboardPage() {
             </div>
             <div className="flex items-baseline gap-2 mt-2">
               <span className={`text-3xl font-black ${streak.currentStreak > 0 ? "text-warning animate-pulse" : "text-default-400"}`}>
-                {t("dashboard.streakDay", { count: streak.currentStreak })}
+                <AnimatedNumber value={streak.currentStreak} /> {t("dashboard.streakDay", { count: "" }).trim()}
               </span>
             </div>
             <p className="text-xs text-warning/80 leading-normal font-semibold">
@@ -267,7 +267,7 @@ export default function DashboardPage() {
             </div>
             <div className="flex items-baseline gap-2 mt-2">
               <span className="text-3xl font-black text-danger">
-                {t("dashboard.tasksCountUnit", { count: tasks.filter((t) => t.status !== TASK_STATUS.DONE).length })}
+                <AnimatedNumber value={tasks.filter((t) => t.status !== TASK_STATUS.DONE).length} /> {t("dashboard.tasksCountUnit", { count: "" }).trim()}
               </span>
             </div>
             <p className="text-xs text-danger/80 leading-normal font-semibold">

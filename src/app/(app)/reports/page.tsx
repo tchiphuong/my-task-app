@@ -20,6 +20,7 @@ import { Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import * as XLSX from "xlsx";
 
 import { AppCard as Card } from "@/components/common/AppCard";
+import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
 import { CHART_COLORS, STATUS_OPTIONS, TASK_STATUS } from "@/constants";
 import { Task, useTaskStore } from "@/store/useTaskStore";
 
@@ -220,7 +221,7 @@ export default function ReportsPage() {
               <ClipboardDocumentListIcon className="w-5 h-5 text-primary" />
             </div>
             <p className="text-3xl font-black text-primary">
-              {totalTasks}
+              <AnimatedNumber value={totalTasks} />
             </p>
             <span className="text-xs text-primary/70 font-semibold">{t("reports.overview.tasksType")}</span>
           </Card.Content>
@@ -234,7 +235,7 @@ export default function ReportsPage() {
               <CheckCircleIcon className="w-5 h-5 text-success" />
             </div>
             <p className="text-3xl font-black text-success">
-              {completionRate}%
+              <AnimatedNumber value={completionRate} />%
             </p>
             <span className="text-xs text-success/70 font-semibold">{t("reports.overview.completedCountText", { count: completedCount })}</span>
           </Card.Content>
@@ -248,7 +249,7 @@ export default function ReportsPage() {
               <ClockIcon className="w-5 h-5 text-warning" />
             </div>
             <p className="text-3xl font-black text-warning">
-              {inProgressCount}
+              <AnimatedNumber value={inProgressCount} />
             </p>
             <span className="text-xs text-warning/70 font-semibold">{t("reports.overview.doingDesc")}</span>
           </Card.Content>
@@ -262,7 +263,7 @@ export default function ReportsPage() {
               <ExclamationCircleIcon className="w-5 h-5 text-danger" />
             </div>
             <p className="text-3xl font-black text-danger">
-              {overdueCount}
+              <AnimatedNumber value={overdueCount} />
             </p>
             <span className="text-xs text-danger/70 font-semibold">{t("reports.overview.overdueDesc")}</span>
           </Card.Content>

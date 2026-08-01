@@ -23,6 +23,8 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { AppCard as Card } from "@/components/common/AppCard";
+import { AppProgressBar } from "@/components/common/AppProgressBar";
+import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
 import { TASK_CATEGORIES, TASK_PRIORITY, TASK_STATUS } from "@/constants";
 import { useTaskStore } from "@/store/useTaskStore";
@@ -149,7 +151,7 @@ export default function DailyGoalsPage() {
             </div>
             <div className="flex items-baseline gap-2 mt-1">
               <span className={`text-3xl font-black ${streak.currentStreak > 0 ? "text-warning animate-pulse" : "text-default-400"}`}>
-                {t("daily.dayUnit", { count: streak.currentStreak })}
+                <AnimatedNumber value={streak.currentStreak} /> {t("daily.dayUnit", { count: "" }).trim()}
               </span>
             </div>
             <span className="text-xs text-warning/80 font-semibold">
@@ -167,19 +169,15 @@ export default function DailyGoalsPage() {
               <SparklesIcon className="w-5 h-5 text-primary" />
             </div>
             <div className="flex items-baseline gap-1.5 mt-1">
-              <span className="text-3xl font-black text-primary">{dailyProgressPercent}%</span>
+              <span className="text-3xl font-black text-primary">
+                <AnimatedNumber value={dailyProgressPercent} />%
+              </span>
               <span className="text-xs text-primary/70 font-semibold">
                 ({t("daily.habitCount", { completed: completedDailyToday, total: totalDaily })})
               </span>
             </div>
             <div className="mt-2">
-              {/* Custom Duolingo progress bar */}
-              <div className="h-4 w-full bg-default-200/50 rounded-full border-2 border-default-300 relative overflow-hidden">
-                <div 
-                  className="h-full bg-success border-t-2 border-success-200 rounded-full transition-all duration-500" 
-                  style={{ width: `${dailyProgressPercent}%` }} 
-                />
-              </div>
+              <AppProgressBar value={dailyProgressPercent} />
             </div>
             <span className="text-xs text-primary/70 font-semibold italic">
               {getProgressMessage()}
