@@ -21,7 +21,7 @@ import {
   Sun
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Bar,
   BarChart,
@@ -37,18 +37,11 @@ import { Task, useTaskStore } from "@/store/useTaskStore";
 
 export default function DashboardPage() {
   const router = useRouter();
-  const [mounted, setMounted] = useState(false);
+  const { t } = useTranslation();
 
   const user = useTaskStore((state) => state.user);
   const account = useTaskStore((state) => state.getCurrentAccount());
   const updateTask = useTaskStore((state) => state.updateTask);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
 
   const tasks = account?.tasks || [];
   const streak = account?.streak || { currentStreak: 0, bestStreak: 0 };
@@ -105,16 +98,16 @@ export default function DashboardPage() {
 
     return {
       name: dayName,
-      "Công việc": completedRegular,
-      "Thói quen": completedDaily,
+      [t("dashboard.chartTaskKey")]: completedRegular,
+      [t("dashboard.chartHabitKey")]: completedDaily,
     };
   });
 
   const getGreeting = () => {
     const hour = new Date().getHours();
-    if (hour < 12) return "Chào buổi sáng";
-    if (hour < 18) return "Chào buổi chiều";
-    return "Chào buổi tối";
+    if (hour < 12) return t("dashboard.greeting.morning");
+    if (hour < 18) return t("dashboard.greeting.afternoon");
+    return t("dashboard.greeting.evening");
   };
 
   const getGreetingIcon = () => {
@@ -135,9 +128,9 @@ export default function DashboardPage() {
   };
 
   const getProgressHelperText = () => {
-    if (progressPercent === 100) return "Tuyệt vời! Đã hoàn thành 100% mục tiêu!";
-    if (totalTasksToday === 0) return "Hôm nay chưa có việc nào hết trơn.";
-    return `Cố lên, còn ${totalTasksToday - completedTodayCount} việc nữa.`;
+    if (progressPercent === 100) return t("dashboard.progressHelperText1");
+    if (totalTasksToday === 0) return t("dashboard.progressHelperText2");
+    return t("dashboard.progressHelperText3", { count: totalTasksToday - completedTodayCount });
   };
 
   return (
@@ -155,7 +148,7 @@ export default function DashboardPage() {
               {getGreetingIcon()}
             </h1>
             <p className="text-xs text-default-500 mt-0.5 font-medium">
-              Hôm nay là {format(new Date(), "eeee, 'ngày' dd/MM/yyyy", { locale: vi })}. Bạn đã sẵn sàng chưa nè?
+              {t("dashboard.readyText", { date: format(new Date(), "eeee, 'ngày' dd/MM/yyyy", { locale: vi }) })}
             </p>
           </div>
         </div>
@@ -168,13 +161,13 @@ export default function DashboardPage() {
           <div className="absolute -top-4 -right-4 h-24 w-24 rounded-full opacity-10 bg-primary pointer-events-none" />
           <Card.Content className="flex flex-col gap-2 p-5 justify-between relative z-10">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-primary/80 uppercase tracking-wide">Tiến độ hôm nay</span>
+              <span className="text-xs font-bold text-primary/80 uppercase tracking-wide">{t("dashboard.progressToday")}</span>
               <CheckCircleIcon className="w-5 h-5 text-primary" />
             </div>
             <div className="flex items-baseline gap-2 mt-2">
               <span className="text-3xl font-black text-primary">{progressPercent}%</span>
               <span className="text-xs text-primary/70">
-                ({completedTodayCount}/{totalTasksToday} việc)
+                {t("dashboard.tasksCount", { completed: completedTodayCount, total: totalTasksToday })}
               </span>
             </div>
             <div className="mt-2">
@@ -195,19 +188,19 @@ export default function DashboardPage() {
           <div className="absolute -bottom-4 -right-4 h-24 w-24 rounded-full opacity-10 bg-warning pointer-events-none" />
           <Card.Content className="flex flex-col gap-2 p-5 justify-between relative z-10">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-warning/80 uppercase tracking-wide">Chuỗi Streak</span>
+              <span className="text-xs font-bold text-warning/80 uppercase tracking-wide">{t("dashboard.streakTitle")}</span>
               <FireIcon className="w-5 h-5 text-warning" />
             </div>
             <div className="flex items-baseline gap-2 mt-2">
-              <span className="text-3xl font-black text-warning">{streak.currentStreak} ngày</span>
+              <span className="text-3xl font-black text-warning">{t("dashboard.streakDay", { count: streak.currentStreak })}</span>
             </div>
             <p className="text-xs text-warning/80 leading-normal">
-              Kỷ lục tốt nhất của bạn: <span className="font-bold">{streak.bestStreak} ngày</span>.
+              {t("dashboard.bestStreak", { count: streak.bestStreak })}
             </p>
             <p className="text-2xs text-warning/70 italic">
               {streak.currentStreak > 0
-                ? "Duy trì phong độ đều đặn nhé!"
-                : "Tích hoàn thành thói quen mỗi ngày để bắt đầu chuỗi nhé!"}
+                ? t("dashboard.streakKeep")
+                : t("dashboard.streakStart")}
             </p>
           </Card.Content>
         </Card>
@@ -217,16 +210,16 @@ export default function DashboardPage() {
           <div className="absolute -top-4 -right-4 h-24 w-24 rounded-full opacity-10 bg-danger pointer-events-none" />
           <Card.Content className="flex flex-col gap-2 p-5 justify-between relative z-10">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-danger/80 uppercase tracking-wide">Việc chưa xong</span>
+              <span className="text-xs font-bold text-danger/80 uppercase tracking-wide">{t("dashboard.pendingTasks")}</span>
               <ClockIcon className="w-5 h-5 text-danger" />
             </div>
             <div className="flex items-baseline gap-2 mt-2">
               <span className="text-3xl font-black text-danger">
-                {tasks.filter((t) => t.status !== "done").length} việc
+                {t("dashboard.tasksCountUnit", { count: tasks.filter((t) => t.status !== "done").length })}
               </span>
             </div>
             <p className="text-xs text-danger/80 leading-normal">
-              Trong đó có <span className="font-bold">{tasks.filter(t => !t.isDaily && t.status !== "done" && t.dueDate < todayStr).length} việc trễ hạn</span>.
+              {t("dashboard.overdueText", { count: tasks.filter(t => !t.isDaily && t.status !== "done" && t.dueDate < todayStr).length })}
             </p>
             <Button
               size="sm"
@@ -234,7 +227,7 @@ export default function DashboardPage() {
               className="text-xs h-6 p-0 min-w-0 font-bold self-start mt-1 text-danger hover:text-danger/80"
               onPress={() => router.push("/tasks")}
             >
-              Giải quyết ngay
+              {t("dashboard.solveNow")}
               <ArrowRightIcon className="w-3.5 h-3.5 ml-1" />
             </Button>
           </Card.Content>
@@ -244,10 +237,10 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
         {/* 3. Bảng việc khẩn cấp (Trái - 3 phần) */}
         <Card className="lg:col-span-3 shadow-sm border border-default-100/50 max-h-100">
-          <Card.Header className="flex justify-between px-5 pt-5 pb-3">
+          <Card.Header className="flex justify-between items-center px-5 pt-5 pb-3">
             <div className="flex items-center gap-2">
               <AlertCircle className="w-5 h-5 text-danger" />
-              <h2 className="font-black text-sm tracking-tight">Việc khẩn cấp & trễ hạn</h2>
+              <h2 className="font-black text-sm tracking-tight">{t("dashboard.urgentTitle")}</h2>
             </div>
             <Button
               size="sm"
@@ -255,7 +248,7 @@ export default function DashboardPage() {
               className="text-xs font-bold text-primary"
               onPress={() => router.push("/tasks")}
             >
-              Xem tất cả
+              {t("dashboard.viewAll")}
             </Button>
           </Card.Header>
           <Card.Content className="px-3 py-0">
@@ -263,8 +256,8 @@ export default function DashboardPage() {
               {urgentTasks.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-16 text-center text-default-400">
                   <CheckCircleIcon className="w-12 h-12 text-success-300 mb-2" />
-                  <p className="text-sm font-semibold text-success-600">Rất tốt!</p>
-                  <p className="text-xs text-default-400 mt-1">Không có việc khẩn cấp nào chưa làm hết.</p>
+                  <p className="text-sm font-semibold text-success-600">{t("dashboard.urgentNoTasksTitle")}</p>
+                  <p className="text-xs text-default-400 mt-1">{t("dashboard.urgentNoTasksDesc")}</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -285,7 +278,7 @@ export default function DashboardPage() {
                               const opt = PRIORITY_OPTIONS.find(o => o.code === task.priority);
                               return (
                                 <Chip size="sm" variant="soft" color={opt?.color || "default"}>
-                                  {opt?.name || "Thấp"}
+                                  {opt ? t(`tasks.form.priority.${opt.code}`) : t("tasks.form.priority.low")}
                                 </Chip>
                               );
                             })()}
@@ -295,7 +288,7 @@ export default function DashboardPage() {
                             {task.dueDate && (
                               <span className={`text-2xs flex items-center gap-1 font-medium ${isOverdue ? "text-danger-500 font-bold" : "text-default-400"}`}>
                                 <CalendarIcon className="w-3 h-3" />
-                                {isOverdue ? `Trễ: ${formattedDate}` : formattedDate}
+                                {isOverdue ? t("tasks.overdue", { date: formattedDate }) : formattedDate}
                               </span>
                             )}
                           </div>
@@ -303,10 +296,10 @@ export default function DashboardPage() {
                         <Button
                           size="sm"
                           variant="secondary"
-                          className="font-bold text-xs h-8 min-w-0 px-3 rounded-lg text-success"
+                          className="text-success"
                           onPress={() => handleQuickComplete(task)}
                         >
-                          Xong
+                          {t("tasks.done")}
                         </Button>
                       </div>
                     );
@@ -320,7 +313,7 @@ export default function DashboardPage() {
         {/* 4. Biểu đồ hiệu suất 7 ngày qua (Phải - 2 phần) */}
         <Card className="lg:col-span-2 bg-default-50/50 dark:bg-default-100/10 backdrop-blur-md border border-default-100/50 dark:border-default-100/10 shadow-sm">
           <Card.Header className="px-5 pt-5 pb-3">
-            <h2 className="font-black text-sm tracking-tight">Hiệu suất 7 ngày qua</h2>
+            <h2 className="font-black text-sm tracking-tight">{t("dashboard.performanceTitle")}</h2>
           </Card.Header>
           <Card.Content className="p-4 flex items-center justify-center">
             <div className="w-full h-70">
@@ -350,8 +343,8 @@ export default function DashboardPage() {
                       fontSize: "12px"
                     }}
                   />
-                  <Bar dataKey="Công việc" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="Thói quen" fill="#14b8a6" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey={t("dashboard.chartTaskKey")} fill="#8b5cf6" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey={t("dashboard.chartHabitKey")} fill="#14b8a6" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
