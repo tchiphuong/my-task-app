@@ -2,11 +2,11 @@
 
 import {
   ArrowRightStartOnRectangleIcon,
+  ArrowUpTrayIcon,
   FireIcon as FireOutline,
   MoonIcon,
   Squares2X2Icon,
-  SunIcon
-} from "@heroicons/react/24/outline";
+  SunIcon} from "@heroicons/react/24/outline";
 import { FireIcon as FireSolid } from "@heroicons/react/24/solid";
 import {
   Avatar,
@@ -15,7 +15,6 @@ import {
   Dropdown,
   Label
 } from "@heroui/react";
-import { useDisclosure } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";

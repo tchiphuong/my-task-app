@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useTaskStore } from "@/store/useTaskStore";
 import { Spinner } from "@heroui/react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
+import { useTaskStore } from "@/store/useTaskStore";
 
 export default function RootPage() {
   const router = useRouter();

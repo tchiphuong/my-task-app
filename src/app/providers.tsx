@@ -1,8 +1,9 @@
 "use client";
 
-import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ToastProvider } from "@heroui/react";
 import { I18nProvider } from "@react-aria/i18n";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+
 import IosInstallPrompt from "@/components/ui/IosInstallPrompt";
 
 interface ProvidersProps {
