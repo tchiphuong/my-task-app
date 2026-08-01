@@ -205,7 +205,7 @@ export default function DailyGoalsPage() {
             {last7Days.map((day) => (
               <div
                 key={day.dateStr}
-                className={`shrink-0 w-[64px] sm:w-auto snap-center flex flex-col items-center p-2.5 rounded-xl border ${day.isToday
+                className={`shrink-0 w-16 sm:w-auto snap-center flex flex-col items-center p-2.5 rounded-xl border ${day.isToday
                   ? "border-primary bg-primary-50/10 dark:bg-primary-950/10"
                   : "border-default-100 dark:border-default-100/10"
                   }`}

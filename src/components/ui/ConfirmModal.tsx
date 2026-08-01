@@ -1,4 +1,4 @@
-import { Modal, Button } from "@heroui/react";
+import { Button, Modal } from "@heroui/react";
 
 interface ConfirmModalProps {
   readonly isOpen: boolean;
@@ -36,9 +36,9 @@ export function ConfirmModal({
               <Button slot="close" variant="secondary">
                 {cancelLabel}
               </Button>
-              <Button 
+              <Button
                 slot="close"
-                variant={isDanger ? "danger" : "primary"} 
+                variant={isDanger ? "danger" : "primary"}
                 onPress={() => {
                   onConfirm();
                 }}
