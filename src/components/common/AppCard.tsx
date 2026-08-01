@@ -9,7 +9,7 @@ const CardBase = ({ children, className, ...props }: AppCardProps) => {
   return (
     <div 
       className={twMerge(
-        "rounded-2xl border border-default-200/50 bg-background/50 backdrop-blur-xl shadow-lg shadow-default-100/50 transition-all duration-300",
+        "rounded-2xl border-2 border-b-6 border-default-200 bg-white dark:bg-zinc-900 transition-all duration-300",
         className
       )}
       {...props}

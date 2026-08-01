@@ -5,7 +5,6 @@ import {
   Avatar,
   Button,
   Chip,
-  ProgressBar,
   ScrollShadow
 } from "@heroui/react";
 import { format, isSameDay, parseISO, subDays } from "date-fns";
@@ -21,6 +20,7 @@ import {
   Sun
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Bar,
@@ -32,7 +32,8 @@ import {
 } from "recharts";
 
 import { AppCard as Card } from "@/components/common/AppCard";
-import { PRIORITY_OPTIONS, TASK_PRIORITY, TASK_STATUS } from "@/constants";
+import { Mascot } from "@/components/ui/Mascot";
+import { MascotEmotion, PRIORITY_OPTIONS, TASK_PRIORITY, TASK_STATUS } from "@/constants";
 import { Task, useTaskStore } from "@/store/useTaskStore";
 
 export default function DashboardPage() {
@@ -46,6 +47,11 @@ export default function DashboardPage() {
   const tasks = account?.tasks || [];
   const streak = account?.streak || { currentStreak: 0, bestStreak: 0 };
   const todayStr = format(new Date(), "yyyy-MM-dd");
+
+  // Số việc trễ deadline thực tế
+  const overdueCount = tasks.filter(
+    (t) => !t.isDaily && t.status !== TASK_STATUS.DONE && t.dueDate < todayStr
+  ).length;
 
   // 1. Phân loại task hôm nay
   const regularTasksToday = tasks.filter(
@@ -118,7 +124,37 @@ export default function DashboardPage() {
     return <Moon className={className} />;
   };
 
+  // Logic xác định biểu cảm và chọn ngẫu nhiên câu thoại của Mascot Bơ Sữa
+  const { mascotEmotion, mascotSpeech } = useMemo(() => {
+    let key = "inProgress";
+    let count = totalTasksToday - completedTodayCount;
+    let emotion: MascotEmotion = "neutral";
 
+    if (overdueCount > 0) {
+      key = "overdue";
+      count = overdueCount;
+      emotion = "panicking";
+    } else if (totalTasksToday === 0) {
+      key = "noTasks";
+    } else if (progressPercent === 100) {
+      key = "allDone";
+      emotion = "happy";
+    } else if (progressPercent > 0) {
+      emotion = "cheering";
+    }
+
+    const quotes = t(`dashboard.mascot.${key}`, { returnObjects: true, count }) as unknown as string[];
+    let speech = "";
+
+    if (Array.isArray(quotes) && quotes.length > 0) {
+      // Dùng tổng mã ký tự của ngày + số lượng công việc làm seed đặng giữ câu thoại cố định trong ngày, tránh nhảy lung tung khi re-render
+      const seed = todayStr.split("").reduce((acc, char) => acc + (char.codePointAt(0) ?? 0), 0) + count;
+      const index = seed % quotes.length;
+      speech = quotes[index];
+    }
+
+    return { mascotEmotion: emotion, mascotSpeech: speech };
+  }, [t, todayStr, totalTasksToday, completedTodayCount, overdueCount, progressPercent]);
 
   const handleQuickComplete = (task: Task) => {
     updateTask(task.id, {
@@ -154,10 +190,22 @@ export default function DashboardPage() {
         </div>
       </div>
 
+      {/* Bạn đồng hành Mascot Ba Khía bong bóng thoại kiểu Duolingo */}
+      <div className="flex items-center gap-4 bg-default-100/50 dark:bg-zinc-900/50 border-2 border-b-6 border-default-200/80 rounded-2xl p-4 relative overflow-hidden transition-all duration-300">
+        <Mascot emotion={mascotEmotion} size={90} className="shrink-0 transition-transform duration-300 hover:scale-110 active:rotate-12" />
+        <div className="flex-1 min-w-0 bg-white dark:bg-zinc-800 border-2 border-default-200 p-3.5 rounded-2xl relative shadow-sm">
+          {/* Bong bóng thoại mũi tên bên trái */}
+          <div className="absolute top-1/2 -left-2 -translate-y-1/2 w-4 h-4 bg-white dark:bg-zinc-800 border-l-2 border-b-2 border-default-200 rotate-45" />
+          <p className="text-xs md:text-sm font-bold text-default-900 leading-relaxed z-10 relative">
+            {mascotSpeech}
+          </p>
+        </div>
+      </div>
+
       {/* 2. Quick Progress Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {/* Vòng tròn tiến độ hôm nay */}
-        <Card className="shadow-sm border border-primary/20 bg-primary/10 backdrop-blur-md relative overflow-hidden">
+        {/* Tiến độ hôm nay */}
+        <Card className="border-2 border-b-6 border-primary/20 bg-primary/5 dark:bg-primary/10 rounded-2xl shadow-none overflow-hidden relative">
           <div className="absolute -top-4 -right-4 h-24 w-24 rounded-full opacity-10 bg-primary pointer-events-none" />
           <Card.Content className="flex flex-col gap-2 p-5 justify-between relative z-10">
             <div className="flex items-center justify-between">
@@ -166,38 +214,42 @@ export default function DashboardPage() {
             </div>
             <div className="flex items-baseline gap-2 mt-2">
               <span className="text-3xl font-black text-primary">{progressPercent}%</span>
-              <span className="text-xs text-primary/70">
+              <span className="text-xs text-primary/70 font-semibold">
                 {t("dashboard.tasksCount", { completed: completedTodayCount, total: totalTasksToday })}
               </span>
             </div>
-            <div className="mt-2">
-              <ProgressBar value={progressPercent} color="accent" size="sm">
-                <ProgressBar.Track>
-                  <ProgressBar.Fill />
-                </ProgressBar.Track>
-              </ProgressBar>
+            <div className="mt-3">
+              {/* Custom Duolingo progress bar */}
+              <div className="h-4 w-full bg-default-200/50 rounded-full border-2 border-default-300 relative overflow-hidden">
+                <div 
+                  className="h-full bg-success border-t-2 border-success-200 rounded-full transition-all duration-500" 
+                  style={{ width: `${progressPercent}%` }} 
+                />
+              </div>
             </div>
-            <p className="text-2xs text-primary/70 mt-1 italic">
+            <p className="text-2xs text-primary/70 mt-1.5 italic font-semibold">
               {getProgressHelperText()}
             </p>
           </Card.Content>
         </Card>
 
         {/* Thẻ Streak hiện tại */}
-        <Card className="shadow-sm border border-warning/20 bg-warning/10 backdrop-blur-md relative overflow-hidden">
+        <Card className="border-2 border-b-6 border-warning/20 bg-warning/5 dark:bg-warning/10 rounded-2xl shadow-none overflow-hidden relative">
           <div className="absolute -bottom-4 -right-4 h-24 w-24 rounded-full opacity-10 bg-warning pointer-events-none" />
           <Card.Content className="flex flex-col gap-2 p-5 justify-between relative z-10">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-warning/80 uppercase tracking-wide">{t("dashboard.streakTitle")}</span>
-              <FireIcon className="w-5 h-5 text-warning" />
+              <FireIcon className={`w-5 h-5 transition-all duration-300 ${streak.currentStreak > 0 ? "text-warning animate-bounce" : "text-default-400"}`} />
             </div>
             <div className="flex items-baseline gap-2 mt-2">
-              <span className="text-3xl font-black text-warning">{t("dashboard.streakDay", { count: streak.currentStreak })}</span>
+              <span className={`text-3xl font-black ${streak.currentStreak > 0 ? "text-warning animate-pulse" : "text-default-400"}`}>
+                {t("dashboard.streakDay", { count: streak.currentStreak })}
+              </span>
             </div>
-            <p className="text-xs text-warning/80 leading-normal">
+            <p className="text-xs text-warning/80 leading-normal font-semibold">
               {t("dashboard.bestStreak", { count: streak.bestStreak })}
             </p>
-            <p className="text-2xs text-warning/70 italic">
+            <p className="text-2xs text-warning/70 italic font-semibold">
               {streak.currentStreak > 0
                 ? t("dashboard.streakKeep")
                 : t("dashboard.streakStart")}
@@ -206,7 +258,7 @@ export default function DashboardPage() {
         </Card>
 
         {/* Thẻ thống kê chưa hoàn thành */}
-        <Card className="shadow-sm border border-danger/20 bg-danger/10 backdrop-blur-md relative overflow-hidden">
+        <Card className="border-2 border-b-6 border-danger/20 bg-danger/5 dark:bg-danger/10 rounded-2xl shadow-none overflow-hidden relative">
           <div className="absolute -top-4 -right-4 h-24 w-24 rounded-full opacity-10 bg-danger pointer-events-none" />
           <Card.Content className="flex flex-col gap-2 p-5 justify-between relative z-10">
             <div className="flex items-center justify-between">
@@ -218,18 +270,16 @@ export default function DashboardPage() {
                 {t("dashboard.tasksCountUnit", { count: tasks.filter((t) => t.status !== TASK_STATUS.DONE).length })}
               </span>
             </div>
-            <p className="text-xs text-danger/80 leading-normal">
+            <p className="text-xs text-danger/80 leading-normal font-semibold">
               {t("dashboard.overdueText", { count: tasks.filter(t => !t.isDaily && t.status !== TASK_STATUS.DONE && t.dueDate < todayStr).length })}
             </p>
-            <Button
-              size="sm"
-              variant="ghost"
-              className="text-xs h-6 p-0 min-w-0 font-bold self-start mt-1 text-danger hover:text-danger/80"
-              onPress={() => router.push("/tasks")}
+            <button
+              onClick={() => router.push("/tasks")}
+              className="text-xs font-bold px-3 py-1.5 rounded-xl border-2 border-b-4 border-danger/30 active:border-b-0 active:translate-y-1 self-start mt-1 bg-white dark:bg-zinc-800 text-danger hover:bg-danger/5 transition-all cursor-pointer flex items-center gap-1"
             >
               {t("dashboard.solveNow")}
-              <ArrowRightIcon className="w-3.5 h-3.5 ml-1" />
-            </Button>
+              <ArrowRightIcon className="w-3.5 h-3.5" />
+            </button>
           </Card.Content>
         </Card>
       </div>

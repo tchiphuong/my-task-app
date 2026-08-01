@@ -47,3 +47,15 @@ export const CHART_COLORS = [
     "#8884d8",
     "#82ca9d",
 ] as const;
+
+/**
+ * Các trạng thái cảm xúc của Mascot Bơ Sữa
+ */
+export const MASCOT_EMOTION = {
+    HAPPY: "happy",
+    CHEERING: "cheering",
+    PANICKING: "panicking",
+    NEUTRAL: "neutral",
+} as const;
+
+export type MascotEmotion = (typeof MASCOT_EMOTION)[keyof typeof MASCOT_EMOTION];

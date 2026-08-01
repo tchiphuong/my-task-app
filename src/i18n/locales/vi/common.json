@@ -73,7 +73,29 @@
     "chartHabitKey": "Thói quen",
     "progressHelperText1": "Đỉnh nóc kịch trần bay phấp phới! Xong 100% mục tiêu luôn!",
     "progressHelperText2": "Hôm nay hông có việc gì để làm hết trơn á.",
-    "progressHelperText3": "Cố lên, còn {{count}} việc nữa là xong hà."
+    "progressHelperText3": "Cố lên, còn {{count}} việc nữa là xong hà.",
+    "mascot": {
+      "allDone": [
+        "Đỉnh nóc kịch trần bay phấp phới luôn cưng ơi! Cày hết việc rồi, giờ tà tà đi uống trà đá đi nè!",
+        "Quá là slay luôn! Hoàn thành xuất sắc nhiệm vụ rồi, nằm ườn ra nghỉ mệt thôi nào!",
+        "Ai mà đỉnh vậy ta? À thì ra là bạn đó! Xong sạch bách việc rồi, đi quẩy thôi gét go!"
+      ],
+      "noTasks": [
+        "Hôm nay hông chịu lên lịch làm việc gì hết trơn á! Tính nằm ườn ra giống tui hả?",
+        "Hông thấy miếng kpi nào luôn á trời! Bộ tính chill nguyên ngày hay sao nè?",
+        "Lịch trình trống trơn như cái hũ gạo ngày Tết vậy đó. Thêm vài việc đi bạn ơi!"
+      ],
+      "inProgress": [
+        "Ráng chút xíu nữa cưng ơi! Còn có {{count}} việc nữa hà, làm vèo cái xong đặng tối đi quẩy!",
+        "Cột sống còn dí {{count}} việc kìa! Tập trung cày cuốc đặng còn đi hóng hớt đầu làng cuối xóm nha!",
+        "Còn {{count}} việc nữa là chạm tay vào vinh quang rồi! Slay tiếp đi đừng dừng lại!"
+      ],
+      "overdue": [
+        "Ý trời ơi! Bị deadline dí tới mông rồi kìa, có tới {{count}} việc trễ hạn rồi á! Lo cày lẹ hông thui tui quéo à nha!",
+        "Ét ô ét! Bùng deadline tới {{count}} việc rồi kìa bạn ơi! Cột sống đang kêu cứu kìa, gét go làm lẹ!",
+        "Trời đất cản ngăn ơi! Nhìn đống việc trễ hạn kìa, tới {{count}} việc rồi á! Định ăn chổi quét nhà của tui hả?"
+      ]
+    }
   },
   "tasks": {
     "title": "Bảng vàng KPI",

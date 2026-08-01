@@ -1,16 +1,12 @@
 "use client";
 
-import {
-  BellIcon as BellOutline,
-  CheckCircleIcon,
-  ExclamationTriangleIcon,
-  InformationCircleIcon
-} from "@heroicons/react/24/outline";
+import { BellIcon as BellOutline } from "@heroicons/react/24/outline";
 import { BellIcon as BellSolid } from "@heroicons/react/24/solid";
 import { Badge, Button, Popover, ScrollShadow } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { Mascot } from "@/components/ui/Mascot";
 import { useTaskStore } from "@/store/useTaskStore";
 
 export default function NotificationCenter() {
@@ -38,22 +34,11 @@ export default function NotificationCenter() {
   const getNotifIcon = (type: string) => {
     switch (type) {
       case "success":
-        return <CheckCircleIcon className="w-5 h-5 text-success-500" />;
+        return <Mascot emotion="happy" size={32} className="shrink-0" />;
       case "warning":
-        return <ExclamationTriangleIcon className="w-5 h-5 text-warning-500" />;
+        return <Mascot emotion="panicking" size={32} className="shrink-0" />;
       default:
-        return <InformationCircleIcon className="w-5 h-5 text-primary-500" />;
-    }
-  };
-
-  const getNotifIconClass = (type: string) => {
-    switch (type) {
-      case "success":
-        return "bg-success-50 dark:bg-success-950/20";
-      case "warning":
-        return "bg-warning-50 dark:bg-warning-950/20";
-      default:
-        return "bg-primary-50 dark:bg-primary-950/20";
+        return <Mascot emotion="neutral" size={32} className="shrink-0" />;
     }
   };
 
@@ -143,7 +128,7 @@ export default function NotificationCenter() {
                     className={`w-full flex gap-3 p-4 cursor-pointer transition-colors duration-150 text-left hover:bg-default-50 dark:hover:bg-default-100/20 ${!notif.read ? "bg-primary-50/30 dark:bg-primary-950/10 font-medium" : ""
                       }`}
                   >
-                    <div className={`flex items-center justify-center w-8 h-8 rounded-full shrink-0 ${getNotifIconClass(notif.type)}`}>
+                    <div className="shrink-0">
                       {getNotifIcon(notif.type)}
                     </div>
                     <div className="flex flex-col gap-1 w-full overflow-hidden">

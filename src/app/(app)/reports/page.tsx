@@ -212,78 +212,66 @@ export default function ReportsPage() {
 
       {/* 2. Thống kê chung bằng thẻ số liệu */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-linear-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/10 p-5 shadow-sm backdrop-blur-md transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-          <div className="mb-3 flex items-center justify-between relative z-10">
-            <h3 className="text-xs font-bold text-primary-700 dark:text-primary-300 uppercase tracking-wide">{t("reports.overview.totalTasks")}</h3>
-            <div className="rounded-xl p-2.5 bg-white/60 dark:bg-primary-500/20 shadow-sm backdrop-blur-sm">
-              <ClipboardDocumentListIcon className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+        {/* Tổng số công việc */}
+        <Card className="border-2 border-b-6 border-primary/20 bg-primary/5 dark:bg-primary/10 rounded-2xl shadow-none hover:-translate-y-0.5 transition-all">
+          <Card.Content className="p-5 flex flex-col justify-between h-36 relative z-10">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xs font-bold text-primary/80 uppercase tracking-wide">{t("reports.overview.totalTasks")}</h3>
+              <ClipboardDocumentListIcon className="w-5 h-5 text-primary" />
             </div>
-          </div>
-          <p className="mb-1 text-4xl font-black text-primary-800 dark:text-primary-100 relative z-10">
-            {totalTasks}
-          </p>
-          <div className="flex items-center text-xs text-primary-600 dark:text-primary-300 font-medium relative z-10">
-            <span>{t("reports.overview.tasksType")}</span>
-          </div>
-          <div className="absolute -top-6 -right-6 h-32 w-32 rounded-full opacity-30 dark:opacity-20 bg-linear-to-br from-primary-300 to-primary-500 blur-2xl pointer-events-none" />
-          <div className="absolute -bottom-8 -left-8 h-24 w-24 rounded-full opacity-20 dark:opacity-10 bg-linear-to-tr from-primary-400 to-primary-200 blur-xl pointer-events-none" />
-        </div>
+            <p className="text-3xl font-black text-primary">
+              {totalTasks}
+            </p>
+            <span className="text-xs text-primary/70 font-semibold">{t("reports.overview.tasksType")}</span>
+          </Card.Content>
+        </Card>
 
-        <div className="relative overflow-hidden rounded-2xl border border-success/20 bg-linear-to-br from-success-50 to-success-100 dark:from-success-900/20 dark:to-success-800/10 p-5 shadow-sm backdrop-blur-md transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-          <div className="mb-3 flex items-center justify-between relative z-10">
-            <h3 className="text-xs font-bold text-success-700 dark:text-success-300 uppercase tracking-wide">{t("reports.overview.completed")}</h3>
-            <div className="rounded-xl p-2.5 bg-white/60 dark:bg-success-500/20 shadow-sm backdrop-blur-sm">
-              <CheckCircleIcon className="w-5 h-5 text-success-600 dark:text-success-400" />
+        {/* Tỷ lệ hoàn thành */}
+        <Card className="border-2 border-b-6 border-success/20 bg-success/5 dark:bg-success/10 rounded-2xl shadow-none hover:-translate-y-0.5 transition-all">
+          <Card.Content className="p-5 flex flex-col justify-between h-36 relative z-10">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xs font-bold text-success/80 uppercase tracking-wide">{t("reports.overview.completed")}</h3>
+              <CheckCircleIcon className="w-5 h-5 text-success" />
             </div>
-          </div>
-          <p className="mb-1 text-4xl font-black text-success-800 dark:text-success-100 relative z-10">
-            {completionRate}%
-          </p>
-          <div className="flex items-center text-xs text-success-600 dark:text-success-300 font-medium relative z-10">
-            <span>{t("reports.overview.completedCountText", { count: completedCount })}</span>
-          </div>
-          <div className="absolute -top-6 -right-6 h-32 w-32 rounded-full opacity-30 dark:opacity-20 bg-linear-to-br from-success-300 to-success-500 blur-2xl pointer-events-none" />
-          <div className="absolute -bottom-8 -left-8 h-24 w-24 rounded-full opacity-20 dark:opacity-10 bg-linear-to-tr from-success-400 to-success-200 blur-xl pointer-events-none" />
-        </div>
+            <p className="text-3xl font-black text-success">
+              {completionRate}%
+            </p>
+            <span className="text-xs text-success/70 font-semibold">{t("reports.overview.completedCountText", { count: completedCount })}</span>
+          </Card.Content>
+        </Card>
 
-        <div className="relative overflow-hidden rounded-2xl border border-warning/20 bg-linear-to-br from-warning-50 to-warning-100 dark:from-warning-900/20 dark:to-warning-800/10 p-5 shadow-sm backdrop-blur-md transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-          <div className="mb-3 flex items-center justify-between relative z-10">
-            <h3 className="text-xs font-bold text-warning-700 dark:text-warning-300 uppercase tracking-wide">{t("reports.overview.doing")}</h3>
-            <div className="rounded-xl p-2.5 bg-white/60 dark:bg-warning-500/20 shadow-sm backdrop-blur-sm">
-              <ClockIcon className="w-5 h-5 text-warning-600 dark:text-warning-400" />
+        {/* Đang thực hiện */}
+        <Card className="border-2 border-b-6 border-warning/20 bg-warning/5 dark:bg-warning/10 rounded-2xl shadow-none hover:-translate-y-0.5 transition-all">
+          <Card.Content className="p-5 flex flex-col justify-between h-36 relative z-10">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xs font-bold text-warning/80 uppercase tracking-wide">{t("reports.overview.doing")}</h3>
+              <ClockIcon className="w-5 h-5 text-warning" />
             </div>
-          </div>
-          <p className="mb-1 text-4xl font-black text-warning-800 dark:text-warning-100 relative z-10">
-            {inProgressCount} <span className="text-xl">{t("dashboard.tasksCountUnit", { count: "" }).replace(/\s?\d+\s?/, "")}</span>
-          </p>
-          <div className="flex items-center text-xs text-warning-600 dark:text-warning-300 font-medium relative z-10">
-            <span>{t("reports.overview.doingDesc")}</span>
-          </div>
-          <div className="absolute -top-6 -right-6 h-32 w-32 rounded-full opacity-30 dark:opacity-20 bg-linear-to-br from-warning-300 to-warning-500 blur-2xl pointer-events-none" />
-          <div className="absolute -bottom-8 -left-8 h-24 w-24 rounded-full opacity-20 dark:opacity-10 bg-linear-to-tr from-warning-400 to-warning-200 blur-xl pointer-events-none" />
-        </div>
+            <p className="text-3xl font-black text-warning">
+              {inProgressCount}
+            </p>
+            <span className="text-xs text-warning/70 font-semibold">{t("reports.overview.doingDesc")}</span>
+          </Card.Content>
+        </Card>
 
-        <div className="relative overflow-hidden rounded-2xl border border-danger/20 bg-linear-to-br from-danger-50 to-danger-100 dark:from-danger-900/20 dark:to-danger-800/10 p-5 shadow-sm backdrop-blur-md transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-          <div className="mb-3 flex items-center justify-between relative z-10">
-            <h3 className="text-xs font-bold text-danger-700 dark:text-danger-300 uppercase tracking-wide">{t("reports.overview.overdue")}</h3>
-            <div className="rounded-xl p-2.5 bg-white/60 dark:bg-danger-500/20 shadow-sm backdrop-blur-sm">
-              <ExclamationCircleIcon className="w-5 h-5 text-danger-600 dark:text-danger-400" />
+        {/* Việc trễ hạn */}
+        <Card className="border-2 border-b-6 border-danger/20 bg-danger/5 dark:bg-danger/10 rounded-2xl shadow-none hover:-translate-y-0.5 transition-all">
+          <Card.Content className="p-5 flex flex-col justify-between h-36 relative z-10">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xs font-bold text-danger/80 uppercase tracking-wide">{t("reports.overview.overdue")}</h3>
+              <ExclamationCircleIcon className="w-5 h-5 text-danger" />
             </div>
-          </div>
-          <p className="mb-1 text-4xl font-black text-danger-800 dark:text-danger-100 relative z-10">
-            {overdueCount} <span className="text-xl">{t("dashboard.tasksCountUnit", { count: "" }).replace(/\s?\d+\s?/, "")}</span>
-          </p>
-          <div className="flex items-center text-xs text-danger-600 dark:text-danger-300 font-medium relative z-10">
-            <span>{t("reports.overview.overdueDesc")}</span>
-          </div>
-          <div className="absolute -top-6 -right-6 h-32 w-32 rounded-full opacity-30 dark:opacity-20 bg-linear-to-br from-danger-300 to-danger-500 blur-2xl pointer-events-none" />
-          <div className="absolute -bottom-8 -left-8 h-24 w-24 rounded-full opacity-20 dark:opacity-10 bg-linear-to-tr from-danger-400 to-danger-200 blur-xl pointer-events-none" />
-        </div>
+            <p className="text-3xl font-black text-danger">
+              {overdueCount}
+            </p>
+            <span className="text-xs text-danger/70 font-semibold">{t("reports.overview.overdueDesc")}</span>
+          </Card.Content>
+        </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
         {/* 3. Phân bổ danh mục - Biểu đồ tròn (2 phần) */}
-        <Card className="lg:col-span-2 shadow-lg shadow-default-100/50 border border-default-200/50 bg-background/50 backdrop-blur-xl">
+        <Card className="lg:col-span-2">
           <Card.Header className="px-5 pt-5 pb-3">
             <h2 className="font-black text-sm tracking-tight flex items-center gap-1.5">
               <ChartPieIcon className="w-4 h-4 text-default-500" />
@@ -323,7 +311,7 @@ export default function ReportsPage() {
         </Card>
 
         {/* 4. Thống kê chi tiết & Xuất báo cáo (3 phần) */}
-        <Card className="lg:col-span-3 shadow-lg shadow-default-100/50 border border-default-200/50 bg-background/50 backdrop-blur-xl">
+        <Card className="lg:col-span-3">
           <Card.Header className="px-5 pt-5 pb-3 flex flex-row justify-between items-center">
             <h2 className="font-black text-sm tracking-tight flex items-center gap-1.5">
               <DocumentTextIcon className="w-4 h-4 text-default-500" />

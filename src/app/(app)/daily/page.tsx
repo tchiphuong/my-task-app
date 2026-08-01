@@ -13,7 +13,6 @@ import {
   Chip,
   Input,
   Label,
-  ProgressBar,
   ScrollShadow,
   TextField,
   toast
@@ -141,44 +140,48 @@ export default function DailyGoalsPage() {
       {/* 2. Thống kê Streak & Tiến độ hôm nay */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Chuỗi Streak Card */}
-        <Card className="shadow-sm border border-default-100/50 bg-linear-to-br from-warning-500/5 via-background to-warning-500/10 md:col-span-1 relative overflow-hidden">
-          <div className="absolute -bottom-6 -right-6 h-28 w-28 rounded-full opacity-10 bg-warning-500 pointer-events-none"></div>
+        <Card className="border-2 border-b-6 border-warning/20 bg-warning/5 dark:bg-warning/10 rounded-2xl shadow-none md:col-span-1 relative overflow-hidden">
+          <div className="absolute -bottom-6 -right-6 h-28 w-28 rounded-full opacity-10 bg-warning pointer-events-none"></div>
           <Card.Content className="p-5 flex flex-col justify-between h-36 relative z-10">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-default-500 uppercase tracking-wide">{t("daily.streakTitle")}</span>
-              <FireIcon className="w-6 h-6 text-warning-500" />
+              <span className="text-xs font-bold text-warning/80 uppercase tracking-wide">{t("daily.streakTitle")}</span>
+              <FireIcon className={`w-6 h-6 transition-all duration-300 ${streak.currentStreak > 0 ? "text-warning animate-bounce" : "text-default-400"}`} />
             </div>
             <div className="flex items-baseline gap-2 mt-1">
-              <span className="text-3xl font-black text-warning-500">{t("daily.dayUnit", { count: streak.currentStreak })}</span>
+              <span className={`text-3xl font-black ${streak.currentStreak > 0 ? "text-warning animate-pulse" : "text-default-400"}`}>
+                {t("daily.dayUnit", { count: streak.currentStreak })}
+              </span>
             </div>
-            <span className="text-xs text-default-400 font-medium">
+            <span className="text-xs text-warning/80 font-semibold">
               {t("daily.bestStreak", { count: streak.bestStreak })}
             </span>
           </Card.Content>
         </Card>
 
         {/* Tiến độ hoàn thành thói quen hôm nay */}
-        <Card className="shadow-sm border border-default-100/50 md:col-span-2 relative overflow-hidden">
-          <div className="absolute -top-4 -right-4 h-24 w-24 rounded-full opacity-10 bg-primary-500 pointer-events-none"></div>
+        <Card className="border-2 border-b-6 border-primary/20 bg-primary/5 dark:bg-primary/10 rounded-2xl shadow-none md:col-span-2 relative overflow-hidden">
+          <div className="absolute -top-4 -right-4 h-24 w-24 rounded-full opacity-10 bg-primary pointer-events-none"></div>
           <Card.Content className="p-5 flex flex-col justify-between h-36 relative z-10">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-default-500 uppercase tracking-wide">{t("dashboard.progressToday")}</span>
+              <span className="text-xs font-bold text-primary/80 uppercase tracking-wide">{t("dashboard.progressToday")}</span>
               <SparklesIcon className="w-5 h-5 text-primary" />
             </div>
             <div className="flex items-baseline gap-1.5 mt-1">
               <span className="text-3xl font-black text-primary">{dailyProgressPercent}%</span>
-              <span className="text-xs text-default-400">
+              <span className="text-xs text-primary/70 font-semibold">
                 ({t("daily.habitCount", { completed: completedDailyToday, total: totalDaily })})
               </span>
             </div>
             <div className="mt-2">
-              <ProgressBar value={dailyProgressPercent} color="accent" size="sm">
-                <ProgressBar.Track>
-                  <ProgressBar.Fill />
-                </ProgressBar.Track>
-              </ProgressBar>
+              {/* Custom Duolingo progress bar */}
+              <div className="h-4 w-full bg-default-200/50 rounded-full border-2 border-default-300 relative overflow-hidden">
+                <div 
+                  className="h-full bg-success border-t-2 border-success-200 rounded-full transition-all duration-500" 
+                  style={{ width: `${dailyProgressPercent}%` }} 
+                />
+              </div>
             </div>
-            <span className="text-xs text-default-400 italic">
+            <span className="text-xs text-primary/70 font-semibold italic">
               {getProgressMessage()}
             </span>
           </Card.Content>
@@ -263,15 +266,14 @@ export default function DailyGoalsPage() {
                   </Chip>
                 ))}
               </div>
-              <Button
+              <button
                 type="submit"
-                variant="primary"
-                className="font-bold text-xs rounded-full mt-1 h-10 w-full"
-                isDisabled={!newDailyTitle.trim()}
+                disabled={!newDailyTitle.trim()}
+                className="font-bold text-xs rounded-xl mt-1 h-10 w-full border-2 border-b-4 border-primary/30 active:border-b-0 active:translate-y-1 bg-primary text-white hover:bg-primary/95 transition-all cursor-pointer flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <PlusIcon className="w-4 h-4 stroke-2" />
                 {t("daily.addHabit.submit")}
-              </Button>
+              </button>
             </form>
           </Card.Content>
         </Card>
