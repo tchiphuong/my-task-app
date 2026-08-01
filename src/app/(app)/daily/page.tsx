@@ -20,15 +20,16 @@ import {
 } from "@heroui/react";
 import { format, isSameDay, subDays } from "date-fns";
 import { vi } from "date-fns/locale";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { AppCard as Card } from "@/components/common/AppCard";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
-import { TASK_CATEGORIES } from "@/constants";
+import { TASK_CATEGORIES, TASK_PRIORITY, TASK_STATUS } from "@/constants";
 import { useTaskStore } from "@/store/useTaskStore";
 
 export default function DailyGoalsPage() {
-  const [mounted, setMounted] = useState(false);
+  const { t } = useTranslation();
   const account = useTaskStore((state) => state.getCurrentAccount());
   const addTask = useTaskStore((state) => state.addTask);
   const deleteTask = useTaskStore((state) => state.deleteTask);
@@ -38,13 +39,6 @@ export default function DailyGoalsPage() {
   const [newDailyTitle, setNewDailyTitle] = useState("");
   const [newDailyCategory, setNewDailyCategory] = useState("Sức khỏe");
   const [deleteTaskId, setDeleteTaskId] = useState<string | null>(null);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
 
   const tasks = account?.tasks || [];
   const streak = account?.streak || { currentStreak: 0, bestStreak: 0 };
@@ -70,8 +64,8 @@ export default function DailyGoalsPage() {
     addTask({
       title: newDailyTitle,
       description: "Thói quen lặp lại hàng ngày",
-      status: "todo",
-      priority: "medium",
+      status: TASK_STATUS.TODO,
+      priority: TASK_PRIORITY.MEDIUM,
       category: newDailyCategory,
       dueDate: todayStr,
       isDaily: true,
@@ -116,12 +110,12 @@ export default function DailyGoalsPage() {
 
   const getProgressMessage = () => {
     if (dailyProgressPercent === 100) {
-      return "Thật tuyệt vời! Bạn đã hoàn thành toàn bộ thói quen hôm nay.";
+      return t("daily.progress.allDone");
     }
     if (totalDaily === 0) {
-      return "Bắt đầu thêm các thói quen hàng ngày phía dưới nhé.";
+      return t("daily.progress.noHabits");
     }
-    return `Còn lại ${totalDaily - completedDailyToday} thói quen cần thực hiện.`;
+    return t("daily.progress.remaining", { count: totalDaily - completedDailyToday });
   };
 
   const getDayBadgeClass = (day: typeof last7Days[0]) => {
@@ -138,7 +132,7 @@ export default function DailyGoalsPage() {
     <div className="flex flex-col gap-6">
       {/* 1. Header Trang */}
       <div>
-        <h1 className="text-xl md:text-2xl font-black text-default-900 tracking-tight">Mỗi ngày</h1>
+        <h1 className="text-xl md:text-2xl font-black text-default-900 tracking-tight">{t("menu.daily")}</h1>
         <p className="text-xs text-default-400 mt-0.5 font-medium">
           Rèn luyện tính kỷ luật bằng việc lặp lại các thói quen tốt mỗi ngày.
         </p>
@@ -151,14 +145,14 @@ export default function DailyGoalsPage() {
           <div className="absolute -bottom-6 -right-6 h-28 w-28 rounded-full opacity-10 bg-warning-500 pointer-events-none"></div>
           <Card.Content className="p-5 flex flex-col justify-between h-36 relative z-10">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-default-500 uppercase tracking-wide">Kỷ luật liên tục</span>
+              <span className="text-xs font-bold text-default-500 uppercase tracking-wide">{t("daily.streakTitle")}</span>
               <FireIcon className="w-6 h-6 text-warning-500" />
             </div>
             <div className="flex items-baseline gap-2 mt-1">
-              <span className="text-3xl font-black text-warning-500">{streak.currentStreak} ngày</span>
+              <span className="text-3xl font-black text-warning-500">{t("daily.dayUnit", { count: streak.currentStreak })}</span>
             </div>
             <span className="text-xs text-default-400 font-medium">
-              Kỷ lục tốt nhất của bạn: <span className="font-bold text-warning-650">{streak.bestStreak} ngày</span>.
+              {t("daily.bestStreak", { count: streak.bestStreak })}
             </span>
           </Card.Content>
         </Card>
@@ -168,13 +162,13 @@ export default function DailyGoalsPage() {
           <div className="absolute -top-4 -right-4 h-24 w-24 rounded-full opacity-10 bg-primary-500 pointer-events-none"></div>
           <Card.Content className="p-5 flex flex-col justify-between h-36 relative z-10">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-default-500 uppercase tracking-wide">Tiến độ hôm nay</span>
+              <span className="text-xs font-bold text-default-500 uppercase tracking-wide">{t("dashboard.progressToday")}</span>
               <SparklesIcon className="w-5 h-5 text-primary" />
             </div>
             <div className="flex items-baseline gap-1.5 mt-1">
               <span className="text-3xl font-black text-primary">{dailyProgressPercent}%</span>
               <span className="text-xs text-default-400">
-                (Đã xong {completedDailyToday}/{totalDaily} thói quen)
+                ({t("daily.habitCount", { completed: completedDailyToday, total: totalDaily })})
               </span>
             </div>
             <div className="mt-2">
@@ -238,7 +232,7 @@ export default function DailyGoalsPage() {
         {/* Form thêm nhanh thói quen (Trái) */}
         <Card className="lg:col-span-1 shadow-sm border border-default-100/50">
           <Card.Header className="px-5 pt-5 pb-2">
-            <h2 className="font-black text-sm tracking-tight">Thêm thói quen mới</h2>
+            <h2 className="font-black text-sm tracking-tight">{t("daily.addHabit.title")}</h2>
           </Card.Header>
           <Card.Content className="p-5">
             <form onSubmit={handleAddDaily} className="flex flex-col gap-4">
@@ -250,12 +244,12 @@ export default function DailyGoalsPage() {
                 className="w-full"
                 variant="primary"
               >
-                <Label>Tên thói quen</Label>
-                <Input placeholder="Ví dụ: Tập gym 30p, Học Anh văn..." />
+                <Label>{t("daily.addHabit.habitName")}</Label>
+                <Input placeholder={t("daily.addHabit.namePlaceholder")} />
               </TextField>
 
               <div className="flex flex-wrap gap-2 py-1">
-                <span className="text-xs font-semibold text-default-500 self-center w-full mb-1">Danh mục:</span>
+                <span className="text-xs font-semibold text-default-500 self-center w-full mb-1">{t("daily.addHabit.categoryLabel")}</span>
                 {TASK_CATEGORIES.filter(cat => cat.code !== "personal").map((cat) => (
                   <Chip
                     key={cat.code}
@@ -276,7 +270,7 @@ export default function DailyGoalsPage() {
                 isDisabled={!newDailyTitle.trim()}
               >
                 <PlusIcon className="w-4 h-4 stroke-2" />
-                Thêm vào thói quen ngày
+                {t("daily.addHabit.submit")}
               </Button>
             </form>
           </Card.Content>
@@ -285,16 +279,16 @@ export default function DailyGoalsPage() {
         {/* Danh sách Thói quen (Phải) */}
         <Card className="lg:col-span-2 shadow-sm border border-default-100/50 max-h-125">
           <Card.Header className="px-5 pt-5 pb-3">
-            <h2 className="font-black text-sm tracking-tight">Danh sách thói quen</h2>
+            <h2 className="font-black text-sm tracking-tight">{t("daily.listTitle")}</h2>
           </Card.Header>
           <Card.Content className="px-3 py-0">
             <ScrollShadow className="max-h-105 pb-4 px-2">
               {dailyTasks.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-20 text-center text-default-400">
                   <SparklesIcon className="w-12 h-12 text-primary-300 mb-2" />
-                  <p className="text-sm font-semibold">Bắt đầu thói quen tốt!</p>
+                  <p className="text-sm font-semibold">{t("daily.emptyHabitsTitle")}</p>
                   <p className="text-xs text-default-400 mt-1">
-                    Nhập tên thói quen bên trái để thêm vào mục tiêu hoàn thành mỗi ngày.
+                    {t("daily.emptyHabitsDesc")}
                   </p>
                 </div>
               ) : (
@@ -330,7 +324,7 @@ export default function DailyGoalsPage() {
                                 {task.category}
                               </Chip>
                               <span className="text-xs text-default-400 font-medium">
-                                Đã tích: {task.completedDates?.length || 0} lần
+                                {t("daily.countRecord", { count: task.completedDates?.length || 0 })}
                               </span>
                             </div>
                           </div>
@@ -359,14 +353,14 @@ export default function DailyGoalsPage() {
       <ConfirmModal
         isOpen={!!deleteTaskId}
         onOpenChange={(isOpen) => !isOpen && setDeleteTaskId(null)}
-        title="Xóa thói quen"
-        content="Bạn có chắc chắn muốn xóa thói quen này không? Mọi lịch sử điểm danh của thói quen này cũng sẽ biến mất."
-        confirmLabel="Xóa luôn"
+        title={t("daily.deleteHabitTitle")}
+        content={t("daily.deleteHabitDesc")}
+        confirmLabel={t("daily.deleteSubmit")}
         isDanger={true}
         onConfirm={() => {
           if (deleteTaskId) {
             deleteTask(deleteTaskId);
-            toast.danger("Đã xóa thói quen");
+            toast.danger(t("daily.toastDeleted"));
           }
         }}
       />

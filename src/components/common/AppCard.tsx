@@ -21,7 +21,7 @@ const CardBase = ({ children, className, ...props }: AppCardProps) => {
 
 const CardHeader = ({ children, className, ...props }: HTMLAttributes<HTMLDivElement>) => {
   return (
-    <div className={twMerge("flex flex-col gap-1.5 p-5", className)} {...props}>
+    <div className={twMerge("flex flex-col gap-1.5 px-5 pt-5 pb-3", className)} {...props}>
       {children}
     </div>
   );
@@ -30,7 +30,7 @@ CardHeader.displayName = "AppCard.Header";
 
 const CardContent = ({ children, className, ...props }: HTMLAttributes<HTMLDivElement>) => {
   return (
-    <div className={twMerge("p-5 pt-0", className)} {...props}>
+    <div className={twMerge("px-5 pb-5", className)} {...props}>
       {children}
     </div>
   );
@@ -39,7 +39,7 @@ CardContent.displayName = "AppCard.Content";
 
 const CardFooter = ({ children, className, ...props }: HTMLAttributes<HTMLDivElement>) => {
   return (
-    <div className={twMerge("flex items-center p-5 pt-0", className)} {...props}>
+    <div className={twMerge("flex items-center px-5 pb-5", className)} {...props}>
       {children}
     </div>
   );

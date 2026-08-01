@@ -32,7 +32,7 @@ import {
 } from "recharts";
 
 import { AppCard as Card } from "@/components/common/AppCard";
-import { PRIORITY_OPTIONS } from "@/constants";
+import { PRIORITY_OPTIONS, TASK_PRIORITY, TASK_STATUS } from "@/constants";
 import { Task, useTaskStore } from "@/store/useTaskStore";
 
 export default function DashboardPage() {
@@ -58,23 +58,23 @@ export default function DashboardPage() {
   const totalTasksToday = regularTasksToday.length + dailyTasks.length;
 
   // Task đã hoàn thành hôm nay
-  const completedRegularToday = regularTasksToday.filter((t) => t.status === "done").length;
+  const completedRegularToday = regularTasksToday.filter((t) => t.status === TASK_STATUS.DONE).length;
   const completedDailyToday = dailyTasks.filter((t) =>
     t.completedDates?.includes(todayStr)
   ).length;
-
+ 
   const completedTodayCount = completedRegularToday + completedDailyToday;
   const progressPercent = totalTasksToday > 0
     ? Math.round((completedTodayCount / totalTasksToday) * 100)
     : 0;
-
+ 
   // 2. Việc chưa làm xong khẩn cấp (Overdue hoặc Priority High)
   const urgentTasks = tasks.filter((t) => {
-    if (t.status === "done") return false;
+    if (t.status === TASK_STATUS.DONE) return false;
     if (t.isDaily) return false;
-
+ 
     const isOverdue = t.dueDate && t.dueDate < todayStr;
-    const isHighPriority = t.priority === "high";
+    const isHighPriority = t.priority === TASK_PRIORITY.HIGH;
     return isOverdue || isHighPriority;
   }).slice(0, 5); // Lấy tối đa 5 việc khẩn cấp nhất
 
@@ -215,11 +215,11 @@ export default function DashboardPage() {
             </div>
             <div className="flex items-baseline gap-2 mt-2">
               <span className="text-3xl font-black text-danger">
-                {t("dashboard.tasksCountUnit", { count: tasks.filter((t) => t.status !== "done").length })}
+                {t("dashboard.tasksCountUnit", { count: tasks.filter((t) => t.status !== TASK_STATUS.DONE).length })}
               </span>
             </div>
             <p className="text-xs text-danger/80 leading-normal">
-              {t("dashboard.overdueText", { count: tasks.filter(t => !t.isDaily && t.status !== "done" && t.dueDate < todayStr).length })}
+              {t("dashboard.overdueText", { count: tasks.filter(t => !t.isDaily && t.status !== TASK_STATUS.DONE && t.dueDate < todayStr).length })}
             </p>
             <Button
               size="sm"
@@ -237,7 +237,7 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
         {/* 3. Bảng việc khẩn cấp (Trái - 3 phần) */}
         <Card className="lg:col-span-3 shadow-sm border border-default-100/50 max-h-100">
-          <Card.Header className="flex justify-between items-center px-5 pt-5 pb-3">
+          <Card.Header className="flex flex-row justify-between items-center">
             <div className="flex items-center gap-2">
               <AlertCircle className="w-5 h-5 text-danger" />
               <h2 className="font-black text-sm tracking-tight">{t("dashboard.urgentTitle")}</h2>
@@ -311,7 +311,7 @@ export default function DashboardPage() {
         </Card>
 
         {/* 4. Biểu đồ hiệu suất 7 ngày qua (Phải - 2 phần) */}
-        <Card className="lg:col-span-2 bg-default-50/50 dark:bg-default-100/10 backdrop-blur-md border border-default-100/50 dark:border-default-100/10 shadow-sm">
+        <Card className="lg:col-span-2">
           <Card.Header className="px-5 pt-5 pb-3">
             <h2 className="font-black text-sm tracking-tight">{t("dashboard.performanceTitle")}</h2>
           </Card.Header>

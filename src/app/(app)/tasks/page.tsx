@@ -11,6 +11,11 @@ import {
   TagIcon
 } from "@heroicons/react/24/outline";
 import {
+  CheckIcon as CheckSolid,
+  ClipboardDocumentCheckIcon as ClipboardDocumentCheckSolid,
+  PlayIcon as PlaySolid
+} from "@heroicons/react/24/solid";
+import {
   Button,
   Calendar,
   Chip,
@@ -32,15 +37,16 @@ import {
 } from "@heroui/react";
 import { getLocalTimeZone, parseDate, today } from "@internationalized/date";
 import { format, parseISO } from "date-fns";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { AppCard as Card } from "@/components/common/AppCard";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
-import { PRIORITY_OPTIONS, STATUS_OPTIONS, TASK_CATEGORIES } from "@/constants";
+import { PRIORITY_OPTIONS, TASK_CATEGORIES, TASK_STATUS, TASK_PRIORITY } from "@/constants";
 import { Task, useTaskStore } from "@/store/useTaskStore";
 
 export default function TasksPage() {
-  const [mounted, setMounted] = useState(false);
+  const { t } = useTranslation();
   const account = useTaskStore((state) => state.getCurrentAccount());
   const addTask = useTaskStore((state) => state.addTask);
   const updateTask = useTaskStore((state) => state.updateTask);
@@ -58,13 +64,6 @@ export default function TasksPage() {
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
 
   const tasks = account?.tasks || [];
 
@@ -117,7 +116,7 @@ export default function TasksPage() {
       category: (data.category || "Công việc") as Task["category"],
       dueDate: (data.dueDate as string) || format(new Date(), "yyyy-MM-dd"),
       isDaily: data.isDaily === "true",
-      status: (editingTask ? editingTask.status : "todo") as Task["status"],
+      status: (editingTask ? editingTask.status : TASK_STATUS.TODO) as Task["status"],
     };
 
     if (editingTask) {
@@ -145,7 +144,7 @@ export default function TasksPage() {
   };
 
   const renderTaskCard = (task: Task) => {
-    const isOverdue = task.dueDate && task.dueDate < format(new Date(), "yyyy-MM-dd") && task.status !== "done";
+    const isOverdue = task.dueDate && task.dueDate < format(new Date(), "yyyy-MM-dd") && task.status !== TASK_STATUS.DONE;
     const formattedDueDate = task.dueDate ? format(parseISO(task.dueDate), "dd/MM/yyyy") : "";
 
     return (
@@ -156,7 +155,7 @@ export default function TasksPage() {
       >
         <Card.Content className="p-4 flex flex-col gap-3">
           <div className="flex justify-between items-start gap-2">
-            <h3 className={`font-bold text-sm text-default-900 line-clamp-2 text-left ${task.status === "done" ? "line-through text-default-400" : ""}`}>
+            <h3 className={`font-bold text-sm text-default-900 line-clamp-2 text-left ${task.status === TASK_STATUS.DONE ? "line-through text-default-400" : ""}`}>
               {task.title}
             </h3>
             <Dropdown>
@@ -165,26 +164,26 @@ export default function TasksPage() {
               </Button>
               <Dropdown.Popover className="min-w-40">
                 <Dropdown.Menu onAction={(key: React.Key) => handleTaskMenuAction(task, key.toString())}>
-                  <Dropdown.Item id="edit" textValue="Chỉnh sửa">
-                    <Label>Chỉnh sửa</Label>
+                  <Dropdown.Item id="edit" textValue={t("tasks.edit")}>
+                    <Label>{t("tasks.edit")}</Label>
                   </Dropdown.Item>
-                  {task.status !== "done" && (
-                    <Dropdown.Item id="complete" textValue="Hoàn thành">
-                      <Label className="text-success font-semibold">Hoàn thành</Label>
+                  {task.status !== TASK_STATUS.DONE && (
+                    <Dropdown.Item id="complete" textValue={t("tasks.complete")}>
+                      <Label className="text-success font-semibold">{t("tasks.complete")}</Label>
                     </Dropdown.Item>
                   )}
-                  {task.status === "todo" && (
-                    <Dropdown.Item id="start" textValue="Bắt đầu làm">
-                      <Label className="text-primary font-semibold">Bắt đầu làm</Label>
+                  {task.status === TASK_STATUS.TODO && (
+                    <Dropdown.Item id="start" textValue={t("tasks.start")}>
+                      <Label className="text-primary font-semibold">{t("tasks.start")}</Label>
                     </Dropdown.Item>
                   )}
-                  {task.status === "in_progress" && (
-                    <Dropdown.Item id="stop" textValue="Tạm dừng">
-                      <Label>Tạm dừng</Label>
+                  {task.status === TASK_STATUS.IN_PROGRESS && (
+                    <Dropdown.Item id="stop" textValue={t("tasks.pause")}>
+                      <Label>{t("tasks.pause")}</Label>
                     </Dropdown.Item>
                   )}
-                  <Dropdown.Item id="delete" variant="danger" textValue="Xóa công việc">
-                    <Label>Xóa công việc</Label>
+                  <Dropdown.Item id="delete" variant="danger" textValue={t("tasks.delete")}>
+                    <Label>{t("tasks.delete")}</Label>
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown.Popover>
@@ -202,7 +201,7 @@ export default function TasksPage() {
               const opt = PRIORITY_OPTIONS.find(o => o.code === task.priority);
               return (
                 <Chip size="sm" variant="soft" color={opt?.color || "default"}>
-                  {opt?.name || "Thấp"}
+                  {opt ? t(`tasks.form.priority.${opt.code}`) : t("tasks.form.priority.low")}
                 </Chip>
               );
             })()}
@@ -214,28 +213,28 @@ export default function TasksPage() {
           <div className="flex justify-between items-center border-t border-default-50 dark:border-default-100/10 pt-2.5 mt-1">
             <span className={`text-2xs flex items-center gap-1 font-semibold ${isOverdue ? "text-danger-500 font-bold" : "text-default-400"}`}>
               <CalendarIcon className="w-3.5 h-3.5" />
-              {isOverdue ? `Trễ: ${formattedDueDate}` : formattedDueDate}
+              {isOverdue ? t("tasks.overdue", { date: formattedDueDate }) : formattedDueDate}
             </span>
 
             <div className="flex gap-1">
-              {task.status !== "done" && (
+              {task.status !== TASK_STATUS.DONE && (
                 <Button
                   isIconOnly
                   size="sm"
                   variant="secondary"
                   className="text-success"
-                  onPress={() => updateTask(task.id, { status: "done" })}
+                  onPress={() => updateTask(task.id, { status: TASK_STATUS.DONE })}
                 >
                   <CheckIcon className="w-4 h-4" />
                 </Button>
               )}
-              {task.status === "todo" && (
+              {task.status === TASK_STATUS.TODO && (
                 <Button
                   isIconOnly
                   size="sm"
                   variant="secondary"
                   className="text-primary"
-                  onPress={() => updateTask(task.id, { status: "in_progress" })}
+                  onPress={() => updateTask(task.id, { status: TASK_STATUS.IN_PROGRESS })}
                 >
                   <PlayIcon className="w-3.5 h-3.5" />
                 </Button>
@@ -252,78 +251,84 @@ export default function TasksPage() {
       {/* 1. Header Trang & Nút Thêm */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-xl md:text-2xl font-black text-default-900 tracking-tight">Công việc</h1>
-          <p className="text-xs text-default-400 mt-0.5 font-medium">Quản lý các công việc cần hoàn thành của bạn.</p>
+          <h1 className="text-xl md:text-2xl font-black text-default-900 tracking-tight">{t("menu.tasks")}</h1>
+          <p className="text-xs text-default-400 mt-0.5 font-medium">{t("tasks.subtitle")}</p>
         </div>
         <Button
           variant="primary"
           onPress={handleOpenAddModal}
         >
           <PlusIcon className="w-5 h-5" />
-          Thêm việc
+          {t("tasks.add")}
         </Button>
       </div>
 
-      {/* 2. Bộ Lọc Tìm Kiếm */}
       <div className="flex flex-col sm:flex-row gap-3">
-        <SearchField value={searchQuery} onChange={setSearchQuery} className="grow" aria-label="Tìm kiếm">
-          <SearchField.Group>
-            <SearchField.SearchIcon />
-            <SearchField.Input placeholder="Tìm công việc của bạn..." />
-            <SearchField.ClearButton />
-          </SearchField.Group>
-        </SearchField>
+        <div className="grow">
+          <SearchField value={searchQuery} onChange={setSearchQuery} aria-label={t("tasks.search")}>
+            <SearchField.Group>
+              <SearchField.SearchIcon />
+              <SearchField.Input placeholder={t("tasks.searchPlaceholder")} />
+              <SearchField.ClearButton />
+            </SearchField.Group>
+          </SearchField>
+        </div>
 
         <div className="flex gap-2 shrink-0">
-          <Select
-            aria-label="Danh mục"
-            placeholder="Danh mục"
-            className="w-32"
-            {...({ selectedKey: selectedCategory, onSelectionChange: (key: React.Key | null) => setSelectedCategory(key as string) })}
-          >
-            <Select.Trigger>
-              <TagIcon className="w-4 h-4 text-default-400 mr-2" />
-              <Select.Value />
-              <Select.Indicator />
-            </Select.Trigger>
-            <Select.Popover className="min-w-30">
-              <ListBox>
-                <ListBox.Item id="all" textValue="Tất cả">Tất cả<ListBox.ItemIndicator /></ListBox.Item>
-                {TASK_CATEGORIES.map((cat) => (
-                  <ListBox.Item key={cat.code} id={cat.name} textValue={cat.name}>{cat.name}<ListBox.ItemIndicator /></ListBox.Item>
-                ))}
-                {categories.filter(c => !TASK_CATEGORIES.some(tc => tc.name === c)).map((cat) => (
-                  <ListBox.Item key={cat} id={cat} textValue={cat}>{cat}<ListBox.ItemIndicator /></ListBox.Item>
-                ))}
-              </ListBox>
-            </Select.Popover>
-          </Select>
+          <div className="w-32">
+            <Select
+              aria-label={t("tasks.category")}
+              placeholder={t("tasks.category")}
+              {...({ selectedKey: selectedCategory, onSelectionChange: (key: React.Key | null) => setSelectedCategory(key as string) })}
+            >
+              <Select.Trigger>
+                <span className="mr-2 flex items-center justify-center text-default-400">
+                  <TagIcon width={16} height={16} />
+                </span>
+                <Select.Value />
+                <Select.Indicator />
+              </Select.Trigger>
+              <Select.Popover>
+                <ListBox>
+                  <ListBox.Item id="all" textValue={t("tasks.all")}>{t("tasks.all")}<ListBox.ItemIndicator /></ListBox.Item>
+                  {TASK_CATEGORIES.map((cat) => (
+                    <ListBox.Item key={cat.code} id={cat.name} textValue={cat.name}>{cat.name}<ListBox.ItemIndicator /></ListBox.Item>
+                  ))}
+                  {categories.filter(c => !TASK_CATEGORIES.some(tc => tc.name === c)).map((cat) => (
+                    <ListBox.Item key={cat} id={cat} textValue={cat}>{cat}<ListBox.ItemIndicator /></ListBox.Item>
+                  ))}
+                </ListBox>
+              </Select.Popover>
+            </Select>
+          </div>
 
-          <Select
-            aria-label="Độ ưu tiên"
-            placeholder="Độ ưu tiên"
-            className="w-32"
-            {...({ selectedKey: selectedPriority, onSelectionChange: (key: React.Key | null) => setSelectedPriority(key as string) })}
-          >
-            <Select.Trigger>
-              <FlagIcon className="w-4 h-4 text-default-400 mr-2" />
-              <Select.Value />
-              <Select.Indicator />
-            </Select.Trigger>
-            <Select.Popover className="min-w-30">
-              <ListBox>
-                <ListBox.Item id="all" textValue="Tất cả">Tất cả<ListBox.ItemIndicator /></ListBox.Item>
-                {PRIORITY_OPTIONS.map((opt) => (
-                  <ListBox.Item key={opt.code} id={opt.code} textValue={opt.name}>
-                    <div className="flex items-center gap-2">
-                      <div className={`w-2 h-2 rounded-full bg-${opt.color}`} />
-                      <span>{opt.name}</span>
-                    </div>
-                  </ListBox.Item>
-                ))}
-              </ListBox>
-            </Select.Popover>
-          </Select>
+          <div className="w-32">
+            <Select
+              aria-label={t("tasks.priority")}
+              placeholder={t("tasks.priority")}
+              {...({ selectedKey: selectedPriority, onSelectionChange: (key: React.Key | null) => setSelectedPriority(key as string) })}
+            >
+              <Select.Trigger>
+                <span className="mr-2 flex items-center justify-center text-default-400">
+                  <FlagIcon width={16} height={16} />
+                </span>
+                <Select.Value />
+                <Select.Indicator />
+              </Select.Trigger>
+              <Select.Popover>
+                <ListBox>
+                  <ListBox.Item id="all" textValue={t("tasks.all")}>{t("tasks.all")}<ListBox.ItemIndicator /></ListBox.Item>
+                  {PRIORITY_OPTIONS.map((opt) => (
+                    <ListBox.Item key={opt.code} id={opt.code} textValue={t(`tasks.form.priority.${opt.code}`)}>
+                      <Chip size="sm" variant="soft" color={opt.color}>
+                        {t(`tasks.form.priority.${opt.code}`)}
+                      </Chip>
+                    </ListBox.Item>
+                  ))}
+                </ListBox>
+              </Select.Popover>
+            </Select>
+          </div>
         </div>
       </div>
 
@@ -332,28 +337,39 @@ export default function TasksPage() {
         <Tabs
           {...({ selectedKey: activeTab, onSelectionChange: (key: React.Key) => setActiveTab(key as string) })}
           variant="primary"
-          className="w-full"
         >
           <Tabs.ListContainer>
-            <Tabs.List aria-label="Trạng thái công việc">
+            <Tabs.List aria-label={t("tasks.form.status.title")}>
               <Tabs.Tab id="todo">
-                <span className="flex items-center gap-1.5">
-                  <ClipboardDocumentCheckIcon className="w-4 h-4 text-default-500" />
-                  {STATUS_OPTIONS.find(o => o.code === "todo")?.name} ({getTasksByStatus("todo").length})
+                <span className="flex items-center gap-1 text-default-500">
+                  {activeTab === "todo" ? (
+                    <ClipboardDocumentCheckSolid width={18} height={18} />
+                  ) : (
+                    <ClipboardDocumentCheckIcon width={18} height={18} />
+                  )}
+                  <span className="text-xs">({getTasksByStatus("todo").length})</span>
                 </span>
                 <Tabs.Indicator />
               </Tabs.Tab>
               <Tabs.Tab id="in_progress">
-                <span className="flex items-center gap-1.5">
-                  <PlayIcon className="w-4 h-4 text-primary-500" />
-                  {STATUS_OPTIONS.find(o => o.code === "in_progress")?.name} ({getTasksByStatus("in_progress").length})
+                <span className="flex items-center gap-1 text-primary-500">
+                  {activeTab === "in_progress" ? (
+                    <PlaySolid width={18} height={18} />
+                  ) : (
+                    <PlayIcon width={18} height={18} />
+                  )}
+                  <span className="text-xs">({getTasksByStatus("in_progress").length})</span>
                 </span>
                 <Tabs.Indicator />
               </Tabs.Tab>
               <Tabs.Tab id="done">
-                <span className="flex items-center gap-1.5">
-                  <CheckIcon className="w-4 h-4 text-success-500" />
-                  {STATUS_OPTIONS.find(o => o.code === "done")?.name} ({getTasksByStatus("done").length})
+                <span className="flex items-center gap-1 text-success-500">
+                  {activeTab === "done" ? (
+                    <CheckSolid width={18} height={18} />
+                  ) : (
+                    <CheckIcon width={18} height={18} />
+                  )}
+                  <span className="text-xs">({getTasksByStatus("done").length})</span>
                 </span>
                 <Tabs.Indicator />
               </Tabs.Tab>
@@ -363,7 +379,7 @@ export default function TasksPage() {
           <Tabs.Panel id="todo">
             <div className="flex flex-col gap-3 mt-4">
               {getTasksByStatus("todo").length === 0 ? (
-                <div className="text-center py-12 text-default-400 text-xs">Chưa có công việc nào.</div>
+                <div className="text-center py-12 text-default-400 text-xs">{t("tasks.noTasksTodo")}</div>
               ) : (
                 getTasksByStatus("todo").map(renderTaskCard)
               )}
@@ -372,7 +388,7 @@ export default function TasksPage() {
           <Tabs.Panel id="in_progress">
             <div className="flex flex-col gap-3 mt-4">
               {getTasksByStatus("in_progress").length === 0 ? (
-                <div className="text-center py-12 text-default-400 text-xs">Không có công việc nào đang thực hiện.</div>
+                <div className="text-center py-12 text-default-400 text-xs">{t("tasks.noTasksDoing")}</div>
               ) : (
                 getTasksByStatus("in_progress").map(renderTaskCard)
               )}
@@ -381,7 +397,7 @@ export default function TasksPage() {
           <Tabs.Panel id="done">
             <div className="flex flex-col gap-3 mt-4">
               {getTasksByStatus("done").length === 0 ? (
-                <div className="text-center py-12 text-default-400 text-xs">Chưa có công việc nào hoàn thành.</div>
+                <div className="text-center py-12 text-default-400 text-xs">{t("tasks.noTasksCompleted")}</div>
               ) : (
                 getTasksByStatus("done").map(renderTaskCard)
               )}
@@ -398,13 +414,13 @@ export default function TasksPage() {
           <div className="flex justify-between items-center px-1 mb-1 relative z-10">
             <span className="font-extrabold text-sm tracking-tight text-default-700 flex items-center gap-1.5">
               <ClipboardDocumentCheckIcon className="w-4 h-4 text-default-500" />
-              {STATUS_OPTIONS.find(o => o.code === "todo")?.name}
+              {t("tasks.form.status.todo")}
             </span>
             <Chip size="sm" variant="soft">{getTasksByStatus("todo").length}</Chip>
           </div>
           <div className="flex flex-col gap-3 max-h-150 overflow-y-auto pr-1 relative z-10">
             {getTasksByStatus("todo").length === 0 ? (
-              <div className="text-center py-12 text-default-400 text-xs border-2 border-dashed border-default-100 rounded-xl">Kéo hoặc thêm việc vào đây</div>
+              <div className="text-center py-12 text-default-400 text-xs border-2 border-dashed border-default-100 rounded-xl">{t("tasks.dragTodo")}</div>
             ) : (
               getTasksByStatus("todo").map(renderTaskCard)
             )}
@@ -417,13 +433,13 @@ export default function TasksPage() {
           <div className="flex justify-between items-center px-1 mb-1 relative z-10">
             <span className="font-extrabold text-sm tracking-tight text-primary-600 dark:text-primary-400 flex items-center gap-1.5">
               <PlayIcon className="w-4 h-4 text-primary-500" />
-              {STATUS_OPTIONS.find(o => o.code === "in_progress")?.name}
+              {t("tasks.form.status.doing")}
             </span>
             <Chip size="sm" variant="soft" color="accent">{getTasksByStatus("in_progress").length}</Chip>
           </div>
           <div className="flex flex-col gap-3 max-h-150 overflow-y-auto pr-1 relative z-10">
             {getTasksByStatus("in_progress").length === 0 ? (
-              <div className="text-center py-12 text-default-400 text-xs border-2 border-dashed border-default-100 rounded-xl">Không có việc đang làm</div>
+              <div className="text-center py-12 text-default-400 text-xs border-2 border-dashed border-default-100 rounded-xl">{t("tasks.noTasksDoing")}</div>
             ) : (
               getTasksByStatus("in_progress").map(renderTaskCard)
             )}
@@ -436,13 +452,13 @@ export default function TasksPage() {
           <div className="flex justify-between items-center px-1 mb-1 relative z-10">
             <span className="font-extrabold text-sm tracking-tight text-success-600 dark:text-success-400 flex items-center gap-1.5">
               <CheckIcon className="w-4 h-4 text-success-500" />
-              {STATUS_OPTIONS.find(o => o.code === "done")?.name}
+              {t("tasks.form.status.completed")}
             </span>
             <Chip size="sm" variant="soft" color="success">{getTasksByStatus("done").length}</Chip>
           </div>
           <div className="flex flex-col gap-3 max-h-150 overflow-y-auto pr-1 relative z-10">
             {getTasksByStatus("done").length === 0 ? (
-              <div className="text-center py-12 text-default-400 text-xs border-2 border-dashed border-default-100 rounded-xl">Chưa có việc hoàn thành</div>
+              <div className="text-center py-12 text-default-400 text-xs border-2 border-dashed border-default-100 rounded-xl">{t("tasks.noTasksCompleted")}</div>
             ) : (
               getTasksByStatus("done").map(renderTaskCard)
             )}
@@ -453,9 +469,9 @@ export default function TasksPage() {
       <ConfirmModal
         isOpen={!!deleteTaskId}
         onOpenChange={(isOpen) => !isOpen && setDeleteTaskId(null)}
-        title="Xóa công việc"
-        content="Bạn có chắc chắn muốn xóa công việc này không? Hành động này không thể hoàn tác."
-        confirmLabel="Xóa luôn"
+        title={t("tasks.deleteConfirmTitle")}
+        content={t("tasks.deleteConfirmDesc")}
+        confirmLabel={t("tasks.deleteSubmit")}
         isDanger={true}
         onConfirm={() => {
           if (deleteTaskId) {
@@ -471,7 +487,7 @@ export default function TasksPage() {
           <Modal.Dialog className="sm:max-w-md">
             <Modal.CloseTrigger />
             <Modal.Header>
-              <Modal.Heading>{editingTask ? "Chỉnh sửa công việc" : "Thêm việc mới"}</Modal.Heading>
+              <Modal.Heading>{editingTask ? t("tasks.edit") : t("tasks.add")}</Modal.Heading>
             </Modal.Header>
             <Modal.Body className="flex flex-col gap-4 py-4 w-full">
               <Form
@@ -480,105 +496,109 @@ export default function TasksPage() {
                 validationBehavior="native"
                 onSubmit={handleSubmit}
               >
-                <TextField
-                  name="title"
-                  defaultValue={editingTask ? editingTask.title : ""}
-                  isRequired
-                  className="w-full"
-                >
-                  <Label>Tên công việc</Label>
-                  <Input variant="secondary" placeholder="Nhập tên việc cần làm..." />
-                  <FieldError />
-                </TextField>
-
-                <TextField
-                  name="description"
-                  defaultValue={editingTask?.description || ""}
-                  className="w-full"
-                >
-                  <Label>Mô tả chi tiết</Label>
-                  <TextArea variant="secondary" placeholder="Ghi chú thêm thông tin chi tiết (tùy chọn)..." />
-                  <FieldError />
-                </TextField>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <Select
-                    name="priority"
-                    aria-label="Độ ưu tiên"
-                    placeholder="Độ ưu tiên"
-                    className="w-full"
-                    defaultValue={editingTask ? editingTask.priority : "medium"}
+                <div className="w-full">
+                  <TextField
+                    name="title"
+                    defaultValue={editingTask ? editingTask.title : ""}
+                    isRequired
                   >
-                    <Label>Độ ưu tiên</Label>
-                    <Select.Trigger>
-                      <Select.Value />
-                      <Select.Indicator />
-                    </Select.Trigger>
-                    <Select.Popover>
-                      <ListBox>
-                        {PRIORITY_OPTIONS.map((opt) => (
-                          <ListBox.Item key={opt.code} id={opt.code} textValue={opt.name}>
-                            <div className="flex items-center gap-2">
-                              <div className={`w-2 h-2 rounded-full bg-${opt.color}`} />
-                              <span>{opt.name}</span>
-                            </div>
-                          </ListBox.Item>
-                        ))}
-                      </ListBox>
-                    </Select.Popover>
+                    <Label>{t("tasks.form.title")}</Label>
+                    <Input variant="secondary" placeholder={t("tasks.form.titlePlaceholder")} />
                     <FieldError />
-                  </Select>
-
-                  <DatePicker
-                    name="dueDate"
-                    defaultValue={editingTask?.dueDate ? parseDate(editingTask.dueDate) : today(getLocalTimeZone())}
-                    className="w-full"
-                  >
-                    <Label>Hạn chót</Label>
-                    <DateField.Group fullWidth>
-                      <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>
-                      <DateField.Suffix>
-                        <DatePicker.Trigger>
-                          <DatePicker.TriggerIndicator />
-                        </DatePicker.Trigger>
-                      </DateField.Suffix>
-                    </DateField.Group>
-                    <FieldError />
-                    <DatePicker.Popover>
-                      <Calendar aria-label="Hạn chót">
-                        <Calendar.Header>
-                          <Calendar.YearPickerTrigger>
-                            <Calendar.YearPickerTriggerHeading />
-                            <Calendar.YearPickerTriggerIndicator />
-                          </Calendar.YearPickerTrigger>
-                          <Calendar.NavButton slot="previous" />
-                          <Calendar.NavButton slot="next" />
-                        </Calendar.Header>
-                        <Calendar.Grid>
-                          <Calendar.GridHeader>
-                            {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}
-                          </Calendar.GridHeader>
-                          <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
-                        </Calendar.Grid>
-                        <Calendar.YearPickerGrid>
-                          <Calendar.YearPickerGridBody>
-                            {({ year }) => <Calendar.YearPickerCell year={year} />}
-                          </Calendar.YearPickerGridBody>
-                        </Calendar.YearPickerGrid>
-                      </Calendar>
-                    </DatePicker.Popover>
-                  </DatePicker>
+                  </TextField>
                 </div>
 
-                <TextField
-                  name="category"
-                  defaultValue={editingTask?.category || "Công việc"}
-                  className="w-full"
-                >
-                  <Label>Danh mục</Label>
-                  <Input variant="secondary" placeholder="Ví dụ: Công việc, Học tập, Cá nhân..." />
-                  <FieldError />
-                </TextField>
+                <div className="w-full">
+                  <TextField
+                    name="description"
+                    defaultValue={editingTask?.description || ""}
+                  >
+                    <Label>{t("tasks.form.desc")}</Label>
+                    <TextArea variant="secondary" placeholder={t("tasks.form.descPlaceholder")} />
+                    <FieldError />
+                  </TextField>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="w-full">
+                    <Select
+                      name="priority"
+                      aria-label={t("tasks.form.priority.title")}
+                      placeholder={t("tasks.form.priority.title")}
+                      defaultValue={editingTask ? editingTask.priority : TASK_PRIORITY.MEDIUM}
+                    >
+                      <Label>{t("tasks.form.priority.title")}</Label>
+                      <Select.Trigger>
+                        <Select.Value />
+                        <Select.Indicator />
+                      </Select.Trigger>
+                      <Select.Popover>
+                        <ListBox>
+                          {PRIORITY_OPTIONS.map((opt) => (
+                            <ListBox.Item key={opt.code} id={opt.code} textValue={t(`tasks.form.priority.${opt.code}`)}>
+                              <Chip size="sm" variant="soft" color={opt.color}>
+                                {t(`tasks.form.priority.${opt.code}`)}
+                              </Chip>
+                            </ListBox.Item>
+                          ))}
+                        </ListBox>
+                      </Select.Popover>
+                      <FieldError />
+                    </Select>
+                  </div>
+
+                  <div className="w-full">
+                    <DatePicker
+                      name="dueDate"
+                      defaultValue={editingTask?.dueDate ? parseDate(editingTask.dueDate) : today(getLocalTimeZone())}
+                    >
+                      <Label>{t("tasks.form.dueDate")}</Label>
+                      <DateField.Group fullWidth>
+                        <DateField.Input>{(segment) => <DateField.Segment segment={segment} />}</DateField.Input>
+                        <DateField.Suffix>
+                          <DatePicker.Trigger>
+                            <DatePicker.TriggerIndicator />
+                          </DatePicker.Trigger>
+                        </DateField.Suffix>
+                      </DateField.Group>
+                      <FieldError />
+                      <DatePicker.Popover>
+                        <Calendar aria-label={t("tasks.form.dueDate")}>
+                          <Calendar.Header>
+                            <Calendar.YearPickerTrigger>
+                              <Calendar.YearPickerTriggerHeading />
+                              <Calendar.YearPickerTriggerIndicator />
+                            </Calendar.YearPickerTrigger>
+                            <Calendar.NavButton slot="previous" />
+                            <Calendar.NavButton slot="next" />
+                          </Calendar.Header>
+                          <Calendar.Grid>
+                            <Calendar.GridHeader>
+                              {(day) => <Calendar.HeaderCell>{day}</Calendar.HeaderCell>}
+                            </Calendar.GridHeader>
+                            <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
+                          </Calendar.Grid>
+                          <Calendar.YearPickerGrid>
+                            <Calendar.YearPickerGridBody>
+                              {({ year }) => <Calendar.YearPickerCell year={year} />}
+                            </Calendar.YearPickerGridBody>
+                          </Calendar.YearPickerGrid>
+                        </Calendar>
+                      </DatePicker.Popover>
+                    </DatePicker>
+                  </div>
+                </div>
+
+                <div className="w-full">
+                  <TextField
+                    name="category"
+                    defaultValue={editingTask?.category || "Công việc"}
+                  >
+                    <Label>{t("tasks.category")}</Label>
+                    <Input variant="secondary" placeholder={t("tasks.form.categoryPlaceholder")} />
+                    <FieldError />
+                  </TextField>
+                </div>
 
                 <Switch
                   name="isDaily"
@@ -589,14 +609,14 @@ export default function TasksPage() {
                     <Switch.Control>
                       <Switch.Thumb />
                     </Switch.Control>
-                    Công việc hàng ngày
+                    {t("tasks.form.isDaily")}
                   </Switch.Content>
                 </Switch>
               </Form>
             </Modal.Body>
             <Modal.Footer className="w-full">
               <Button variant="ghost" className="font-semibold text-xs text-danger" onPress={() => setIsModalOpen(false)}>
-                Hủy bỏ
+                {t("confirmModal.cancel")}
               </Button>
               <Button
                 type="submit"
@@ -604,7 +624,7 @@ export default function TasksPage() {
                 variant="primary"
               >
                 <CheckIcon className="w-4 h-4" />
-                {editingTask ? "Lưu thay đổi" : "Tạo công việc"}
+                {editingTask ? t("tasks.form.submitEdit") : t("tasks.form.submitAdd")}
               </Button>
             </Modal.Footer>
           </Modal.Dialog>
