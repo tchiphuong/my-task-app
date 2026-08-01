@@ -58,4 +58,32 @@ export const MASCOT_EMOTION = {
     NEUTRAL: "neutral",
 } as const;
 
-export type MascotEmotion = (typeof MASCOT_EMOTION)[keyof typeof MASCOT_EMOTION];
+export type MascotEmotion =
+    (typeof MASCOT_EMOTION)[keyof typeof MASCOT_EMOTION];
+
+export const MASCOT_STATUS = {
+    IN_PROGRESS: "inProgress",
+    OVERDUE: "overdue",
+    NO_TASKS: "noTasks",
+    ALL_DONE: "allDone",
+} as const;
+
+export const DATE_FORMATS = {
+    DATE: "yyyy-MM-dd",
+    WEEKDAY: "EEEEEE",
+    DISPLAY: "eeee, 'ngày' dd/MM/yyyy",
+    MONTH: "yyyy-MM",
+    MONTH_DISPLAY: "MM/yyyy",
+    SHORT_DISPLAY: "dd/MM/yyyy",
+    DATETIME_DISPLAY: "dd/MM/yyyy HH:mm",
+    DAY_ONLY: "dd",
+} as const;
+
+export const FILTER_ALL = "all";
+
+export const NOTIFICATION_TYPE = {
+    INFO: "info",
+    WARNING: "warning",
+    SUCCESS: "success",
+    OVERDUE: "overdue",
+} as const;

@@ -2,18 +2,19 @@
 
 **Document ID**: RN-1.1.0  
 **Release Date**: August 2026  
-**Product**: My Task App  
+**Product**: My Task App
 
 ### Các tính năng mới & Cải tiến:
+
 1. **Lập kế hoạch chia sẻ (Shared Planning)**:
-   - Cho phép gửi lời mời kết nối chia sẻ không gian kế hoạch công việc giữa các thành viên.
-   - Hỗ trợ chuyển đổi mượt mà giữa không gian "Cá nhân" và không gian "Chung" trực tiếp trên giao diện của các trang Tasks và Daily.
-   - Đồng bộ hóa các thay đổi công việc, trạng thái và tiến độ theo thời gian thực (real-time) thông qua cơ chế lắng nghe sự kiện Firestore.
+    - Cho phép gửi lời mời kết nối chia sẻ không gian kế hoạch công việc giữa các thành viên.
+    - Hỗ trợ chuyển đổi mượt mà giữa không gian "Cá nhân" và không gian "Chung" trực tiếp trên giao diện của các trang Tasks và Daily.
+    - Đồng bộ hóa các thay đổi công việc, trạng thái và tiến độ theo thời gian thực (real-time) thông qua cơ chế lắng nghe sự kiện Firestore.
 2. **Định danh chuẩn GUID v7**:
-   - Tích hợp bộ sinh ID GUID v7 (UUID v7) tự viết, sắp xếp theo thời gian thực (time-ordered).
-   - Áp dụng GUID v7 cho tất cả các loại ID thực thể (Nhiệm vụ, Lời mời, Không gian chia sẻ chung) để nâng cao bảo mật và hiệu năng sắp xếp dữ liệu.
+    - Tích hợp bộ sinh ID GUID v7 (UUID v7) tự viết, sắp xếp theo thời gian thực (time-ordered).
+    - Áp dụng GUID v7 cho tất cả các loại ID thực thể (Nhiệm vụ, Lời mời, Không gian chia sẻ chung) để nâng cao bảo mật và hiệu năng sắp xếp dữ liệu.
 3. **Mock giả lập cho chế độ khách (Offline/Guest)**:
-   - Hỗ trợ giả lập kết nối và hiển thị dữ liệu mẫu khi người dùng sử dụng ở chế độ khách (Guest) offline, tạo điều kiện thuận lợi cho việc kiểm thử tự động.
+    - Hỗ trợ giả lập kết nối và hiển thị dữ liệu mẫu khi người dùng sử dụng ở chế độ khách (Guest) offline, tạo điều kiện thuận lợi cho việc kiểm thử tự động.
 
 ---
 
@@ -21,7 +22,7 @@
 
 **Document ID**: RN-1.0.0  
 **Release Date**: August 2026  
-**Product**: My Task App  
+**Product**: My Task App
 
 This document details the features, technical implementations, and core requirement fulfillments for the initial release (v1.0.0) of My Task App.
 
@@ -42,23 +43,29 @@ The application successfully delivers 5 out of 5 (100% Completion Rate) of the m
 ## II. Technical Highlights & UI/UX Innovations
 
 ### 1. Architectural UI/UX & Kinetic Animations
+
 - **HeroUI Integration**: The entire visual layer is constructed using enterprise-grade components from HeroUI (Cards, Modals, Buttons, Chips) unified by Tailwind CSS utility classes.
 - **Fluid Navigation**: The mobile Bottom Navigation paradigm implements `framer-motion` (`layoutId`) for kinetic slide transitions, delivering a premium, native-app tactile experience.
 
 ### 2. Cloud Data Synchronization (Firebase)
+
 - **Cloud Firestore Integration**: All entities (Tasks, Habits, User Profiles) are securely persisted and synchronized in real-time utilizing Firebase Cloud Firestore.
 - **Offline-First Resilience**: Engineered with `Zustand` for localized state management, ensuring immediate UI responsiveness (zero latency). Background synchronization protocols guarantee data integrity even when crossing network boundaries or clearing browser cache.
 
 ### 3. Responsive Paradigm: "Grid Desktop, Column Mobile"
+
 Strict adherence to a responsive structural paradigm to maximize screen real estate across viewports:
+
 - **Tasks Module**: Renders a multi-column Kanban grid (`grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4`) on large displays, dynamically reflowing into a single-column layout on mobile.
-- **Daily Module**: 
-  - **7-Day Retrospective**: Implements a horizontal scrolling container (`overflow-x-auto`) with concealed scrollbars and abbreviated labels on mobile viewports. Reverts to a standard 7-column grid on desktop.
-  - **Habit Roster**: Maximizes width by utilizing a 2-column grid (`sm:grid-cols-2`) on desktop environments.
+- **Daily Module**:
+    - **7-Day Retrospective**: Implements a horizontal scrolling container (`overflow-x-auto`) with concealed scrollbars and abbreviated labels on mobile viewports. Reverts to a standard 7-column grid on desktop.
+    - **Habit Roster**: Maximizes width by utilizing a 2-column grid (`sm:grid-cols-2`) on desktop environments.
 - **Dashboard Module**: Urgent task widgets are arranged in a 2-column grid (`sm:grid-cols-2`) on wider screens to prevent spatial waste.
 
 ### 4. Safety Protocols & Data Validation
+
 - **Destructive Action Interception**: All critical data deletion sequences (Tasks, Habits) are gated by a mandatory `<ConfirmModal>`, effectively eliminating accidental data loss.
 
 ### 5. Repository Optimization
+
 - **Git Hygiene**: Strict `.gitignore` configurations enforce the exclusion of test evidence directories (`docs/evidence/`), maintaining a lightweight and pristine source code repository.

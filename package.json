@@ -6,7 +6,8 @@
     "dev": "next dev -p 8080",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -40,6 +41,8 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.12",
     "eslint-plugin-simple-import-sort": "^14.0.0",
+    "prettier": "^3.9.6",
+    "prettier-plugin-sort-json": "^4.2.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

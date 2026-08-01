@@ -2,9 +2,10 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": "explicit"
     },
-    "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.fontFamily": "'Victor Mono', Consolas, 'Courier New', monospace",
     "editor.fontLigatures": true,
+    "editor.formatOnSave": true,
     "editor.tokenColorCustomizations": {
         "textMateRules": [
             {
@@ -23,5 +24,11 @@
                 }
             }
         ]
-    }
+    },
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact"
+    ]
 }

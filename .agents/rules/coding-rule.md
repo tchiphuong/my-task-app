@@ -7,7 +7,7 @@ glob: "**/*.{ts,tsx,js,jsx,css}"
 
 # 1. Tailwind CSS Standards (TUYỆT ĐỐI TUÂN THỦ)
 
-- **KHÔNG dùng Arbitrary Values (Giá trị tuỳ tiện)**: Tuyệt đối KHÔNG sử dụng các giá trị cứng tự chế chèn thẳng vào class (ví dụ: `text-[10px]`, `text-[9px]`, `w-[15px]`, `h-[30px]`, `shadow-[...]`). 
+- **KHÔNG dùng Arbitrary Values (Giá trị tuỳ tiện)**: Tuyệt đối KHÔNG sử dụng các giá trị cứng tự chế chèn thẳng vào class (ví dụ: `text-[10px]`, `text-[9px]`, `w-[15px]`, `h-[30px]`, `shadow-[...]`).
 - **Chỉ dùng class chuẩn**: Bắt buộc phải sử dụng các class tiện ích (utility classes) tiêu chuẩn mặc định của Tailwind (như `text-xs`, `text-sm`, `w-4`, `h-8`, `shadow-md`, `shadow-2xl`).
 - **Spacing & Layout**: Luôn bám sát hệ thống spacing và grid của Tailwind.
 

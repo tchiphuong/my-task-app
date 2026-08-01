@@ -16,10 +16,10 @@ A modern, highly responsive task management web application engineered for maxim
 - **State Management**: Zustand (with Persist Middleware for Offline-first capabilities)
 - **Database & Sync**: Firebase Cloud Firestore (Real-time synchronization)
 - **UI Architecture**:
-  - **HeroUI** (formerly NextUI) Component Library
-  - **Tailwind CSS** for utility-first atomic styling
-  - **Framer Motion** for fluid layout transitions and micro-interactions
-  - **Lucide React** & **Heroicons** for SVG iconography
+    - **HeroUI** (formerly NextUI) Component Library
+    - **Tailwind CSS** for utility-first atomic styling
+    - **Framer Motion** for fluid layout transitions and micro-interactions
+    - **Lucide React** & **Heroicons** for SVG iconography
 - **Charting**: Recharts for performance analytics
 - **Date Utility**: date-fns for locale-aware time calculations
 

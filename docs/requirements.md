@@ -11,4 +11,4 @@ Dưới đây là danh sách các yêu cầu cốt lõi (tính năng bắt buộ
 6. **Lập kế hoạch chung**: Kết nối chia sẻ không gian kế hoạch chung giữa các tài khoản, đồng bộ hóa công việc và trạng thái hoàn thành theo thời gian thực.
 7. **Định danh GUID v7**: Sử dụng mã định danh GUID v7 (time-ordered) làm chuẩn bảo mật và sắp xếp ID cho toàn bộ các thực thể trong hệ thống.
 
-*(Ghi chú được cập nhật theo yêu cầu người dùng)*
+_(Ghi chú được cập nhật theo yêu cầu người dùng)_

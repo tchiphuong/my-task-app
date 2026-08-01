@@ -31,7 +31,8 @@ const googleProvider = new GoogleAuthProvider();
 // Chỉ khởi tạo Firebase trên client-side và khi cấu hình hợp lệ
 if (typeof window !== "undefined" && isFirebaseConfigured) {
     try {
-        tempApp = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+        tempApp =
+            getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 
         // Khởi tạo Firestore với tính năng Offline Persistence thế hệ mới của Firebase SDK v10+
         tempDb = initializeFirestore(tempApp, {
