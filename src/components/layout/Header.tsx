@@ -18,6 +18,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { useTaskStore } from "@/store/useTaskStore";
 
@@ -25,6 +26,7 @@ import InstallAppModal from "../ui/InstallAppModal";
 import NotificationCenter from "./NotificationCenter";
 
 export default function Header() {
+  const { t } = useTranslation();
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
   const user = useTaskStore((state) => state.user);
@@ -42,7 +44,7 @@ export default function Header() {
     return (
       <header className="h-16 border-b border-default-100 flex items-center justify-between md:justify-end px-4 md:px-6 sticky top-0 bg-background/70 backdrop-blur-md z-40">
         <div className="md:hidden">
-          <p className="font-bold text-lg">My Task App</p>
+          <p className="font-bold text-lg">{t("appName")}</p>
         </div>
       </header>
     );
@@ -70,7 +72,7 @@ export default function Header() {
       <header className="h-16 border-b border-default-100 flex items-center justify-between md:justify-end px-4 md:px-6 sticky top-0 bg-background/70 backdrop-blur-md z-40">
         <div className="md:hidden">
           <span className="font-extrabold text-transparent bg-clip-text bg-linear-to-r from-primary-500 to-secondary-500 text-lg md:text-xl tracking-tight">
-            My Task App
+            {t("appName")}
           </span>
         </div>
 
@@ -82,14 +84,14 @@ export default function Header() {
             ) : (
               <FireOutline className="w-4 h-4" />
             )}
-            <Chip.Label>{streakCount} ngày</Chip.Label>
+            <Chip.Label>{t("streak", { count: streakCount })}</Chip.Label>
           </Chip>
 
           {/* Theme Toggle */}
           <Button
             isIconOnly
             variant="ghost"
-            aria-label="Đổi theme"
+            aria-label={t("themeToggle")}
             onPress={() => setTheme(theme === "dark" ? "light" : "dark")}
           >
             {theme === "dark" ? (
@@ -113,36 +115,39 @@ export default function Header() {
               </Button>
               <Dropdown.Popover>
                 <Dropdown.Menu onAction={handleDropdownAction}>
-                  <Dropdown.Item id="profile" textValue="Thông tin tài khoản" className="h-14 gap-2">
-                    <div className="flex flex-col gap-0.5 text-left">
+                  <Dropdown.Item id="profile" textValue={t("menu.profile")}>
+                    <div className="flex flex-col gap-0.5 text-left h-14 justify-center">
                       <span className="font-semibold text-sm text-default-900 truncate">{user.name}</span>
                       <span className="font-medium text-xs text-default-500 truncate">{user.email}</span>
                     </div>
                   </Dropdown.Item>
                   <Dropdown.Item
                     id="dashboard"
-                    textValue="Bảng điều khiển"
-                    className="gap-2"
+                    textValue={t("menu.dashboard")}
                   >
-                    <Squares2X2Icon className="w-4 h-4" />
-                    <Label>Bảng điều khiển</Label>
+                    <div className="flex items-center gap-2">
+                      <Squares2X2Icon className="w-4 h-4" />
+                      <Label>{t("menu.dashboard")}</Label>
+                    </div>
                   </Dropdown.Item>
                   <Dropdown.Item
                     id="install"
-                    textValue="Tải ứng dụng"
-                    className="gap-2"
+                    textValue={t("menu.install")}
                   >
-                    <ArrowUpTrayIcon className="w-4 h-4" />
-                    <Label>Tải ứng dụng</Label>
+                    <div className="flex items-center gap-2">
+                      <ArrowUpTrayIcon className="w-4 h-4" />
+                      <Label>{t("menu.install")}</Label>
+                    </div>
                   </Dropdown.Item>
                   <Dropdown.Item
                     id="logout"
                     variant="danger"
-                    textValue="Đăng xuất"
-                    className="text-danger gap-2"
+                    textValue={t("menu.logout")}
                   >
-                    <ArrowRightStartOnRectangleIcon className="w-4 h-4" />
-                    <Label>Đăng xuất</Label>
+                    <div className="flex items-center gap-2 text-danger">
+                      <ArrowRightStartOnRectangleIcon className="w-4 h-4" />
+                      <Label className="text-danger">{t("menu.logout")}</Label>
+                    </div>
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown.Popover>
@@ -153,7 +158,7 @@ export default function Header() {
               variant="secondary"
               onPress={() => router.push("/auth/login")}
             >
-              Đăng nhập
+              {t("menu.login")}
             </Button>
           )}
         </div>

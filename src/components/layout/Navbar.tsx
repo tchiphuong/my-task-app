@@ -15,29 +15,30 @@ import {
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 // Danh sách menu điều hướng
 const navItems = [
   {
-    name: "Tổng quan",
+    translationKey: "menu.dashboard",
     path: "/dashboard",
     iconOutline: DashboardOutline,
     iconSolid: DashboardSolid,
   },
   {
-    name: "Công việc",
+    translationKey: "menu.tasks",
     path: "/tasks",
     iconOutline: TasksOutline,
     iconSolid: TasksSolid,
   },
   {
-    name: "Mỗi ngày",
+    translationKey: "menu.daily",
     path: "/daily",
     iconOutline: DailyOutline,
     iconSolid: DailySolid,
   },
   {
-    name: "Báo cáo",
+    translationKey: "menu.reports",
     path: "/reports",
     iconOutline: ReportsOutline,
     iconSolid: ReportsSolid,
@@ -46,6 +47,7 @@ const navItems = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { t } = useTranslation();
 
   const isActive = (path: string) => pathname.startsWith(path);
 
@@ -74,7 +76,7 @@ export default function Navbar() {
                 <div className="relative z-10 flex flex-col items-center justify-center">
                   <Icon className={`w-5 h-5 transition-transform duration-300 ${active ? "scale-110 text-primary" : "text-default-400 group-hover:text-default-500"}`} />
                   <span className={`text-xs mt-1 tracking-tight font-medium transition-colors duration-300 ${active ? "text-primary font-bold" : "text-default-400 group-hover:text-default-500"}`}>
-                    {item.name}
+                    {t(item.translationKey)}
                   </span>
                 </div>
               </Link>
@@ -88,7 +90,7 @@ export default function Navbar() {
         {/* Logo Brand */}
         <div className="h-16 flex items-center px-4 mb-6 border-b border-default-100/50">
           <span className="font-black text-transparent bg-clip-text bg-linear-to-r from-primary-500 to-accent text-xl tracking-tight">
-            My Task App
+            {t("appName")}
           </span>
         </div>
 
@@ -108,7 +110,7 @@ export default function Navbar() {
               >
                 <Icon className={`w-5 h-5 transition-transform duration-200 ${active ? "text-primary scale-105" : "text-default-400"
                   }`} />
-                <span>{item.name}</span>
+                <span>{t(item.translationKey)}</span>
                 {active && (
                   <span className="ml-auto w-1.5 h-1.5 bg-primary rounded-full" />
                 )}

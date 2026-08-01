@@ -5,6 +5,7 @@ import {
   EllipsisVerticalIcon,
 } from "@heroicons/react/24/outline";
 import { Button, Modal } from "@heroui/react";
+import { useTranslation } from "react-i18next";
 
 interface InstallAppModalProps {
   readonly isOpen: boolean;
@@ -15,56 +16,60 @@ export default function InstallAppModal({
   isOpen,
   onOpenChange,
 }: InstallAppModalProps) {
+  const { t } = useTranslation();
+
   return (
     <Modal>
       <Modal.Backdrop isOpen={isOpen} onOpenChange={onOpenChange}>
-        <Modal.Container>
-          <Modal.Dialog className="sm:max-w-md">
+        <Modal.Container size="md">
+          <Modal.Dialog>
             <Modal.Header>
-              <Modal.Heading className="text-xl font-bold">Cài đặt ứng dụng</Modal.Heading>
+              <Modal.Heading>{t("installModal.title")}</Modal.Heading>
             </Modal.Header>
-            <Modal.Body className="py-4 gap-6">
-              <p className="text-sm font-normal text-default-500 -mt-2 mb-2">
-                Thêm My Task App vào màn hình chính để trải nghiệm mượt mà như app gốc.
-              </p>
+            <Modal.Body>
+              <div className="flex flex-col gap-6 py-4">
+                <p className="text-sm font-normal text-default-500 -mt-2 mb-2">
+                  {t("installModal.desc")}
+                </p>
 
-              {/* iOS Safari */}
-              <div className="flex gap-4 items-start">
-                <div className="shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                  <ArrowUpTrayIcon className="w-5 h-5" />
+                {/* iOS Safari */}
+                <div className="flex gap-4 items-start">
+                  <div className="shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                    <ArrowUpTrayIcon className="w-5 h-5" />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <h3 className="font-semibold text-foreground">
+                      {t("installModal.iosTitle")}
+                    </h3>
+                    <p className="text-sm text-default-500 leading-relaxed">
+                      {t("installModal.iosStep1")}
+                      <br />
+                      {t("installModal.iosStep2")}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex flex-col gap-1">
-                  <h3 className="font-semibold text-foreground">
-                    Trên iPhone / iPad (Safari)
-                  </h3>
-                  <p className="text-sm text-default-500 leading-relaxed">
-                    1. Bấm vào biểu tượng <strong>Chia sẻ (Share)</strong> ở thanh công cụ phía dưới màn hình.
-                    <br />
-                    2. Chọn <strong>Thêm vào MH chính</strong> (Add to Home Screen).
-                  </p>
-                </div>
-              </div>
 
-              {/* Android Chrome */}
-              <div className="flex gap-4 items-start">
-                <div className="shrink-0 w-10 h-10 rounded-full bg-success/10 flex items-center justify-center text-success">
-                  <EllipsisVerticalIcon className="w-5 h-5" />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <h3 className="font-semibold text-foreground">
-                    Trên Android (Chrome)
-                  </h3>
-                  <p className="text-sm text-default-500 leading-relaxed">
-                    1. Bấm vào biểu tượng <strong>3 chấm</strong> ở góc trên bên phải trình duyệt.
-                    <br />
-                    2. Chọn <strong>Cài đặt ứng dụng</strong> (Install app) hoặc <strong>Thêm vào MH chính</strong>.
-                  </p>
+                {/* Android Chrome */}
+                <div className="flex gap-4 items-start">
+                  <div className="shrink-0 w-10 h-10 rounded-full bg-success/10 flex items-center justify-center text-success">
+                    <EllipsisVerticalIcon className="w-5 h-5" />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <h3 className="font-semibold text-foreground">
+                      {t("installModal.androidTitle")}
+                    </h3>
+                    <p className="text-sm text-default-500 leading-relaxed">
+                      {t("installModal.androidStep1")}
+                      <br />
+                      {t("installModal.androidStep2")}
+                    </p>
+                  </div>
                 </div>
               </div>
             </Modal.Body>
             <Modal.Footer>
-              <Button slot="close" variant="secondary" className="w-full">
-                Đã hiểu
+              <Button slot="close" variant="secondary" fullWidth>
+                {t("installModal.understand")}
               </Button>
             </Modal.Footer>
           </Modal.Dialog>

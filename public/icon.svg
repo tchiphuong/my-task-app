@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <!-- Pink glass background -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF9ACF"/>
+      <stop offset="100%" stop-color="#FF4FA3"/>
+    </linearGradient>
+
+    <!-- Glass -->
+    <linearGradient id="glass" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.70"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.18"/>
+    </linearGradient>
+
+    <linearGradient id="tick" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF2E88"/>
+      <stop offset="100%" stop-color="#FF5DAE"/>
+    </linearGradient>
+
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="#B5176B" flood-opacity="0.25"/>
+    </filter>
+
+    <filter id="blur">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect
+    x="24"
+    y="24"
+    width="464"
+    height="464"
+    rx="120"
+    fill="url(#bg)"
+  />
+
+  <!-- Glass glow -->
+  <ellipse
+    cx="180"
+    cy="120"
+    rx="140"
+    ry="70"
+    fill="#fff"
+    opacity="0.22"
+    filter="url(#blur)"
+  />
+
+  <!-- Glass panel -->
+  <g filter="url(#shadow)">
+    <rect
+      x="86"
+      y="86"
+      width="340"
+      height="340"
+      rx="82"
+      fill="url(#glass)"
+      stroke="rgba(255,255,255,.7)"
+      stroke-width="3"
+    />
+
+    <!-- Highlight -->
+    <path
+      d="M118 118
+         C170 82 310 82 392 120"
+      fill="none"
+      stroke="#fff"
+      stroke-width="12"
+      stroke-linecap="round"
+      opacity=".65"/>
+
+    <!-- Checklist -->
+    <circle cx="160" cy="180" r="10" fill="#FF5AA8"/>
+    <circle cx="160" cy="235" r="10" fill="#FF5AA8"/>
+    <circle cx="160" cy="290" r="10" fill="#FF5AA8"/>
+
+    <rect x="185" y="172" width="70" height="8" rx="4" fill="#FFD3E7"/>
+    <rect x="185" y="227" width="55" height="8" rx="4" fill="#FFD3E7"/>
+
+    <!-- Check -->
+    <path
+      d="M190 278
+         L240 325
+         L330 215"
+      fill="none"
+      stroke="url(#tick)"
+      stroke-width="26"
+      stroke-linecap="round"
+      stroke-linejoin="round"/>
+  </g>
+</svg>

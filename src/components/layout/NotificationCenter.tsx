@@ -9,10 +9,12 @@ import {
 import { BellIcon as BellSolid } from "@heroicons/react/24/solid";
 import { Badge, Button, Popover, ScrollShadow } from "@heroui/react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { useTaskStore } from "@/store/useTaskStore";
 
 export default function NotificationCenter() {
+  const { t } = useTranslation();
   const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const account = useTaskStore((state) => state.getCurrentAccount());
@@ -66,13 +68,13 @@ export default function NotificationCenter() {
     const diffDays = Math.floor(diffHours / 24);
 
     if (diffDays > 0) {
-      return `${diffDays} ngày trước`;
+      return t("notifications.time.daysAgo", { count: diffDays });
     } else if (diffHours > 0) {
-      return `${diffHours} giờ trước`;
+      return t("notifications.time.hoursAgo", { count: diffHours });
     } else if (diffMins > 0) {
-      return `${diffMins} phút trước`;
+      return t("notifications.time.minsAgo", { count: diffMins });
     } else {
-      return "vài phút trước";
+      return t("notifications.time.justNow");
     }
   };
 
@@ -90,8 +92,7 @@ export default function NotificationCenter() {
           <Button
             isIconOnly
             variant="ghost"
-            className="rounded-full w-9 h-9 min-w-0"
-            aria-label="Thông báo"
+            aria-label={t("notifications.title")}
           >
             {getBellIcon()}
           </Button>
@@ -103,8 +104,7 @@ export default function NotificationCenter() {
         <Button
           isIconOnly
           variant="ghost"
-          className="rounded-full w-9 h-9 min-w-0"
-          aria-label="Thông báo"
+          aria-label={t("notifications.title")}
         >
           {getBellIcon()}
         </Button>
@@ -112,10 +112,10 @@ export default function NotificationCenter() {
 
       <Popover.Content placement="bottom end" offset={10} className="w-90 p-0 max-h-120">
         <Popover.Dialog className="p-0">
-          <Popover.Heading className="sr-only">Thông báo</Popover.Heading>
+          <Popover.Heading className="sr-only">{t("notifications.title")}</Popover.Heading>
 
           <div className="flex items-center justify-between px-4 py-3 border-b border-default-100 w-full bg-default-50 dark:bg-default-100/50 rounded-t-lg">
-            <span className="font-semibold text-sm">Thông báo của bạn</span>
+            <span className="font-semibold text-sm">{t("notifications.header")}</span>
             {unreadCount > 0 && (
               <Button
                 size="sm"
@@ -123,7 +123,7 @@ export default function NotificationCenter() {
                 className="text-xs h-7 px-2 min-w-0 font-bold text-primary"
                 onPress={markAllNotificationsAsRead}
               >
-                Đọc tất cả
+                {t("notifications.readAll")}
               </Button>
             )}
           </div>
@@ -132,7 +132,7 @@ export default function NotificationCenter() {
             {notifications.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-10 px-4 text-center">
                 <BellOutline className="w-12 h-12 text-default-300 mb-2" />
-                <p className="text-default-500 text-sm">Chưa có thông báo nào.</p>
+                <p className="text-default-500 text-sm">{t("notifications.empty")}</p>
               </div>
             ) : (
               <div className="flex flex-col w-full divide-y divide-default-100">

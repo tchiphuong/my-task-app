@@ -1,5 +1,7 @@
 "use client";
 
+import "@/i18n";
+
 import { ToastProvider } from "@heroui/react";
 import { I18nProvider } from "@react-aria/i18n";
 import { ThemeProvider as NextThemesProvider } from "next-themes";

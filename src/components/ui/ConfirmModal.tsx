@@ -1,4 +1,5 @@
 import { Button, Modal } from "@heroui/react";
+import { useTranslation } from "react-i18next";
 
 interface ConfirmModalProps {
   readonly isOpen: boolean;
@@ -14,27 +15,32 @@ interface ConfirmModalProps {
 export function ConfirmModal({
   isOpen,
   onOpenChange,
-  title = "Xác nhận",
+  title,
   content,
-  confirmLabel = "Xác nhận",
-  cancelLabel = "Hủy",
+  confirmLabel,
+  cancelLabel,
   onConfirm,
   isDanger = false
 }: ConfirmModalProps) {
+  const { t } = useTranslation();
+  const displayTitle = title ?? t("confirmModal.defaultTitle");
+  const displayConfirmLabel = confirmLabel ?? t("confirmModal.confirm");
+  const displayCancelLabel = cancelLabel ?? t("confirmModal.cancel");
+
   return (
     <Modal>
       <Modal.Backdrop isOpen={isOpen} onOpenChange={onOpenChange}>
-        <Modal.Container>
-          <Modal.Dialog className="sm:max-w-100">
+        <Modal.Container size="sm">
+          <Modal.Dialog>
             <Modal.Header>
-              <Modal.Heading>{title}</Modal.Heading>
+              <Modal.Heading>{displayTitle}</Modal.Heading>
             </Modal.Header>
             <Modal.Body>
               <p className="text-sm text-default-600">{content}</p>
             </Modal.Body>
             <Modal.Footer>
               <Button slot="close" variant="secondary">
-                {cancelLabel}
+                {displayCancelLabel}
               </Button>
               <Button
                 slot="close"
@@ -43,7 +49,7 @@ export function ConfirmModal({
                   onConfirm();
                 }}
               >
-                {confirmLabel}
+                {displayConfirmLabel}
               </Button>
             </Modal.Footer>
           </Modal.Dialog>
