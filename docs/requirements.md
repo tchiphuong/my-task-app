@@ -8,4 +8,7 @@ Dưới đây là danh sách các yêu cầu cốt lõi (tính năng bắt buộ
 4. **Báo cáo tiến độ**: Thống kê nhanh tiến trình hoàn thành công việc theo thời gian thực.
 5. **Báo cáo tổng 1 tháng**: Tổng hợp dữ liệu, đánh giá năng suất và xuất báo cáo trong chu kỳ 1 tháng.
 
-*(Ghi chú được tạo theo yêu cầu người dùng)*
+6. **Lập kế hoạch chung**: Kết nối chia sẻ không gian kế hoạch chung giữa các tài khoản, đồng bộ hóa công việc và trạng thái hoàn thành theo thời gian thực.
+7. **Định danh GUID v7**: Sử dụng mã định danh GUID v7 (time-ordered) làm chuẩn bảo mật và sắp xếp ID cho toàn bộ các thực thể trong hệ thống.
+
+*(Ghi chú được cập nhật theo yêu cầu người dùng)*

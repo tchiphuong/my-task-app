@@ -1,10 +1,14 @@
 "use client";
 
-import { ArrowUpTrayIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Button } from "@heroui/react";
+import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
+import { CloseButton } from "@heroui/react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+
+import { AppCard as Card } from "@/components/common/AppCard";
 
 export default function IosInstallPrompt() {
+  const { t } = useTranslation();
   const [showPrompt, setShowPrompt] = useState(false);
 
   useEffect(() => {
@@ -37,28 +41,25 @@ export default function IosInstallPrompt() {
 
   return (
     <div className="fixed bottom-6 left-0 right-0 z-50 px-4 flex justify-center animate-appearance-in">
-      <div className="w-full max-w-sm shadow-xl border border-default-200 bg-background/95 backdrop-blur-md rounded-2xl">
-        <div className="px-4 py-3 relative">
-          <Button
-            isIconOnly
-            size="sm"
-            variant="ghost"
-            className="absolute right-2 top-2 z-10 text-default-400 border-none hover:bg-default-100 rounded-full"
-            onPress={handleDismiss}
-          >
-            <XMarkIcon className="w-4 h-4" />
-          </Button>
-          
-          <div className="flex flex-col gap-2 pr-6">
-            <p className="text-sm font-semibold text-foreground">
-              Cài đặt ứng dụng vào máy
-            </p>
-            <p className="text-xs text-default-500 leading-relaxed">
-              Trải nghiệm mượt mà như app gốc! Hãy bấm biểu tượng <ArrowUpTrayIcon className="inline w-4 h-4 text-primary mx-0.5 -mt-1" /> ở dưới thanh công cụ Safari, sau đó chọn <strong>Thêm vào MH chính (Add to Home Screen)</strong>.
-            </p>
+      <div className="w-full max-w-sm">
+        <Card className="relative p-0">
+          <div className="absolute right-2 top-3 z-10">
+            <CloseButton onPress={handleDismiss} />
           </div>
-        </div>
+          <Card.Header className="flex flex-col gap-1 p-5">
+            <h3 className="font-semibold text-small">
+              {t("iosPrompt.title")}
+            </h3>
+            <p className="text-xs text-default-500 leading-relaxed pr-6">
+              {t("iosPrompt.descStart")}
+              <ArrowUpTrayIcon className="inline w-4 h-4 text-primary mx-0.5" />
+              {t("iosPrompt.descEnd")}
+              <strong>{t("iosPrompt.descAction")}</strong>.
+            </p>
+          </Card.Header>
+        </Card>
       </div>
     </div>
+
   );
 }

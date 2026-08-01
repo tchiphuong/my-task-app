@@ -1,20 +1,55 @@
-import { Card, CardProps } from "@heroui/react";
+import { HTMLAttributes, ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
-export const AppCard = (props: CardProps) => {
+export interface AppCardProps extends HTMLAttributes<HTMLDivElement> {
+  children: ReactNode;
+}
+
+const CardBase = ({ children, className, ...props }: AppCardProps) => {
   return (
-    <Card 
-      {...props} 
+    <div 
       className={twMerge(
-        "shadow-lg shadow-default-100/50 border border-default-200/50 bg-background/50 backdrop-blur-xl transition-all duration-300",
-        props.className
+        "rounded-2xl border border-default-200/50 bg-background/50 backdrop-blur-xl shadow-lg shadow-default-100/50 transition-all duration-300",
+        className
       )}
+      {...props}
     >
-      {props.children}
-    </Card>
+      {children}
+    </div>
   );
 };
 
-AppCard.Header = Card.Header;
-AppCard.Content = Card.Content;
-AppCard.Footer = Card.Footer;
+const CardHeader = ({ children, className, ...props }: HTMLAttributes<HTMLDivElement>) => {
+  return (
+    <div className={twMerge("flex flex-col gap-1.5 p-5", className)} {...props}>
+      {children}
+    </div>
+  );
+};
+CardHeader.displayName = "AppCard.Header";
+
+const CardContent = ({ children, className, ...props }: HTMLAttributes<HTMLDivElement>) => {
+  return (
+    <div className={twMerge("p-5 pt-0", className)} {...props}>
+      {children}
+    </div>
+  );
+};
+CardContent.displayName = "AppCard.Content";
+
+const CardFooter = ({ children, className, ...props }: HTMLAttributes<HTMLDivElement>) => {
+  return (
+    <div className={twMerge("flex items-center p-5 pt-0", className)} {...props}>
+      {children}
+    </div>
+  );
+};
+CardFooter.displayName = "AppCard.Footer";
+
+export const AppCard = Object.assign(CardBase, {
+  Header: CardHeader,
+  Content: CardContent,
+  Footer: CardFooter,
+});
+
+

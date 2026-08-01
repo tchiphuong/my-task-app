@@ -37,3 +37,9 @@ The application leverages **HeroUI** (`@heroui/react`) to accelerate development
   * To mitigate visual fatigue, statistical and summary cards should include subtle geometric background decorations.
   * **Implementation**: The parent container must have `relative overflow-hidden`. The decorative element is absolutely positioned: `<div className="absolute -bottom-6 -right-6 h-28 w-28 rounded-full opacity-10 bg-[contextual-color] pointer-events-none"></div>`.
   * **Constraint**: Decorative backgrounds must not stack or conflict with internal component backgrounds to preserve visual clarity.
+
+## 5. Data Architecture & Identity Standard
+* **GUID v7 Standard**: Ứng dụng bắt buộc sử dụng định danh **GUID v7 (UUID v7)** cho tất cả các bản ghi dữ liệu (Nhiệm vụ, Lời mời kết nối, Không gian chia sẻ).
+* **Time-ordered Sorting**: Bản chất của GUID v7 là chứa thông tin thời gian (timestamp 48-bit) ở đầu chuỗi. Điều này giúp tối ưu hóa hiệu năng truy vấn, lưu trữ và tự động sắp xếp dữ liệu theo thời gian tạo mà không cần tải thêm gánh nặng cho index database.
+* **Format**: Chuỗi 36 ký tự phân tách bởi dấu gạch ngang (ví dụ: `018fbcab-3400-7zzz-8zzz-random...`).
+
