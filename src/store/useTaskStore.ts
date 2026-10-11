@@ -421,6 +421,8 @@ export const useTaskStore = create<TaskStore>()(
                                     priority: data.priority,
                                     category: data.category,
                                     dueDate: data.dueDate,
+                                    startDate: data.startDate,
+                                    repeat: data.repeat,
                                     isDaily: data.isDaily,
                                     completedDates: data.completedDates,
                                     createdAt: data.createdAt,
@@ -505,9 +507,12 @@ export const useTaskStore = create<TaskStore>()(
                 addTask: async (taskData) => {
                     const email = getActiveEmail();
                     const isDaily =
-                        (taskData.repeat &&
-                            taskData.repeat !== REPEAT_TYPE.NONE) ||
-                        Boolean(taskData.isDaily);
+                        taskData.isDaily !== undefined
+                            ? Boolean(taskData.isDaily)
+                            : Boolean(
+                                  taskData.repeat &&
+                                  taskData.repeat !== REPEAT_TYPE.NONE,
+                              );
                     const completedAt =
                         taskData.status === TASK_STATUS.DONE
                             ? new Date().toISOString()
@@ -519,6 +524,33 @@ export const useTaskStore = create<TaskStore>()(
                         completedAt: completedAt || null,
                     };
 
+                    const tempId = generateUniqueId();
+                    const createdAt = new Date().toISOString();
+                    const newTask: Task = {
+                        ...finalData,
+                        id: tempId,
+                        createdAt,
+                        completedDates: isDaily ? [] : undefined,
+                        completedAt,
+                    };
+
+                    // 1. Optimistic Update ngay lập tức vào Zustand store để giao diện phản hồi tức thì
+                    set((state) => {
+                        const account = state.accounts[email] || {
+                            ...initialAccountData,
+                        };
+                        return {
+                            accounts: {
+                                ...state.accounts,
+                                [email]: {
+                                    ...account,
+                                    tasks: [newTask, ...account.tasks],
+                                },
+                            },
+                        };
+                    });
+
+                    // 2. Đồng bộ ngầm lên Firestore nếu đã đăng nhập tài khoản
                     if (isFirebaseConfigured && db && email !== "guest") {
                         try {
                             const tasksCollectionRef = collection(
@@ -529,37 +561,13 @@ export const useTaskStore = create<TaskStore>()(
                             );
                             const firestorePayload = cleanFirestoreData({
                                 ...finalData,
-                                createdAt: new Date().toISOString(),
+                                createdAt,
                                 completedDates: isDaily ? [] : null,
                             });
                             await addDoc(tasksCollectionRef, firestorePayload);
                         } catch (err) {
                             console.error("Lỗi thêm task lên Firestore:", err);
                         }
-                    } else {
-                        // LocalStorage fallback mode
-                        set((state) => {
-                            const account = state.accounts[email] || {
-                                ...initialAccountData,
-                            };
-                            const newTask: Task = {
-                                ...finalData,
-                                id: generateUniqueId(),
-                                createdAt: new Date().toISOString(),
-                                completedDates: isDaily ? [] : undefined,
-                                completedAt,
-                            };
-
-                            return {
-                                accounts: {
-                                    ...state.accounts,
-                                    [email]: {
-                                        ...account,
-                                        tasks: [newTask, ...account.tasks],
-                                    },
-                                },
-                            };
-                        });
                     }
                 },
 

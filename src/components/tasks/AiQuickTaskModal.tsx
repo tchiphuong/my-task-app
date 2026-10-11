@@ -7,7 +7,7 @@ import {
     SparklesIcon,
     TagIcon,
 } from "@heroicons/react/24/outline";
-import { Button, Chip, Modal } from "@heroui/react";
+import { Button, Chip, Modal, toast } from "@heroui/react";
 import { format, parseISO } from "date-fns";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,7 +16,6 @@ import { AppTextArea as TextArea } from "@/components/common/AppTextArea";
 import {
     DATE_FORMATS,
     PRIORITY_OPTIONS,
-    REPEAT_TYPE,
     RepeatType,
     TASK_STATUS,
 } from "@/constants";
@@ -247,25 +246,18 @@ export function AiQuickTaskModal({
         }
     };
 
-    const handleConfirmAdd = () => {
+    const handleConfirmAdd = async () => {
         if (!parsedData) return;
-
-        const isDailyTask = Boolean(
-            parsedData.isDaily ||
-            (parsedData.repeat && parsedData.repeat !== "none"),
-        );
 
         let resolvedRepeat: RepeatType | undefined;
         if (parsedData.repeat && parsedData.repeat !== "none") {
             resolvedRepeat = parsedData.repeat as RepeatType;
-        } else if (isDailyTask) {
-            resolvedRepeat = REPEAT_TYPE.DAILY;
         }
 
         const fallbackDueDate = format(new Date(), DATE_FORMATS.DATE);
         const resolvedDueDate = parsedData.dueDate || fallbackDueDate;
 
-        addTask({
+        await addTask({
             title: parsedData.title,
             description: parsedData.description || "",
             dueDate: resolvedDueDate,
@@ -275,17 +267,18 @@ export function AiQuickTaskModal({
             priority: parsedData.priority || "medium",
             category: parsedData.category || "Công việc",
             status: TASK_STATUS.TODO,
-            isDaily: isDailyTask,
+            isDaily: false,
             ...(resolvedRepeat ? { repeat: resolvedRepeat } : {}),
         });
 
+        toast.success(t("ai.successAdded"));
         setIsSuccess(true);
         setTimeout(() => {
             setIsSuccess(false);
             setParsedData(null);
             setInputText("");
             onOpenChange(false);
-        }, 800);
+        }, 500);
     };
 
     const handleClose = () => {
