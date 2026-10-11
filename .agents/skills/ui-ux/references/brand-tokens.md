@@ -33,7 +33,10 @@ Cách nạp thì tuỳ bối cảnh:
 - **File HTML đơn lẻ, prototype, bản demo để chấm**: `@import` thẳng Google Fonts. Dòng dùng luôn:
 
 ```html
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+/>
 ```
 
 `700` chỉ cho tiêu đề cấp trang và giá của trang trình diễn (`T2`); con số trong card số liệu là
@@ -48,10 +51,10 @@ Cách nạp thì tuỳ bối cảnh:
 Nền 5% của một màu cam hay xanh thì vẫn nhìn ra được. Nền 5% của một màu gần đen
 thì chỉ là xám bẩn, badge đặt lên đó gần như biến mất.
 
-| Màu nhấn | Nền badge, nền avatar, card accent | Chữ trên đó |
-| --- | --- | --- |
-| Có sắc (cam, xanh, đỏ...) | `--primary-light` | `--primary` |
-| Trung tính (mặc định gần đen) | `--background` | `--foreground` |
+| Màu nhấn                      | Nền badge, nền avatar, card accent | Chữ trên đó    |
+| ----------------------------- | ---------------------------------- | -------------- |
+| Có sắc (cam, xanh, đỏ...)     | `--primary-light`                  | `--primary`    |
+| Trung tính (mặc định gần đen) | `--background`                     | `--foreground` |
 
 Đang dùng bảng màu mặc định thì mặc nhiên đi theo hàng thứ hai. Thấy
 `bg-brand-light` đứng cùng `text-muted` là sai chắc: nền nhạt tịt cộng chữ nhạt,
@@ -79,8 +82,14 @@ thành gần trắng, và `text-white` trở thành trắng trên trắng, mất
 Luôn dùng token cho **màu chữ đứng trên nền nhấn**:
 
 ```css
-:root  { --primary: #181818; --primary-foreground: #ffffff; }
-.dark  { --primary: #e9edf5; --primary-foreground: #05060f; }
+:root {
+    --primary: #181818;
+    --primary-foreground: #ffffff;
+}
+.dark {
+    --primary: #e9edf5;
+    --primary-foreground: #05060f;
+}
 ```
 
 Trong markup thì `bg-primary text-primary-foreground`, không bao giờ

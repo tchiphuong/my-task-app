@@ -11,12 +11,12 @@ Nguồn duy nhất cho mọi luật về khối, lưới, khoảng cách. Con s�
 
 Bốn bậc, hết:
 
-| Bậc | Giá trị | Cho |
-| --- | --- | --- |
-| Tròn | `rounded-full` | Avatar, chip, badge, thứ tròn |
-| Lớn | `rounded-2xl` 16px | Card, khung dropdown, modal |
-| Giữa | `rounded-xl` 12px | **Mặc định.** Mọi phần tử **cao từ 40px trở lên**: nút, ô nhập, link sidebar, dòng danh sách có hover, mục menu cao 40px |
-| Nhỏ | `rounded-lg` 8px | **Chỉ** phần tử **cao dưới 40px** (36px trở xuống): nút nhỏ `h-9`, mục menu gọn, icon button `h-7`/`h-8`, ô vuông nhỏ |
+| Bậc  | Giá trị            | Cho                                                                                                                      |
+| ---- | ------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| Tròn | `rounded-full`     | Avatar, chip, badge, thứ tròn                                                                                            |
+| Lớn  | `rounded-2xl` 16px | Card, khung dropdown, modal                                                                                              |
+| Giữa | `rounded-xl` 12px  | **Mặc định.** Mọi phần tử **cao từ 40px trở lên**: nút, ô nhập, link sidebar, dòng danh sách có hover, mục menu cao 40px |
+| Nhỏ  | `rounded-lg` 8px   | **Chỉ** phần tử **cao dưới 40px** (36px trở xuống): nút nhỏ `h-9`, mục menu gọn, icon button `h-7`/`h-8`, ô vuông nhỏ    |
 
 **Luật chiều cao: từ 40px trở lên thì tối thiểu 12px.** Nhìn chiều cao phần tử
 trước rồi mới chọn bậc, đừng chọn theo tên loại ("mục menu thì 8px"). Mục menu
@@ -24,9 +24,9 @@ cao 40px mà bo 8px thì góc trông cứng, lạc tông với nút và ô nhậ
 (chủ dự án chốt). Dưới 40px thì 12px bắt đầu tròn quá so với chiều
 cao, nên hạ về 8px.
 
-Dùng `rounded-md`, `rounded` hay số tuỳ chế là đẻ bậc thứ năm. *Ngoại lệ có tên:
+Dùng `rounded-md`, `rounded` hay số tuỳ chế là đẻ bậc thứ năm. _Ngoại lệ có tên:
 ô checkbox, 20px bo `rounded-md`, 16px bo `rounded` (`components/choice-controls.md`):
-ô vuông nhỏ hơn 24px mà bo 8px thì thành gần tròn, lẫn với radio.* Chỉ bo thứ **có nền hoặc có
+ô vuông nhỏ hơn 24px mà bo 8px thì thành gần tròn, lẫn với radio._ Chỉ bo thứ **có nền hoặc có
 viền**; link chữ giữa dòng thì không bo.
 
 Bo lồng nhau giảm dần theo độ sâu — xem `M19`.
@@ -43,7 +43,7 @@ danh sách.
 Dòng tiêu đề của danh sách (icon + nhãn, số liệu bên phải) và dòng hành động cuối
 ("Xem tất cả") nằm **TRONG** khung, không nằm ngoài.
 
-*Ngoại lệ: thẻ kanban*, vì nó là vật kéo thả được.
+_Ngoại lệ: thẻ kanban_, vì nó là vật kéo thả được.
 
 **F4. Không bọc bảng vào card.** Bảng đã tự có khung bằng đường kẻ rồi: chính bảng là một khung trắng viền mảnh, không lồng thêm card có padding bên ngoài.
 
@@ -77,7 +77,7 @@ chiều cao rồi `mt-auto` đẩy xuống đáy — phần trên thành khoản
 
 `mt-auto` chỉ dành cho **nút**, không dành cho khối nội dung.
 
-*Cách kiểm:* widget nào có khoảng trống chết quá một phần ba chiều cao là nội
+_Cách kiểm:_ widget nào có khoảng trống chết quá một phần ba chiều cao là nội
 dung chưa giãn.
 
 ---
@@ -107,10 +107,10 @@ Muốn chữ vẫn thẳng lề với các khối khác mà nền hover vẫn tr
 <!-- Đúng: nền tràn ra ngoài lề, chữ vẫn thẳng hàng. Card không padding ngang, mỗi khối
      tự mang px: tiêu đề px-5, khối danh sách px-2 (= 5 − 3) để chữ dòng px-3 thẳng tiêu đề -->
 <section class="rounded-2xl bg-surface py-5">
-  <h2 class="px-5">…</h2>
-  <ul class="px-2">
-    <li class="rounded-xl px-3 py-3 hover:bg-item-hover">…</li>
-  </ul>
+    <h2 class="px-5">…</h2>
+    <ul class="px-2">
+        <li class="rounded-xl px-3 py-3 hover:bg-item-hover">…</li>
+    </ul>
 </section>
 ```
 
@@ -131,11 +131,11 @@ chiều cao là bo sai ngay, mà không ai nhớ để sửa kèm.
 **F15. Icon nét mảnh, một màu xám, và cả màn chỉ dùng một bộ.** Không SVG inline
 tự vẽ, không emoji. Lấy ở đâu thì tuỳ dự án có gì:
 
-| Dự án | Lấy icon ở đâu |
-| --- | --- |
-| Có npm | `lucide-react` (mặc định), hoặc bộ icon họ đã cài sẵn — đừng thêm bộ thứ hai |
+| Dự án                    | Lấy icon ở đâu                                                                |
+| ------------------------ | ----------------------------------------------------------------------------- |
+| Có npm                   | `lucide-react` (mặc định), hoặc bộ icon họ đã cài sẵn — đừng thêm bộ thứ hai  |
 | Không có npm, HTML thuần | Lucide qua CDN, hoặc dán SVG của Lucide vào. Vẫn là Lucide, chỉ khác cách nạp |
-| Họ đã có bộ icon riêng | Dùng bộ của họ. Trộn hai bộ icon vào một màn lộ ngay |
+| Họ đã có bộ icon riêng   | Dùng bộ của họ. Trộn hai bộ icon vào một màn lộ ngay                          |
 
 Luật ở đây là **nét mảnh, một màu, đồng bộ** — không phải tên thư viện.
 
@@ -159,11 +159,11 @@ mục thì ô icon mất sạch ý nghĩa — thà bỏ hẳn.
 — ví dụ người dùng đặt được ảnh nền nên độ trong của vỏ đổi theo. Không có ảnh
 nền thì không blur.
 
-*Gu flat — phong cách khác đã chọn theo `P1` thì xem `P2` trong `references/styles.md`.*
+_Gu flat — phong cách khác đã chọn theo `P1` thì xem `P2` trong `references/styles.md`._
 
 **F20. Không viền phát sáng, không `ring-4`, không shadow màu neon.**
 
-*Gu flat — phong cách khác đã chọn theo `P1` thì xem `P2` trong `references/styles.md`.*
+_Gu flat — phong cách khác đã chọn theo `P1` thì xem `P2` trong `references/styles.md`._
 
 **F21. Không `border-dashed`.** Hai ngoại lệ: khung kéo thả tệp, và ô rỗng trong
 board hay lịch.
@@ -171,7 +171,7 @@ board hay lịch.
 **F22. Không animate hình khối.** Không `scale-105` khi hover, không nhấc lên,
 không đổ bóng thêm.
 
-*Gu flat — phong cách khác đã chọn theo `P1` thì xem `P2` trong `references/styles.md`.*
+_Gu flat — phong cách khác đã chọn theo `P1` thì xem `P2` trong `references/styles.md`._
 
 **F23. Không hiệu ứng xuất hiện cho nội dung tĩnh.** Không fade-in cả trang,
 không cho biểu đồ tự vẽ, cột tự mọc, số tự đếm lên.
@@ -199,21 +199,21 @@ Chọn cách theo **nền hover của mục có thụt vào so với mép khung 
 <!-- Cách 1 — menu, dropdown: mục hover thụt vào, cách mép khung một khe.
      Khung chỉ padding dọc; khe ngang nằm ở từng nhóm mục, vạch đứng giữa hai nhóm nên tự chạm mép. -->
 <div class="rounded-2xl py-1">
-  <div class="px-1">
-    <button class="flex h-10 w-full items-center rounded-xl px-3">…</button>
-  </div>
-  <hr class="my-1 border-border" />
-  <div class="px-1">
-    <button class="flex h-10 w-full items-center rounded-xl px-3">…</button>
-  </div>
+    <div class="px-1">
+        <button class="flex h-10 w-full items-center rounded-xl px-3">…</button>
+    </div>
+    <hr class="my-1 border-border" />
+    <div class="px-1">
+        <button class="flex h-10 w-full items-center rounded-xl px-3">…</button>
+    </div>
 </div>
 
 <!-- Cách 2 — danh sách trong card: dòng tràn hết bề ngang, không thụt.
      Khung không padding ngang, padding nằm ở từng dòng. -->
 <div class="py-1.5">
-  <a class="block px-4 py-3">…</a>
-  <hr class="border-border" />
-  <a class="block px-4 py-3">…</a>
+    <a class="block px-4 py-3">…</a>
+    <hr class="border-border" />
+    <a class="block px-4 py-3">…</a>
 </div>
 ```
 

@@ -3,15 +3,17 @@
 Nguồn: widget nhắc việc của một dự án thật.
 
 ```tsx
-{isLoading ? (
-  <p className="py-6 text-center text-sm text-muted">Đang tải…</p>
-) : visibleReminders.length === 0 ? (
-  <p className="py-6 text-center text-sm text-muted">
-    Chưa có nhắc nào ở mục này
-  </p>
-) : (
-  <ul className="flex flex-col">…</ul>
-)}
+{
+    isLoading ? (
+        <p className="py-6 text-center text-sm text-muted">Đang tải…</p>
+    ) : visibleReminders.length === 0 ? (
+        <p className="py-6 text-center text-sm text-muted">
+            Chưa có nhắc nào ở mục này
+        </p>
+    ) : (
+        <ul className="flex flex-col">…</ul>
+    );
+}
 ```
 
 **Vì sao ổn**
@@ -43,11 +45,14 @@ Ngoại lệ của "không nút": danh sách rỗng **vì người dùng đang t
 
 ```tsx
 <p className="py-6 text-center text-sm text-muted">
-  Không có khách hàng nào khớp {quotedQuery}. Thử từ khoá khác.{" "}
-  <Button variant="ghost" onClick={clearFilters}
-    className="inline h-auto min-h-0 p-0 align-baseline font-medium text-foreground underline-offset-4 hover:bg-transparent hover:underline">
-    Xoá tìm kiếm
-  </Button>
+    Không có khách hàng nào khớp {quotedQuery}. Thử từ khoá khác.{" "}
+    <Button
+        variant="ghost"
+        onClick={clearFilters}
+        className="inline h-auto min-h-0 p-0 align-baseline font-medium text-foreground underline-offset-4 hover:bg-transparent hover:underline"
+    >
+        Xoá tìm kiếm
+    </Button>
 </p>
 ```
 
@@ -65,8 +70,10 @@ Danh sách rỗng thì một dòng chữ mờ là xong. **Cột rỗng trong m�
 không**, vì cột vẫn phải nhìn ra được là một vùng thả.
 
 ```html
-<li class="flex min-h-[7rem] items-center justify-center rounded-2xl border border-dashed border-foreground/15 px-3">
-  <p class="text-center text-sm text-muted">Chưa có việc nào</p>
+<li
+    class="flex min-h-[7rem] items-center justify-center rounded-2xl border border-dashed border-foreground/15 px-3"
+>
+    <p class="text-center text-sm text-muted">Chưa có việc nào</p>
 </li>
 ```
 
@@ -84,11 +91,13 @@ chỗ hiếm hoi `border-dashed` được dùng, xem luật `F21` trong `../rule
 
 ```html
 <div role="alert" class="flex flex-col items-center gap-3 py-10 text-center">
-  <div>
-    <p class="text-sm font-medium text-red-600">Không tải được danh sách khách hàng</p>
-    <p class="mt-1 text-sm text-muted">Mất kết nối mạng</p>
-  </div>
-  <!-- Nút viền + icon rotate-cw theo I1: "Thử lại". Gọi gì là handler rỗng (onRetry). -->
+    <div>
+        <p class="text-sm font-medium text-red-600">
+            Không tải được danh sách khách hàng
+        </p>
+        <p class="mt-1 text-sm text-muted">Mất kết nối mạng</p>
+    </div>
+    <!-- Nút viền + icon rotate-cw theo I1: "Thử lại". Gọi gì là handler rỗng (onRetry). -->
 </div>
 ```
 

@@ -55,15 +55,15 @@ Không căn giữa chữ trong form, chỉ căn giữa cả khối.
 nhập, không muốn làm một bài khảo sát. Dựng theo mặc định dưới đây, rồi **nói
 một dòng** cho họ biết mình đã chọn gì.
 
-| Thứ | Mặc định | Vì sao |
-| --- | --- | --- |
-| **"Quên mật khẩu?"** | **Có** | Thiếu nó thì người quên mật khẩu không còn đường nào vào. Đây là phần tử duy nhất mà thiếu là hỏng chức năng, không phải hỏng thẩm mỹ |
-| **Ghi nhớ đăng nhập** | **Không** | Nó đổi thời hạn phiên ở **backend**, không phải chỉ là cái checkbox. Vẽ ra mà backend không làm gì là lừa người dùng — sai nhiều hơn là thiếu |
+| Thứ                       | Mặc định                                                                 | Vì sao                                                                                                                                                                                                                                                                                  |
+| ------------------------- | ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **"Quên mật khẩu?"**      | **Có**                                                                   | Thiếu nó thì người quên mật khẩu không còn đường nào vào. Đây là phần tử duy nhất mà thiếu là hỏng chức năng, không phải hỏng thẩm mỹ                                                                                                                                                   |
+| **Ghi nhớ đăng nhập**     | **Không**                                                                | Nó đổi thời hạn phiên ở **backend**, không phải chỉ là cái checkbox. Vẽ ra mà backend không làm gì là lừa người dùng — sai nhiều hơn là thiếu                                                                                                                                           |
 | **Đăng nhập mạng xã hội** | **Có, một nút Google** ("Đăng nhập bằng Google" / "Đăng ký bằng Google") | Gần như mọi app có màn đăng nhập đều có nút này, người dùng tìm nó trước cả ô email. Thiếu là trang trông như bản dựng dở. Handler để rỗng, báo lúc giao là cần nối nhà cung cấp. Sản phẩm cho lập trình viên thì thêm GitHub. Cả đăng nhập lẫn đăng ký đều có, và cùng bộ nhà cung cấp |
-| **Placeholder** | **Có**, ngoại lệ của `T25` | Màn đứng một mình, cả trang chỉ có vài ô: ô trống trơn trông như chưa dựng xong. Chữ ở mục dưới |
-| **Con trỏ lúc mở màn** | **Nằm sẵn ở ô đầu** (`autoFocus`) | Cả màn chỉ có một việc là gõ. Áp cho **mọi** màn trong luồng: đăng nhập, đăng ký, từng bước quên mật khẩu, OTP. Bước này có bước kia không thì sang bước mới người dùng phải chạm lại vào ô |
-| **"Nhập lại mật khẩu"** | **Không** | Ô mật khẩu đã có nút mắt để xem lại. Hầu hết app đã bỏ ô gõ lại; thêm nó là thêm một ô cho mỗi người đăng ký để phòng lỗi mà nút mắt đã phòng rồi |
-| **Chiều cao ô và nút** | **`h-12`** | Ngoại lệ duy nhất của `h-11 md:h-10` (`budgets.md`): form đứng một mình giữa trang, cả màn chỉ có nó, ô to hơn một bậc là hợp. Form trong app, modal, cài đặt thì không |
+| **Placeholder**           | **Có**, ngoại lệ của `T25`                                               | Màn đứng một mình, cả trang chỉ có vài ô: ô trống trơn trông như chưa dựng xong. Chữ ở mục dưới                                                                                                                                                                                         |
+| **Con trỏ lúc mở màn**    | **Nằm sẵn ở ô đầu** (`autoFocus`)                                        | Cả màn chỉ có một việc là gõ. Áp cho **mọi** màn trong luồng: đăng nhập, đăng ký, từng bước quên mật khẩu, OTP. Bước này có bước kia không thì sang bước mới người dùng phải chạm lại vào ô                                                                                             |
+| **"Nhập lại mật khẩu"**   | **Không**                                                                | Ô mật khẩu đã có nút mắt để xem lại. Hầu hết app đã bỏ ô gõ lại; thêm nó là thêm một ô cho mỗi người đăng ký để phòng lỗi mà nút mắt đã phòng rồi                                                                                                                                       |
+| **Chiều cao ô và nút**    | **`h-12`**                                                               | Ngoại lệ duy nhất của `h-11 md:h-10` (`budgets.md`): form đứng một mình giữa trang, cả màn chỉ có nó, ô to hơn một bậc là hợp. Form trong app, modal, cài đặt thì không                                                                                                                 |
 
 **Dòng báo, đặt chung với dòng báo bố cục lúc giao:**
 
@@ -76,12 +76,12 @@ một dòng** cho họ biết mình đã chọn gì.
 Câu hướng dẫn ngắn, không dùng email mẫu (`ten@congty.com` bị đọc nhầm thành chữ đã
 điền sẵn, `T25`), không dùng `••••••` (`T26`):
 
-| Ô | Placeholder |
-| --- | --- |
-| Họ và tên | `Nhập họ và tên` |
-| Email | `Nhập email` |
-| Mật khẩu (đăng nhập) | `Nhập mật khẩu` |
-| Mật khẩu (đăng ký) | `Tạo mật khẩu`, dòng gợi ý "Ít nhất 8 ký tự" vẫn nằm **dưới ô** vì nó phải còn đó lúc đang gõ |
+| Ô                    | Placeholder                                                                                   |
+| -------------------- | --------------------------------------------------------------------------------------------- |
+| Họ và tên            | `Nhập họ và tên`                                                                              |
+| Email                | `Nhập email`                                                                                  |
+| Mật khẩu (đăng nhập) | `Nhập mật khẩu`                                                                               |
+| Mật khẩu (đăng ký)   | `Tạo mật khẩu`, dòng gợi ý "Ít nhất 8 ký tự" vẫn nằm **dưới ô** vì nó phải còn đó lúc đang gõ |
 
 Câu lỗi vẫn không được trùng placeholder: "Chưa nhập email", không phải "Nhập email".
 Ngoại lệ này chỉ cho màn xác thực đứng một mình. Form trong app, modal, cài đặt vẫn
@@ -121,10 +121,16 @@ nằm dưới nút submit.
 
 ```html
 <div class="relative flex flex-col gap-2">
-  <label for="password" class="w-fit cursor-pointer text-sm font-medium">Mật khẩu</label>
-  <div class="relative"><!-- ô mật khẩu + nút mắt --></div>
-  <!-- Đứng SAU ô trong DOM, absolute lên hàng nhãn -->
-  <a href="/quen-mat-khau" class="absolute top-0 right-0 text-sm text-foreground outline-hidden hover:underline">Quên mật khẩu?</a>
+    <label for="password" class="w-fit cursor-pointer text-sm font-medium"
+        >Mật khẩu</label
+    >
+    <div class="relative"><!-- ô mật khẩu + nút mắt --></div>
+    <!-- Đứng SAU ô trong DOM, absolute lên hàng nhãn -->
+    <a
+        href="/quen-mat-khau"
+        class="absolute top-0 right-0 text-sm text-foreground outline-hidden hover:underline"
+        >Quên mật khẩu?</a
+    >
 </div>
 ```
 
@@ -144,11 +150,11 @@ Google / chưa có tài khoản?", thành một link tình cờ nằm giữa m�
 
 Ba thông số:
 
-| | Lấy gì | Vì sao |
-| --- | --- | --- |
-| Cỡ | `text-sm`, **bằng nhãn** | Cùng hàng mà lệch cỡ thì trông như canh hụt. Nhỏ hơn cũng làm vùng chạm mobile hẹp lại |
-| Màu | `--foreground`, **không làm mờ** | Chữ nhạt đọc ra là đã bị khoá (`I8`). Đây là lối thoát duy nhất của người không vào được tài khoản — làm nó trông disabled là chặn đúng người đang cần |
-| Độ đậm | `font-normal` (nhãn là `font-medium`) | Phân cấp bằng **một** thứ thôi. `M13`: thứ bậc đến từ cỡ chữ, độ đậm, màu chữ — dùng cả ba cùng lúc là thừa |
+|        | Lấy gì                                | Vì sao                                                                                                                                                 |
+| ------ | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Cỡ     | `text-sm`, **bằng nhãn**              | Cùng hàng mà lệch cỡ thì trông như canh hụt. Nhỏ hơn cũng làm vùng chạm mobile hẹp lại                                                                 |
+| Màu    | `--foreground`, **không làm mờ**      | Chữ nhạt đọc ra là đã bị khoá (`I8`). Đây là lối thoát duy nhất của người không vào được tài khoản — làm nó trông disabled là chặn đúng người đang cần |
+| Độ đậm | `font-normal` (nhãn là `font-medium`) | Phân cấp bằng **một** thứ thôi. `M13`: thứ bậc đến từ cỡ chữ, độ đậm, màu chữ — dùng cả ba cùng lúc là thừa                                            |
 
 **Là link, không phải nút.** Trong form mà thành nút thì nó cạnh tranh với nút đăng
 nhập nằm ngay dưới. Có `cursor-pointer`, gạch chân khi hover. Khác "Xem tất cả" của
@@ -175,11 +181,11 @@ vì cả luồng nằm trong một tab, báo một dòng lúc giao.
    "Ít nhất 8 ký tự" dưới ô, **không có ô nhập lại** (cùng lý do với trang đăng ký, bảng
    mặc định ở trên). Nút "Lưu mật khẩu". Form có ô `username` ẩn mang email đó để trình
    quản lý mật khẩu lưu đúng tài khoản (`I28`).
-   - **Phiên đặt lại hết hạn thì thay cả form** bằng câu báo và một nút `primary`
-     "Gửi mã mới" (`I3`: lối ra duy nhất) (gửi lại tới email cũ, sang bước 2). Câu báo nói luôn điều người
-     dùng lo: "Mật khẩu cũ chưa bị đổi". Đừng để ô mật khẩu và nút "Lưu mật khẩu" nằm
-     dưới khối lỗi: bấm Lưu lần nữa vẫn hỏng, và khối lỗi có nút riêng thì màn có hai
-     nút tranh nhau làm việc chính (`N5`).
+    - **Phiên đặt lại hết hạn thì thay cả form** bằng câu báo và một nút `primary`
+      "Gửi mã mới" (`I3`: lối ra duy nhất) (gửi lại tới email cũ, sang bước 2). Câu báo nói luôn điều người
+      dùng lo: "Mật khẩu cũ chưa bị đổi". Đừng để ô mật khẩu và nút "Lưu mật khẩu" nằm
+      dưới khối lỗi: bấm Lưu lần nữa vẫn hỏng, và khối lỗi có nút riêng thì màn có hai
+      nút tranh nhau làm việc chính (`N5`).
 4. **Xong.** "Đã đổi mật khẩu", nút "Đăng nhập" về trang đăng nhập với email điền sẵn.
    Backend cho đăng nhập luôn sau khi đổi thì bỏ màn này, vào thẳng app; báo lúc giao.
 
@@ -189,18 +195,18 @@ vì cả luồng nằm trong một tab, báo một dòng lúc giao.
 
 Số lượng quyết định bố cục:
 
-| Số nút | Bố cục |
-| --- | --- |
-| 1–2 | Xếp dọc, full width, có chữ: `Đăng nhập bằng Google`. Nút viền (`variant="outline"`), logo gốc trái chữ, cao bằng ô nhập |
-| **3 trở lên** | **A** bên dưới. Báo một dòng lúc giao: muốn xếp dọc đủ chữ thì nói |
+| Số nút        | Bố cục                                                                                                                   |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| 1–2           | Xếp dọc, full width, có chữ: `Đăng nhập bằng Google`. Nút viền (`variant="outline"`), logo gốc trái chữ, cao bằng ô nhập |
+| **3 trở lên** | **A** bên dưới. Báo một dòng lúc giao: muốn xếp dọc đủ chữ thì nói                                                       |
 
 **Đường chia "hoặc"** giữa nút chính và nút mạng xã hội:
 
 ```html
 <div class="my-6 flex items-center gap-3">
-  <span class="h-px flex-1 bg-border-strong"></span>
-  <span class="text-xs text-muted">hoặc</span>
-  <span class="h-px flex-1 bg-border-strong"></span>
+    <span class="h-px flex-1 bg-border-strong"></span>
+    <span class="text-xs text-muted">hoặc</span>
+    <span class="h-px flex-1 bg-border-strong"></span>
 </div>
 ```
 
@@ -242,9 +248,9 @@ bố cục đã sai, dù từng nút đều đẹp.
 Người dùng phải biết trường nào bắt buộc **trước khi** bấm gửi, không phải sau
 khi bị báo lỗi. Chọn một trong hai cách theo tỉ lệ, đừng dùng cả hai:
 
-| Tình huống | Cách đánh dấu |
-| --- | --- |
-| Đa số trường bắt buộc | Ghi `Không bắt buộc` bên cạnh nhãn của số ít trường tuỳ chọn |
+| Tình huống            | Cách đánh dấu                                                               |
+| --------------------- | --------------------------------------------------------------------------- |
+| Đa số trường bắt buộc | Ghi `Không bắt buộc` bên cạnh nhãn của số ít trường tuỳ chọn                |
 | Đa số trường tuỳ chọn | Ghi dấu `*` sau nhãn của trường bắt buộc, kèm một dòng chú thích ở đầu form |
 
 Dấu `*` **tô đỏ**, cùng sắc với câu lỗi (`text-red-600 dark:text-red-400`), ngoại lệ có tên ở `M9`,
@@ -256,7 +262,8 @@ Dấu `*` trong dòng chú thích ("Mục có dấu * là bắt buộc") cũng �
 
 ```html
 <label for="full-name" class="text-sm font-medium">
-  Họ và tên <span aria-hidden="true" class="text-red-600 dark:text-red-400">*</span>
+    Họ và tên
+    <span aria-hidden="true" class="text-red-600 dark:text-red-400">*</span>
 </label>
 ```
 
@@ -302,12 +309,12 @@ nhiều bước cho form ngắn, nó chỉ làm chậm.
 Thông tin công ty   **Người liên hệ**   Xác nhận
 ```
 
-| Trạng thái | Vòng `size-8 rounded-full` | Nhãn | Đường nối phía sau |
-| --- | --- | --- | --- |
-| Đã xong | nền `primary`, icon `check` `size-4` `primary-foreground` | `text-foreground` | `h-0.5 bg-primary` |
-| Đang làm | `border-2 border-foreground bg-surface`, số `font-semibold` | `font-semibold text-foreground` | `h-0.5 bg-secondary` |
-| Chưa tới | nền `bg-secondary`, số `text-muted` | `text-muted` | `h-0.5 bg-secondary` |
-| Có lỗi | nền `bg-red-600`, chữ `!` `text-sm font-bold text-white` (ký tự, không icon) | `text-red-700`, câu lỗi `text-sm text-red-600` dưới nhãn | như trạng thái của nó |
+| Trạng thái | Vòng `size-8 rounded-full`                                                   | Nhãn                                                     | Đường nối phía sau    |
+| ---------- | ---------------------------------------------------------------------------- | -------------------------------------------------------- | --------------------- |
+| Đã xong    | nền `primary`, icon `check` `size-4` `primary-foreground`                    | `text-foreground`                                        | `h-0.5 bg-primary`    |
+| Đang làm   | `border-2 border-foreground bg-surface`, số `font-semibold`                  | `font-semibold text-foreground`                          | `h-0.5 bg-secondary`  |
+| Chưa tới   | nền `bg-secondary`, số `text-muted`                                          | `text-muted`                                             | `h-0.5 bg-secondary`  |
+| Có lỗi     | nền `bg-red-600`, chữ `!` `text-sm font-bold text-white` (ký tự, không icon) | `text-red-700`, câu lỗi `text-sm text-red-600` dưới nhãn | như trạng thái của nó |
 
 - **Phần "chưa tới" dùng `--secondary`, không `--background`, không `--border`.** Thanh các bước thường đứng trên nền trang, ngoài card. Vòng `bg-background` trùng đúng màu nền trang nên tan mất, chỉ còn con số "3" lơ lửng cuối đường nối; `--border` (#f7f7f8) còn **sáng hơn** nền trang (#f4f4f6), đường nối và đoạn thanh mảnh chưa tới gần như vô hình. `--secondary` (#e7e8ec) đọc được cả trên nền trang lẫn trên card trắng.
 - **Vòng lỗi là vòng đặc đỏ với dấu `!`, không phải vòng viền đỏ bọc icon `circle-alert`.** Icon đó tự có một vòng tròn, đặt vào vòng viền thành hai vòng lồng nhau, nhìn rối và nhỏ xíu. Vòng đặc cùng khuôn với bước đã xong (đặc + ký hiệu), chỉ đổi màu và ký hiệu.
@@ -357,15 +364,23 @@ Email này đã có người dùng     <- chữ đỏ, text-xs, ngay dưới ô
 - **Sửa xong một ô thì câu lỗi mất, nhưng chỗ của nó ở lại** tới lần bấm gửi sau (`min-h-4` trên dòng dưới ô, bằng một dòng `text-xs`). Rút câu lỗi đi ngay thì mọi ô bên dưới nhảy lên 16px đúng lúc người dùng đang đưa chuột xuống ô kế tiếp (`N1`). Ô nào có sẵn dòng gợi ý thì không cần: gợi ý quay về đúng chỗ câu lỗi vừa rời.
 - **Mặc định: chỉ lỗi tại chỗ, không banner tóm tắt.** Bấm gửi mà có lỗi thì cuộn tới và **focus ô lỗi đầu tiên**; mỗi ô sai viền đỏ + một câu dưới ô. Form trong sản phẩm (SaaS, công cụ làm việc) hầu hết làm vậy; hệ thiết kế cho dịch vụ công thì thêm hộp tóm tắt lỗi đầu trang có link tới từng ô, vì form của họ dài và người điền lần đầu, skill chỉ giữ ca đó cho form rất dài (ca 2 bên dưới). Banner liệt kê lỗi trên một form thường chỉ đọc lại đúng mấy câu đã nằm dưới từng ô: hai tín hiệu cho một ý (`N3`), và cả màn đỏ rực (chủ dự án: "thực tế có ai làm mục đỏ ở trên đâu"). Luật cũ "form dài hơn một màn thì có banner" sai, vì ở 375px form nào cũng dài hơn một màn.
 - **Banner chỉ dùng cho hai ca:**
-  1. **Lỗi không gắn với ô nào**: mất mạng, hết phiên, không có quyền, trùng dữ liệu phía máy chủ. Banner một dòng nói chuyện gì và làm gì tiếp, không liệt kê.
-  2. **Form rất dài, chia nhiều mục có tiêu đề** (từ khoảng 12 trường, hoặc phải cuộn qua nhiều mục): lỗi ở mục cuối không thể thấy khi đang đứng ở đầu. Lúc đó banner liệt kê từng lỗi kèm link nhảy tới đúng ô, và **vẫn giữ** lỗi tại chỗ.
+    1. **Lỗi không gắn với ô nào**: mất mạng, hết phiên, không có quyền, trùng dữ liệu phía máy chủ. Banner một dòng nói chuyện gì và làm gì tiếp, không liệt kê.
+    2. **Form rất dài, chia nhiều mục có tiêu đề** (từ khoảng 12 trường, hoặc phải cuộn qua nhiều mục): lỗi ở mục cuối không thể thấy khi đang đứng ở đầu. Lúc đó banner liệt kê từng lỗi kèm link nhảy tới đúng ô, và **vẫn giữ** lỗi tại chỗ.
 
 ```html
 <div role="alert" class="mb-6 rounded-xl border border-red-200 bg-red-50 p-4">
-  <p class="text-sm font-medium text-red-700">Chưa gửi được, còn 3 chỗ cần sửa</p>
-  <ul class="mt-2 space-y-1 text-sm text-red-600">
-    <li><a href="#tieu-de" class="underline underline-offset-2 outline-hidden">Tiêu đề</a>, chưa điền</li>
-  </ul>
+    <p class="text-sm font-medium text-red-700">
+        Chưa gửi được, còn 3 chỗ cần sửa
+    </p>
+    <ul class="mt-2 space-y-1 text-sm text-red-600">
+        <li>
+            <a
+                href="#tieu-de"
+                class="underline underline-offset-2 outline-hidden"
+                >Tiêu đề</a
+            >, chưa điền
+        </li>
+    </ul>
 </div>
 ```
 
@@ -378,11 +393,11 @@ Email này đã có người dùng     <- chữ đỏ, text-xs, ngay dưới ô
 Một field có **ba** chỗ chứa chữ, mỗi chỗ một việc. Lẫn lộn chúng là lỗi hay gặp
 nhất ở form, và nhìn ảnh chụp rất khó nhận ra vì "trông vẫn đủ chữ".
 
-| Chỗ | Việc | Màu | Khi nào hiện |
-| --- | --- | --- | --- |
-| **Nhãn** | Ô này là gì | `--foreground` | Luôn |
-| **Gợi ý** | Thứ người dùng chưa biết trước khi gõ | `--muted`, `text-xs` | Luôn |
-| **Câu lỗi** | Vừa gõ sai cái gì, sửa thế nào | đỏ, `text-xs` | Chỉ khi sai |
+| Chỗ         | Việc                                  | Màu                  | Khi nào hiện |
+| ----------- | ------------------------------------- | -------------------- | ------------ |
+| **Nhãn**    | Ô này là gì                           | `--foreground`       | Luôn         |
+| **Gợi ý**   | Thứ người dùng chưa biết trước khi gõ | `--muted`, `text-xs` | Luôn         |
+| **Câu lỗi** | Vừa gõ sai cái gì, sửa thế nào        | đỏ, `text-xs`        | Chỉ khi sai  |
 
 **Dưới ô chỉ có MỘT dòng.** Có lỗi thì câu lỗi **thay chỗ** gợi ý, không đẩy gợi
 ý xuống thành hai dòng chồng nhau.
@@ -412,13 +427,13 @@ Cách của các hệ thiết kế lớn:
 
 ### Ô trống thì viết gì
 
-| Ô | Sai | Đúng |
-| --- | --- | --- |
-| Email | `Nhập email của bạn` *(trùng placeholder)* | `Chưa nhập email` |
-| Mật khẩu | `Nhập mật khẩu của bạn` *(trùng placeholder)* | `Chưa nhập mật khẩu` |
-| Email sai định dạng | `Email không hợp lệ` | `Email phải có dấu @` |
-| Mật khẩu ngắn | `Mật khẩu không hợp lệ` | `Mật khẩu cần ít nhất 8 ký tự` |
-| Sai thông tin đăng nhập | `Đăng nhập thất bại` | `Email hoặc mật khẩu chưa đúng` |
+| Ô                       | Sai                                           | Đúng                            |
+| ----------------------- | --------------------------------------------- | ------------------------------- |
+| Email                   | `Nhập email của bạn` _(trùng placeholder)_    | `Chưa nhập email`               |
+| Mật khẩu                | `Nhập mật khẩu của bạn` _(trùng placeholder)_ | `Chưa nhập mật khẩu`            |
+| Email sai định dạng     | `Email không hợp lệ`                          | `Email phải có dấu @`           |
+| Mật khẩu ngắn           | `Mật khẩu không hợp lệ`                       | `Mật khẩu cần ít nhất 8 ký tự`  |
+| Sai thông tin đăng nhập | `Đăng nhập thất bại`                          | `Email hoặc mật khẩu chưa đúng` |
 
 Dòng cuối là ca riêng: nói rõ sai cái nào **là lỗ hổng bảo mật** — người ngoài dò
 được email nào có tài khoản. Nên ở đúng ca này thì mơ hồ là cố ý, và câu lỗi đặt

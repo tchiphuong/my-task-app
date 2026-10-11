@@ -32,13 +32,19 @@ done
 
 ```css
 /* SAI — @theme cũng phát ra --text-sm, thành vòng lặp */
-@theme { --text-sm: var(--text-sm); }
+@theme {
+    --text-sm: var(--text-sm);
+}
 
 /* ĐÚNG — tên trùng thì ghi GIÁ TRỊ THẬT */
-@theme { --text-sm: 15px; }
+@theme {
+    --text-sm: 15px;
+}
 
 /* ĐÚNG — tên khác thì trỏ thoải mái */
-@theme { --color-brand: var(--brand-green); }
+@theme {
+    --color-brand: var(--brand-green);
+}
 ```
 
 **Hệ quả thiết kế:** với nhóm tên trùng, `@theme` **phải** là nơi định nghĩa duy
@@ -54,20 +60,24 @@ Nối tiếp `W2`, nhưng nguy hiểm hơn vì **không hề báo lỗi**.
 Ở một dự án thật, file token cũ có:
 
 ```css
-:root { --container-md: 720px; --container-lg: 1040px; --container-xl: 1200px; }
+:root {
+    --container-md: 720px;
+    --container-lg: 1040px;
+    --container-xl: 1200px;
+}
 ```
 
 `--container-*` đúng là namespace Tailwind v4 dùng cho thang `max-w-*`. Token cũ
 nạp trong `layer(base)`, `@theme` phát vào layer `theme` — **base thắng theme**.
 Kết quả: **mọi `max-w-md/lg/xl` trong cả dự án chạy sai giá trị**, không ai biết:
 
-| Class | Đáng ra | Thực tế |
-| --- | ---: | ---: |
-| `max-w-md` | 448px | 720px |
-| `max-w-lg` | 512px | 1040px |
-| `max-w-xl` | 576px | **1200px** |
+| Class      | Đáng ra |    Thực tế |
+| ---------- | ------: | ---------: |
+| `max-w-md` |   448px |      720px |
+| `max-w-lg` |   512px |     1040px |
+| `max-w-xl` |   576px | **1200px** |
 
-Chỉ lộ ra khi chủ dự án nhìn ảnh chụp và hỏi *"sao ô nhập không ngắn lại?"* —
+Chỉ lộ ra khi chủ dự án nhìn ảnh chụp và hỏi _"sao ô nhập không ngắn lại?"_ —
 code có `max-w-xl`, DOM có `max-w-xl`, mà ô vẫn full width.
 
 Kết cục: xoá luôn 3 token + 3 class đi kèm, vì grep ra **0 chỗ dùng** trong toàn
@@ -128,7 +138,11 @@ Và **không bao giờ thu lại**. Ép 16px ở màn hẹp để chặn:
 
 ```css
 @media (max-width: 768px) {
-  input, textarea, select { font-size: 16px !important; }
+    input,
+    textarea,
+    select {
+        font-size: 16px !important;
+    }
 }
 ```
 
@@ -150,10 +164,10 @@ Hai cách, chọn một cho cả dự án:
 ```css
 /* Cách 1: trả lại hành vi v3 cho toàn app — một chỗ, không sót */
 @layer base {
-  button:not(:disabled),
-  [role="button"]:not([aria-disabled="true"]) {
-    cursor: pointer;
-  }
+    button:not(:disabled),
+    [role="button"]:not([aria-disabled="true"]) {
+        cursor: pointer;
+    }
 }
 ```
 
@@ -221,7 +235,6 @@ accordion lật ngược tức thì.
 - Dùng `transition-transform` (v4 gồm `transform, translate, scale, rotate`), hoặc ghi đúng tên:
   `transition-[opacity,scale,translate]`, `transition-[rotate,color]`.
 - Probe báo mục "Scale / translate / rotate không chạy chuyển động" (hạng Hỏng).
-
 
 ## W11. `not-sr-only` trả `white-space` về `normal`, nuốt `whitespace-nowrap` cùng thẻ
 

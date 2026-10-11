@@ -9,21 +9,36 @@ sách (`list-row.md`). Mượn là chép class, không chỉ chép dáng (`N5`).
 
 ```html
 <ol class="text-sm">
-  <!-- MỚI NHẤT Ở TRÊN. Hàng cuối (cũ nhất) không có đường nối -->
-  <li class="relative flex gap-3 pb-6 last:pb-0">
-    <span class="absolute top-10 bottom-1 left-[15px] w-0.5 bg-border" aria-hidden="true"></span>
-    <span class="grid size-8 shrink-0 place-items-center rounded-full bg-red-50 text-red-600">
-      <!-- icon lucide size-4, riêng cho từng loại việc -->
-    </span>
-    <div class="min-w-0 flex-1 pt-1.5"><!-- dòng đầu 20px nằm giữa vòng 32px -->
-      <div class="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
-        <p class="font-medium text-foreground">Giao hàng thất bại</p>
-        <time class="shrink-0 text-xs whitespace-nowrap text-muted tabular-nums">11:47 · 19/09</time>
-      </div>
-      <p class="mt-1 max-w-[55ch] text-pretty text-muted">Shipper gọi 3 lần không liên lạc được người nhận…</p>
-      <p class="mt-1 text-xs text-muted">Lê Văn Phúc · Vận chuyển Sao Việt</p>
-    </div>
-  </li>
+    <!-- MỚI NHẤT Ở TRÊN. Hàng cuối (cũ nhất) không có đường nối -->
+    <li class="relative flex gap-3 pb-6 last:pb-0">
+        <span
+            class="absolute top-10 bottom-1 left-[15px] w-0.5 bg-border"
+            aria-hidden="true"
+        ></span>
+        <span
+            class="grid size-8 shrink-0 place-items-center rounded-full bg-red-50 text-red-600"
+        >
+            <!-- icon lucide size-4, riêng cho từng loại việc -->
+        </span>
+        <div class="min-w-0 flex-1 pt-1.5">
+            <!-- dòng đầu 20px nằm giữa vòng 32px -->
+            <div
+                class="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4"
+            >
+                <p class="font-medium text-foreground">Giao hàng thất bại</p>
+                <time
+                    class="shrink-0 text-xs whitespace-nowrap text-muted tabular-nums"
+                    >11:47 · 19/09</time
+                >
+            </div>
+            <p class="mt-1 max-w-[55ch] text-pretty text-muted">
+                Shipper gọi 3 lần không liên lạc được người nhận…
+            </p>
+            <p class="mt-1 text-xs text-muted">
+                Lê Văn Phúc · Vận chuyển Sao Việt
+            </p>
+        </div>
+    </li>
 </ol>
 ```
 

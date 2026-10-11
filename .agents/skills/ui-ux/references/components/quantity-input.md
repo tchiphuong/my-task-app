@@ -6,48 +6,48 @@ cân nặng) thì dùng ô nhập thường (`input.md`), không dùng khuôn n�
 
 ```tsx
 <div
-  className={cn(
-    // Mượn nguyên class của ô nhập (viền, nền, bo, focus, lỗi, cao h-11 md:h-10),
-    // bỏ padding ngang, ôm vừa nội dung. Khung đổi viền khi ô số bên trong focus.
-    getFieldControlClasses(hasError, true),
-    "inline-flex h-11 w-fit items-stretch overflow-hidden px-0 md:h-10",
-    isDisabled && "cursor-not-allowed bg-background text-muted",
-  )}
+    className={cn(
+        // Mượn nguyên class của ô nhập (viền, nền, bo, focus, lỗi, cao h-11 md:h-10),
+        // bỏ padding ngang, ôm vừa nội dung. Khung đổi viền khi ô số bên trong focus.
+        getFieldControlClasses(hasError, true),
+        "inline-flex h-11 w-fit items-stretch overflow-hidden px-0 md:h-10",
+        isDisabled && "cursor-not-allowed bg-background text-muted",
+    )}
 >
-  <Button
-    variant="ghost"
-    aria-label="Giảm số lượng"
-    aria-controls={id}
-    tabIndex={-1}
-    disabled={isDecreaseDisabled}
-    onMouseDown={(event) => event.preventDefault()}
-    onClick={() => handleStep(-1)}
-    className="group h-full w-11 shrink-0 rounded-none p-0 hover:bg-transparent md:w-10"
-  >
-    {/* Vùng bấm là cả ô cao (44px ở màn hẹp), nền rê chỉ là ô vuông bo thụt vào. */}
-    <span className="grid size-8 place-items-center rounded-lg text-muted transition-colors group-enabled:group-hover:bg-foreground/5 group-enabled:group-hover:text-foreground">
-      <Minus className="size-4" aria-hidden />
-    </span>
-  </Button>
+    <Button
+        variant="ghost"
+        aria-label="Giảm số lượng"
+        aria-controls={id}
+        tabIndex={-1}
+        disabled={isDecreaseDisabled}
+        onMouseDown={(event) => event.preventDefault()}
+        onClick={() => handleStep(-1)}
+        className="group h-full w-11 shrink-0 rounded-none p-0 hover:bg-transparent md:w-10"
+    >
+        {/* Vùng bấm là cả ô cao (44px ở màn hẹp), nền rê chỉ là ô vuông bo thụt vào. */}
+        <span className="grid size-8 place-items-center rounded-lg text-muted transition-colors group-enabled:group-hover:bg-foreground/5 group-enabled:group-hover:text-foreground">
+            <Minus className="size-4" aria-hidden />
+        </span>
+    </Button>
 
-  <input
-    id={id}
-    type="text"
-    inputMode="numeric"
-    role="spinbutton"
-    aria-valuemin={min}
-    aria-valuemax={max}
-    aria-valuenow={value}
-    aria-invalid={hasError || undefined}
-    aria-describedby={describedById}
-    autoComplete="off"
-    // Nhiều hơn số chữ số của max đúng một: gõ hay dán quá tay thì vẫn kéo về max.
-    maxLength={String(max).length + 1}
-    disabled={isDisabled}
-    className="w-12 min-w-0 bg-transparent text-center tabular-nums outline-hidden disabled:cursor-not-allowed"
-  />
+    <input
+        id={id}
+        type="text"
+        inputMode="numeric"
+        role="spinbutton"
+        aria-valuemin={min}
+        aria-valuemax={max}
+        aria-valuenow={value}
+        aria-invalid={hasError || undefined}
+        aria-describedby={describedById}
+        autoComplete="off"
+        // Nhiều hơn số chữ số của max đúng một: gõ hay dán quá tay thì vẫn kéo về max.
+        maxLength={String(max).length + 1}
+        disabled={isDisabled}
+        className="w-12 min-w-0 bg-transparent text-center tabular-nums outline-hidden disabled:cursor-not-allowed"
+    />
 
-  {/* Nút + y hệt nút −, icon Plus */}
+    {/* Nút + y hệt nút −, icon Plus */}
 </div>
 ```
 
@@ -89,12 +89,12 @@ cân nặng) thì dùng ô nhập thường (`input.md`), không dùng khuôn n�
 ## Giới hạn và lỗi
 
 - **Giới hạn biết trước là `max`, không phải lỗi.** Kho còn 8 thì `max={8}`: nút + mờ ở 8,
-  gõ 20 thì về 8, dòng gợi ý dưới ô nói con số thật: *"Còn 8 sản phẩm."* Không để
+  gõ 20 thì về 8, dòng gợi ý dưới ô nói con số thật: _"Còn 8 sản phẩm."_ Không để
   `max={99}` rồi báo lỗi khi người dùng vượt 8: để người ta bấm một nút rồi mới mắng là
   nút đó không nên bấm được.
 - **Trạng thái lỗi dành cho điều ô không biết trước**: kho giảm sau khi hàng đã nằm trong
   giỏ, server từ chối lúc đặt. Khi đó `max` đã là 8 mà số đang là 12: viền đỏ, nút + mờ,
-  câu lỗi thay dòng gợi ý và nói cách sửa (*"Kho vừa giảm còn 8, giảm xuống 8 hoặc ít
-  hơn."*). Bấm − một lần thì về thẳng 8.
+  câu lỗi thay dòng gợi ý và nói cách sửa (_"Kho vừa giảm còn 8, giảm xuống 8 hoặc ít
+  hơn."_). Bấm − một lần thì về thẳng 8.
 - Dòng gợi ý nói giới hạn thật của thứ đang mua, không phải khoảng kỹ thuật chung chung
   ("Từ 1 đến 99"). Không có giới hạn đáng nói thì không có dòng gợi ý.

@@ -2,16 +2,23 @@
 
 ```tsx
 <section className="flex flex-col rounded-2xl border border-border bg-surface p-5">
-  <header className="mb-4 flex items-start justify-between gap-3">
-    {/* min-h-10 = cao bằng nút action, CHỈ khi có action: một dòng thì tiêu đề nằm giữa nút, nhiều dòng thì nút bám góc trên */}
-    <div className={cn("flex min-w-0 items-center gap-2", action && "min-h-10")}>
-      {icon}
-      <h2 className="text-base font-semibold text-balance text-foreground">{title}</h2>
-    </div>
-    <div className="shrink-0">{action}</div>
-  </header>
+    <header className="mb-4 flex items-start justify-between gap-3">
+        {/* min-h-10 = cao bằng nút action, CHỈ khi có action: một dòng thì tiêu đề nằm giữa nút, nhiều dòng thì nút bám góc trên */}
+        <div
+            className={cn(
+                "flex min-w-0 items-center gap-2",
+                action && "min-h-10",
+            )}
+        >
+            {icon}
+            <h2 className="text-base font-semibold text-balance text-foreground">
+                {title}
+            </h2>
+        </div>
+        <div className="shrink-0">{action}</div>
+    </header>
 
-  <div className="min-h-0 flex-1">{children}</div>
+    <div className="min-h-0 flex-1">{children}</div>
 </section>
 ```
 
@@ -38,9 +45,24 @@ cách thứ hai, không để từng chỗ tự vá:
 ```tsx
 // isFlushList: thân là danh sách dòng có nền rê. Card không px, tiêu đề px-5, khối danh
 // sách px-2 (= 5 − 3), dòng px-3: chữ dòng thẳng mép chữ tiêu đề, nền rê vẫn tràn ra 12px.
-<section className={cn("flex flex-col rounded-2xl border border-border bg-surface", isFlushList ? "py-5" : "p-5")}>
-  <header className={cn("flex items-start justify-between gap-3", isFlushList ? "px-5" : "mb-4", isFlushList && !action && "mb-1.5")}>…</header>
-  <div className={cn("min-h-0 flex-1", isFlushList && "px-2")}>{children}</div>
+<section
+    className={cn(
+        "flex flex-col rounded-2xl border border-border bg-surface",
+        isFlushList ? "py-5" : "p-5",
+    )}
+>
+    <header
+        className={cn(
+            "flex items-start justify-between gap-3",
+            isFlushList ? "px-5" : "mb-4",
+            isFlushList && !action && "mb-1.5",
+        )}
+    >
+        …
+    </header>
+    <div className={cn("min-h-0 flex-1", isFlushList && "px-2")}>
+        {children}
+    </div>
 </section>
 ```
 
@@ -74,18 +96,20 @@ Bốn card trắng giống hệt nhau xếp lưới thì mắt đọc ra bốn k
 
 ```tsx
 <section className="rounded-2xl border border-border bg-surface">
-  <header className="flex items-center justify-between gap-3 px-5 py-4">
-    <h2 className="text-base font-semibold text-foreground">{title}</h2>
-    {action}
-  </header>
+    <header className="flex items-center justify-between gap-3 px-5 py-4">
+        <h2 className="text-base font-semibold text-foreground">{title}</h2>
+        {action}
+    </header>
 
-  <ul className="divide-y divide-border border-t border-border">
-    {items.map((item) => <ListRow key={item.id} item={item} />)}
-  </ul>
+    <ul className="divide-y divide-border border-t border-border">
+        {items.map((item) => (
+            <ListRow key={item.id} item={item} />
+        ))}
+    </ul>
 
-  <footer className="flex justify-end border-t border-border px-5 py-3">
-    <ViewAllButton />
-  </footer>
+    <footer className="flex justify-end border-t border-border px-5 py-3">
+        <ViewAllButton />
+    </footer>
 </section>
 ```
 
@@ -100,10 +124,10 @@ mới. **Luôn căn phải, cùng hàng với tiêu đề.**
 
 **Kiểu nút theo loại hành động**, không dùng chung một kiểu cho mọi action:
 
-| Hành động | Nút |
-| --- | --- |
+| Hành động                                   | Nút                                                                              |
+| ------------------------------------------- | -------------------------------------------------------------------------------- |
 | Dẫn sang màn khác: "Xem tất cả", "Đọc thêm" | **link chữ** `h-8`, không padding ngang, rê vào gạch chân, **không icon** (`I7`) |
-| Làm một việc: tải, xuất, thêm, lọc | nút viền `outline` **có icon trái** (`I1`): `download`, `plus`, `filter` |
+| Làm một việc: tải, xuất, thêm, lọc          | nút viền `outline` **có icon trái** (`I1`): `download`, `plus`, `filter`         |
 
 Đừng dựng "Tải báo cáo" y như "Xem tất cả" (không icon): đọc ra là link sang trang khác chứ không phải nút tải.
 

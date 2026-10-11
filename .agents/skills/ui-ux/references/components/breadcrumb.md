@@ -57,7 +57,7 @@ Tài liệu  ›  …  ›  Hợp đồng 2026  ›  Quý 3                <- 5 
 - **Nút "…" trông như một mục chữ, không phải icon button.** Hộp ôm sát icon (`h-5 w-4 p-0`,
   icon `MoreHorizontal size-4`), không nền, `text-muted` rê vào `text-foreground`, đang mở giữ
   `text-foreground`. Vùng bấm nới bằng `before:` (`before:absolute before:-inset-x-1.5
-  before:-inset-y-1.5`, 28×32px, cùng cách tay cầm ở `range-slider.md`). Đừng dùng nút `ghost size-8`: padding 8px mỗi bên, nét "…"
+before:-inset-y-1.5`, 28×32px, cùng cách tay cầm ở `range-slider.md`). Đừng dùng nút `ghost size-8`: padding 8px mỗi bên, nét "…"
   cách dấu › 22px trong khi chữ cách dấu 12px, và rê vào hiện một ô nền xám giữa hàng chữ
   chỉ đổi màu.
 
@@ -79,103 +79,139 @@ Tài liệu  ›  …  ›  Hợp đồng 2026  ›  Quý 3                <- 5 
 
 ```tsx
 interface BreadcrumbItem {
-  label: string;
-  href: string;
+    label: string;
+    href: string;
 }
 
 interface BreadcrumbProps {
-  // Chỉ các cấp cha, từ xa tới gần. Không đưa trang đang đứng vào đây.
-  items: BreadcrumbItem[];
-  className?: string;
+    // Chỉ các cấp cha, từ xa tới gần. Không đưa trang đang đứng vào đây.
+    items: BreadcrumbItem[];
+    className?: string;
 }
 
 // Link cao 32px để dễ bấm; Tab tới thì <span> chữ bên trong gạch chân (breadcrumbTextClass).
 const breadcrumbLinkClass =
-  "group inline-flex h-8 max-w-48 items-center text-muted outline-hidden transition-colors hover:text-foreground";
+    "group inline-flex h-8 max-w-48 items-center text-muted outline-hidden transition-colors hover:text-foreground";
 
 const breadcrumbTextClass = cn(
-  "truncate rounded-sm",
-  "group-focus-visible:underline",
+    "truncate rounded-sm",
+    "group-focus-visible:underline",
 );
 
 export default function Breadcrumb({ items, className }: BreadcrumbProps) {
-  const nearestParent = items.at(-1);
-  if (!nearestParent) return null;
+    const nearestParent = items.at(-1);
+    if (!nearestParent) return null;
 
-  // Từ 4 cấp: giữ cấp đầu và hai cấp gần nhất, cấp giữa vào menu "…".
-  const isCollapsed = items.length > 3;
-  const leadingItems = isCollapsed ? items.slice(0, 1) : [];
-  const hiddenItems = isCollapsed ? items.slice(1, -2) : [];
-  const trailingItems = isCollapsed ? items.slice(-2) : items;
+    // Từ 4 cấp: giữ cấp đầu và hai cấp gần nhất, cấp giữa vào menu "…".
+    const isCollapsed = items.length > 3;
+    const leadingItems = isCollapsed ? items.slice(0, 1) : [];
+    const hiddenItems = isCollapsed ? items.slice(1, -2) : [];
+    const trailingItems = isCollapsed ? items.slice(-2) : items;
 
-  return (
-    <nav aria-label="Đường dẫn" className={cn("min-w-0", className)}>
-      {/* Màn hẹp: một link quay về cấp cha gần nhất. */}
-      <Link
-        href={nearestParent.href}
-        title={nearestParent.label}
-        className={cn(breadcrumbLinkClass, "h-10 gap-1 text-sm sm:hidden")}
-      >
-        {/* Vòng bọc cả ‹ lẫn chữ; pr-1.5 bù khoảng trống bên trái nét ‹ trong hộp icon. */}
-        <span className={cn(breadcrumbTextClass, "inline-flex min-w-0 items-center gap-1 pr-1.5")}>
-          <ChevronLeft className="size-4 shrink-0" aria-hidden />
-          <span className="truncate">{nearestParent.label}</span>
-        </span>
-      </Link>
-
-      <ol className="hidden min-w-0 items-center gap-2 text-sm sm:flex">
-        {leadingItems.map((item) => (
-          <BreadcrumbCrumb key={item.href} item={item} hasSeparator={false} />
-        ))}
-
-        {hiddenItems.length > 0 ? (
-          <li className="flex shrink-0 items-center gap-2">
-            <ChevronRight className="size-4 text-muted" aria-hidden />
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                {/* Trông như một mục chữ: hộp ôm sát icon, không nền. Vùng bấm nới ra 28×32px
-                    bằng before: (số âm có chủ ý, N11: nới vùng bấm mà không đẩy hình). */}
-                <Button
-                  variant="ghost"
-                  aria-label="Hiện các cấp bị ẩn"
-                  className={cn(
-                    "group relative h-5 min-h-0 w-4 rounded-sm p-0 text-muted hover:bg-transparent hover:text-foreground",
-                    "before:absolute before:-inset-x-1.5 before:-inset-y-1.5",
-                    "aria-expanded:text-foreground",
-                  )}
+    return (
+        <nav aria-label="Đường dẫn" className={cn("min-w-0", className)}>
+            {/* Màn hẹp: một link quay về cấp cha gần nhất. */}
+            <Link
+                href={nearestParent.href}
+                title={nearestParent.label}
+                className={cn(
+                    breadcrumbLinkClass,
+                    "h-10 gap-1 text-sm sm:hidden",
+                )}
+            >
+                {/* Vòng bọc cả ‹ lẫn chữ; pr-1.5 bù khoảng trống bên trái nét ‹ trong hộp icon. */}
+                <span
+                    className={cn(
+                        breadcrumbTextClass,
+                        "inline-flex min-w-0 items-center gap-1 pr-1.5",
+                    )}
                 >
-                  <MoreHorizontal className="size-4" aria-hidden />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start">
-                {hiddenItems.map((item) => (
-                  <DropdownMenuItem key={item.href} asChild>
-                    <Link href={item.href}>{item.label}</Link>
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </li>
-        ) : null}
+                    <ChevronLeft className="size-4 shrink-0" aria-hidden />
+                    <span className="truncate">{nearestParent.label}</span>
+                </span>
+            </Link>
 
-        {trailingItems.map((item, index) => (
-          <BreadcrumbCrumb key={item.href} item={item} hasSeparator={isCollapsed || index > 0} />
-        ))}
-      </ol>
-    </nav>
-  );
+            <ol className="hidden min-w-0 items-center gap-2 text-sm sm:flex">
+                {leadingItems.map((item) => (
+                    <BreadcrumbCrumb
+                        key={item.href}
+                        item={item}
+                        hasSeparator={false}
+                    />
+                ))}
+
+                {hiddenItems.length > 0 ? (
+                    <li className="flex shrink-0 items-center gap-2">
+                        <ChevronRight
+                            className="size-4 text-muted"
+                            aria-hidden
+                        />
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                {/* Trông như một mục chữ: hộp ôm sát icon, không nền. Vùng bấm nới ra 28×32px
+                    bằng before: (số âm có chủ ý, N11: nới vùng bấm mà không đẩy hình). */}
+                                <Button
+                                    variant="ghost"
+                                    aria-label="Hiện các cấp bị ẩn"
+                                    className={cn(
+                                        "group relative h-5 min-h-0 w-4 rounded-sm p-0 text-muted hover:bg-transparent hover:text-foreground",
+                                        "before:absolute before:-inset-x-1.5 before:-inset-y-1.5",
+                                        "aria-expanded:text-foreground",
+                                    )}
+                                >
+                                    <MoreHorizontal
+                                        className="size-4"
+                                        aria-hidden
+                                    />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="start">
+                                {hiddenItems.map((item) => (
+                                    <DropdownMenuItem key={item.href} asChild>
+                                        <Link href={item.href}>
+                                            {item.label}
+                                        </Link>
+                                    </DropdownMenuItem>
+                                ))}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </li>
+                ) : null}
+
+                {trailingItems.map((item, index) => (
+                    <BreadcrumbCrumb
+                        key={item.href}
+                        item={item}
+                        hasSeparator={isCollapsed || index > 0}
+                    />
+                ))}
+            </ol>
+        </nav>
+    );
 }
 
 // breadcrumb-crumb.tsx: một mục, dấu › đứng trước trong cùng <li>.
-export default function BreadcrumbCrumb({ item, hasSeparator }: BreadcrumbCrumbProps) {
-  return (
-    <li className="flex min-w-0 items-center gap-2">
-      {hasSeparator ? <ChevronRight className="size-4 shrink-0 text-muted" aria-hidden /> : null}
-      <Link href={item.href} title={item.label} className={breadcrumbLinkClass}>
-        <span className={breadcrumbTextClass}>{item.label}</span>
-      </Link>
-    </li>
-  );
+export default function BreadcrumbCrumb({
+    item,
+    hasSeparator,
+}: BreadcrumbCrumbProps) {
+    return (
+        <li className="flex min-w-0 items-center gap-2">
+            {hasSeparator ? (
+                <ChevronRight
+                    className="size-4 shrink-0 text-muted"
+                    aria-hidden
+                />
+            ) : null}
+            <Link
+                href={item.href}
+                title={item.label}
+                className={breadcrumbLinkClass}
+            >
+                <span className={breadcrumbTextClass}>{item.label}</span>
+            </Link>
+        </li>
+    );
 }
 ```
 

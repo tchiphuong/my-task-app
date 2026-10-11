@@ -3,17 +3,19 @@
 Nguồn: `speak-now/src/components/input/input.tsx`
 
 ```tsx
-const baseClasses = "outline-hidden transition-colors text-foreground placeholder:text-muted";
+const baseClasses =
+    "outline-hidden transition-colors text-foreground placeholder:text-muted";
 
 const variantClasses = {
-  // Viền và MÀU viền viết cùng một chỗ, đúng như nút outline: `border border-border-strong`.
-  default: "w-full h-11 md:h-10 bg-surface dark:bg-white/4 border border-border-strong rounded-xl text-base px-4 md:text-sm",
-  ghost: "bg-transparent border-0 p-0",
+    // Viền và MÀU viền viết cùng một chỗ, đúng như nút outline: `border border-border-strong`.
+    default:
+        "w-full h-11 md:h-10 bg-surface dark:bg-white/4 border border-border-strong rounded-xl text-base px-4 md:text-sm",
+    ghost: "bg-transparent border-0 p-0",
 };
 
 const stateClasses = error
-  ? "border-red-500 focus:ring-2 focus:ring-red-500/10"   // lúc thường chỉ viền đỏ, quầng chỉ khi đang gõ
-  : "focus:border-focus focus:ring-2 focus:ring-focus";
+    ? "border-red-500 focus:ring-2 focus:ring-red-500/10" // lúc thường chỉ viền đỏ, quầng chỉ khi đang gõ
+    : "focus:border-focus focus:ring-2 focus:ring-focus";
 ```
 
 **Vì sao ổn**
@@ -62,20 +64,24 @@ Luật ở `I27`. Ô bọc `relative`, nút `absolute` bên phải, và ô chừ
 const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
 <div className="relative">
-  <input
-    id={id}
-    type={isPasswordVisible ? "text" : "password"}
-    className="... w-full pr-11"
-  />
-  <button
-    type="button"
-    onClick={() => setIsPasswordVisible((isVisible) => !isVisible)}
-    aria-label={isPasswordVisible ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
-    className="absolute inset-y-0 right-1 my-auto flex size-10 cursor-pointer items-center justify-center rounded-lg text-muted outline-hidden hover:text-foreground"
-  >
-    {isPasswordVisible ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
-  </button>
-</div>
+    <input
+        id={id}
+        type={isPasswordVisible ? "text" : "password"}
+        className="... w-full pr-11"
+    />
+    <button
+        type="button"
+        onClick={() => setIsPasswordVisible((isVisible) => !isVisible)}
+        aria-label={isPasswordVisible ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
+        className="absolute inset-y-0 right-1 my-auto flex size-10 cursor-pointer items-center justify-center rounded-lg text-muted outline-hidden hover:text-foreground"
+    >
+        {isPasswordVisible ? (
+            <EyeOff className="size-4" />
+        ) : (
+            <Eye className="size-4" />
+        )}
+    </button>
+</div>;
 ```
 
 - `type="button"`, không phải mặc định `submit`.
@@ -93,8 +99,11 @@ const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
 ```tsx
 <div className="relative">
-  <Mail className="absolute inset-y-0 left-3.5 my-auto size-4 text-muted" aria-hidden />
-  <input className="... w-full pl-11" />
+    <Mail
+        className="absolute inset-y-0 left-3.5 my-auto size-4 text-muted"
+        aria-hidden
+    />
+    <input className="... w-full pl-11" />
 </div>
 ```
 
@@ -119,16 +128,23 @@ một câu dài ở 375px không có cách xoá nhanh, chữ trôi khuất bên 
 
 ```tsx
 <div className="relative">
-  <input
-    ref={inputRef}
-    type="search"
-    className="... w-full pr-10 [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none"
-  />
-  {query ? (
-    <Button variant="ghost" icon={X} aria-label="Xoá từ khoá"
-      onClick={() => { clearQuery(); inputRef.current?.focus(); }}
-      className="absolute inset-y-0 right-1 my-auto size-8 min-h-8 rounded-lg p-0 text-muted hover:text-foreground" />
-  ) : null}
+    <input
+        ref={inputRef}
+        type="search"
+        className="... w-full pr-10 [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none"
+    />
+    {query ? (
+        <Button
+            variant="ghost"
+            icon={X}
+            aria-label="Xoá từ khoá"
+            onClick={() => {
+                clearQuery();
+                inputRef.current?.focus();
+            }}
+            className="absolute inset-y-0 right-1 my-auto size-8 min-h-8 rounded-lg p-0 text-muted hover:text-foreground"
+        />
+    ) : null}
 </div>
 ```
 
@@ -148,7 +164,9 @@ là gần trắng nên viền hoá thành sợi trắng đặc, gắt.
 Dùng `--border-focus` thay vì `--primary`:
 
 ```html
-<input class="... border border-border-strong focus:border-focus focus:ring-2 focus:ring-focus" />
+<input
+    class="... border border-border-strong focus:border-focus focus:ring-2 focus:ring-focus"
+/>
 ```
 
 ```js

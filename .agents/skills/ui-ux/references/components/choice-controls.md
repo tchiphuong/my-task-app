@@ -10,12 +10,12 @@ Chủ dự án chốt. Mọi con số dưới là **mặc định**: dự án c�
 
 ## Cỡ
 
-| | Mặc định | Nhỏ | Nhỏ dùng khi |
-| --- | --- | --- | --- |
-| Checkbox | `size-5` 20px, bo `rounded-md` 6px, tick `size-3.5` | `size-4` 16px, bo `rounded` 4px, tick `size-3` | Trong bảng, trong menu, dòng `text-xs` |
-| Radio | `size-5` 20px | `size-4` 16px | Như trên |
-| Công tắc | track `h-6 w-11` (24×44), núm `size-5`, chạy `translate-x-5` | track `h-5 w-9` (20×36), núm `size-4`, chạy `translate-x-4` | Dòng dày, card nhỏ |
-| Select | `h-11 md:h-10`, y như ô nhập | theo ô nhập của dự án | |
+|          | Mặc định                                                     | Nhỏ                                                         | Nhỏ dùng khi                           |
+| -------- | ------------------------------------------------------------ | ----------------------------------------------------------- | -------------------------------------- |
+| Checkbox | `size-5` 20px, bo `rounded-md` 6px, tick `size-3.5`          | `size-4` 16px, bo `rounded` 4px, tick `size-3`              | Trong bảng, trong menu, dòng `text-xs` |
+| Radio    | `size-5` 20px                                                | `size-4` 16px                                               | Như trên                               |
+| Công tắc | track `h-6 w-11` (24×44), núm `size-5`, chạy `translate-x-5` | track `h-5 w-9` (20×36), núm `size-4`, chạy `translate-x-4` | Dòng dày, card nhỏ                     |
+| Select   | `h-11 md:h-10`, y như ô nhập                                 | theo ô nhập của dự án                                       |                                        |
 
 Công thức công tắc: `rộng track = 2 × núm + 4px` (đệm `p-0.5` hai bên), khoảng
 chạy = cỡ núm. Đổi cỡ thì giữ công thức đó, núm không chạm mép track.
@@ -47,21 +47,21 @@ chọn.
 
 **Ô** có hai kiểu tô:
 
-| Kiểu | Checkbox đã chọn | Radio đã chọn | Hợp khi |
-| --- | --- | --- | --- |
-| `filled` (mặc định) | nền nhấn, tick `--primary-foreground` | nền nhấn đặc, chấm trắng ở giữa | Mọi chỗ |
-| `outline` | viền nhấn, nền trắng, tick màu nhấn | vòng nhấn, khe trắng, chấm nhấn | Trang đã nhiều khối tô đặc, cần nhẹ tay (`M2`) |
+| Kiểu                | Checkbox đã chọn                      | Radio đã chọn                   | Hợp khi                                        |
+| ------------------- | ------------------------------------- | ------------------------------- | ---------------------------------------------- |
+| `filled` (mặc định) | nền nhấn, tick `--primary-foreground` | nền nhấn đặc, chấm trắng ở giữa | Mọi chỗ                                        |
+| `outline`           | viền nhấn, nền trắng, tick màu nhấn   | vòng nhấn, khe trắng, chấm nhấn | Trang đã nhiều khối tô đặc, cần nhẹ tay (`M2`) |
 
 Một app chọn **một** kiểu tô, dùng khắp nơi (`D1`).
 
 **Bố cục** có bốn loại:
 
-| Bố cục | Hình | Dùng khi |
-| --- | --- | --- |
-| Hàng | ô + nhãn một dòng | Lựa chọn tự giải thích: "Nhớ đăng nhập" |
-| Hàng có mô tả | ô + nhãn đậm + một câu phụ `text-muted` | Lựa chọn cần một câu hệ quả |
-| Card | cả khung viền là vùng bấm, ô ở góc trái trên | 2–4 lựa chọn **quan trọng**, mỗi cái có hệ quả khác nhau: quyền đăng bài, gói cước, phương thức giao hàng |
-| Card có icon | như card, thêm icon lucide trong ô vuông `size-10 rounded-lg bg-background` bên trái chữ; card có nền rê thì nền rê không được là `bg-background` (`I32`) | Như card, khi các lựa chọn khác nhau về **loại**: giao tiêu chuẩn / giao nhanh / nhận tại cửa hàng |
+| Bố cục        | Hình                                                                                                                                                      | Dùng khi                                                                                                  |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Hàng          | ô + nhãn một dòng                                                                                                                                         | Lựa chọn tự giải thích: "Nhớ đăng nhập"                                                                   |
+| Hàng có mô tả | ô + nhãn đậm + một câu phụ `text-muted`                                                                                                                   | Lựa chọn cần một câu hệ quả                                                                               |
+| Card          | cả khung viền là vùng bấm, ô ở góc trái trên                                                                                                              | 2–4 lựa chọn **quan trọng**, mỗi cái có hệ quả khác nhau: quyền đăng bài, gói cước, phương thức giao hàng |
+| Card có icon  | như card, thêm icon lucide trong ô vuông `size-10 rounded-lg bg-background` bên trái chữ; card có nền rê thì nền rê không được là `bg-background` (`I32`) | Như card, khi các lựa chọn khác nhau về **loại**: giao tiêu chuẩn / giao nhanh / nhận tại cửa hàng        |
 
 Công tắc có thêm bố cục **hàng cài đặt**: nhãn + mô tả bên trái, công tắc căn
 phải, xem cuối file.
@@ -72,12 +72,21 @@ phải, xem cuối file.
 
 ```html
 <label class="inline-flex w-fit cursor-pointer items-center gap-3 text-sm">
-  <span class="relative inline-flex shrink-0">
-    <input type="checkbox" class="peer size-5 cursor-pointer appearance-none rounded-md border-[1.5px] border-border-strong bg-surface outline-hidden transition-colors not-checked:not-indeterminate:hover:border-foreground checked:border-primary checked:bg-primary indeterminate:border-primary indeterminate:bg-primary disabled:cursor-not-allowed disabled:opacity-50" />
-    <i data-lucide="check" class="pointer-events-none absolute inset-0 m-auto size-3.5 stroke-[3] text-primary-foreground opacity-0 peer-checked:opacity-100"></i>
-    <i data-lucide="minus" class="pointer-events-none absolute inset-0 m-auto size-3.5 stroke-[3] text-primary-foreground opacity-0 peer-indeterminate:opacity-100"></i>
-  </span>
-  Nhận email thông báo
+    <span class="relative inline-flex shrink-0">
+        <input
+            type="checkbox"
+            class="peer size-5 cursor-pointer appearance-none rounded-md border-[1.5px] border-border-strong bg-surface outline-hidden transition-colors not-checked:not-indeterminate:hover:border-foreground checked:border-primary checked:bg-primary indeterminate:border-primary indeterminate:bg-primary disabled:cursor-not-allowed disabled:opacity-50"
+        />
+        <i
+            data-lucide="check"
+            class="pointer-events-none absolute inset-0 m-auto size-3.5 stroke-[3] text-primary-foreground opacity-0 peer-checked:opacity-100"
+        ></i>
+        <i
+            data-lucide="minus"
+            class="pointer-events-none absolute inset-0 m-auto size-3.5 stroke-[3] text-primary-foreground opacity-0 peer-indeterminate:opacity-100"
+        ></i>
+    </span>
+    Nhận email thông báo
 </label>
 ```
 
@@ -91,10 +100,18 @@ phải, xem cuối file.
 
 ```html
 <!-- filled: viền dày 6px màu nhấn, lõi trắng 8px chính là chấm -->
-<input type="radio" name="shipping" class="size-5 cursor-pointer appearance-none rounded-full border-[1.5px] border-border-strong bg-surface outline-hidden transition-[border-color,border-width] not-checked:hover:border-foreground checked:border-[6px] checked:border-primary disabled:cursor-not-allowed disabled:opacity-50" />
+<input
+    type="radio"
+    name="shipping"
+    class="size-5 cursor-pointer appearance-none rounded-full border-[1.5px] border-border-strong bg-surface outline-hidden transition-[border-color,border-width] not-checked:hover:border-foreground checked:border-[6px] checked:border-primary disabled:cursor-not-allowed disabled:opacity-50"
+/>
 
 <!-- outline: nền chỉ tô phần lõi (bg-clip-content), padding 3px là khe trắng -->
-<input type="radio" name="shipping" class="size-5 cursor-pointer appearance-none rounded-full border-[1.5px] border-border-strong bg-clip-content p-[3px] outline-hidden not-checked:hover:border-foreground checked:border-2 checked:border-primary checked:bg-primary disabled:cursor-not-allowed disabled:opacity-50" />
+<input
+    type="radio"
+    name="shipping"
+    class="size-5 cursor-pointer appearance-none rounded-full border-[1.5px] border-border-strong bg-clip-content p-[3px] outline-hidden not-checked:hover:border-foreground checked:border-2 checked:border-primary checked:bg-primary disabled:cursor-not-allowed disabled:opacity-50"
+/>
 ```
 
 Cả hai không cần phần tử phụ, không cần icon. Cỡ nhỏ `size-4`: `filled` dùng
@@ -114,16 +131,25 @@ chọn; chỉ tô nền thì cả card đổi màu, quá nặng.
 
 ```html
 <fieldset class="space-y-3">
-  <legend class="mb-3 text-sm font-medium">Ai được đăng bài</legend>
+    <legend class="mb-3 text-sm font-medium">Ai được đăng bài</legend>
 
-  <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-border-strong bg-surface p-4 transition-colors hover:bg-surface-hover has-checked:border-focus has-checked:ring-2 has-checked:ring-focus">
-    <input type="radio" name="post" checked class="mt-0.5 size-5 shrink-0 cursor-pointer appearance-none rounded-full border-[1.5px] border-border-strong bg-surface outline-hidden checked:border-[6px] checked:border-primary" />
-    <span class="min-w-0">
-      <span class="block text-sm font-medium">Mọi thành viên</span>
-      <span class="mt-1 block text-sm text-muted">Ai đã tham gia cộng đồng đều đăng được bài.</span>
-    </span>
-  </label>
-  <!-- card thứ hai y hệt, không có `checked` -->
+    <label
+        class="flex cursor-pointer items-start gap-3 rounded-xl border border-border-strong bg-surface p-4 transition-colors hover:bg-surface-hover has-checked:border-focus has-checked:ring-2 has-checked:ring-focus"
+    >
+        <input
+            type="radio"
+            name="post"
+            checked
+            class="mt-0.5 size-5 shrink-0 cursor-pointer appearance-none rounded-full border-[1.5px] border-border-strong bg-surface outline-hidden checked:border-[6px] checked:border-primary"
+        />
+        <span class="min-w-0">
+            <span class="block text-sm font-medium">Mọi thành viên</span>
+            <span class="mt-1 block text-sm text-muted"
+                >Ai đã tham gia cộng đồng đều đăng được bài.</span
+            >
+        </span>
+    </label>
+    <!-- card thứ hai y hệt, không có `checked` -->
 </fieldset>
 ```
 
@@ -141,9 +167,16 @@ Công tắc = **có hiệu lực ngay**, không chờ nút Lưu (`layouts/app.md
 đặt). Cần bấm Lưu mới có hiệu lực thì dùng checkbox.
 
 ```html
-<button type="button" role="switch" aria-checked="false" aria-labelledby="notify-label"
-  class="group relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full bg-muted/40 p-0.5 outline-hidden before:absolute before:-inset-2 transition-colors hover:bg-muted/60 aria-checked:bg-primary aria-checked:hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-50">
-  <span class="size-5 rounded-full bg-surface shadow-sm transition-transform group-aria-checked:translate-x-5 group-aria-checked:bg-primary-foreground motion-reduce:transition-none"></span>
+<button
+    type="button"
+    role="switch"
+    aria-checked="false"
+    aria-labelledby="notify-label"
+    class="group relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full bg-muted/40 p-0.5 outline-hidden before:absolute before:-inset-2 transition-colors hover:bg-muted/60 aria-checked:bg-primary aria-checked:hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-50"
+>
+    <span
+        class="size-5 rounded-full bg-surface shadow-sm transition-transform group-aria-checked:translate-x-5 group-aria-checked:bg-primary-foreground motion-reduce:transition-none"
+    ></span>
 </button>
 ```
 
@@ -158,11 +191,11 @@ Công tắc = **có hiệu lực ngay**, không chờ nút Lưu (`layouts/app.md
 
 ```html
 <div class="flex items-center justify-between gap-4 py-4">
-  <div class="min-w-0">
-    <p id="notify-label" class="text-sm font-medium">Thông báo qua email</p>
-    <p class="mt-1 text-sm text-muted">Gửi khi có người nhắc tới bạn.</p>
-  </div>
-  <!-- công tắc ở trên -->
+    <div class="min-w-0">
+        <p id="notify-label" class="text-sm font-medium">Thông báo qua email</p>
+        <p class="mt-1 text-sm text-muted">Gửi khi có người nhắc tới bạn.</p>
+    </div>
+    <!-- công tắc ở trên -->
 </div>
 ```
 
@@ -185,10 +218,18 @@ không `focus:`**: chọn bằng chuột xong, focus trả về nút, `focus:` l
 Ô chọn ngày, ô chọn giờ cùng luật.
 
 ```html
-<button type="button" role="combobox" aria-haspopup="listbox" aria-expanded="false"
-  class="group flex h-11 w-full md:h-10 cursor-pointer items-center justify-between gap-2 rounded-xl border border-border-strong bg-surface px-4 text-left text-base outline-hidden transition-colors md:text-sm focus-visible:border-focus aria-expanded:border-focus aria-expanded:ring-2 aria-expanded:ring-focus">
-  <span class="truncate">An Giang</span>
-  <i data-lucide="chevron-down" class="size-4 shrink-0 text-muted transition-transform group-aria-expanded:rotate-180"></i>
+<button
+    type="button"
+    role="combobox"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    class="group flex h-11 w-full md:h-10 cursor-pointer items-center justify-between gap-2 rounded-xl border border-border-strong bg-surface px-4 text-left text-base outline-hidden transition-colors md:text-sm focus-visible:border-focus aria-expanded:border-focus aria-expanded:ring-2 aria-expanded:ring-focus"
+>
+    <span class="truncate">An Giang</span>
+    <i
+        data-lucide="chevron-down"
+        class="size-4 shrink-0 text-muted transition-transform group-aria-expanded:rotate-180"
+    ></i>
 </button>
 ```
 
@@ -205,7 +246,7 @@ không `focus:`**: chọn bằng chuột xong, focus trả về nút, `focus:` l
 - **Tên lựa chọn dài** (tên khoá học, tên dự án): khung rộng **tối thiểu** bằng nút mở; nút lọc co theo chữ (`w-fit`, "Khoá học ▾") thì khung `w-72`, không hẹp theo nút. Tên vẫn dài hơn thì xuống dòng trong mục (`min-h-10 py-2.5`, `text-pretty`), không `truncate`: nhiều tên chung đầu "Khoá học HTML CSS…", cắt cụt là không phân biệt được. Nút mở hiện tên đã chọn thì `max-w-60 truncate` kèm `title`.
 - **Mục có mô tả** (vai trò, gói, quyền): hai tầng, tên `text-sm font-medium` + một câu `text-sm text-muted` nói **quyền làm được gì**, mục cao theo nội dung (`py-2.5`), không ép `h-10`. Ô đã đóng chỉ hiện tên, không hiện mô tả. Chọn quyền mà không có câu này thì người mời phải đoán "Thành viên" khác "Chỉ xem" chỗ nào.
 - **Mục đang chọn**: chữ `font-medium` + icon `check` `size-4` căn phải. Nền xám `bg-item-hover` là của **mục đang sáng** (chuột hoặc phím mũi tên, `data-[highlighted]`), không phải của mục đang chọn; mở ra thì mục đang chọn sáng trước.
-- Trên 8 mục: **ô tìm ở đầu danh sách**, icon `search` trái, placeholder "Tìm tỉnh, thành phố", đường chia bên dưới tràn hai mép (`F25`). Gợi ý (người dùng quyết): gõ là lọc ngay, không bấm Enter; lọc ở máy hay gọi server thì để handler rỗng. Không ra kết quả thì một dòng `text-muted` căn giữa: *Không tìm thấy tỉnh, thành phố nào*. **Không nhắc lại từ khoá**: nó nằm ngay ô tìm phía trên (`N3`), và từ khoá dài bị cắt giữa chữ thành "của phò…".
+- Trên 8 mục: **ô tìm ở đầu danh sách**, icon `search` trái, placeholder "Tìm tỉnh, thành phố", đường chia bên dưới tràn hai mép (`F25`). Gợi ý (người dùng quyết): gõ là lọc ngay, không bấm Enter; lọc ở máy hay gọi server thì để handler rỗng. Không ra kết quả thì một dòng `text-muted` căn giữa: _Không tìm thấy tỉnh, thành phố nào_. **Không nhắc lại từ khoá**: nó nằm ngay ô tìm phía trên (`N3`), và từ khoá dài bị cắt giữa chữ thành "của phò…".
 - **`<select>` gốc chỉ cho màn cảm ứng**: dưới 8 mục, không cần tìm, và component chỉ hiện trên mobile (bản mobile riêng, hay app chỉ chạy trên điện thoại) thì `<select>` gốc là đủ: `appearance-none` + icon `chevron-down` đặt `absolute` bên phải, `pr-10`. Điện thoại mở bánh xe chọn gốc, dễ bấm hơn mọi danh sách tự dựng. **Màn desktop thì luôn dựng danh sách như trên**: tô ô ngoài chỉ đổi được lúc đóng, bấm vào vẫn bung menu xám của hệ điều hành, lạc giữa app đã có kiểu. Một ô dùng chung cho cả hai khổ thì dựng danh sách.
 
 ---
@@ -279,15 +320,15 @@ Bấm năm    ──►   lưới 12 năm (2020–2031), ‹ › nhảy 12 năm
 - Gợi ý (người dùng quyết): cho **gõ thẳng vào ô** theo `dd/mm/yyyy`. Ngày xa (ngày sinh, hạn hợp đồng năm sau) gõ `15/03/1990` nhanh hơn mọi lưới. Khi cho gõ thì câu lỗi mới được kèm ví dụ định dạng; không cho gõ thì đừng ghi "ví dụ 31/12/2026", người dùng không có chỗ nào để gõ.
 - Câu lỗi nói **chuyện gì sai**, không lặp lời placeholder: "Chưa chọn ngày hết hạn", "Ngày hết hạn phải sau hôm nay". Không phải "Chọn ngày hết hạn".
 - **Mở từ một ô trong bảng (sửa tại chỗ, như hạn chót của công việc)** thì khác ô trong form ở ba chỗ:
-  - **Bấm ngày là lưu và đóng**, không nút "Áp dụng". `Esc` hoặc bấm ra ngoài thì đóng, giữ giá trị cũ; tiêu điểm về lại ô.
-  - **Có đường gỡ giá trị.** Ô đang có hạn thì dưới lưới có một hàng gỡ: đường chia `border-t border-border` tràn hết bề ngang popover (`F25`), dưới đó `p-1` rồi một **hàng kiểu mục menu rộng hết bề ngang**: `flex h-10 w-full items-center gap-2.5 rounded-xl px-3 text-sm text-foreground hover:bg-item-hover`, icon `calendar-x` `size-4 text-muted` + "Xoá hạn", căn trái. Không có hàng này thì đặt hạn một lần là không bao giờ về lại `—` được.
-    - **Không dùng nút `ghost` co theo chữ.** Một nút nhỏ nằm một mình trong cả một hàng có đường chia trông lẻ loi, như thiếu nút còn lại. Hàng rộng hết bề ngang là ngôn ngữ của mục menu, đọc ra "một lựa chọn nữa của popover này", và mốc nhanh thêm sau này nằm cùng khuôn.
-    - **Căn trái, không căn phải.** Mép phải của hàng cuối popover là chỗ của nút xác nhận ("Áp dụng"); ở đây bấm ngày là lưu nên không có nút đó, đặt "Xoá hạn" bên phải là trông như nút chính.
-    - **Không đỏ, kể cả lúc rê.** Đỏ khi rê (`I4`) dành cho xoá **bản ghi**: mất một thứ. Gỡ hạn là đổi một giá trị về trống, đặt lại là có: ba câu của `I4` đều "không". Tô đỏ thì người ta ngần ngại bấm một việc vô hại, và làm nhạt nghĩa của đỏ ở mục "Xoá công việc" ngay trong menu ba chấm cùng dòng. Không hỏi xác nhận.
-    - Ô chưa có hạn thì không có hàng này (không có gì để gỡ).
-  - Ô mở popover giữ nền hover suốt lúc popover mở (`aria-expanded:bg-foreground/8`, không `bg-surface-hover` vì trùng nền dòng đang rê, không `/5` vì gần trùng, `I10`), để biết lịch này đang sửa ô nào.
-  - **Dấu bấm được lúc đứng yên**: ô sửa tại chỗ là việc phụ (hạn chót giữa ba bốn ô sửa được của một dòng việc) thì chỉ hiện lúc rê; ô là **việc chính của trang** (vai trò ở trang thành viên) thì `ChevronDown` luôn hiện. Xem "Trang thành viên và phân quyền" trong `../layouts/app.md`.
-  - Gợi ý (người dùng quyết): hàng mốc nhanh "Hôm nay · Ngày mai · Thứ Hai tới" trên lưới. Hạn chót đa phần rơi vào vài ngày tới.
+    - **Bấm ngày là lưu và đóng**, không nút "Áp dụng". `Esc` hoặc bấm ra ngoài thì đóng, giữ giá trị cũ; tiêu điểm về lại ô.
+    - **Có đường gỡ giá trị.** Ô đang có hạn thì dưới lưới có một hàng gỡ: đường chia `border-t border-border` tràn hết bề ngang popover (`F25`), dưới đó `p-1` rồi một **hàng kiểu mục menu rộng hết bề ngang**: `flex h-10 w-full items-center gap-2.5 rounded-xl px-3 text-sm text-foreground hover:bg-item-hover`, icon `calendar-x` `size-4 text-muted` + "Xoá hạn", căn trái. Không có hàng này thì đặt hạn một lần là không bao giờ về lại `—` được.
+        - **Không dùng nút `ghost` co theo chữ.** Một nút nhỏ nằm một mình trong cả một hàng có đường chia trông lẻ loi, như thiếu nút còn lại. Hàng rộng hết bề ngang là ngôn ngữ của mục menu, đọc ra "một lựa chọn nữa của popover này", và mốc nhanh thêm sau này nằm cùng khuôn.
+        - **Căn trái, không căn phải.** Mép phải của hàng cuối popover là chỗ của nút xác nhận ("Áp dụng"); ở đây bấm ngày là lưu nên không có nút đó, đặt "Xoá hạn" bên phải là trông như nút chính.
+        - **Không đỏ, kể cả lúc rê.** Đỏ khi rê (`I4`) dành cho xoá **bản ghi**: mất một thứ. Gỡ hạn là đổi một giá trị về trống, đặt lại là có: ba câu của `I4` đều "không". Tô đỏ thì người ta ngần ngại bấm một việc vô hại, và làm nhạt nghĩa của đỏ ở mục "Xoá công việc" ngay trong menu ba chấm cùng dòng. Không hỏi xác nhận.
+        - Ô chưa có hạn thì không có hàng này (không có gì để gỡ).
+    - Ô mở popover giữ nền hover suốt lúc popover mở (`aria-expanded:bg-foreground/8`, không `bg-surface-hover` vì trùng nền dòng đang rê, không `/5` vì gần trùng, `I10`), để biết lịch này đang sửa ô nào.
+    - **Dấu bấm được lúc đứng yên**: ô sửa tại chỗ là việc phụ (hạn chót giữa ba bốn ô sửa được của một dòng việc) thì chỉ hiện lúc rê; ô là **việc chính của trang** (vai trò ở trang thành viên) thì `ChevronDown` luôn hiện. Xem "Trang thành viên và phân quyền" trong `../layouts/app.md`.
+    - Gợi ý (người dùng quyết): hàng mốc nhanh "Hôm nay · Ngày mai · Thứ Hai tới" trên lưới. Hạn chót đa phần rơi vào vài ngày tới.
 - Kiểu khác, chỉ dựng khi đề yêu cầu: **hai select tháng và năm** thay cho tiêu đề (hợp ô ngày sinh, năm lùi vài chục năm). Mặc định vẫn là tiêu đề bấm được ở trên.
 
 **Ngày bị khoá** (quá khứ, ngày nghỉ, ngoài hạn mức): **ngày nào bị khoá là
@@ -354,15 +395,15 @@ lên ô. Radix: `side="bottom"` + `avoidCollisions`, không bật `sticky="alway
 
 ## Đủ trạng thái chưa
 
-| Trạng thái | Checkbox / radio | Công tắc | Select |
-| --- | --- | --- | --- |
-| Thường | viền `--border-strong` | track `muted/40` | viền `--border-strong` |
-| Rê vào | chưa chọn: viền `--foreground`; đã chọn: giữ nguyên màu nhấn | track `muted/60` / `--primary-hover` | giữ nguyên, `cursor-pointer` |
-| Tab tới | không đổi (`I13`) | không đổi (`I13`) | viền `--border-focus` |
-| Đã chọn / bật / đang mở | tô nhấn theo kiểu | track nhấn, núm sang phải | viền + ring, chevron xoay |
-| Một phần | icon `minus` (chỉ checkbox) | — | — |
-| Lỗi | viền `red-500` + câu lỗi | — | viền `red-500` + ring đỏ |
-| Khoá | `opacity-50`, `cursor-not-allowed`, **cả nhãn** | như trái | như trái |
+| Trạng thái              | Checkbox / radio                                             | Công tắc                             | Select                       |
+| ----------------------- | ------------------------------------------------------------ | ------------------------------------ | ---------------------------- |
+| Thường                  | viền `--border-strong`                                       | track `muted/40`                     | viền `--border-strong`       |
+| Rê vào                  | chưa chọn: viền `--foreground`; đã chọn: giữ nguyên màu nhấn | track `muted/60` / `--primary-hover` | giữ nguyên, `cursor-pointer` |
+| Tab tới                 | không đổi (`I13`)                                            | không đổi (`I13`)                    | viền `--border-focus`        |
+| Đã chọn / bật / đang mở | tô nhấn theo kiểu                                            | track nhấn, núm sang phải            | viền + ring, chevron xoay    |
+| Một phần                | icon `minus` (chỉ checkbox)                                  | —                                    | —                            |
+| Lỗi                     | viền `red-500` + câu lỗi                                     | —                                    | viền `red-500` + ring đỏ     |
+| Khoá                    | `opacity-50`, `cursor-not-allowed`, **cả nhãn**              | như trái                             | như trái                     |
 
 Khoá thì mờ cả nhãn đi cùng ô (`peer-disabled:` hoặc `has-disabled:` trên
 `<label>`). Ô mờ mà nhãn vẫn đen thì người dùng bấm vào nhãn, không có gì xảy ra.

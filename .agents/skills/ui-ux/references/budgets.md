@@ -9,36 +9,36 @@ Skill này chỉ lo **màn hình trong app** — dashboard, danh sách, bảng, 
 
 ## Trần
 
-| Hạng mục | Trần | Ghi chú |
-| --- | --- | --- |
-| Màu nhấn | 1 | Màu thứ hai phải xin phép. Tag phân loại (`M8`) và màu nhận diện của thực thể người dùng tạo (`M34`) không tính |
-| Họ chữ | 1 | Phân vai bằng weight, không bằng font thứ hai |
-| Sắc độ chữ | 3 | chính, phụ, và màu trên nền nhấn |
-| Bậc bo góc | 4 | full, lớn, giữa, nhỏ |
-| Bậc shadow | 2 | **chỉ cho lớp nổi**: dropdown/popover, và modal. Trong trang thì không bóng — xem `M15` |
-| Token viền | 2 | một cho đường tóc, tối đa một bậc đậm hơn. Cộng `--border-focus`. Xem `M16` |
-| Tầng lồng khối | 2 | |
-| Độ dài dòng chữ | 75 ký tự | |
-| Dạng nút | 4 | `outline` (mặc định; icon trái khi glyph gọi đúng hành động), `primary` nền nhấn, `secondary` nền xám, `ghost`. Nút nguy hiểm là `ghost` phủ nền `rose` mờ (`I4`), không phải dạng thứ năm. Cộng nút chỉ-icon. Xem `I1`, `components/button.md` |
-| Bậc spacing | thang 4/8/12/16/20/24/32/40 cho khoảng cách giữa các khối | Bên trong control (nút, badge) được dùng nửa bậc 2/6/10 (`py-0.5`, `gap-1.5`, `py-2.5`). **Khe giữa hai dòng bo góc có nền rê / đang chọn thì tối thiểu 4px, không dùng bậc 2** (luật khoá 19). Ngoài hai thang này thì không |
+| Hạng mục        | Trần                                                      | Ghi chú                                                                                                                                                                                                                                         |
+| --------------- | --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Màu nhấn        | 1                                                         | Màu thứ hai phải xin phép. Tag phân loại (`M8`) và màu nhận diện của thực thể người dùng tạo (`M34`) không tính                                                                                                                                 |
+| Họ chữ          | 1                                                         | Phân vai bằng weight, không bằng font thứ hai                                                                                                                                                                                                   |
+| Sắc độ chữ      | 3                                                         | chính, phụ, và màu trên nền nhấn                                                                                                                                                                                                                |
+| Bậc bo góc      | 4                                                         | full, lớn, giữa, nhỏ                                                                                                                                                                                                                            |
+| Bậc shadow      | 2                                                         | **chỉ cho lớp nổi**: dropdown/popover, và modal. Trong trang thì không bóng — xem `M15`                                                                                                                                                         |
+| Token viền      | 2                                                         | một cho đường tóc, tối đa một bậc đậm hơn. Cộng `--border-focus`. Xem `M16`                                                                                                                                                                     |
+| Tầng lồng khối  | 2                                                         |                                                                                                                                                                                                                                                 |
+| Độ dài dòng chữ | 75 ký tự                                                  |                                                                                                                                                                                                                                                 |
+| Dạng nút        | 4                                                         | `outline` (mặc định; icon trái khi glyph gọi đúng hành động), `primary` nền nhấn, `secondary` nền xám, `ghost`. Nút nguy hiểm là `ghost` phủ nền `rose` mờ (`I4`), không phải dạng thứ năm. Cộng nút chỉ-icon. Xem `I1`, `components/button.md` |
+| Bậc spacing     | thang 4/8/12/16/20/24/32/40 cho khoảng cách giữa các khối | Bên trong control (nút, badge) được dùng nửa bậc 2/6/10 (`py-0.5`, `gap-1.5`, `py-2.5`). **Khe giữa hai dòng bo góc có nền rê / đang chọn thì tối thiểu 4px, không dùng bậc 2** (luật khoá 19). Ngoài hai thang này thì không                   |
 
 ---
 
 ## Nhịp
 
-| | Giá trị |
-| --- | --- |
-| Padding trang | `p-4 sm:p-6` |
-| Padding card | `p-4` ở mobile, `p-5` từ `sm` |
-| Padding trong thẻ, desktop | 20–24px |
-| Gap lưới | `gap-3` |
-| Padding section | `py-4` |
-| Chiều cao dòng danh sách | 12–16px chiều dọc |
-| Chiều cao nút | `py-2.5` |
+|                                    | Giá trị                                                                                                                               |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| Padding trang                      | `p-4 sm:p-6`                                                                                                                          |
+| Padding card                       | `p-4` ở mobile, `p-5` từ `sm`                                                                                                         |
+| Padding trong thẻ, desktop         | 20–24px                                                                                                                               |
+| Gap lưới                           | `gap-3`                                                                                                                               |
+| Padding section                    | `py-4`                                                                                                                                |
+| Chiều cao dòng danh sách           | 12–16px chiều dọc                                                                                                                     |
+| Chiều cao nút                      | `py-2.5`                                                                                                                              |
 | **Ô nhập, select, nút trong form** | **`h-11 md:h-10`** (44px màn hẹp, 40px từ `md`), ô và nút đổi cùng nhau. Form đăng nhập/đăng ký đứng riêng giữa trang được lên `h-12` |
-| "Xem tất cả", "đọc thêm" | link chữ `h-8`, không padding ngang, căn phải (`I7`) |
-| Viền card | đường tóc 1px, một token duy nhất |
-| Bóng card | **không có** |
+| "Xem tất cả", "đọc thêm"           | link chữ `h-8`, không padding ngang, căn phải (`I7`)                                                                                  |
+| Viền card                          | đường tóc 1px, một token duy nhất                                                                                                     |
+| Bóng card                          | **không có**                                                                                                                          |
 
 **Nút trong form phải cao bằng ô nhập, và cả hai phải đổi cùng nhau.** Cùng
 `h-11 md:h-10`: đổi một cái mà giữ cái kia là lỗi thấy ngay, nút 40px nằm dưới ô
@@ -66,12 +66,12 @@ trình duyệt, bảng điều khiển toàn màn, kiosk. Trang app bình thư�
 Thẻ kanban, thẻ trong lưới nhiều cột, thẻ trong panel hẹp đều là card nên vẫn bám
 thang. Đừng tự hạ xuống cho gọn — gọn quá thành chật (luật `F12`).
 
-| | Giá trị |
-| --- | --- |
-| Padding thẻ | `p-4`, **không** xuống `p-3` |
-| Gap giữa các thẻ trong một cột | `gap-3` |
-| Gap giữa các cột | `gap-4` |
-| Khoảng cách tiêu đề cột với thẻ đầu | `mb-3` |
+|                                     | Giá trị                      |
+| ----------------------------------- | ---------------------------- |
+| Padding thẻ                         | `p-4`, **không** xuống `p-3` |
+| Gap giữa các thẻ trong một cột      | `gap-3`                      |
+| Gap giữa các cột                    | `gap-4`                      |
+| Khoảng cách tiêu đề cột với thẻ đầu | `mb-3`                       |
 
 Thẻ chứa hai dòng chữ trở lên thì `p-3` là chật. `p-3` chỉ dành cho chip, nhãn,
 và ô điều khiển nhỏ.
@@ -82,16 +82,16 @@ và ô điều khiển nhỏ.
 
 Bảy tên, và bảy tên đó là **hết**. Không inline pixel ngoài thang (`T7`).
 
-| Token | Dùng cho |
-| --- | --- |
-| `xs` | nhãn, dấu thời gian |
-| `sm` | **mặc định của app** (`T6`): chữ nội dung, dòng danh sách, mô tả |
-| `base` | tên thẻ, tiêu đề card |
-| `sm` + `font-medium` | nút (`button.md`). Tailwind không có `text-md` |
-| `lg` | tiêu đề khối (nhóm nhiều card); tên bản ghi ở đầu trang chi tiết của app quản lý (khách hàng, đơn, dự án) |
-| `xl` | **tên của một trang**, ở mọi khổ màn |
-| `2xl` | hero của trang trình diễn ở màn hẹp; con số trong card số liệu từ `sm` (`sm:text-2xl`) |
-| `3xl` | hero từ `sm`; giá trong bảng giá. Tên trang bảng giá đứng riêng là `text-2xl sm:text-3xl`, không nhỏ hơn giá (`layouts/pricing.md`) |
+| Token                | Dùng cho                                                                                                                            |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `xs`                 | nhãn, dấu thời gian                                                                                                                 |
+| `sm`                 | **mặc định của app** (`T6`): chữ nội dung, dòng danh sách, mô tả                                                                    |
+| `base`               | tên thẻ, tiêu đề card                                                                                                               |
+| `sm` + `font-medium` | nút (`button.md`). Tailwind không có `text-md`                                                                                      |
+| `lg`                 | tiêu đề khối (nhóm nhiều card); tên bản ghi ở đầu trang chi tiết của app quản lý (khách hàng, đơn, dự án)                           |
+| `xl`                 | **tên của một trang**, ở mọi khổ màn                                                                                                |
+| `2xl`                | hero của trang trình diễn ở màn hẹp; con số trong card số liệu từ `sm` (`sm:text-2xl`)                                              |
+| `3xl`                | hero từ `sm`; giá trong bảng giá. Tên trang bảng giá đứng riêng là `text-2xl sm:text-3xl`, không nhỏ hơn giá (`layouts/pricing.md`) |
 
 Thứ bậc bắt buộc: **tên trang (`xl`) > tiêu đề khối (`lg`) > tên thẻ (`base`)**,
 mỗi bậc cách nhau đúng một nấc ở **mọi** breakpoint (luật `T8`).

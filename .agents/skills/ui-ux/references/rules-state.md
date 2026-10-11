@@ -17,20 +17,20 @@ hành động: thêm (`plus`), lọc, tải xuống, xuất, sao chép, chia s�
 trong modal (Lưu, Huỷ, Gửi, Tạo công việc) **chỉ có chữ**: tiêu đề đã nói việc gì, icon
 chỉ lặp lại.
 
-*Vì sao:* nguyên lời chủ dự án — *"không nên để brand bị nhiều màu quá trong dự
-án"*. Nút nền nhấn rải khắp nơi thì màu thương hiệu loang ra, tới lúc có một nút
+_Vì sao:_ nguyên lời chủ dự án — _"không nên để brand bị nhiều màu quá trong dự
+án"_. Nút nền nhấn rải khắp nơi thì màu thương hiệu loang ra, tới lúc có một nút
 **thật sự** cần nổi thì nó không nổi được nữa. Cùng tinh thần với `M2`.
 
-| Loại nút | Dùng |
-| --- | --- |
-| Mặc định | viền + chữ; thêm icon trái khi glyph gọi đúng tên hành động (thêm, lọc, tải xuống, xuất) |
-| Nút gửi form, nút ở footer modal và panel | chỉ chữ: động từ + đối tượng ("Tạo công việc", "Xác nhận đơn", "In hoá đơn"). Cả footer một kiểu: một nút có icon một nút không là lệch |
-| Nút đổi trạng thái trên dòng hay ô (tiếp đón, duyệt, giao) | động từ nói việc sẽ làm ("Tiếp đón", "Bắt đầu khám", "Hoàn tất"), **không** dùng tên trạng thái đích ("Đã đến", "Xong"): đứng cạnh badge "Đã xác nhận", nút "Đã đến" đọc thành badge thứ hai, người xem không biết khách đã đến hay chưa |
-| Hành động chính **duy nhất** của một khu, thật cần nổi | nền màu nhấn |
-| Nút phụ cần rõ hơn ghost: nút rộng hết card, nút cạnh `primary` | nền `--secondary`, không viền |
-| Chỉ icon | nút cỡ icon, có `aria-label`, cao bằng nút chữ cạnh nó |
-| Nút trong hộp xác nhận | chỉ chữ, không icon: icon đã đứng ở đầu hộp (`layouts/overlay.md`) |
-| Xoá và việc nguy hiểm khác (nút đứng riêng, `I4`) | nền `rose-500/10` + chữ `rose-700` lúc nào cũng hiện, rê vào nền đậm lên `/15` |
+| Loại nút                                                        | Dùng                                                                                                                                                                                                                                     |
+| --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Mặc định                                                        | viền + chữ; thêm icon trái khi glyph gọi đúng tên hành động (thêm, lọc, tải xuống, xuất)                                                                                                                                                 |
+| Nút gửi form, nút ở footer modal và panel                       | chỉ chữ: động từ + đối tượng ("Tạo công việc", "Xác nhận đơn", "In hoá đơn"). Cả footer một kiểu: một nút có icon một nút không là lệch                                                                                                  |
+| Nút đổi trạng thái trên dòng hay ô (tiếp đón, duyệt, giao)      | động từ nói việc sẽ làm ("Tiếp đón", "Bắt đầu khám", "Hoàn tất"), **không** dùng tên trạng thái đích ("Đã đến", "Xong"): đứng cạnh badge "Đã xác nhận", nút "Đã đến" đọc thành badge thứ hai, người xem không biết khách đã đến hay chưa |
+| Hành động chính **duy nhất** của một khu, thật cần nổi          | nền màu nhấn                                                                                                                                                                                                                             |
+| Nút phụ cần rõ hơn ghost: nút rộng hết card, nút cạnh `primary` | nền `--secondary`, không viền                                                                                                                                                                                                            |
+| Chỉ icon                                                        | nút cỡ icon, có `aria-label`, cao bằng nút chữ cạnh nó                                                                                                                                                                                   |
+| Nút trong hộp xác nhận                                          | chỉ chữ, không icon: icon đã đứng ở đầu hộp (`layouts/overlay.md`)                                                                                                                                                                       |
+| Xoá và việc nguy hiểm khác (nút đứng riêng, `I4`)               | nền `rose-500/10` + chữ `rose-700` lúc nào cũng hiện, rê vào nền đậm lên `/15`                                                                                                                                                           |
 
 **I2. Chọn nền màu nhấn thì nói một câu lý do.** Nộp bài, thanh toán, tham gia —
 những chỗ đó hợp lệ. Nhưng phải là một lựa chọn, không phải mặc định.
@@ -41,6 +41,7 @@ nhau là chưa quyết định hộ người dùng.
 **I4. Hành động nguy hiểm không đỏ đặc.**
 
 **Việc nào là nguy hiểm: xét ba câu hỏi, không dò theo danh sách.** Việc đó có
+
 1. làm **mất dữ liệu** không (xoá dự án, workspace, tài khoản)?
 2. **kết thúc một thứ đang chạy** không (gói trả phí, phiên đăng nhập, lời mời, khoá API)?
 3. **cắt quyền hay cắt truy cập** của ai đó không (rời nhóm, gỡ thành viên, đăng xuất)?
@@ -50,21 +51,22 @@ làm việc đó hết nguy hiểm**: huỷ gói vẫn dùng tới hết kỳ, �
 rời nhóm rồi xin mời lại được, cả ba vẫn đỏ.
 
 **Lý lẽ đã bị bác, đừng dùng lại** (danh sách đủ ở `locked-rules.md`):
+
 - "Không mất dữ liệu nên để trung tính": chủ dự án đã thử bản đăng xuất trung tính
   ("đăng xuất mất danger"), chốt lại cả cho đăng xuất hàng loạt.
 - "Vẫn dùng được tới hết kỳ nên không đỏ": đã dính, huỷ gói ra nút viền xám, hộp xác
   nhận icon xám, nút đen.
 - "Nhiều app để nó trung tính": quy ước số đông không lật luật chủ dự án đã chốt.
 
-| Việc | Nguy hiểm? | Câu nào "có" |
-| --- | --- | --- |
-| Xoá dự án, workspace, tài khoản, khoá API đã hết hạn | Có | 1 |
-| Huỷ gói trả phí | Có | 2 |
-| Thu hồi khoá API, thu hồi lời mời | Có | 2 |
-| Đăng xuất, đăng xuất thiết bị khác, đăng xuất hàng loạt | Có | 3 (chủ dự án chốt) |
-| Rời nhóm, gỡ thành viên | Có | 3 |
-| Xoá ảnh đại diện (có Hoàn tác trong toast) | Không, nút viền trung tính | Không câu nào: ảnh cũ quay lại ngay khi bấm Hoàn tác (`app.md`, "Trang hồ sơ cá nhân") |
-| Gửi lại lời mời hàng loạt, gửi email cho 240 khách | Không | Không câu nào. Vẫn hỏi lại vì đụng nhiều thứ một lúc, dùng hộp trung tính (`overlay.md`) |
+| Việc                                                    | Nguy hiểm?                 | Câu nào "có"                                                                             |
+| ------------------------------------------------------- | -------------------------- | ---------------------------------------------------------------------------------------- |
+| Xoá dự án, workspace, tài khoản, khoá API đã hết hạn    | Có                         | 1                                                                                        |
+| Huỷ gói trả phí                                         | Có                         | 2                                                                                        |
+| Thu hồi khoá API, thu hồi lời mời                       | Có                         | 2                                                                                        |
+| Đăng xuất, đăng xuất thiết bị khác, đăng xuất hàng loạt | Có                         | 3 (chủ dự án chốt)                                                                       |
+| Rời nhóm, gỡ thành viên                                 | Có                         | 3                                                                                        |
+| Xoá ảnh đại diện (có Hoàn tác trong toast)              | Không, nút viền trung tính | Không câu nào: ảnh cũ quay lại ngay khi bấm Hoàn tác (`app.md`, "Trang hồ sơ cá nhân")   |
+| Gửi lại lời mời hàng loạt, gửi email cho 240 khách      | Không                      | Không câu nào. Vẫn hỏi lại vì đụng nhiều thứ một lúc, dùng hộp trung tính (`overlay.md`) |
 
 Gặp việc chưa có trong bảng thì trả lời ba câu, ghi thêm một dòng vào bảng, và ghi mã
 `I4` ngay cạnh câu nói màu nút trong spec (`scripts/lint-skill.mjs` bắt câu thiếu mã).
@@ -72,11 +74,11 @@ Gặp việc chưa có trong bảng thì trả lời ba câu, ghi thêm một d�
 Đăng xuất trong menu thì chỉ đỏ lúc rê; nút "Đăng xuất N thiết bị khác" là nút đứng riêng
 nên đỏ sẵn. Có ba dạng tuỳ chỗ đứng:
 
-| Chỗ | Lúc thường | Rê vào / Tab tới |
-| --- | --- | --- |
-| **Nút đứng riêng** — hàng nút, hộp xác nhận, khu nguy hiểm | nền `rose-500/10`, chữ + icon `rose-700` | nền `rose-500/15` |
-| **Mục trong menu** — dropdown, sidebar | trung tính như mục khác | chữ + icon đỏ, nền `rose-500/10` |
-| **Nút lặp lại trên từng dòng** — "Đăng xuất" mỗi thiết bị, "Gỡ" mỗi thành viên hiện thẳng | nút viền trung tính như nút dòng khác | viền trong suốt, nền `rose-500/10`, chữ `rose-700` |
+| Chỗ                                                                                       | Lúc thường                               | Rê vào / Tab tới                                   |
+| ----------------------------------------------------------------------------------------- | ---------------------------------------- | -------------------------------------------------- |
+| **Nút đứng riêng** — hàng nút, hộp xác nhận, khu nguy hiểm                                | nền `rose-500/10`, chữ + icon `rose-700` | nền `rose-500/15`                                  |
+| **Mục trong menu** — dropdown, sidebar                                                    | trung tính như mục khác                  | chữ + icon đỏ, nền `rose-500/10`                   |
+| **Nút lặp lại trên từng dòng** — "Đăng xuất" mỗi thiết bị, "Gỡ" mỗi thành viên hiện thẳng | nút viền trung tính như nút dòng khác    | viền trong suốt, nền `rose-500/10`, chữ `rose-700` |
 
 Nút thì nền mờ đỏ luôn hiện (chủ dự án chốt), code ở
 `components/button.md`. Không bao giờ `bg-rose-500 text-white`, không viền đỏ.
@@ -89,9 +91,14 @@ hover:text-rose-700`, kèm cùng bộ đó cho `focus-visible:`.
 Phần dưới là cho **mục trong menu**. Khi rê vào thì đổi **cả hai**: chữ (kèm icon) sang đỏ, nền sang đỏ rất mờ.
 
 ```html
-<button class="group text-foreground hover:bg-rose-500/10 hover:text-rose-700 dark:hover:text-rose-400">
-  <i data-lucide="trash-2" class="size-4 text-muted group-hover:text-rose-700 dark:group-hover:text-rose-400"></i>
-  Xoá dự án
+<button
+    class="group text-foreground hover:bg-rose-500/10 hover:text-rose-700 dark:hover:text-rose-400"
+>
+    <i
+        data-lucide="trash-2"
+        class="size-4 text-muted group-hover:text-rose-700 dark:group-hover:text-rose-400"
+    ></i>
+    Xoá dự án
 </button>
 ```
 
@@ -130,10 +137,10 @@ nó là link chữ.
 
 ```tsx
 <Link
-  to={href}
-  className="inline-flex h-8 items-center text-sm font-medium whitespace-nowrap text-foreground/70 underline-offset-4 outline-hidden transition-colors hover:text-foreground hover:underline"
+    to={href}
+    className="inline-flex h-8 items-center text-sm font-medium whitespace-nowrap text-foreground/70 underline-offset-4 outline-hidden transition-colors hover:text-foreground hover:underline"
 >
-  Xem tất cả
+    Xem tất cả
 </Link>
 ```
 
@@ -171,10 +178,10 @@ Ngoại lệ: nút mở/đóng của accordion không tô nền hover (`I30`, `c
 
 Chọn token theo **nền hover có chạm hai mép khung hay không**:
 
-| Dòng | Hover | Vì sao |
-| --- | --- | --- |
-| **Thụt vào**, có bo góc, cách mép khung một khe: mục menu, link sidebar, dòng danh sách trong widget | `hover:bg-item-hover` | Nền xám nằm gọn trong khung trắng, mắt đọc ra một viên được ấn xuống |
-| **Tràn hết bề ngang**, chạm hai mép khung trắng: dòng bảng, danh sách chia `divide-y` sát mép | `hover:bg-surface-hover` | Tô `--background` thì dòng đó cùng màu với nền trang bên ngoài khung, trông như khung bị khoét thủng một dải |
+| Dòng                                                                                                 | Hover                    | Vì sao                                                                                                       |
+| ---------------------------------------------------------------------------------------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| **Thụt vào**, có bo góc, cách mép khung một khe: mục menu, link sidebar, dòng danh sách trong widget | `hover:bg-item-hover`    | Nền xám nằm gọn trong khung trắng, mắt đọc ra một viên được ấn xuống                                         |
+| **Tràn hết bề ngang**, chạm hai mép khung trắng: dòng bảng, danh sách chia `divide-y` sát mép        | `hover:bg-surface-hover` | Tô `--background` thì dòng đó cùng màu với nền trang bên ngoài khung, trông như khung bị khoét thủng một dải |
 
 `--item-hover` ở nền sáng bằng đúng `--background`, ở nền tối là trắng phủ 5%. Đừng viết
 `hover:bg-background` cho dòng thụt vào: ở nền tối nền trang tối hơn card, rê vào là chìm
@@ -185,6 +192,7 @@ Dấu hiệu của "đã chọn" là **checkbox đã tick**, không phải nền
 giữ nguyên. Nút ⋯ trong dòng rê vào có nền trùng tông hover cũng được, không cần tách.
 
 Chủ dự án chốt sau khi thử hết các cách tách nền, và cả ba đều bỏ:
+
 - **`--secondary`**: rõ, nhưng tick cả trang thành mười dải xám đậm, trái gu mờ.
 - **`--background`**: đúng bằng màu nền trang bên ngoài khung, dòng đã chọn trông như
   khung bị khoét một dải — y hệt lỗi hover tràn mép ở trên, chỉ là đổi sang dòng đã chọn.
@@ -218,10 +226,10 @@ nhạt) rê vào thì lên `hover:text-foreground`, như nút ghost: `--muted` t
 
 **I11. Hành động trên dòng: ít thì hiện thẳng, nhiều thì gom vào nút ba chấm.**
 
-| Số hành động của một dòng | Cách hiện |
-| --- | --- |
+| Số hành động của một dòng             | Cách hiện                                                                                                                                                                                                                     |
+| ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **1–2**, không có hành động nguy hiểm | Icon button `h-8` nằm thẳng trong dòng, cột cuối căn phải. Danh sách thì mờ lúc thường, hiện khi rê vào dòng. **Bảng thì luôn hiện**, chữ `text-muted`: bảng dài người ta dò theo cột, nút lúc có lúc không làm cột cuối nhảy |
-| **Từ 3 trở lên**, hoặc có xoá | **Một** nút `MoreHorizontal` luôn hiện ở cột cuối, bấm ra dropdown. Hành động hay dùng nhất (thường là sửa) được phép nằm ngoài thêm một nút, cạnh dấu ba chấm |
+| **Từ 3 trở lên**, hoặc có xoá         | **Một** nút `MoreHorizontal` luôn hiện ở cột cuối, bấm ra dropdown. Hành động hay dùng nhất (thường là sửa) được phép nằm ngoài thêm một nút, cạnh dấu ba chấm                                                                |
 
 Trong dropdown: mục thường ở trên, **xoá tách xuống cuối** sau một đường chia,
 hover đỏ `rose` (`I4`). Nút ba chấm có `aria-label="Thao tác"`, và **chặn nổi bọt**
@@ -257,12 +265,12 @@ nên người dùng chuột vẫn gặp.
 
 Vẫn giữ, vì không phải vòng bao ngoài:
 
-| Phần tử | Lúc focus |
-| --- | --- |
-| Mục trong menu, dropdown, listbox, lệnh trong command palette | **tô nền như hover** (`data-[highlighted]:bg-item-hover`): phím mũi tên dời đúng một chỗ sáng, thiếu nó là menu không đi bằng phím được |
-| Ô nhập, textarea | viền + ring mờ: `focus:border-focus focus:ring-2 focus:ring-focus`, xem dưới bảng |
-| Nút mở select, ô chọn ngày, ô chọn giờ (là `<button>`, không gõ được) | viền `focus-visible:border-focus`; viền + ring mờ chỉ khi đang mở (`aria-expanded:`), không `focus:` |
-| Card chọn (radio dạng card) | chỉ dấu **đang chọn** (viền + ring mờ); Tab tới không thêm gì |
+| Phần tử                                                               | Lúc focus                                                                                                                               |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Mục trong menu, dropdown, listbox, lệnh trong command palette         | **tô nền như hover** (`data-[highlighted]:bg-item-hover`): phím mũi tên dời đúng một chỗ sáng, thiếu nó là menu không đi bằng phím được |
+| Ô nhập, textarea                                                      | viền + ring mờ: `focus:border-focus focus:ring-2 focus:ring-focus`, xem dưới bảng                                                       |
+| Nút mở select, ô chọn ngày, ô chọn giờ (là `<button>`, không gõ được) | viền `focus-visible:border-focus`; viền + ring mờ chỉ khi đang mở (`aria-expanded:`), không `focus:`                                    |
+| Card chọn (radio dạng card)                                           | chỉ dấu **đang chọn** (viền + ring mờ); Tab tới không thêm gì                                                                           |
 
 **Ô nhập dùng `focus`**, vì người dùng cần thấy mình đang gõ vào ô nào, dù vào bằng chuột
 hay bàn phím.
@@ -359,29 +367,40 @@ import { useEffect } from "react";
 // Gắn .is-scrolling vào đúng phần tử đang cuộn, gỡ ra 700ms sau khi dừng.
 // CSS trong tokens.css đọc class này để hiện thanh cuộn (luật I18).
 export default function ScrollbarAutohide() {
-  useEffect(() => {
-    const hideTimers = new WeakMap<Element, number>();
+    useEffect(() => {
+        const hideTimers = new WeakMap<Element, number>();
 
-    function handleScroll(event: Event) {
-      // Cuộn cả trang thì target là document, lấy phần tử gốc.
-      const scrollingElement =
-        event.target instanceof Element ? event.target : document.scrollingElement;
-      if (!scrollingElement) return;
+        function handleScroll(event: Event) {
+            // Cuộn cả trang thì target là document, lấy phần tử gốc.
+            const scrollingElement =
+                event.target instanceof Element
+                    ? event.target
+                    : document.scrollingElement;
+            if (!scrollingElement) return;
 
-      scrollingElement.classList.add("is-scrolling");
-      window.clearTimeout(hideTimers.get(scrollingElement));
-      hideTimers.set(
-        scrollingElement,
-        window.setTimeout(() => scrollingElement.classList.remove("is-scrolling"), 700),
-      );
-    }
+            scrollingElement.classList.add("is-scrolling");
+            window.clearTimeout(hideTimers.get(scrollingElement));
+            hideTimers.set(
+                scrollingElement,
+                window.setTimeout(
+                    () => scrollingElement.classList.remove("is-scrolling"),
+                    700,
+                ),
+            );
+        }
 
-    window.addEventListener("scroll", handleScroll, { capture: true, passive: true });
+        window.addEventListener("scroll", handleScroll, {
+            capture: true,
+            passive: true,
+        });
 
-    return () => window.removeEventListener("scroll", handleScroll, { capture: true });
-  }, []);
+        return () =>
+            window.removeEventListener("scroll", handleScroll, {
+                capture: true,
+            });
+    }, []);
 
-  return null;
+    return null;
 }
 ```
 
@@ -401,22 +420,29 @@ muốn cuộn tiếp để xem nốt:
 
 ```ts
 // Chiều cao để mục cuối lộ đúng một nửa (luật I18). Mỗi mục gắn data-peek-item.
-export function getPeekListHeight(listElement: HTMLElement, maxHeight: number): number {
-  if (listElement.scrollHeight <= maxHeight) return listElement.scrollHeight;
+export function getPeekListHeight(
+    listElement: HTMLElement,
+    maxHeight: number,
+): number {
+    if (listElement.scrollHeight <= maxHeight) return listElement.scrollHeight;
 
-  const listTop = listElement.getBoundingClientRect().top - listElement.scrollTop;
-  let peekHeight = maxHeight;
+    const listTop =
+        listElement.getBoundingClientRect().top - listElement.scrollTop;
+    let peekHeight = maxHeight;
 
-  for (const item of listElement.querySelectorAll<HTMLElement>("[data-peek-item]")) {
-    const itemRect = item.getBoundingClientRect();
-    const itemMiddle = itemRect.top - listTop + itemRect.height / 2;
-    if (itemMiddle > maxHeight) break;
-    peekHeight = itemMiddle;
-  }
+    for (const item of listElement.querySelectorAll<HTMLElement>(
+        "[data-peek-item]",
+    )) {
+        const itemRect = item.getBoundingClientRect();
+        const itemMiddle = itemRect.top - listTop + itemRect.height / 2;
+        if (itemMiddle > maxHeight) break;
+        peekHeight = itemMiddle;
+    }
 
-  return peekHeight;
+    return peekHeight;
 }
 ```
+
 - **Lớp nổi có danh sách cuộn (command palette, select, dropdown dài) chớp thanh cuộn một lần lúc mở**, như macOS: nếu `scrollHeight > clientHeight` thì gắn `.is-scrolling` vào vùng danh sách, gỡ ra sau ~1 giây. Chỉ lớp nổi; sidebar và trang thì không chớp.
 - **Vùng cuộn nằm trong khung bo góc (lớp nổi, card) thì rãnh lùi theo đầu nó chạm**: đầu nào chạm góc bo thì lùi **bằng bán kính góc bo** (khung `rounded-2xl` → `mb-4`, cả hai đầu chạm thì `my-4`), vì đầu tròn của thanh 4px sát mép chỉ nằm trọn trong góc khi cách mép từ R − 2px; đầu nào nằm dưới đường kẻ thẳng thì `mt-2`. Viết bằng `[&::-webkit-scrollbar-track]:mb-4`. Khe phải trừ đi 4px của thanh (`pr-1` thay cho `p-2`, kèm `[scrollbar-gutter:stable]`). Lùi thiếu thì cuộn tới cuối, đuôi thanh bị góc bo cắt vát (`my-2` vẫn thiếu 2px ở khung bo 16px); không trừ khe thì khe phải rộng hơn khe trái 4px. Xem mẫu ở mục Command palette trong `layouts/overlay.md`.
 - **Không phủ dải mờ ở đáy** để báo còn nữa: thêm một lớp gradient là thêm tín hiệu cho việc mục bị cắt nửa đã nói (`N3`), và dải mờ đè lên chữ của mục cuối.
@@ -424,10 +450,17 @@ export function getPeekListHeight(listElement: HTMLElement, maxHeight: number): 
 ```ts
 // Chớp thanh cuộn một lần khi lớp nổi mở (luật I18). Gọi trong effect lúc open.
 export function flashScrollbar(scrollElement: HTMLElement | null) {
-  if (!scrollElement || scrollElement.scrollHeight <= scrollElement.clientHeight) return;
+    if (
+        !scrollElement ||
+        scrollElement.scrollHeight <= scrollElement.clientHeight
+    )
+        return;
 
-  scrollElement.classList.add("is-scrolling");
-  window.setTimeout(() => scrollElement.classList.remove("is-scrolling"), 1000);
+    scrollElement.classList.add("is-scrolling");
+    window.setTimeout(
+        () => scrollElement.classList.remove("is-scrolling"),
+        1000,
+    );
 }
 ```
 
@@ -487,7 +520,9 @@ phạm vi ở `../SKILL.md`). Giữ số để các chỗ dẫn `I26` trở đi 
 Ba thứ đi liền nhau, thiếu một cái là lỗi:
 
 ```html
-<label for="email" class="w-fit cursor-pointer text-sm font-medium">Email</label>
+<label for="email" class="w-fit cursor-pointer text-sm font-medium"
+    >Email</label
+>
 <input id="email" />
 ```
 
@@ -516,12 +551,12 @@ bỏ qua** — tắt không được, chỉ làm hỏng phần gợi ý chứ kh
 
 Việc phải làm là ngược lại: khai báo đủ để nó đoán đúng.
 
-| Ô | `autocomplete` |
-| --- | --- |
-| Email / tên đăng nhập | `username` (hoặc `email`) |
-| Mật khẩu, màn **đăng nhập** | `current-password` |
-| Mật khẩu, màn **đăng ký** hoặc đổi mật khẩu | `new-password` |
-| Mã OTP | `one-time-code` |
+| Ô                                           | `autocomplete`            |
+| ------------------------------------------- | ------------------------- |
+| Email / tên đăng nhập                       | `username` (hoặc `email`) |
+| Mật khẩu, màn **đăng nhập**                 | `current-password`        |
+| Mật khẩu, màn **đăng ký** hoặc đổi mật khẩu | `new-password`            |
+| Mã OTP                                      | `one-time-code`           |
 
 Mỗi ô cũng phải có `name`. Thiếu `name` thì trình duyệt không có gì để lưu, và
 lần sau không gợi ý được.
@@ -530,7 +565,14 @@ lần sau không gợi ý được.
 qua link) thì thêm một ô ẩn mang tên tài khoản, ngay đầu form:
 
 ```html
-<input type="email" name="username" autocomplete="username" value="an@congty.vn" hidden readonly />
+<input
+    type="email"
+    name="username"
+    autocomplete="username"
+    value="an@congty.vn"
+    hidden
+    readonly
+/>
 ```
 
 Không có ô này thì trình quản lý mật khẩu lưu mật khẩu mới mà không biết của tài khoản
@@ -559,15 +601,18 @@ khoảng trống là mũi tên. Nền vẫn sáng cả hàng, nên người dùn
 ```html
 <!-- Sai: hover ở <li>, vùng bấm chỉ bằng chữ -->
 <li class="flex h-10 items-center rounded-xl px-3 hover:bg-item-hover">
-  <a href="/ho-so">Hồ sơ của bạn</a>
+    <a href="/ho-so">Hồ sơ của bạn</a>
 </li>
 
 <!-- Đúng: <li> trơn, mọi thứ dồn vào <a> -->
 <li>
-  <a href="/ho-so" class="flex h-10 w-full cursor-pointer items-center gap-2.5 rounded-xl px-3 hover:bg-item-hover">
-    <i data-lucide="user" class="size-4 text-muted"></i>
-    Hồ sơ của bạn
-  </a>
+    <a
+        href="/ho-so"
+        class="flex h-10 w-full cursor-pointer items-center gap-2.5 rounded-xl px-3 hover:bg-item-hover"
+    >
+        <i data-lucide="user" class="size-4 text-muted"></i>
+        Hồ sơ của bạn
+    </a>
 </li>
 ```
 
@@ -646,7 +691,6 @@ Công thức lõi, giống nhóm sidebar (`layouts/app.md`):
   accordion của mọi thư viện component.
 
 Grep một lượt khi dựng xong: `<details` và `<summary` phải ra 0.
-
 
 ---
 

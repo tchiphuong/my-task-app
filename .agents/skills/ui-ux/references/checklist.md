@@ -194,42 +194,42 @@ Dòng grep thứ hai và thứ ba (số âm, `N11`): mỗi kết quả phải c�
 thứ mình định viết, không thấy thứ trình duyệt vẽ ra.
 
 0. [ ] **Chạy `scripts/probe.mjs`** (nằm cạnh `SKILL.md`) trên đúng route vừa dựng:
-   `node <thư mục skill>/scripts/probe.mjs http://localhost:<cổng>/<route> --sweep`.
-   Script mở trang ở 375, 768, 1024, 1280, 1440, 1920px, chụp ảnh từng khổ, rồi kéo bề rộng từ
-   1440 xuống 375 mỗi bước 20px để bắt lỗi nằm giữa hai khổ. Nó đo: cuộn ngang, lỗi
-   console, tương phản chữ, khung giấu mất chữ, chữ trong nút xuống dòng, chữ bị cắt còn
-   dưới 10 ký tự, phần tử cùng loại cao lệch nhau 1–4px, chữ cùng cột lệch mép, chỗ bấm
-   dưới 32px ở màn cảm ứng, rê chuột làm nhảy bố cục, trang
-   tự cuộn khi tải, dấu câu rơi xuống đầu dòng, dấu ngăn (›, /) cách hai bên không đều. Ở 375px nó tự bấm mở menu,
-   hộp chọn, sheet rồi chụp và đo tràn mép, cao quá màn. Phép đo động (Tab, rê, bấm, lớp nổi)
-   chỉ chạy ở 375, 768, 1280, khổ khác đo trang đứng yên: đo động ở 1024, 1440, 1920 hầu như
-   không ra thêm lỗi mà kéo dài lượt chạy gấp rưỡi.
-   - Dev server chưa chạy thì bật ở nền bằng lệnh dev của dự án. Chưa có playwright thì
-     cài vào thư mục tạm theo lệnh script in ra, **không cài vào dự án**.
-   - **Dựng theo wireframe đã chọn** (nhánh `U`) thì thêm `--wireframe "<link phương án>&mau=mau"`:
-     probe so khoảng cách, cỡ và độ đậm chữ, cỡ icon, màu, chữ với wireframe ở 1440 và 375, lệch
-     thì vào danh sách `P` (`design-process.md`, `U4`).
-   - Trạng thái nằm ở route khác (`/states`, trang rỗng) thì chạy thêm trên route đó. Dự án
-     có dark mode thì chạy thêm `--dark`.
-   - **Sửa rồi chạy lại cho tới khi mục "Việc phải đối chiếu" ở cuối báo cáo trống**
-     (danh sách mã `P1`, `P2`… là lỗi hạng Hỏng máy đo ra, `V1` trong `review.md`), tối đa
-     **ba vòng**. Vòng hai trở đi thêm `--dynamic-widths` như dòng "Vòng sửa sau" cuối báo cáo in
-     (khổ còn lỗi động, hoặc `none`): phần đứng yên và `--sweep` vẫn đo đủ, chỉ bớt đo động ở khổ
-     đã sạch. Các mục khác probe in ra (theo gu của skill) cũng sửa, vì đây là bản mình
-     dựng. Mã `P` nào còn lại sau ba vòng, hay để lại có chủ ý (vd chỗ bấm nhỏ trong bảng
-     dày), thì lúc giao ghi từng mã và lý do. Không mã nào được biến mất im lặng.
-   - **Mở từng ảnh chụp ra xem**, soi theo mười hai phép thử (`principles.md`). Script chỉ đo
-     được thứ đo được: "hôm nay đậm hơn ngày đang chọn", "nút Hôm nay tách khỏi ‹ ›" chỉ
-     mắt mới thấy.
-   - Không mở được trang (không có dev server, không chạy được trình duyệt) thì lúc giao
-     nói một dòng: *"Mình chưa mở được trang thật vì …, chưa rà ở màn hẹp."* Không im lặng
-     coi như đã rà.
+       `node <thư mục skill>/scripts/probe.mjs http://localhost:<cổng>/<route> --sweep`.
+       Script mở trang ở 375, 768, 1024, 1280, 1440, 1920px, chụp ảnh từng khổ, rồi kéo bề rộng từ
+       1440 xuống 375 mỗi bước 20px để bắt lỗi nằm giữa hai khổ. Nó đo: cuộn ngang, lỗi
+       console, tương phản chữ, khung giấu mất chữ, chữ trong nút xuống dòng, chữ bị cắt còn
+       dưới 10 ký tự, phần tử cùng loại cao lệch nhau 1–4px, chữ cùng cột lệch mép, chỗ bấm
+       dưới 32px ở màn cảm ứng, rê chuột làm nhảy bố cục, trang
+       tự cuộn khi tải, dấu câu rơi xuống đầu dòng, dấu ngăn (›, /) cách hai bên không đều. Ở 375px nó tự bấm mở menu,
+       hộp chọn, sheet rồi chụp và đo tràn mép, cao quá màn. Phép đo động (Tab, rê, bấm, lớp nổi)
+       chỉ chạy ở 375, 768, 1280, khổ khác đo trang đứng yên: đo động ở 1024, 1440, 1920 hầu như
+       không ra thêm lỗi mà kéo dài lượt chạy gấp rưỡi.
+    - Dev server chưa chạy thì bật ở nền bằng lệnh dev của dự án. Chưa có playwright thì
+      cài vào thư mục tạm theo lệnh script in ra, **không cài vào dự án**.
+    - **Dựng theo wireframe đã chọn** (nhánh `U`) thì thêm `--wireframe "<link phương án>&mau=mau"`:
+      probe so khoảng cách, cỡ và độ đậm chữ, cỡ icon, màu, chữ với wireframe ở 1440 và 375, lệch
+      thì vào danh sách `P` (`design-process.md`, `U4`).
+    - Trạng thái nằm ở route khác (`/states`, trang rỗng) thì chạy thêm trên route đó. Dự án
+      có dark mode thì chạy thêm `--dark`.
+    - **Sửa rồi chạy lại cho tới khi mục "Việc phải đối chiếu" ở cuối báo cáo trống**
+      (danh sách mã `P1`, `P2`… là lỗi hạng Hỏng máy đo ra, `V1` trong `review.md`), tối đa
+      **ba vòng**. Vòng hai trở đi thêm `--dynamic-widths` như dòng "Vòng sửa sau" cuối báo cáo in
+      (khổ còn lỗi động, hoặc `none`): phần đứng yên và `--sweep` vẫn đo đủ, chỉ bớt đo động ở khổ
+      đã sạch. Các mục khác probe in ra (theo gu của skill) cũng sửa, vì đây là bản mình
+      dựng. Mã `P` nào còn lại sau ba vòng, hay để lại có chủ ý (vd chỗ bấm nhỏ trong bảng
+      dày), thì lúc giao ghi từng mã và lý do. Không mã nào được biến mất im lặng.
+    - **Mở từng ảnh chụp ra xem**, soi theo mười hai phép thử (`principles.md`). Script chỉ đo
+      được thứ đo được: "hôm nay đậm hơn ngày đang chọn", "nút Hôm nay tách khỏi ‹ ›" chỉ
+      mắt mới thấy.
+    - Không mở được trang (không có dev server, không chạy được trình duyệt) thì lúc giao
+      nói một dòng: _"Mình chưa mở được trang thật vì …, chưa rà ở màn hẹp."_ Không im lặng
+      coi như đã rà.
 
 Rồi làm sáu việc trên trang thật (sửa tạm dữ liệu giả để thử, thử xong trả lại):
 
 1. [ ] Thu cửa sổ xuống **375px**. **Trang cuộn ngang là hỏng.**
 2. [ ] Vùng nào cuộn ngang thì **cuộn hết sang phải** — phần tử cuối có dính mép không?
-   Bảng quản lý ở 768px và 1024px (sidebar mở): còn cuộn ngang không, nút ⋯ của dòng có nằm trong khung không? Khung dưới `@4xl` thì ẩn cột phụ (công ty, ngày tạo) trước khi cho cuộn (`layouts/app.md`, Bảng dữ liệu).
+       Bảng quản lý ở 768px và 1024px (sidebar mở): còn cuộn ngang không, nút ⋯ của dòng có nằm trong khung không? Khung dưới `@4xl` thì ẩn cột phụ (công ty, ngày tạo) trước khi cho cuộn (`layouts/app.md`, Bảng dữ liệu).
 3. [ ] Đổi một tiêu đề thành câu dài **200 ký tự**.
 4. [ ] Đổi một con số thành `0`, một con số thành `1.284.500`.
 5. [ ] Xoá hết dữ liệu của một danh sách, xem trạng thái rỗng.

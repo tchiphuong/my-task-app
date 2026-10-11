@@ -15,11 +15,11 @@ ra là không quyết định được cái nào quan trọng.
 người đọc học một bảng chú giải màu mà họ không xin. Một thang cho cả app, biểu
 đồ cột nhóm và phần donut dùng chung (`N5`):
 
-| Số chuỗi / phần | Bậc |
-| --- | --- |
-| 2 | `bg-chart-fill` · `bg-chart-fill/45` |
-| 3 | `bg-chart-fill` · `bg-chart-fill/45` · `bg-chart-fill/15` |
-| 4 | `bg-chart-fill` · `bg-chart-fill/65` · `bg-chart-fill/35` · `bg-chart-fill/15` |
+| Số chuỗi / phần | Bậc                                                                            |
+| --------------- | ------------------------------------------------------------------------------ |
+| 2               | `bg-chart-fill` · `bg-chart-fill/45`                                           |
+| 3               | `bg-chart-fill` · `bg-chart-fill/45` · `bg-chart-fill/15`                      |
+| 4               | `bg-chart-fill` · `bg-chart-fill/65` · `bg-chart-fill/35` · `bg-chart-fill/15` |
 
 Không dùng `--muted` làm một bậc: nó gần bằng `primary/60`, hai chuỗi trông như
 một. Bậc `/15` và `/35` dưới 3:1 trên nền
@@ -117,20 +117,20 @@ xuất thư viện chỉ vì nó. Dự án đã có Recharts thì dùng `<LineCh
 **Skill chỉ quy định hình.** Mọi thư viện bật sẵn thứ skill cấm, phải tắt tay.
 Ví dụ với Recharts / shadcn chart (vì hay gặp nhất, không phải vì được chọn):
 
-| Luật hình | Cấu hình |
-| --- | --- |
-| Không lưới | bỏ `<CartesianGrid>` (biểu đồ chính trang báo cáo: lưới ngang, xem "Bỏ bớt đi") |
-| Không trục Y | `<YAxis hide domain={[0, "auto"]} />` (đáy luôn 0; trang báo cáo: hiện nhãn mức) |
-| Trục X chỉ nhãn, đáy một đường mảnh | `<XAxis tickLine={false} axisLine={{ stroke: "var(--border)" }} tick={{ fill: "var(--muted)", fontSize: 12 }} />` |
-| Không hiệu ứng vào trang (`F23`) | `isAnimationActive={false}` trên mọi `<Line>`, `<Bar>`, `<Pie>` |
-| Số ghi trên đầu cột | `<LabelList position="top" />`, cùng màu `--muted`, `text-xs` |
-| Đường: chỉ chấm và số ở điểm cuối (hoặc điểm đang rê) | `dot={false}`, `activeDot` tắt, tự vẽ chấm + nhãn bằng `<ReferenceDot>` hoặc `label` theo chỉ số điểm đang chọn |
-| Không tooltip nổi cho đường | bỏ `<Tooltip>`, đọc điểm đang rê qua `onMouseMove` để dời chấm và số |
-| Cột bo góc | `radius={[8, 8, 0, 0]}` (cột nhóm hẹp: `[6, 6, 0, 0]`) |
-| Màu từ token, đúng thang đậm nhạt | `fill="var(--chart-fill)"` + `fillOpacity` theo bảng ở mục Màu, không để bảng màu mặc định của thư viện |
-| Donut | `<Pie innerRadius="72%" startAngle={90} endAngle={-270} paddingAngle={1} stroke="var(--surface)">`, dữ liệu đã xếp lớn dần |
-| Chưa có số (khác 0) | giá trị `null` + `connectNulls={false}` để đường đứt |
-| Chú giải | bỏ `<Legend>` của thư viện, dựng chú giải bằng HTML theo spec (chấm cùng class cột) |
+| Luật hình                                             | Cấu hình                                                                                                                   |
+| ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Không lưới                                            | bỏ `<CartesianGrid>` (biểu đồ chính trang báo cáo: lưới ngang, xem "Bỏ bớt đi")                                            |
+| Không trục Y                                          | `<YAxis hide domain={[0, "auto"]} />` (đáy luôn 0; trang báo cáo: hiện nhãn mức)                                           |
+| Trục X chỉ nhãn, đáy một đường mảnh                   | `<XAxis tickLine={false} axisLine={{ stroke: "var(--border)" }} tick={{ fill: "var(--muted)", fontSize: 12 }} />`          |
+| Không hiệu ứng vào trang (`F23`)                      | `isAnimationActive={false}` trên mọi `<Line>`, `<Bar>`, `<Pie>`                                                            |
+| Số ghi trên đầu cột                                   | `<LabelList position="top" />`, cùng màu `--muted`, `text-xs`                                                              |
+| Đường: chỉ chấm và số ở điểm cuối (hoặc điểm đang rê) | `dot={false}`, `activeDot` tắt, tự vẽ chấm + nhãn bằng `<ReferenceDot>` hoặc `label` theo chỉ số điểm đang chọn            |
+| Không tooltip nổi cho đường                           | bỏ `<Tooltip>`, đọc điểm đang rê qua `onMouseMove` để dời chấm và số                                                       |
+| Cột bo góc                                            | `radius={[8, 8, 0, 0]}` (cột nhóm hẹp: `[6, 6, 0, 0]`)                                                                     |
+| Màu từ token, đúng thang đậm nhạt                     | `fill="var(--chart-fill)"` + `fillOpacity` theo bảng ở mục Màu, không để bảng màu mặc định của thư viện                    |
+| Donut                                                 | `<Pie innerRadius="72%" startAngle={90} endAngle={-270} paddingAngle={1} stroke="var(--surface)">`, dữ liệu đã xếp lớn dần |
+| Chưa có số (khác 0)                                   | giá trị `null` + `connectNulls={false}` để đường đứt                                                                       |
+| Chú giải                                              | bỏ `<Legend>` của thư viện, dựng chú giải bằng HTML theo spec (chấm cùng class cột)                                        |
 
 Thư viện khác thì tìm đúng các tuỳ chọn tương ứng; hình cuối cùng phải y như
 bảng trên. Các mẫu HTML bên dưới là **hình cần đạt**: có thư viện thì để so,
@@ -138,11 +138,11 @@ chưa có thư viện thì dựng theo đúng mẫu đó.
 
 ## Cột hay đường
 
-| Dữ liệu | Loại | Vì sao |
-| --- | --- | --- |
-| **Số đếm của từng kỳ**, tới ~12 kỳ: việc xong mỗi tuần, đơn mỗi ngày, khách mới mỗi tháng | **Cột**, số trên đầu mỗi cột | Mỗi kỳ là một con số rời người ta muốn đọc; cột ghi đủ số, không phải rê chuột |
-| Mức tại từng thời điểm hoặc tỷ lệ: số người dùng đang hoạt động, tỷ lệ huỷ, số dư, luỹ kế. Doanh thu theo tháng khi cái cần đọc là xu hướng | Đường | Giá trị chảy liền, cái cần thấy là dáng lên xuống |
-| Số đếm từng kỳ nhưng quá ~12 kỳ (30 ngày, 52 tuần) | Đường | Cột mảnh quá, số trên đầu cột chồng nhau |
+| Dữ liệu                                                                                                                                     | Loại                         | Vì sao                                                                         |
+| ------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- | ------------------------------------------------------------------------------ |
+| **Số đếm của từng kỳ**, tới ~12 kỳ: việc xong mỗi tuần, đơn mỗi ngày, khách mới mỗi tháng                                                   | **Cột**, số trên đầu mỗi cột | Mỗi kỳ là một con số rời người ta muốn đọc; cột ghi đủ số, không phải rê chuột |
+| Mức tại từng thời điểm hoặc tỷ lệ: số người dùng đang hoạt động, tỷ lệ huỷ, số dư, luỹ kế. Doanh thu theo tháng khi cái cần đọc là xu hướng | Đường                        | Giá trị chảy liền, cái cần thấy là dáng lên xuống                              |
+| Số đếm từng kỳ nhưng quá ~12 kỳ (30 ngày, 52 tuần)                                                                                          | Đường                        | Cột mảnh quá, số trên đầu cột chồng nhau                                       |
 
 Các công cụ quản lý dự án phổ biến vẽ "việc xong mỗi tuần" bằng cột. Vẽ 8
 tuần bằng đường thì chỉ đọc được số tuần cuối.
@@ -162,17 +162,20 @@ luật `S5` trong `../../SKILL.md`.
 
 ```html
 <div class="flex min-h-[14rem] flex-1 items-end gap-2 sm:gap-3">
-  <div class="flex h-full flex-1 flex-col justify-end gap-2">
-    <p class="text-center text-xs font-medium text-muted">16</p>
-    <!-- mx-auto w-full max-w-8: cột tối đa 32px, nằm giữa khe của nó -->
-    <div class="mx-auto w-full max-w-8 rounded-t-md bg-chart-fill" style="height: 80%"></div>
-  </div>
-  <!-- các cột khác, cùng bg-chart-fill; kỳ đang chạy (cột cuối) bg-chart-fill/35 -->
+    <div class="flex h-full flex-1 flex-col justify-end gap-2">
+        <p class="text-center text-xs font-medium text-muted">16</p>
+        <!-- mx-auto w-full max-w-8: cột tối đa 32px, nằm giữa khe của nó -->
+        <div
+            class="mx-auto w-full max-w-8 rounded-t-md bg-chart-fill"
+            style="height: 80%"
+        ></div>
+    </div>
+    <!-- các cột khác, cùng bg-chart-fill; kỳ đang chạy (cột cuối) bg-chart-fill/35 -->
 </div>
 
 <div class="mt-3 flex gap-2 border-t border-border pt-3 sm:gap-3">
-  <p class="flex-1 text-center text-xs text-muted">T1</p>
-  <!-- nhãn trục, cùng gap với cụm cột để thẳng hàng -->
+    <p class="flex-1 text-center text-xs text-muted">T1</p>
+    <!-- nhãn trục, cùng gap với cụm cột để thẳng hàng -->
 </div>
 ```
 
@@ -205,15 +208,17 @@ trượt khỏi cột.
 
 ```html
 <li class="py-3 first:pt-0">
-  <div class="flex items-baseline justify-between gap-3">
-    <p class="min-w-0 flex-1 truncate text-sm font-medium text-foreground">Thiết kế giao diện</p>
-    <p class="shrink-0 text-sm font-medium text-foreground">92%</p>
-  </div>
-  <!-- Rãnh là lớp phủ bg-foreground/5, không bg-background: nền tối bg-background tối hơn card, rãnh thành
+    <div class="flex items-baseline justify-between gap-3">
+        <p class="min-w-0 flex-1 truncate text-sm font-medium text-foreground">
+            Thiết kế giao diện
+        </p>
+        <p class="shrink-0 text-sm font-medium text-foreground">92%</p>
+    </div>
+    <!-- Rãnh là lớp phủ bg-foreground/5, không bg-background: nền tối bg-background tối hơn card, rãnh thành
        vệt đen nặng (M21). Bản sáng hai cách cùng một màu. -->
-  <div class="mt-2 h-2 rounded-full bg-foreground/5">
-    <div class="h-2 rounded-full bg-primary" style="width: 92%"></div>
-  </div>
+    <div class="mt-2 h-2 rounded-full bg-foreground/5">
+        <div class="h-2 rounded-full bg-primary" style="width: 92%"></div>
+    </div>
 </li>
 ```
 
@@ -269,25 +274,32 @@ nhãn trái + số phải, thanh ở giữa, một dòng phụ `text-xs text-mut
 Đây là chỗ vỡ nhiều nhất, và chỉ lộ ra khi thu cửa sổ xuống 375px.
 
 - **Mobile là 2×2**: `grid-cols-2 lg:grid-cols-4`, như hầu hết app trên điện thoại. Một cột thì bốn ô số ngắn (4, 140, 5, 23) xếp dọc cao 417px, chiếm gần hết màn đầu ở 375px, biểu đồ và việc hôm nay bị đẩy khỏi tầm nhìn; 2×2 còn 209px (chủ dự án duyệt). Ở 375px mỗi ô còn **138px cho chữ số** (`text-xl`, ô `p-4`): vừa `1.284.500` (98px), `184,5 tr đ` (91px), `1,28 tỷ đ` (80px); không vừa `1.284.500.000 đ` (161px).
-  - **Có số không vừa 138px** (tiền đầy đủ tới hàng tỷ): gợi ý rút gọn theo "Số quá 9 chữ số" bên dưới. Người dùng muốn giữ số đầy đủ thì hàng đó về `grid-cols-1 sm:grid-cols-2 lg:grid-cols-4`, không để số xuống dòng hay tràn.
-  - **Số ô lẻ** (3, 5): 2 cột là một ô đứng lẻ ở hàng dưới (`R3`), nên đi thẳng `grid-cols-1 sm:grid-cols-3`. 6 ô thì 2 cột được.
-  - Luật cũ (đã bỏ): "Mobile là một cột" cho mọi hàng số, vì sợ số dài; phần lớn hàng số trên màn tổng quan là số đếm ngắn.
-  - Ô trong panel trượt: xem mục dưới.
+    - **Có số không vừa 138px** (tiền đầy đủ tới hàng tỷ): gợi ý rút gọn theo "Số quá 9 chữ số" bên dưới. Người dùng muốn giữ số đầy đủ thì hàng đó về `grid-cols-1 sm:grid-cols-2 lg:grid-cols-4`, không để số xuống dòng hay tràn.
+    - **Số ô lẻ** (3, 5): 2 cột là một ô đứng lẻ ở hàng dưới (`R3`), nên đi thẳng `grid-cols-1 sm:grid-cols-3`. 6 ô thì 2 cột được.
+    - Luật cũ (đã bỏ): "Mobile là một cột" cho mọi hàng số, vì sợ số dài; phần lớn hàng số trên màn tổng quan là số đếm ngắn.
+    - Ô trong panel trượt: xem mục dưới.
 - **Trong panel trượt hay cột hẹp: lưới 2×2 cố định, một khung, số nhỏ hơn tên.** Panel 448px không phải trang tổng quan: số ở đây là thông tin phụ của một bản ghi, không phải nhân vật chính. Bốn card rời `rounded-2xl p-5` với số `text-3xl` là thứ nặng nhất panel, nặng hơn cả tên khách (các CRM lớn để số của khách ở cỡ chữ thường). Dựng một khung, kẻ chia bằng khe 1px, số `text-lg font-semibold`, không bao giờ lớn hơn cỡ tên ở header panel. Dòng so sánh chỉ còn icon + số (kỳ ghi một lần, xem "Dòng so sánh") nên 2 cột ở 375px vẫn vừa, không phải xếp thành bốn ô dọc dài.
 
 ```html
 <p class="mb-2 text-xs text-muted">12 tháng gần nhất, so với 12 tháng trước</p>
-<div class="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border">
-  <div class="min-w-0 bg-surface p-4">
-    <p class="text-xs font-medium text-muted">Doanh thu</p>
-    <p class="mt-1 text-lg font-semibold tabular-nums text-foreground">184,5<span class="ml-1 text-muted">tr đ</span></p>
-    <p class="mt-0.5 flex items-center gap-1 text-xs font-medium tabular-nums text-emerald-700">
-      <i data-lucide="trending-up" class="size-3.5"></i>12,4%
-    </p>
-  </div>
-  <!-- 3 ô còn lại cùng khuôn -->
+<div
+    class="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border"
+>
+    <div class="min-w-0 bg-surface p-4">
+        <p class="text-xs font-medium text-muted">Doanh thu</p>
+        <p class="mt-1 text-lg font-semibold tabular-nums text-foreground">
+            184,5<span class="ml-1 text-muted">tr đ</span>
+        </p>
+        <p
+            class="mt-0.5 flex items-center gap-1 text-xs font-medium tabular-nums text-emerald-700"
+        >
+            <i data-lucide="trending-up" class="size-3.5"></i>12,4%
+        </p>
+    </div>
+    <!-- 3 ô còn lại cùng khuôn -->
 </div>
 ```
+
 - **Mỗi ô phải có `min-w-0`.** Grid item mặc định không chịu co nhỏ hơn nội dung, thiếu dòng này là cả trang tràn ngang.
 - **Số của các ô cùng hàng luôn thẳng một đường, kể cả khi có nhãn xuống dòng.** Mỗi ô là `grid row-span-2 grid-rows-subgrid content-start` (ba tầng thì `row-span-3`), khung ngoài không cần khai hàng: hàng nhãn cao theo nhãn dài nhất, số cả hàng cùng nằm dưới đó. Không có subgrid thì một nhãn hai dòng đẩy riêng số của ô đó xuống 16px.
 - **Nhãn có kỳ ngắt sau dấu `·`, không ngắt giữa kỳ**: `Đơn đã giao&nbsp;· 12&nbsp;tháng` ra "Đơn đã giao ·" / "12 tháng". Để khoảng trắng thường thì trình duyệt ngắt "· 12" / "tháng"; dán `&nbsp;` sau dấu thì dấu `·` rơi xuống đầu dòng.
@@ -296,12 +308,18 @@ nhãn trái + số phải, thanh ở giữa, một dòng phụ `text-xs text-mut
 
 ```html
 <!-- Kẻ chia bằng khe 1px lộ nền --border (như lưới trong panel): divide-x không kẻ được đường ngang giữa hai hàng của 2×2 -->
-<div class="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border lg:grid-cols-4">
-  <div class="min-w-0 bg-surface p-4 sm:p-5">
-    <p class="text-xs font-medium text-muted">Đang làm</p>
-    <p class="mt-1 text-xl font-semibold tracking-tight tabular-nums text-foreground sm:text-2xl">1.284.500</p>
-    <p class="mt-1 text-xs text-muted">Trải trên 4 dự án</p>
-  </div>
+<div
+    class="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border lg:grid-cols-4"
+>
+    <div class="min-w-0 bg-surface p-4 sm:p-5">
+        <p class="text-xs font-medium text-muted">Đang làm</p>
+        <p
+            class="mt-1 text-xl font-semibold tracking-tight tabular-nums text-foreground sm:text-2xl"
+        >
+            1.284.500
+        </p>
+        <p class="mt-1 text-xs text-muted">Trải trên 4 dự án</p>
+    </div>
 </div>
 ```
 
@@ -309,14 +327,17 @@ nhãn trái + số phải, thanh ở giữa, một dòng phụ `text-xs text-mut
 
 ```html
 <div class="min-w-0 p-5">
-  <p class="text-xs font-medium text-muted">Doanh thu tháng này</p>
-  <p class="mt-1 text-xl font-semibold sm:text-2xl tracking-tight tabular-nums text-foreground">
-    1.284.500.000<span class="ml-1 font-semibold text-muted">đ</span>
-  </p>
-  <p class="mt-1 flex items-center gap-1 text-xs text-muted">
-    <i data-lucide="trending-up" class="size-3.5 text-emerald-700"></i>
-    <span class="font-medium tabular-nums text-emerald-700">12,4%</span> so với tháng trước
-  </p>
+    <p class="text-xs font-medium text-muted">Doanh thu tháng này</p>
+    <p
+        class="mt-1 text-xl font-semibold sm:text-2xl tracking-tight tabular-nums text-foreground"
+    >
+        1.284.500.000<span class="ml-1 font-semibold text-muted">đ</span>
+    </p>
+    <p class="mt-1 flex items-center gap-1 text-xs text-muted">
+        <i data-lucide="trending-up" class="size-3.5 text-emerald-700"></i>
+        <span class="font-medium tabular-nums text-emerald-700">12,4%</span> so
+        với tháng trước
+    </p>
 </div>
 ```
 
@@ -346,15 +367,23 @@ nhãn trái + số phải, thanh ở giữa, một dòng phụ `text-xs text-mut
 const rowHasSparkline = tiles.some((tile) => tile.points.length >= 2);
 
 <div className="flex min-w-0 flex-col p-5">
-  {/* nhãn, số, dòng so sánh */}
-  {tile.points.length >= 2 ? (
-    <svg aria-hidden="true" className="mt-auto h-10 w-full pt-4">{/* polyline + chấm cuối */}</svg>
-  ) : rowHasSparkline ? (
-    // Giữ chỗ chỉ để cao bằng ô bên cạnh. Hàng 2×2 ở mobile vẫn có ô bên cạnh nên giữ;
-    // chỉ hàng về một cột ở mobile (số dài, số ô lẻ) mới thêm max-sm:hidden
-    <div aria-hidden="true" className={cn("mt-auto h-10 pt-4", isSingleColumnOnMobile && "max-sm:hidden")} />
-  ) : null}
-</div>
+    {/* nhãn, số, dòng so sánh */}
+    {tile.points.length >= 2 ? (
+        <svg aria-hidden="true" className="mt-auto h-10 w-full pt-4">
+            {/* polyline + chấm cuối */}
+        </svg>
+    ) : rowHasSparkline ? (
+        // Giữ chỗ chỉ để cao bằng ô bên cạnh. Hàng 2×2 ở mobile vẫn có ô bên cạnh nên giữ;
+        // chỉ hàng về một cột ở mobile (số dài, số ô lẻ) mới thêm max-sm:hidden
+        <div
+            aria-hidden="true"
+            className={cn(
+                "mt-auto h-10 pt-4",
+                isSingleColumnOnMobile && "max-sm:hidden",
+            )}
+        />
+    ) : null}
+</div>;
 ```
 
 Không đặt `min-h` cố định cho ô: chiều cao ô phải đến từ nội dung, để cả hàng
@@ -366,9 +395,9 @@ desktop vẫn trống).
 - **Đường luôn một màu `--primary`**, kể cả khi dòng so sánh đỏ. Màu tốt/xấu đã nói ở dòng so sánh; tô đường đỏ nữa là hai tín hiệu cho một ý (`N3`).
 - Mọi ô trong hàng cùng số điểm, cùng khoảng thời gian, sparkline cùng chiều cao.
 - **Chưa đủ hai điểm** (tháng đầu tiên): không vẽ, không chấm lẻ, không đường ngang giả. **Giữ chỗ chỉ khi có ô bên cạnh để khớp** (`N1`):
-  - Cùng hàng có ô **có** sparkline: ô thiếu giữ chỗ bằng đúng chiều cao sparkline, để các ô cao bằng nhau.
-  - **Hàng về một cột ở mobile** (số dài không rút gọn, số ô lẻ; mặc định là 2×2, xem "Ô số liệu ở màn hẹp"): các ô xếp dọc, không có ô nào bên cạnh, giữ chỗ chỉ là một khoảng trắng lớn dưới mỗi ô. Chỗ giữ `max-sm:hidden`. Hàng 2×2 thì giữ chỗ cả ở mobile, vì ô cạnh bên vẫn cần cao bằng.
-  - **Cả hàng đều chưa có** sparkline: bỏ hẳn chỗ giữ ở mọi cỡ màn, ô chỉ cao đến dòng so sánh.
+    - Cùng hàng có ô **có** sparkline: ô thiếu giữ chỗ bằng đúng chiều cao sparkline, để các ô cao bằng nhau.
+    - **Hàng về một cột ở mobile** (số dài không rút gọn, số ô lẻ; mặc định là 2×2, xem "Ô số liệu ở màn hẹp"): các ô xếp dọc, không có ô nào bên cạnh, giữ chỗ chỉ là một khoảng trắng lớn dưới mỗi ô. Chỗ giữ `max-sm:hidden`. Hàng 2×2 thì giữ chỗ cả ở mobile, vì ô cạnh bên vẫn cần cao bằng.
+    - **Cả hàng đều chưa có** sparkline: bỏ hẳn chỗ giữ ở mọi cỡ màn, ô chỉ cao đến dòng so sánh.
 - `aria-hidden="true"` trên `<svg>`: xu hướng đã nói bằng chữ ở dòng so sánh.
 
 Biểu đồ cột nhiều mốc ở màn hẹp thì cho cả cụm cuộn ngang **trong khung riêng**

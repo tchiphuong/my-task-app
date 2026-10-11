@@ -17,7 +17,7 @@ như thế, **kể cả khi một cách khác trông gọn hơn**. Người dùn
 tự hỏi. Gu của skill (nhạt, ít tín hiệu) chỉ quyết những chỗ chưa có quy ước. Chủ
 dự án chốt.
 
-*Phép thử:* người dùng lần đầu mở màn này có chỗ nào phải hỏi "cái này nghĩa là
+_Phép thử:_ người dùng lần đầu mở màn này có chỗ nào phải hỏi "cái này nghĩa là
 gì" hay "bấm đâu để…" không? Có thì đang phá cách ở đó.
 
 **Cũng đứng trên mười hai nguyên tắc: dự án đã có ngôn ngữ màu thì theo dự án.** Gu ít
@@ -31,6 +31,7 @@ cách, `P4` trong `styles.md` (dòng "màu" ở tầng 3, `SKILL.md` câu 2).
 
 Theo dự án là theo **cách dùng màu**, còn **luật về nghĩa và về đọc được** thì giữ ở
 mọi dự án, vì đó là đúng sai chứ không phải gu:
+
 - Đỏ chỉ cho lỗi và việc không lấy lại được (`M30`). Màu thương hiệu đỏ trong nội dung
   (logo, ảnh) không tính.
 - Một bảng trạng thái cho cả app: "xong" ở đâu cũng một màu (`M7`).
@@ -42,7 +43,7 @@ mọi dự án, vì đó là đúng sai chứ không phải gu:
 Dự án dùng màu lung tung, không ra quy luật (mỗi màn một kiểu) thì theo phần **mới nhất**
 như `P5`, và báo một dòng lúc giao.
 
-*Phép thử:* đặt màn mới cạnh màn cũ của dự án. Nhìn có như cùng một sản phẩm không, hay
+_Phép thử:_ đặt màn mới cạnh màn cũ của dự án. Nhìn có như cùng một sản phẩm không, hay
 màn mới xám nhạt lạc giữa các màn có màu?
 
 ---
@@ -75,7 +76,7 @@ qua các màn (đã dính: tên bước ở thanh thu gọn bị cắt "…").
 được, nên phải **trượt**, không giật: `grid-rows` 0fr ↔ 1fr, không `<details>`, không
 render có điều kiện (`I30`).
 
-*Phép thử:* bật lần lượt từng trạng thái, nhìn **phần tử bên cạnh**, không nhìn
+_Phép thử:_ bật lần lượt từng trạng thái, nhìn **phần tử bên cạnh**, không nhìn
 phần tử vừa đổi. Có cái nào xê dịch dù 1px không?
 
 ---
@@ -102,7 +103,7 @@ checkbox**. Sidebar và cây thư mục không có checkbox nên đang chọn đ
 `hover:bg-item-hover`, đang chọn `bg-secondary` + `font-medium`, không màu nhấn, không viền
 (chủ dự án chốt).
 
-*Phép thử:* che chữ đi, chỉ nhìn hình. Còn nói được đây là trạng thái nào không?
+_Phép thử:_ che chữ đi, chỉ nhìn hình. Còn nói được đây là trạng thái nào không?
 
 ---
 
@@ -140,7 +141,7 @@ tả, bốn lần một ý (`components/chat.md`). Cùng màn đó, tên bước
 trả lời: **quá trình luôn nhẹ hơn kết quả**, và không nói trước kết quả (mô tả bước
 "tổng 409.000.000 đ" ngay trên câu trả lời mở đầu bằng đúng con số đó).
 
-*Phép thử:* đếm số chỗ tô đặc hoặc có màu trên màn. Mỗi chỗ trả lời được "nó nói
+_Phép thử:_ đếm số chỗ tô đặc hoặc có màu trên màn. Mỗi chỗ trả lời được "nó nói
 điều gì mà chỗ khác chưa nói" không?
 
 ---
@@ -158,7 +159,7 @@ nhạt nhất của biểu đồ gần như trắng, may còn số trên đầu 
 đổi màu mà không có dòng chữ; chỉ có đoạn đỏ trên thanh bước ở màn hẹp mà không
 nói bước nào sai.
 
-*Phép thử:* chuyển màn sang đen trắng. Mọi trạng thái còn đọc ra không?
+_Phép thử:_ chuyển màn sang đen trắng. Mọi trạng thái còn đọc ra không?
 
 ---
 
@@ -180,7 +181,7 @@ dòng đã có ở khối nhãn và giá trị. **Một giá trị có khuôn ri
 kể cả khi nó nằm trong một component khác. **Mượn khuôn là mượn cả class**, không chỉ
 mượn dáng (cỡ chữ, độ dày đường nối, cách căn dòng đầu với vòng).
 
-*Phép thử:* với từng phần tử mới, trong skill đã có thứ nào **cùng vai** chưa?
+_Phép thử:_ với từng phần tử mới, trong skill đã có thứ nào **cùng vai** chưa?
 Có thì class có giống không?
 
 ---
@@ -210,7 +211,7 @@ không phải câu báo "chưa có". Đã dính: khung chat mới chỉ có "Ch�
 nhắn nào" giữa màn (thay bằng 2–3 gợi ý mở đầu, `components/chat.md`). Danh sách do hệ
 thống đổ về (đơn hàng, thông báo) thì vẫn một dòng chữ mờ (`components/empty-state.md`).
 
-*Phép thử:* người dùng đọc xong câu này, họ biết phải làm gì tiếp không?
+_Phép thử:_ người dùng đọc xong câu này, họ biết phải làm gì tiếp không?
 
 ---
 
@@ -223,7 +224,7 @@ vào ô. Không bịa số, không tick sẵn đồng ý.
 giờ; tab có số đếm bịa cho có. Ngoại lệ có tên: nhóm radio luôn có sẵn một lựa
 chọn (`components/choice-controls.md`).
 
-*Phép thử:* có giá trị nào xuất hiện trong ô mà người dùng chưa hề chạm vào không?
+_Phép thử:_ có giá trị nào xuất hiện trong ô mà người dùng chưa hề chạm vào không?
 
 ---
 
@@ -250,7 +251,7 @@ chuyển tài khoản: sợ cắt mất tên miền nên cho email xuống dòng
 thành ba dòng, danh sách con nặng hơn menu cha. Trong menu, hàng chọn, ô hẹp: mỗi
 trường một dòng.
 
-*Phép thử:* ở 375px và với dữ liệu dài nhất, thứ người dùng cần đọc để bấm có
+_Phép thử:_ ở 375px và với dữ liệu dài nhất, thứ người dùng cần đọc để bấm có
 còn đọc được hết không?
 
 ---
@@ -273,7 +274,7 @@ từng chỗ ở `components/description-list.md`, `layouts/app.md` (Hồ sơ), 
 Đã dính: bánh xe giờ chỉ cuộn mới chọn được, và cuộn khựng giữa chừng; chỉ có
 mũi tên ‹ › để đổi tháng, đi xa là mỏi tay (tiêu đề bấm ra lưới tháng/năm).
 
-*Phép thử:* rút chuột ra, dùng Tab + Enter + mũi tên đi hết màn. Rồi mở trên điện
+_Phép thử:_ rút chuột ra, dùng Tab + Enter + mũi tên đi hết màn. Rồi mở trên điện
 thoại. Có chỗ nào kẹt không?
 
 ---
@@ -292,7 +293,7 @@ token), không tự vẽ lại bên cạnh. Chưa có thì không tự cài: d�
 và chỉ đề xuất thư viện khi có nhu cầu thật mà tự dựng sẽ tốn. Chọn theo tiêu
 chí (nhẹ, giải quyết đúng việc, hợp hệ sinh thái), không theo tên quen.
 
-*Phép thử:* đoạn code vừa viết có gọi API, đặt ngưỡng, lưu trạng thái, hay hẹn
+_Phép thử:_ đoạn code vừa viết có gọi API, đặt ngưỡng, lưu trạng thái, hay hẹn
 giờ mà đề không yêu cầu không?
 
 ---
@@ -316,7 +317,7 @@ Làm theo thứ tự:
    chữ lệch về một mép (accordion bớt `pb` của nút khi mở, `I30`).
 3. **`gap`, căn `items-*`, đổi `leading`** để thẳng hàng, thay vì nhích bằng `translate`.
    **Căn giữa quanh một điểm** (chấm trên biểu đồ, nhãn trên tay cầm): đặt khối `absolute
-   w-0 flex justify-center` đúng tại điểm, phần tử nằm trong nó, không `-translate-x-1/2`.
+w-0 flex justify-center` đúng tại điểm, phần tử nằm trong nó, không `-translate-x-1/2`.
 4. Không cách nào ở trên làm được: dùng số âm, và **ghi comment lý do ngay trên dòng đó**, như
    `eslint-disable`. Các chỗ đã thử và giữ: avatar xếp chồng (`avatar.md`); vùng
    bấm nở ra ngoài một phần tử nhỏ (`before:-inset-*`, `N9`); khung tên sửa tại chỗ tràn ra
@@ -327,7 +328,7 @@ Làm theo thứ tự:
 dropdown, `-translate-y-full → 0` của toast ở đỉnh). Đó là hướng trượt vào, không phải khoảng cách
 hay vị trí đứng yên; phần tử đứng yên luôn ở `translate-0`.
 
-*Phép thử:* grep `-m[trblxy]?-|-space-|-translate-|-inset-` trong file vừa dựng. Mỗi kết
+_Phép thử:_ grep `-m[trblxy]?-|-space-|-translate-|-inset-` trong file vừa dựng. Mỗi kết
 quả phải có comment giải thích vì sao không làm bằng cách 1–3 được (trừ điểm xuất phát chuyển động).
 
 ---
@@ -354,7 +355,7 @@ lưới, kể cả kiểu chưa có mẫu. Không cần mẫu riêng cho từng 
 
 Chủ dự án chốt: đừng viết thêm mẫu cho từng kiểu, viết phép thử chung.
 
-*Phép thử:* probe mục "KHỐI LẶP" (card có ảnh: chữ to nhất so với tên, khoảng giữa các dòng,
+_Phép thử:_ probe mục "KHỐI LẶP" (card có ảnh: chữ to nhất so với tên, khoảng giữa các dòng,
 tên cắt một dòng). Khối không ảnh thì tự soi ba câu trên bằng ảnh chụp.
 
 ---
@@ -383,25 +384,26 @@ trong `components/` thì:
    sách `P` trống, tối đa ba vòng.
 4. **Soi bằng mắt năm câu mà máy không đo được** ⚑. Mở ảnh 375px và một ảnh desktop,
    nhìn đúng các ca biên vừa dựng:
-   - **Ca biên có trông cố ý không?** Số đếm bằng `0` ("0 ảnh", "0 bình luận") thì ẩn,
-     hoặc nói bằng chữ ("Chưa có ảnh"). Ảnh thiếu thì là trạng thái "chưa có ảnh", không
-     để badge đếm nằm trên ảnh giữ chỗ. Mô tả thiếu thì khối co lại, không để dòng trống.
-   - **Có khoảng trống nào chỉ để giữ chỗ không?** Giữ chỗ được khi nó làm thứ quan
-     trọng thẳng hàng trong lưới (giá, nút ở cùng độ cao giữa các card). Khi đó nói một
-     dòng lúc giao. Không làm được việc đó thì bỏ.
-   - **Các bản sao của khối lặp có cùng một cách viết không?** Cùng kiểu số và đơn vị
-     trong một danh sách ("4,5 triệu" với "0,85 triệu", không lẫn "850.000 đ"), cùng
-     thứ tự các dòng, cùng nhãn (`N5`).
-   - **Một vùng có bị đè quá nhiều thứ không?** Trên ảnh, trên header, trong một góc:
-     quá ba thứ chồng lên nhau thì gom hay dời bớt ra khỏi vùng đó (`N3`).
-   - **Thứ cần để quyết định còn nguyên ở ca dài nhất không?** Tên dài nhất, giá lớn
-     nhất, ở 375px (`N8`).
+    - **Ca biên có trông cố ý không?** Số đếm bằng `0` ("0 ảnh", "0 bình luận") thì ẩn,
+      hoặc nói bằng chữ ("Chưa có ảnh"). Ảnh thiếu thì là trạng thái "chưa có ảnh", không
+      để badge đếm nằm trên ảnh giữ chỗ. Mô tả thiếu thì khối co lại, không để dòng trống.
+    - **Có khoảng trống nào chỉ để giữ chỗ không?** Giữ chỗ được khi nó làm thứ quan
+      trọng thẳng hàng trong lưới (giá, nút ở cùng độ cao giữa các card). Khi đó nói một
+      dòng lúc giao. Không làm được việc đó thì bỏ.
+    - **Các bản sao của khối lặp có cùng một cách viết không?** Cùng kiểu số và đơn vị
+      trong một danh sách ("4,5 triệu" với "0,85 triệu", không lẫn "850.000 đ"), cùng
+      thứ tự các dòng, cùng nhãn (`N5`).
+    - **Một vùng có bị đè quá nhiều thứ không?** Trên ảnh, trên header, trong một góc:
+      quá ba thứ chồng lên nhau thì gom hay dời bớt ra khỏi vùng đó (`N3`).
+    - **Thứ cần để quyết định còn nguyên ở ca dài nhất không?** Tên dài nhất, giá lớn
+      nhất, ở 375px (`N8`).
 
-   Câu nào ra "không" thì sửa, rồi quay lại bước 3.
+    Câu nào ra "không" thì sửa, rồi quay lại bước 3.
+
 5. **Chạy mười hai phép thử** ở trên trước khi báo xong.
-6. Lúc giao nói một dòng: *"X chưa có mẫu đã duyệt, mình mượn khuôn của Y"*, cộng mỗi
-   lựa chọn đánh đổi một dòng (vd *"tên giữ chỗ hai dòng để giá thẳng hàng giữa các
-   card"*).
+6. Lúc giao nói một dòng: _"X chưa có mẫu đã duyệt, mình mượn khuôn của Y"_, cộng mỗi
+   lựa chọn đánh đổi một dòng (vd _"tên giữ chỗ hai dòng để giá thẳng hàng giữa các
+   card"_).
 
 Luồng này dùng cho cả dựng mới lẫn chế độ dựng lại của nhánh `V` (`review.md`). Phần tử
 lạ không có trong skill là chuyện thường, nên không cần mẫu cho mọi thứ: mượn khuôn gần

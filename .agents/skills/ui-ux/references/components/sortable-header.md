@@ -37,7 +37,7 @@ Thứ tự vòng bấm là logic, component chỉ gọi `onSort` (`N10`). Khi đ
 
 - **Nút phủ kín ô, padding ngang nằm trong nút**, bằng đúng padding của ô dữ liệu cùng cột:
   chữ tiêu đề thẳng cột với dữ liệu mà không kéo lề bằng số âm (`N11`). `h-11`, `text-xs
-  font-medium`, `whitespace-nowrap`, `cursor-pointer`.
+font-medium`, `whitespace-nowrap`, `cursor-pointer`.
 - **Không nền hover. Rê vào thì chữ và mũi tên đậm lên** (`hover:text-foreground`). Ngoại lệ
   của `I10`, cùng lý do với accordion (`accordion.md`). Đừng tô `--surface-hover` lúc rê:
   nút phủ ô thành một mảng `#f8f8fa` rộng 505px cho một nhãn 12px, và ô cột đầu,
@@ -47,20 +47,20 @@ Thứ tự vòng bấm là logic, component chỉ gọi `onSort` (`N10`). Khi đ
 
 ```tsx
 <th scope="col" aria-sort={direction ?? undefined} className="p-0">
-  <Button
-    variant="ghost"
-    onClick={onSort}
-    className={cn(
-      "h-11 w-full justify-start gap-1 rounded-none px-4 py-0 text-xs whitespace-nowrap",
-      // Không nền hover: ô cột đầu, cột cuối chạm mép card, --surface-hover sát màu nền trang.
-      "text-muted hover:bg-transparent hover:text-foreground",
-      align === "right" && "flex-row-reverse",
-      isSorted && "text-foreground",
-    )}
-  >
-    {label}
-    <SortIcon direction={direction} />
-  </Button>
+    <Button
+        variant="ghost"
+        onClick={onSort}
+        className={cn(
+            "h-11 w-full justify-start gap-1 rounded-none px-4 py-0 text-xs whitespace-nowrap",
+            // Không nền hover: ô cột đầu, cột cuối chạm mép card, --surface-hover sát màu nền trang.
+            "text-muted hover:bg-transparent hover:text-foreground",
+            align === "right" && "flex-row-reverse",
+            isSorted && "text-foreground",
+        )}
+    >
+        {label}
+        <SortIcon direction={direction} />
+    </Button>
 </th>
 ```
 

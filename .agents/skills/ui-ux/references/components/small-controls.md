@@ -4,15 +4,16 @@ Nguồn: chip và nút icon của một dự án thật.
 
 ```tsx
 // Chip: bộ lọc, tag chọn được. Luôn kèm aria-pressed={isActive}
-"inline-flex max-w-48 cursor-pointer items-center rounded-full px-3 py-1 text-xs font-medium outline-hidden transition-colors"
-isActive && "bg-primary text-primary-foreground"
-!isActive && "bg-foreground/5 text-foreground/70 hover:bg-foreground/10 hover:text-foreground"
+"inline-flex max-w-48 cursor-pointer items-center rounded-full px-3 py-1 text-xs font-medium outline-hidden transition-colors";
+isActive && "bg-primary text-primary-foreground";
+!isActive &&
+    "bg-foreground/5 text-foreground/70 hover:bg-foreground/10 hover:text-foreground";
 
 // IconButton: hành động phụ trong dòng hoặc header
-"inline-flex size-8 cursor-pointer items-center justify-center rounded-lg text-muted transition-colors"
-"hover:bg-foreground/5 hover:text-foreground"   // nằm trong dòng có nền rê: hover:bg-foreground/8
-"outline-hidden"
-"disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-muted"
+("inline-flex size-8 cursor-pointer items-center justify-center rounded-lg text-muted transition-colors");
+("hover:bg-foreground/5 hover:text-foreground"); // nằm trong dòng có nền rê: hover:bg-foreground/8
+("outline-hidden");
+("disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-muted");
 ```
 
 ## Chip có hai cỡ, chọn theo vai trò
@@ -20,10 +21,10 @@ isActive && "bg-primary text-primary-foreground"
 Đây là chỗ hay sai: lấy cỡ chip trong widget đem ra làm bộ lọc chính của cả màn,
 rồi hàng đó trông teo lại.
 
-| Vai trò | Cỡ | Đi cạnh cái gì |
-| --- | --- | --- |
+| Vai trò                                         | Cỡ                              | Đi cạnh cái gì                         |
+| ----------------------------------------------- | ------------------------------- | -------------------------------------- |
 | **Chip phụ trong widget**, tag, nhãn trạng thái | `px-3 py-1 text-xs` (cao ~26px) | Nằm trong card nhỏ, cạnh chữ `text-xs` |
-| **Chip lọc chính của cả màn** | `h-9 px-3.5 text-sm` | Nằm cạnh ô tìm `h-10`, cạnh nút `h-10` |
+| **Chip lọc chính của cả màn**                   | `h-9 px-3.5 text-sm`            | Nằm cạnh ô tìm `h-10`, cạnh nút `h-10` |
 
 Nguyên tắc chung: **chip đứng cùng hàng với ô nhập hay nút thì phải gần bằng
 chiều cao của chúng**, lệch quá một bậc là hàng đó trông hỏng. Chip cao 26px
@@ -49,13 +50,16 @@ chính.
 
 ## Chip lọc đang áp dụng (có ×) ⚑
 
-Hàng tóm tắt lọc cạnh số kết quả (*8 kết quả · [Gần bệnh viện ×] [Gần cao đẳng ×] Xoá lọc*)
+Hàng tóm tắt lọc cạnh số kết quả (_8 kết quả · [Gần bệnh viện ×] [Gần cao đẳng ×] Xoá lọc_)
 là **nút bỏ lọc**, không phải nút bật / tắt như chip lọc. Khác vai thì khác hình:
 
 ```html
-<button type="button" aria-label="Bỏ lọc Gần bệnh viện"
-  class="inline-flex h-8 shrink-0 cursor-pointer items-center gap-1 rounded-full border border-border-strong bg-surface pr-2 pl-3 text-sm text-foreground outline-hidden transition-colors hover:bg-button-hover">
-  Gần bệnh viện <i data-lucide="x" class="size-3.5 text-muted"></i>
+<button
+    type="button"
+    aria-label="Bỏ lọc Gần bệnh viện"
+    class="inline-flex h-8 shrink-0 cursor-pointer items-center gap-1 rounded-full border border-border-strong bg-surface pr-2 pl-3 text-sm text-foreground outline-hidden transition-colors hover:bg-button-hover"
+>
+    Gần bệnh viện <i data-lucide="x" class="size-3.5 text-muted"></i>
 </button>
 ```
 
@@ -81,13 +85,30 @@ kế.
 <!-- Khối bọc hàng có lề ngang ít hơn 4px so với các khối khác (card px-5 thì khối này px-4, R6):
      hàng bên trong px-1 đưa chip đầu về thẳng cột. -->
 <div class="scrollbar-clean overflow-x-auto py-0.5">
-  <div class="flex items-center gap-2 px-1">
-    <button type="button" aria-pressed="true" class="shrink-0 cursor-pointer rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground outline-hidden">Tất cả</button>
-    <button type="button" aria-pressed="false" class="shrink-0 cursor-pointer rounded-full bg-foreground/5 px-3 py-1 text-xs font-medium text-foreground/70 outline-hidden hover:bg-foreground/10 hover:text-foreground">Quá hạn</button>
-    <button type="button" aria-pressed="false" title="Hội chợ Triển lãm Quốc tế 2026" class="max-w-48 shrink-0 cursor-pointer rounded-full bg-foreground/5 px-3 py-1 text-xs font-medium text-foreground/70 outline-hidden hover:bg-foreground/10 hover:text-foreground">
-      <span class="block truncate">Hội chợ Triển lãm Quốc tế 2026</span>
-    </button>
-  </div>
+    <div class="flex items-center gap-2 px-1">
+        <button
+            type="button"
+            aria-pressed="true"
+            class="shrink-0 cursor-pointer rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground outline-hidden"
+        >
+            Tất cả
+        </button>
+        <button
+            type="button"
+            aria-pressed="false"
+            class="shrink-0 cursor-pointer rounded-full bg-foreground/5 px-3 py-1 text-xs font-medium text-foreground/70 outline-hidden hover:bg-foreground/10 hover:text-foreground"
+        >
+            Quá hạn
+        </button>
+        <button
+            type="button"
+            aria-pressed="false"
+            title="Hội chợ Triển lãm Quốc tế 2026"
+            class="max-w-48 shrink-0 cursor-pointer rounded-full bg-foreground/5 px-3 py-1 text-xs font-medium text-foreground/70 outline-hidden hover:bg-foreground/10 hover:text-foreground"
+        >
+            <span class="block truncate">Hội chợ Triển lãm Quốc tế 2026</span>
+        </button>
+    </div>
 </div>
 ```
 
@@ -104,20 +125,20 @@ cuối sẽ dính sát mép. **Khung cuộn không kéo ra bằng `-mx-1`** (`N1
 
 Tab và chip trông na ná nhưng là hai thứ khác nhau:
 
-| | Tab | Chip lọc |
-| --- | --- | --- |
-| Chọn | **Đúng một**, luôn có một cái đang chọn | Không, một, hoặc nhiều |
-| Ví dụ | Tất cả / Đang giao dịch / Tiềm năng / Ngừng | Nhãn, người phụ trách, khoảng giá |
-| Hình | Theo variant bên dưới | Pill `rounded-full`, đang chọn tô đặc |
+|       | Tab                                         | Chip lọc                              |
+| ----- | ------------------------------------------- | ------------------------------------- |
+| Chọn  | **Đúng một**, luôn có một cái đang chọn     | Không, một, hoặc nhiều                |
+| Ví dụ | Tất cả / Đang giao dịch / Tiềm năng / Ngừng | Nhãn, người phụ trách, khoảng giá     |
+| Hình  | Theo variant bên dưới                       | Pill `rounded-full`, đang chọn tô đặc |
 
 ### Chọn variant
 
-| Variant | Hình | Đặt ở đâu |
-| --- | --- | --- |
-| `boxed` (mặc định) | Chữ trơn, tab đang chọn là **ô nền nhạt viền mảnh** | Trên bảng / danh sách, chuyển trạng thái: Tất cả / Chờ xử lý / Đã giao |
-| `underline` | Đường kẻ chạy hết hàng, **vạch 2px** dưới tab đang chọn | Chia nội dung trang chi tiết hoặc khối lớn: Tổng quan / Hoạt động / Tệp. **Điều hướng giữa các trang cài đặt**: Hồ sơ / Thông báo / Bảo mật (`../layouts/app.md`, "Khu cài đặt có nhiều trang") |
-| `solid` | Tab đang chọn là **pill tô màu nhấn**, chữ đảo màu | Chỉ khi người dùng chọn. Không cho khu cài đặt: trang đầy công tắc bật đã tô `--primary`, viên đen ở đầu trang tranh với chúng |
-| `segmented` | **Rãnh chìm** nhạt, tab đang chọn là **ô trắng nổi** như phím bấm | 2–4 lựa chọn ngắn đổi cách xem: Ngày / Tuần / Tháng, Danh sách / Lưới |
+| Variant            | Hình                                                              | Đặt ở đâu                                                                                                                                                                                       |
+| ------------------ | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `boxed` (mặc định) | Chữ trơn, tab đang chọn là **ô nền nhạt viền mảnh**               | Trên bảng / danh sách, chuyển trạng thái: Tất cả / Chờ xử lý / Đã giao                                                                                                                          |
+| `underline`        | Đường kẻ chạy hết hàng, **vạch 2px** dưới tab đang chọn           | Chia nội dung trang chi tiết hoặc khối lớn: Tổng quan / Hoạt động / Tệp. **Điều hướng giữa các trang cài đặt**: Hồ sơ / Thông báo / Bảo mật (`../layouts/app.md`, "Khu cài đặt có nhiều trang") |
+| `solid`            | Tab đang chọn là **pill tô màu nhấn**, chữ đảo màu                | Chỉ khi người dùng chọn. Không cho khu cài đặt: trang đầy công tắc bật đã tô `--primary`, viên đen ở đầu trang tranh với chúng                                                                  |
+| `segmented`        | **Rãnh chìm** nhạt, tab đang chọn là **ô trắng nổi** như phím bấm | 2–4 lựa chọn ngắn đổi cách xem: Ngày / Tuần / Tháng, Danh sách / Lưới                                                                                                                           |
 
 - **Ngay dưới hàng tab còn một hàng chip lọc thì tab dùng `underline`, không `boxed`.** Chip là viên xám bo tròn; tab `boxed` đang chọn cũng là viên xám bo góc. Hai hàng viên xám chồng nhau thì tab đang chọn đọc ra như một cái chip nữa, không ai thấy đó là trạng thái đang xem. Vạch dưới 2px là ngôn ngữ khác hẳn viên, hai hàng tách nhau ngay (`N5`).
 - **Một trang chỉ một variant cho mỗi vai.** Tab trạng thái trên bảng đã `boxed` thì mọi bảng trong app đều `boxed`.
@@ -143,27 +164,37 @@ Icon trước chữ **không bắt buộc**, xem mặc định ở trên. Có th
 ### Chung cho mọi variant
 
 ```tsx
-<div role="tablist" aria-label="Lọc theo trạng thái" className={getTabListClasses(variant)}>
-  {views.map((view) => {
-    const isSelected = view.value === activeView;
+<div
+    role="tablist"
+    aria-label="Lọc theo trạng thái"
+    className={getTabListClasses(variant)}
+>
+    {views.map((view) => {
+        const isSelected = view.value === activeView;
 
-    return (
-      <Button
-        key={view.value}
-        variant="ghost"
-        role="tab"
-        aria-selected={isSelected}
-        tabIndex={isSelected ? 0 : -1}
-        onClick={() => onChange(view.value)}
-        className={getTabClasses(variant, isSelected)}
-      >
-        {view.icon && <view.icon className="size-4 shrink-0" />}
-        {view.label}
-        {view.count !== undefined && <span className="text-xs font-normal tabular-nums text-muted">{view.count}</span>}
-        {view.isNew && <span className={getNewBadgeClasses(isSelected)}>Mới</span>}
-      </Button>
-    );
-  })}
+        return (
+            <Button
+                key={view.value}
+                variant="ghost"
+                role="tab"
+                aria-selected={isSelected}
+                tabIndex={isSelected ? 0 : -1}
+                onClick={() => onChange(view.value)}
+                className={getTabClasses(variant, isSelected)}
+            >
+                {view.icon && <view.icon className="size-4 shrink-0" />}
+                {view.label}
+                {view.count !== undefined && (
+                    <span className="text-xs font-normal tabular-nums text-muted">
+                        {view.count}
+                    </span>
+                )}
+                {view.isNew && (
+                    <span className={getNewBadgeClasses(isSelected)}>Mới</span>
+                )}
+            </Button>
+        );
+    })}
 </div>
 ```
 
@@ -177,9 +208,10 @@ Icon trước chữ **không bắt buộc**, xem mặc định ở trên. Có th
 
 ```ts
 // Khung cuộn py-0.5, khối bọc lề ít hơn 4px (R6, không -mx-1): nền hover tab đầu/cuối không bị cắt. Hàng: gap-1 px-1.
-"h-9 rounded-lg border px-3"
-isSelected && "border-transparent bg-tab-selected text-foreground"
-!isSelected && "border-transparent text-foreground/70 hover:bg-foreground/5 hover:text-foreground"
+"h-9 rounded-lg border px-3";
+isSelected && "border-transparent bg-tab-selected text-foreground";
+!isSelected &&
+    "border-transparent text-foreground/70 hover:bg-foreground/5 hover:text-foreground";
 ```
 
 - **Mọi tab luôn có `border`**, tab chưa chọn là `border-transparent`. Không thì lúc bấm chuyển, tab đang chọn dày thêm 2px và cả hàng xô sang phải.
@@ -194,11 +226,11 @@ isSelected && "border-transparent bg-tab-selected text-foreground"
 
 ```ts
 // Hàng: đường kẻ chạy hết bề ngang, vẽ bên trong hàng (bóng inset 1px ở đáy), vạch của tab đang chọn đè lên nó.
-"flex min-w-full gap-2 px-2 shadow-[inset_0_-1px_0_var(--tab-rail)]"
+"flex min-w-full gap-2 px-2 shadow-[inset_0_-1px_0_var(--tab-rail)]";
 // Tab: vạch là ::after nên không đẩy chiều cao. box-content h-10 pb-px: tab cao 41px phủ cả dòng kẻ, vạch bottom-0 đè đúng lên nó.
-"relative box-content h-10 rounded-xl px-2 pb-px after:absolute after:inset-x-2 after:bottom-0 after:h-0.5 after:rounded-full"
-isSelected && "text-foreground after:bg-foreground"
-!isSelected && "text-foreground/70 after:bg-transparent hover:text-foreground"
+"relative box-content h-10 rounded-xl px-2 pb-px after:absolute after:inset-x-2 after:bottom-0 after:h-0.5 after:rounded-full";
+isSelected && "text-foreground after:bg-foreground";
+!isSelected && "text-foreground/70 after:bg-transparent hover:text-foreground";
 ```
 
 - **Hàng tab nằm chung hàng với ô tìm và nút (toolbar trên bảng) thì bỏ đường kẻ hết hàng, chỉ giữ vạch 2px dưới tab đang chọn.** Đường kẻ chạy nửa hàng rồi cụt ở mép ô tìm trông dở dang, và vì khung cuộn rộng hơn cột nội dung 8px mỗi bên (để chữ tab đầu thẳng cột) nên đầu trái của nó còn thò ra ngoài mép card bên dưới 8px. Đường kẻ hết hàng chỉ dùng khi hàng tab đứng riêng một hàng, như trang chi tiết.
@@ -212,17 +244,17 @@ isSelected && "text-foreground after:bg-foreground"
 ### `solid`: pill tô đặc (chỉ khi người dùng chọn)
 
 ```ts
-"h-9 rounded-lg px-3"
-isSelected && "bg-primary text-primary-foreground hover:bg-primary"
-!isSelected && "text-foreground/70 hover:bg-foreground/5 hover:text-foreground"
+"h-9 rounded-lg px-3";
+isSelected && "bg-primary text-primary-foreground hover:bg-primary";
+!isSelected && "text-foreground/70 hover:bg-foreground/5 hover:text-foreground";
 
 // Badge "Mới" cạnh nhãn: pill như mọi badge, đảo màu theo tab.
 function getNewBadgeClasses(isSelected: boolean) {
-  return cn(
-    "rounded-full px-2 py-0.5 text-xs font-medium",
-    isSelected && "bg-primary-foreground text-primary",
-    !isSelected && "bg-emerald-500/10 text-emerald-700",
-  );
+    return cn(
+        "rounded-full px-2 py-0.5 text-xs font-medium",
+        isSelected && "bg-primary-foreground text-primary",
+        !isSelected && "bg-emerald-500/10 text-emerald-700",
+    );
 }
 ```
 
@@ -238,23 +270,29 @@ Rãnh **chìm** vào mặt (bóng trong), ô đang chọn **nổi** lên (bóng 
 ```ts
 // Rãnh: nền nhạt --background, KHÔNG dùng --secondary (đậm quá, ô trắng lọt thỏm).
 // Bo 12px, cách 4px, ô bên trong bo 8px: hai góc đồng tâm (M19).
-"inline-flex w-fit max-w-full gap-1 rounded-xl bg-background p-1 shadow-(--shadow-segment-track)"
+"inline-flex w-fit max-w-full gap-1 rounded-xl bg-background p-1 shadow-(--shadow-segment-track)";
 // Ô
-"h-8 rounded-lg px-3 transition-[color,background-color,box-shadow] duration-150"
-isSelected && "bg-surface text-foreground shadow-(--shadow-segment-thumb)"
-!isSelected && "text-foreground/60 hover:text-foreground"
+"h-8 rounded-lg px-3 transition-[color,background-color,box-shadow] duration-150";
+isSelected && "bg-surface text-foreground shadow-(--shadow-segment-thumb)";
+!isSelected && "text-foreground/60 hover:text-foreground";
 ```
 
 Hai token bóng khai trong `tokens.css`, có bản nền tối riêng:
 
 ```css
 :root {
-  --shadow-segment-track: inset 0 0 0 1px rgb(0 0 0 / 0.05), inset 0 1px 2px rgb(0 0 0 / 0.04);
-  --shadow-segment-thumb: 0 0 0 1px rgb(0 0 0 / 0.04), 0 1px 2px rgb(0 0 0 / 0.06), 0 2px 6px -2px rgb(0 0 0 / 0.08);
+    --shadow-segment-track:
+        inset 0 0 0 1px rgb(0 0 0 / 0.05), inset 0 1px 2px rgb(0 0 0 / 0.04);
+    --shadow-segment-thumb:
+        0 0 0 1px rgb(0 0 0 / 0.04), 0 1px 2px rgb(0 0 0 / 0.06),
+        0 2px 6px -2px rgb(0 0 0 / 0.08);
 }
 .dark {
-  --shadow-segment-track: inset 0 0 0 1px var(--border), inset 0 1px 2px rgb(0 0 0 / 0.4);
-  --shadow-segment-thumb: 0 0 0 1px var(--border-strong), inset 0 1px 0 rgb(255 255 255 / 0.06), 0 1px 2px rgb(0 0 0 / 0.5);
+    --shadow-segment-track:
+        inset 0 0 0 1px var(--border), inset 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-segment-thumb:
+        0 0 0 1px var(--border-strong), inset 0 1px 0 rgb(255 255 255 / 0.06),
+        0 1px 2px rgb(0 0 0 / 0.5);
 }
 ```
 
@@ -280,7 +318,10 @@ khi người dùng chọn. Năm pill viền cạnh nhau trên một cột là n�
 <span class="ml-auto shrink-0 text-xs tabular-nums text-muted">4</span>
 
 <!-- Chỉ khi người dùng chọn: pill trắng, viền mảnh, chữ xám. -->
-<span class="ml-auto shrink-0 rounded-full border border-border-strong bg-surface px-2 py-0.5 text-xs font-medium tabular-nums text-muted">121</span>
+<span
+    class="ml-auto shrink-0 rounded-full border border-border-strong bg-surface px-2 py-0.5 text-xs font-medium tabular-nums text-muted"
+    >121</span
+>
 ```
 
 - **Một danh sách chỉ MỘT kiểu.** Người dùng chọn pill thì mọi số đều là pill, kể cả số `4`. Đừng chia kiểu theo ý nghĩa con số (chưa đọc thì pill, số đếm thường thì trơn): đặt cạnh nhau thì chỉ thấy hai hàng lệch style, không ai đọc ra được ý nghĩa.
@@ -304,19 +345,24 @@ hai cụm: **số đếm bên trái, mọi control bên phải**.
 
 ```tsx
 <div className="flex items-center justify-between gap-4 border-t border-border px-4 py-3">
-  <p className="text-sm tabular-nums text-muted">1 tới 10 trong 1.284 đơn hàng</p>
-  <div className="flex shrink-0 items-center gap-4">
-    {/* "Mỗi trang" + select h-9 */}
-    <nav aria-label="Phân trang" className="flex items-center gap-1">{/* ‹ trang › */}</nav>
-  </div>
+    <p className="text-sm tabular-nums text-muted">
+        1 tới 10 trong 1.284 đơn hàng
+    </p>
+    <div className="flex shrink-0 items-center gap-4">
+        {/* "Mỗi trang" + select h-9 */}
+        <nav aria-label="Phân trang" className="flex items-center gap-1">
+            {/* ‹ trang › */}
+        </nav>
+    </div>
 </div>
 ```
 
 ```ts
 // Nút số trang: vuông h-9, luôn có border để lúc chuyển trang không xô hàng
-"inline-flex h-9 min-w-9 cursor-pointer items-center justify-center rounded-lg border px-2 text-sm font-medium tabular-nums outline-hidden"
-isCurrent && "border-transparent bg-secondary text-foreground"   // + aria-current="page"
-!isCurrent && "border-transparent text-foreground/70 hover:bg-foreground/5 hover:text-foreground"
+"inline-flex h-9 min-w-9 cursor-pointer items-center justify-center rounded-lg border px-2 text-sm font-medium tabular-nums outline-hidden";
+isCurrent && "border-transparent bg-secondary text-foreground"; // + aria-current="page"
+!isCurrent &&
+    "border-transparent text-foreground/70 hover:bg-foreground/5 hover:text-foreground";
 // Mũi tên ‹ ›: IconButton h-9 w-9, có aria-label "Trang trước" / "Trang sau"
 ```
 
@@ -326,13 +372,14 @@ isCurrent && "border-transparent bg-secondary text-foreground"   // + aria-curre
 - **Select "Mỗi trang" nằm trong cụm phải, sát nav**, không đứng ngay sau số đếm. Số đếm dài ra theo trang ("1 tới 10" rồi "1.271 tới 1.280"), đặt select sau nó là select xê dịch mỗi lần chuyển trang.
 - **Cửa sổ trang luôn đủ 7 ô** (tính cả `…`) khi tổng số trang lớn hơn 7. Ở gần hai đầu thì lấp thêm số cho đủ 7:
 
-  | Đang xem | Hiện |
-  | --- | --- |
-  | Trang 1 | `1 2 3 4 5 … 129` |
-  | Trang 12 | `1 … 11 12 13 … 129` |
-  | Trang 129 | `1 … 125 126 127 128 129` |
+    | Đang xem  | Hiện                      |
+    | --------- | ------------------------- |
+    | Trang 1   | `1 2 3 4 5 … 129`         |
+    | Trang 12  | `1 … 11 12 13 … 129`      |
+    | Trang 129 | `1 … 125 126 127 128 129` |
 
-  Số ô cố định thì nav rộng cố định, chuyển trang không kéo select xê dịch. `…` là chữ `text-muted`, không bấm được.
+    Số ô cố định thì nav rộng cố định, chuyển trang không kéo select xê dịch. `…` là chữ `text-muted`, không bấm được.
+
 - **Số ô chọn theo bề rộng khung, một lần cho cả bảng**, không chọn riêng từng trang. Desktop đủ chỗ là 7. Chỉ khi đo thấy tràn mới hạ **cả bộ** xuống 5 (`1 2 3 … 129`, `1 … 12 … 129`, `1 … 127 128 129`), rồi mới tới dạng `‹ 12 / 129 ›`. Khung còn trống mà hiện 5 ô là sai.
 - **Mũi tên ở trang đầu/cuối thì `disabled`**, giữ chỗ, không ẩn, để nav không co giãn.
 - **Chỉ vừa một trang: ẩn nav.** Chỉ còn số đếm ("7 thành viên"). Select "Mỗi trang" chỉ giữ khi tổng số lớn hơn lựa chọn nhỏ nhất, không thì ẩn luôn. Hai mũi tên khoá cộng một ô `1` là nhiễu.

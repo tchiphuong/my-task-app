@@ -10,7 +10,7 @@ Nguồn duy nhất cho mọi luật về chữ. Con số cỡ chữ cụ thể n
 cả trang: chữ mảnh hơn, sạch hơn, bớt cái vẻ nặng nề của font render mặc định.
 
 ```html
-<body class="antialiased">
+<body class="antialiased"></body>
 ```
 
 **T2. Một họ chữ cho cả app.** Phân vai bằng weight và cỡ, không bằng font thứ
@@ -245,12 +245,12 @@ Thứ tư 14/09". Đừng xuống dòng, đừng cho nhãn cùng màu với giá
 **T24. Chốt ngôn ngữ của copy TRƯỚC khi viết cái nhãn đầu tiên.** Tự tìm, chỉ hỏi
 khi tìm ra mâu thuẫn:
 
-| Tìm thấy | Theo cái gì |
-| --- | --- |
-| Có i18n (`locales/`, `messages/`, json có khoá `en` / `vi`) | Theo đó, và đặt chuỗi vào đúng file i18n — đừng viết cứng vào JSX |
-| Không i18n nhưng đã có nhãn sẵn trong code | Đếm nhãn hiện có đang tiếng gì, theo tiếng đó |
-| Dự án trống, chưa có nhãn nào | Theo ngôn ngữ người dùng đang nói với mình |
-| Codebase trộn hai thứ tiếng | **Hỏi một câu.** Đây là chỗ đoán sai thì phải sửa lại toàn bộ nhãn, không phải sửa một dòng |
+| Tìm thấy                                                    | Theo cái gì                                                                                 |
+| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| Có i18n (`locales/`, `messages/`, json có khoá `en` / `vi`) | Theo đó, và đặt chuỗi vào đúng file i18n — đừng viết cứng vào JSX                           |
+| Không i18n nhưng đã có nhãn sẵn trong code                  | Đếm nhãn hiện có đang tiếng gì, theo tiếng đó                                               |
+| Dự án trống, chưa có nhãn nào                               | Theo ngôn ngữ người dùng đang nói với mình                                                  |
+| Codebase trộn hai thứ tiếng                                 | **Hỏi một câu.** Đây là chỗ đoán sai thì phải sửa lại toàn bộ nhãn, không phải sửa một dòng |
 
 **Trộn hai thứ tiếng trong một màn nặng hơn chọn nhầm tiếng.** "Mật khẩu" đứng
 cạnh "Sign in" đọc ra là làm dở dang. Chọn nhầm tiếng thì ít ra còn nhất quán.
@@ -262,10 +262,10 @@ lại nhãn, một ý nói hai lần (`T20`, `N3`). Các app lớn để trống
 
 Có placeholder trong hai ca:
 
-| Ca | Placeholder |
-| --- | --- |
-| Gợi ý **nội dung** mà nhãn chưa nói | Tiêu đề → "Viết ngắn gọn việc cần làm"; Mô tả → "Ghi yêu cầu và thế nào là xong việc" |
-| **Định dạng** không hiển nhiên: điện thoại, ngày, mã số thuế, biển số | Ví dụ đúng khuôn: `0901 234 567`, `31/12/2026` |
+| Ca                                                                    | Placeholder                                                                           |
+| --------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Gợi ý **nội dung** mà nhãn chưa nói                                   | Tiêu đề → "Viết ngắn gọn việc cần làm"; Mô tả → "Ghi yêu cầu và thế nào là xong việc" |
+| **Định dạng** không hiển nhiên: điện thoại, ngày, mã số thuế, biển số | Ví dụ đúng khuôn: `0901 234 567`, `31/12/2026`                                        |
 
 - **Không dùng ví dụ giả cho ô định dạng ai cũng biết** (email, họ tên, mật khẩu): `ten@congty.com` bị đọc nhầm thành chữ đã gõ sẵn, nhất là trên mobile.
 - **Ô có ô không trong cùng form là bình thường.** Đừng ép "cả form phải thống nhất": kéo theo câu chép nhãn vào mọi ô.
@@ -302,50 +302,50 @@ hơn bắt người ta gõ xong rồi báo sai.
 **T27. Nói với người dùng bằng tiếng họ đang viết. Chữ trên UI theo `T24`.**
 Đây là hai thứ tiếng khác nhau, chốt riêng:
 
-| Thứ | Theo |
-| --- | --- |
-| Lời phân tích, câu hỏi, câu báo lúc giao (`S15`) | Tiếng người dùng đang viết trong lượt này |
-| Thanh công cụ, khung lý do, câu góp ý của wireframe (`design-process.md`) | Tiếng người dùng đang viết, như dòng trên |
-| Comment trong code | Tiếng của comment sẵn có trong dự án; dự án trống thì theo người dùng |
-| Nhãn, placeholder, thông báo lỗi, dữ liệu mẫu trên UI | `T24` |
+| Thứ                                                                       | Theo                                                                  |
+| ------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| Lời phân tích, câu hỏi, câu báo lúc giao (`S15`)                          | Tiếng người dùng đang viết trong lượt này                             |
+| Thanh công cụ, khung lý do, câu góp ý của wireframe (`design-process.md`) | Tiếng người dùng đang viết, như dòng trên                             |
+| Comment trong code                                                        | Tiếng của comment sẵn có trong dự án; dự án trống thì theo người dùng |
+| Nhãn, placeholder, thông báo lỗi, dữ liệu mẫu trên UI                     | `T24`                                                                 |
 
 Người dùng viết tiếng Anh mà dự án đang có nhãn tiếng Việt thì trả lời bằng
 tiếng Anh, nhãn vẫn tiếng Việt. Không hỏi.
 
 **Câu mẫu trong skill là khuôn ý, không phải câu để chép.** Skill viết bằng
-tiếng Việt nên các câu giao đều là tiếng Việt: *"X chưa có mẫu đã duyệt, mình
-mượn khuôn của Y"*, *"muốn khác thì nói"*. Người dùng viết tiếng Anh thì dịch ý:
-*"X has no approved pattern yet, so I borrowed the Y pattern"*, *"say if you want
-it different"*. Một câu tiếng Việt lọt vào câu trả lời tiếng Anh thì đọc ra là
+tiếng Việt nên các câu giao đều là tiếng Việt: _"X chưa có mẫu đã duyệt, mình
+mượn khuôn của Y"_, _"muốn khác thì nói"_. Người dùng viết tiếng Anh thì dịch ý:
+_"X has no approved pattern yet, so I borrowed the Y pattern"_, _"say if you want
+it different"_. Một câu tiếng Việt lọt vào câu trả lời tiếng Anh thì đọc ra là
 skill làm dở.
 
 Nhãn ví dụ trong skill cũng vậy: đó là ý, không phải chữ. Copy tiếng Anh dùng
 nhãn mà các app tiếng Anh đều dùng, không dịch từng chữ (cùng lý do với "Ghi nhớ
 đăng nhập" không phải "Nhớ tôi" ở `layouts/form.md`):
 
-| Trong skill | Copy tiếng Anh |
-| --- | --- |
-| Xoá lọc · Xoá tìm kiếm | Clear filters · Clear search |
-| Xem tất cả 12 đơn | View all 12 orders |
-| Trạng thái: Tất cả · 32 | Status: All · 32 |
+| Trong skill                        | Copy tiếng Anh                 |
+| ---------------------------------- | ------------------------------ |
+| Xoá lọc · Xoá tìm kiếm             | Clear filters · Clear search   |
+| Xem tất cả 12 đơn                  | View all 12 orders             |
+| Trạng thái: Tất cả · 32            | Status: All · 32               |
 | Ghi nhớ đăng nhập · Quên mật khẩu? | Remember me · Forgot password? |
-| Đăng nhập bằng Google | Continue with Google |
-| Huỷ · Hoàn tác · Đã lưu | Cancel · Undo · Saved |
-| Sao chép · Đã sao chép | Copy · Copied |
+| Đăng nhập bằng Google              | Continue with Google           |
+| Huỷ · Hoàn tác · Đã lưu            | Cancel · Undo · Saved          |
+| Sao chép · Đã sao chép             | Copy · Copied                  |
 
 **T28. Một số luật chỉ đúng với chữ tiếng Việt.** Copy không phải tiếng Việt thì
 đổi theo bảng dưới. Mọi luật khác trong skill áp cho mọi thứ tiếng.
 
-| Luật | Copy tiếng Việt | Copy tiếng Anh |
-| --- | --- | --- |
-| Khép chữ `tracking-tight` (`T2`) | Từ `text-3xl` | Từ `text-2xl`: không có dấu chồng hai tầng |
-| Kiểm dấu font (`T5`) | Bắt buộc subset `vietnamese` | Bỏ qua, trừ khi app có cả bản tiếng Việt |
-| Tiền (`components/charts.md`) | `đ` thường sau số, số format bằng `Intl.NumberFormat('vi-VN')` | `Intl.NumberFormat(locale, { style: 'currency', currency })`: `$1,280.00`, ký hiệu và vị trí theo locale |
-| Dấu thập phân, dấu nghìn | `12,4%` · `1.280` | `12.4%` · `1,280` |
-| Mốc giờ trong danh sách (`T16b`) | `08:30 · 16/09` | Tháng viết chữ bằng `Intl.DateTimeFormat`: `Sep 16, 8:30 AM`. Không dùng `09/16`: Mỹ và Anh đọc ngược nhau |
-| Chữ cái avatar (`components/avatar.md`) | Một chữ | Hai chữ, đầu tên và đầu họ: `Jane Doe` → `JD`. App tiếng Anh đều làm vậy |
-| Ngày đầu tuần trong lịch (`components/choice-controls.md`) | Thứ Hai, `T2 … CN` | Theo locale: `en-US` Chủ nhật, `en-GB` thứ Hai |
-| Số nhiều | Tiếng Việt không chia | Phải chia: `1 member` · `2 members`. Dùng `Intl.PluralRules` hoặc hàm i18n, không ghép chuỗi cứng |
+| Luật                                                       | Copy tiếng Việt                                                | Copy tiếng Anh                                                                                             |
+| ---------------------------------------------------------- | -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| Khép chữ `tracking-tight` (`T2`)                           | Từ `text-3xl`                                                  | Từ `text-2xl`: không có dấu chồng hai tầng                                                                 |
+| Kiểm dấu font (`T5`)                                       | Bắt buộc subset `vietnamese`                                   | Bỏ qua, trừ khi app có cả bản tiếng Việt                                                                   |
+| Tiền (`components/charts.md`)                              | `đ` thường sau số, số format bằng `Intl.NumberFormat('vi-VN')` | `Intl.NumberFormat(locale, { style: 'currency', currency })`: `$1,280.00`, ký hiệu và vị trí theo locale   |
+| Dấu thập phân, dấu nghìn                                   | `12,4%` · `1.280`                                              | `12.4%` · `1,280`                                                                                          |
+| Mốc giờ trong danh sách (`T16b`)                           | `08:30 · 16/09`                                                | Tháng viết chữ bằng `Intl.DateTimeFormat`: `Sep 16, 8:30 AM`. Không dùng `09/16`: Mỹ và Anh đọc ngược nhau |
+| Chữ cái avatar (`components/avatar.md`)                    | Một chữ                                                        | Hai chữ, đầu tên và đầu họ: `Jane Doe` → `JD`. App tiếng Anh đều làm vậy                                   |
+| Ngày đầu tuần trong lịch (`components/choice-controls.md`) | Thứ Hai, `T2 … CN`                                             | Theo locale: `en-US` Chủ nhật, `en-GB` thứ Hai                                                             |
+| Số nhiều                                                   | Tiếng Việt không chia                                          | Phải chia: `1 member` · `2 members`. Dùng `Intl.PluralRules` hoặc hàm i18n, không ghép chuỗi cứng          |
 
 `T15` (nhãn nút được xuống dòng) và `T18` (không gạch dài trong câu văn) **áp cho
 mọi thứ tiếng**. Nhãn tiếng Đức còn dài hơn tiếng Việt, và gạch dài trong câu

@@ -1,4 +1,4 @@
-import { addDays, format, getDay } from "date-fns";
+import { format } from "date-fns";
 
 export interface ParsedTaskData {
     title: string;
@@ -12,8 +12,8 @@ export interface ParsedTaskData {
 }
 
 /**
- * Bộ giải thuật Smart Local NLP Heuristic Parser chạy 100% tại Client.
- * Nhận diện câu nói tự nhiên tiếng Việt mà không cần phụ thuộc vào server hay API bên ngoài.
+ * Trả về dữ liệu công việc cơ bản khi không qua AI phân tích,
+ * không can thiệp hay kiểm tra thủ công bằng regex cứng nhắc.
  */
 export function fallbackParseTask(
     text: string,
@@ -21,270 +21,18 @@ export function fallbackParseTask(
     availableCategories: string[] = [],
 ): ParsedTaskData {
     const now = currentDateStr ? new Date(currentDateStr) : new Date();
-    const lower = text.toLowerCase();
-
-    // 1. Nhận diện Priority
-    let priority: "low" | "medium" | "high" = "medium";
-    if (
-        /(khẩn cấp|gấp|quan trọng|cháy|cực kỳ|ngay|ưu tiên cao|urgent)/i.test(
-            lower,
-        )
-    ) {
-        priority = "high";
-    } else if (
-        /(thong thả|khi nào rảnh|chill|ưu tiên thấp|từ từ)/i.test(lower)
-    ) {
-        priority = "low";
-    }
-
-    // 2. Nhận diện Repeat
-    let repeat: "none" | "daily" | "weekdays" | "weekly" | "monthly" = "none";
-    if (/(ngày thường|thứ 2 đến thứ 6|từ thứ hai đến thứ sáu)/i.test(lower)) {
-        repeat = "weekdays";
-    } else if (
-        /(mỗi ngày|hàng ngày|hằng ngày|mỗi sáng|mỗi tối|mỗi chiều)/i.test(lower)
-    ) {
-        repeat = "daily";
-    } else if (/(mỗi tuần|hàng tuần|hằng tuần)/i.test(lower)) {
-        repeat = "weekly";
-    } else if (/(mỗi tháng|hàng tháng|hằng tháng)/i.test(lower)) {
-        repeat = "monthly";
-    }
-
-    // 3. Nhận diện Ngày
-    let targetDate = new Date(now);
-    let hasExplicitDate = false;
-
-    // Bắt định dạng DD/MM/YYYY hoặc DD/MM hoặc DD-MM hoặc DD.MM (Ví dụ: "21/11", "21-11", "21.11", "ngày 21/11")
-    const specificDateRegex =
-        /(?:vào\s+)?(?:ngày\s+)?(\b\d{1,2})[\/\-\.](\d{1,2})(?:[\/\-\.](\d{4}))?\b/i;
-    const specificDateMatch = lower.match(specificDateRegex);
-
-    // Bắt định dạng ngày DD tháng MM (Ví dụ: "ngày 21 tháng 11", "21 thg 11")
-    const vietnameseDateRegex =
-        /(?:ngày\s+)?(\b\d{1,2})\s+(?:tháng|thg)\s+(\d{1,2})(?:\s+(?:năm\s+)?(\d{4}))?\b/i;
-    const vietnameseDateMatch = lower.match(vietnameseDateRegex);
-
-    if (specificDateMatch) {
-        const d = parseInt(specificDateMatch[1], 10);
-        const m = parseInt(specificDateMatch[2], 10);
-        const y = specificDateMatch[3]
-            ? parseInt(specificDateMatch[3], 10)
-            : now.getFullYear();
-
-        if (d >= 1 && d <= 31 && m >= 1 && m <= 12) {
-            targetDate = new Date(y, m - 1, d);
-            hasExplicitDate = true;
-        }
-    } else if (vietnameseDateMatch) {
-        const d = parseInt(vietnameseDateMatch[1], 10);
-        const m = parseInt(vietnameseDateMatch[2], 10);
-        const y = vietnameseDateMatch[3]
-            ? parseInt(vietnameseDateMatch[3], 10)
-            : now.getFullYear();
-
-        if (d >= 1 && d <= 31 && m >= 1 && m <= 12) {
-            targetDate = new Date(y, m - 1, d);
-            hasExplicitDate = true;
-        }
-    } else if (/(ngày mốt|hôm sau|bữa mốt)/i.test(lower)) {
-        targetDate = addDays(now, 2);
-        hasExplicitDate = true;
-    } else if (/(ngày mai|sáng mai|chiều mai|tối mai|mai)/i.test(lower)) {
-        targetDate = addDays(now, 1);
-        hasExplicitDate = true;
-    } else if (
-        /(hôm nay|tối nay|chiều nay|trưa nay|sáng nay|bữa nay|nay)/i.test(lower)
-    ) {
-        targetDate = new Date(now);
-        hasExplicitDate = true;
-    } else if (/(tuần sau|tuần tới)/i.test(lower)) {
-        targetDate = addDays(now, 7);
-        hasExplicitDate = true;
-    } else {
-        const isNextWeek = /(tuần sau|tuần tới)/i.test(lower);
-        const dayMatch = lower.match(
-            /(thứ hai|thứ 2|thứ ba|thứ 3|thứ tư|thứ 4|thứ năm|thứ 5|thứ sáu|thứ 6|thứ bảy|thứ 7|chủ nhật|cn)/i,
-        );
-        if (dayMatch) {
-            hasExplicitDate = true;
-            const dayMap: Record<string, number> = {
-                "chủ nhật": 0,
-                cn: 0,
-                "thứ hai": 1,
-                "thứ 2": 1,
-                "thứ ba": 2,
-                "thứ 3": 2,
-                "thứ tư": 3,
-                "thứ 4": 3,
-                "thứ năm": 4,
-                "thứ 5": 4,
-                "thứ sáu": 5,
-                "thứ 6": 5,
-                "thứ bảy": 6,
-                "thứ 7": 6,
-            };
-            const targetDay = dayMap[dayMatch[1].toLowerCase()];
-            if (targetDay !== undefined) {
-                const currentDay = getDay(now);
-                let diff = targetDay - currentDay;
-                if (diff <= 0) diff += 7;
-                if (isNextWeek) diff += 7;
-                targetDate = addDays(now, diff);
-            }
-        }
-    }
-
-    // 4. Nhận diện Giờ phút
-    let hour: number | null = null;
-    let minute = 0;
-
-    const hourRegex =
-        /(\d{1,2})\s*(?:giờ|h)(?:\s*(\d{1,2}))?\s*(sáng|trưa|chiều|tối|đêm)?/i;
-    const hourMatch = lower.match(hourRegex);
-
-    if (hourMatch) {
-        let h = parseInt(hourMatch[1], 10);
-        const m = hourMatch[2] ? parseInt(hourMatch[2], 10) : 0;
-        const period = hourMatch[3]?.toLowerCase();
-
-        if (period === "chiều" || period === "tối" || period === "đêm") {
-            if (h < 12) h += 12;
-        } else if (period === "trưa") {
-            if (h < 11) h += 12;
-        } else if (period === "sáng") {
-            if (h === 12) h = 0;
-        }
-
-        if (h >= 0 && h <= 23 && m >= 0 && m <= 59) {
-            hour = h;
-            minute = m;
-        }
-    }
-
-    // Ghép ngày giờ
-    let dueDate: string | null = null;
-    if (hasExplicitDate || hour !== null) {
-        if (hour !== null) {
-            targetDate.setHours(hour, minute, 0, 0);
-            dueDate = targetDate.toISOString();
-        } else {
-            targetDate.setHours(23, 59, 59, 0);
-            dueDate = format(targetDate, "yyyy-MM-dd");
-        }
-    }
-
-    // 5. Làm sạch Title
-    let title = text
-        .replace(specificDateRegex, "")
-        .replace(vietnameseDateRegex, "")
-        .replace(
-            /(khẩn cấp|gấp|quan trọng|cháy|ưu tiên cao|ưu tiên thấp|thong thả|urgent)/gi,
-            "",
-        )
-        .replace(
-            /(mỗi ngày|hàng ngày|hằng ngày|mỗi tuần|hàng tuần|mỗi tháng|ngày thường)/gi,
-            "",
-        )
-        .replace(
-            /(ngày mai|sáng mai|chiều mai|tối mai|mai|ngày mốt|bữa mốt)/gi,
-            "",
-        )
-        .replace(/(hôm nay|tối nay|chiều nay|trưa nay|sáng nay|bữa nay)/gi, "")
-        .replace(/(tuần sau|tuần tới)/gi, "")
-        .replace(
-            /(thứ hai|thứ 2|thứ ba|thứ 3|thứ tư|thứ 4|thứ năm|thứ 5|thứ sáu|thứ 6|thứ bảy|thứ 7|chủ nhật|cn)/gi,
-            "",
-        )
-        .replace(hourRegex, "")
-        .replace(/\b(vào lúc|lúc|vào|ngày|hạn|deadline|nhớ|cần|phải)\b/gi, "")
-        .replace(/\s+/g, " ")
-        .trim();
-
-    if (!title) {
-        title = text.trim();
-    }
-    title = title.charAt(0).toUpperCase() + title.slice(1);
-
-    // 6. Nhận diện Category
-    let category = "Công việc";
-    const matchedCat = availableCategories.find((c) =>
-        lower.includes(c.toLowerCase()),
-    );
-
-    if (matchedCat) {
-        category = matchedCat;
-    } else if (
-        /(đá banh|bóng đá|cầu lông|bơi|chạy bộ|gym|tập thể dục|yoga|bác sĩ|khám|thuốc|uống nước|ngủ|sức khỏe)/i.test(
-            lower,
-        )
-    ) {
-        category = "Sức khỏe";
-    } else if (
-        /(học|đọc sách|ôn thi|bài tập|khóa học|tiếng anh|nghiên cứu)/i.test(
-            lower,
-        )
-    ) {
-        category = "Học tập";
-    } else if (
-        /(xem phim|chơi game|đi chơi|nhậu|cafe|cà phê|ăn uống|chill|du lịch)/i.test(
-            lower,
-        )
-    ) {
-        category = "Giải trí";
-    } else if (/(mua|chợ|dọn dẹp|gia đình|nấu ăn|nhà)/i.test(lower)) {
-        category = "Cá nhân";
-    } else if (
-        /(họp|báo cáo|dự án|khách hàng|code|release|deploy|gặp sếp|meeting|fix bug)/i.test(
-            lower,
-        )
-    ) {
-        category = "Công việc";
-    } else if (availableCategories.length > 0) {
-        category = availableCategories[0];
-    }
+    const cleanText = text.trim();
 
     return {
-        title,
-        description: text.trim(),
-        dueDate,
+        title: cleanText,
+        description: cleanText,
+        dueDate: null,
         startDate: format(now, "yyyy-MM-dd"),
-        priority,
-        category,
-        repeat,
+        priority: "medium",
+        category: availableCategories[0] || "Công việc",
+        repeat: "none",
         isDaily: false,
     };
-}
-
-/**
- * Sinh gợi ý công việc thông minh theo thời gian trong ngày và danh mục.
- */
-export function generateSmartFallbackIdeas(categories?: string[]): string[] {
-    const hour = new Date().getHours();
-    const day = new Date().getDay();
-
-    const timeIdea =
-        hour < 12
-            ? "Lập danh sách việc ưu tiên và hoàn thành trước 11 giờ trưa nay"
-            : hour < 18
-              ? "Hoàn tất các đầu việc còn tồn đọng trước 5 giờ chiều nay"
-              : "Tổng kết công việc hôm nay và lên kế hoạch cho sáng mai lúc 9 giờ tối";
-
-    const habitIdea =
-        day === 5
-            ? "Gửi báo cáo tiến độ tuần trước 4 giờ chiều thứ sáu"
-            : day === 0 || day === 6
-              ? "Dọn dẹp góc làm việc và nghỉ ngơi thư giãn cuối tuần này"
-              : "Dành 30 phút rèn luyện kỹ năng chuyên môn vào 8 giờ tối nay";
-
-    const customCategory =
-        categories && categories.length > 0 ? categories[0] : "Sức khỏe";
-    const categoryIdea =
-        customCategory === "Sức khỏe"
-            ? "Uống đủ 2 lít nước và tập thể dục 20 phút mỗi ngày thường"
-            : `Kiểm tra và cập nhật tiến độ công việc trong danh mục ${customCategory} sáng mai`;
-
-    return [timeIdea, habitIdea, categoryIdea];
 }
 
 /**
@@ -384,10 +132,10 @@ Quy tắc:
 3. KHÔNG bọc trong markdown, KHÔNG kèm văn bản giải thích thừa.`;
 }
 
+const GEMINI_MODEL = "gemini-flash-latest";
+
 /**
- * Hàm phân tích công việc chính:
- * 1. Thử gọi Google Gemini AI nếu có cấu hình API Key.
- * 2. Tự động chuyển đổi sang Smart Local NLP Parser nếu không có Key hoặc khi API gặp sự cố.
+ * Hàm phân tích công việc chính bằng AI.
  */
 export async function parseTaskWithAi(
     text: string,
@@ -396,92 +144,103 @@ export async function parseTaskWithAi(
 ): Promise<ParsedTaskData> {
     const trimmed = text.trim();
     if (!trimmed) {
-        throw new Error("Vui lòng nhập nội dung công việc cần xử lý");
+        throw new Error("Bạn vui lòng nhập nội dung công việc cần xử lý.");
     }
 
     const nowStr = currentDateStr || new Date().toISOString();
     const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
 
-    // Nếu không có API Key, chạy ngay bộ Local NLP Parser tại client
+    // Ghi log kỹ thuật nội bộ nếu thiếu key, không để lộ thông tin biến môi trường cho người dùng cuối
     if (!apiKey || apiKey.trim() === "") {
-        return fallbackParseTask(trimmed, nowStr, availableCategories);
+        console.warn("[AI Service] Thiếu cấu hình NEXT_PUBLIC_GEMINI_API_KEY");
+        throw new Error(
+            "Dịch vụ hỗ trợ thông minh hiện chưa sẵn sàng. Bạn vui lòng thử lại sau.",
+        );
     }
 
-    try {
-        const systemPrompt = getParseTaskSystemPrompt(
-            nowStr,
-            availableCategories,
-        );
+    const systemPrompt = getParseTaskSystemPrompt(nowStr, availableCategories);
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 
-        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey.trim()}`;
-
-        const response = await fetchGeminiWithRetry(
-            geminiUrl,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    contents: [
-                        {
-                            role: "user",
-                            parts: [
-                                {
-                                    text: `${systemPrompt}\n\nNội dung công việc cần phân tích:\n"${trimmed}"`,
-                                },
-                            ],
-                        },
-                    ],
-                    generationConfig: {
-                        temperature: 0.1,
-                        responseMimeType: "application/json",
-                    },
-                }),
+    const response = await fetchGeminiWithRetry(
+        geminiUrl,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-goog-api-key": apiKey.trim(),
             },
-            2,
-            800,
+            body: JSON.stringify({
+                contents: [
+                    {
+                        role: "user",
+                        parts: [
+                            {
+                                text: `${systemPrompt}\n\nNội dung công việc cần phân tích:\n"${trimmed}"`,
+                            },
+                        ],
+                    },
+                ],
+                generationConfig: {
+                    temperature: 0.1,
+                    responseMimeType: "application/json",
+                },
+            }),
+        },
+        2,
+        800,
+    );
+
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        console.error(
+            `[AI Service] Phản hồi lỗi từ Gemini API (${response.status}):`,
+            errorData,
         );
-
-        if (!response.ok) {
-            // Khi Gemini trả về lỗi (429 rate limit, 503 overload...), tự động fallback sang Local NLP Parser
-            return fallbackParseTask(trimmed, nowStr, availableCategories);
-        }
-
-        const data = await response.json();
-        const candidateText =
-            data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-
-        if (!candidateText) {
-            return fallbackParseTask(trimmed, nowStr, availableCategories);
-        }
-
-        const cleanedJson = candidateText
-            .replace(/^```json\s*/i, "")
-            .replace(/^```\s*/i, "")
-            .replace(/\s*```$/, "")
-            .trim();
-
-        const parsed = JSON.parse(cleanedJson) as ParsedTaskData;
-        return {
-            title: parsed.title || trimmed,
-            description: parsed.description || trimmed,
-            dueDate: parsed.dueDate || null,
-            startDate: parsed.startDate || format(new Date(), "yyyy-MM-dd"),
-            priority: parsed.priority || "medium",
-            category: parsed.category || "Công việc",
-            repeat: parsed.repeat || "none",
-            isDaily: parsed.isDaily || false,
-        };
-    } catch {
-        // Có bất kỳ ngoại lệ nào thì fallback ngay lập tức, đảm bảo luôn thành công 100%
-        return fallbackParseTask(trimmed, nowStr, availableCategories);
+        throw new Error(
+            "Hệ thống tạm thời không thể phân tích nội dung. Bạn vui lòng thử lại sau ít phút.",
+        );
     }
+
+    const data = await response.json();
+    const candidateText =
+        data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+
+    if (!candidateText) {
+        throw new Error(
+            "Hệ thống không nhận được phản hồi phù hợp. Bạn vui lòng thử lại.",
+        );
+    }
+
+    const cleanedJson = candidateText
+        .replace(/^```json\s*/i, "")
+        .replace(/^```\s*/i, "")
+        .replace(/\s*```$/, "")
+        .trim();
+
+    let parsed: ParsedTaskData;
+    try {
+        parsed = JSON.parse(cleanedJson) as ParsedTaskData;
+    } catch {
+        console.error("[AI Service] Lỗi parse JSON từ candidateText:", candidateText);
+        throw new Error(
+            "Hệ thống tạm thời chưa thể xử lý nội dung này. Bạn vui lòng thử lại.",
+        );
+    }
+
+    return {
+        title: parsed.title || trimmed,
+        description: parsed.description || trimmed,
+        dueDate: parsed.dueDate || null,
+        startDate: parsed.startDate || format(new Date(), "yyyy-MM-dd"),
+        priority: parsed.priority || "medium",
+        category: parsed.category || "Công việc",
+        repeat: parsed.repeat || "none",
+        isDaily: parsed.isDaily || false,
+    };
 }
 
 /**
- * Hàm tạo gợi ý ý tưởng AI:
- * Gọi Gemini hoặc trả về bộ gợi ý Smart Fallback Ideas.
+ * Hàm tạo gợi ý ý tưởng AI.
  */
 export async function suggestIdeasWithAi(
     currentDateStr?: string,
@@ -490,63 +249,82 @@ export async function suggestIdeasWithAi(
     const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
 
     if (!apiKey || apiKey.trim() === "") {
-        return generateSmartFallbackIdeas(categories);
+        console.warn("[AI Service] Thiếu cấu hình NEXT_PUBLIC_GEMINI_API_KEY");
+        throw new Error(
+            "Dịch vụ hỗ trợ thông minh hiện chưa sẵn sàng. Bạn vui lòng thử lại sau.",
+        );
     }
 
     const nowStr = currentDateStr || new Date().toISOString();
     const systemPrompt = getSuggestIdeasSystemPrompt(nowStr, categories);
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 
-    try {
-        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey.trim()}`;
-
-        const response = await fetchGeminiWithRetry(
-            geminiUrl,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    contents: [
-                        {
-                            role: "user",
-                            parts: [{ text: systemPrompt }],
-                        },
-                    ],
-                    generationConfig: {
-                        temperature: 0.7,
-                        responseMimeType: "application/json",
-                    },
-                }),
+    const response = await fetchGeminiWithRetry(
+        geminiUrl,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-goog-api-key": apiKey.trim(),
             },
-            1,
-            500,
+            body: JSON.stringify({
+                contents: [
+                    {
+                        role: "user",
+                        parts: [{ text: systemPrompt }],
+                    },
+                ],
+                generationConfig: {
+                    temperature: 0.7,
+                    responseMimeType: "application/json",
+                },
+            }),
+        },
+        1,
+        500,
+    );
+
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        console.error(
+            `[AI Service] Phản hồi lỗi khi tạo gợi ý (${response.status}):`,
+            errorData,
         );
-
-        if (!response.ok) {
-            return generateSmartFallbackIdeas(categories);
-        }
-
-        const data = await response.json();
-        const candidateText =
-            data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-
-        if (!candidateText) {
-            return generateSmartFallbackIdeas(categories);
-        }
-
-        const cleanedJson = candidateText
-            .replace(/^```json\s*/i, "")
-            .replace(/^```\s*/i, "")
-            .replace(/\s*```$/, "")
-            .trim();
-
-        const ideas = JSON.parse(cleanedJson);
-        if (Array.isArray(ideas) && ideas.length > 0) {
-            return ideas.map(String);
-        }
-        return generateSmartFallbackIdeas(categories);
-    } catch {
-        return generateSmartFallbackIdeas(categories);
+        throw new Error(
+            "Hệ thống tạm thời chưa thể tạo gợi ý lúc này. Bạn vui lòng thử lại sau.",
+        );
     }
+
+    const data = await response.json();
+    const candidateText =
+        data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+
+    if (!candidateText) {
+        throw new Error(
+            "Hệ thống tạm thời chưa thể tạo gợi ý lúc này. Bạn vui lòng thử lại sau.",
+        );
+    }
+
+    const cleanedJson = candidateText
+        .replace(/^```json\s*/i, "")
+        .replace(/^```\s*/i, "")
+        .replace(/\s*```$/, "")
+        .trim();
+
+    let ideas: unknown;
+    try {
+        ideas = JSON.parse(cleanedJson);
+    } catch {
+        console.error("[AI Service] Lỗi parse JSON gợi ý:", candidateText);
+        throw new Error(
+            "Hệ thống tạm thời chưa thể tạo gợi ý lúc này. Bạn vui lòng thử lại sau.",
+        );
+    }
+
+    if (Array.isArray(ideas) && ideas.length > 0) {
+        return ideas.map(String);
+    }
+    throw new Error(
+        "Hệ thống tạm thời chưa thể tạo gợi ý lúc này. Bạn vui lòng thử lại sau.",
+    );
 }

@@ -19,7 +19,7 @@ import {
     RepeatType,
     TASK_STATUS,
 } from "@/constants";
-import { parseTaskWithAi, suggestIdeasWithAi } from "@/services/aiService";
+import { useAiTask } from "@/hooks/useAiTask";
 import { useTaskStore } from "@/store/useTaskStore";
 
 type ExampleCategory = "all" | "work" | "habit" | "study" | "personal";
@@ -77,17 +77,6 @@ function formatPreviewDate(dateStr?: string | null): string | null {
     }
 }
 
-interface ParsedTaskData {
-    title: string;
-    description?: string;
-    dueDate?: string | null;
-    startDate?: string | null;
-    priority?: "low" | "medium" | "high";
-    category?: string;
-    repeat?: "none" | "daily" | "weekdays" | "weekly" | "monthly";
-    isDaily?: boolean;
-}
-
 interface AiQuickTaskModalProps {
     readonly isOpen: boolean;
     readonly onOpenChange: (open: boolean) => void;
@@ -101,17 +90,25 @@ export function AiQuickTaskModal({
     const addTask = useTaskStore((state) => state.addTask);
     const account = useTaskStore((state) => state.getCurrentAccount());
 
+    const {
+        isParsing: isLoading,
+        isGeneratingIdeas,
+        parsedData,
+        errorMessage,
+        customAiIdeas,
+        parseTask,
+        generateIdeas,
+        resetParsedData,
+        setErrorMessage,
+        setCustomAiIdeas,
+    } = useAiTask();
+
     const [inputText, setInputText] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
-    const [isGeneratingIdeas, setIsGeneratingIdeas] = useState(false);
-    const [parsedData, setParsedData] = useState<ParsedTaskData | null>(null);
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [isSuccess, setIsSuccess] = useState(false);
 
     const [selectedCategory, setSelectedCategory] =
         useState<ExampleCategory>("all");
     const [exampleSeed, setExampleSeed] = useState(0);
-    const [customAiIdeas, setCustomAiIdeas] = useState<string[] | null>(null);
 
     const currentExamples = useMemo(() => {
         if (customAiIdeas && customAiIdeas.length > 0) {
@@ -152,68 +149,33 @@ export function AiQuickTaskModal({
 
     const handleExampleClick = (example: string) => {
         setInputText(example);
-        setParsedData(null);
+        resetParsedData();
         setErrorMessage(null);
     };
 
     const handleGenerateAiIdeas = async () => {
-        setIsGeneratingIdeas(true);
-        setErrorMessage(null);
-
-        try {
-            const userCategories = Array.from(
-                new Set(
-                    (account?.tasks || [])
-                        .map((taskItem) => taskItem.category)
-                        .filter(Boolean),
-                ),
-            );
-
-            const ideas = await suggestIdeasWithAi(
-                new Date().toISOString(),
-                userCategories,
-            );
-            setCustomAiIdeas(ideas);
-        } catch (err: unknown) {
-            const msg =
-                err instanceof Error
-                    ? err.message
-                    : "Đã có sự cố khi tạo gợi ý từ AI";
-            setErrorMessage(msg);
-        } finally {
-            setIsGeneratingIdeas(false);
-        }
+        const userCategories = Array.from(
+            new Set(
+                (account?.tasks || [])
+                    .map((taskItem) => taskItem.category)
+                    .filter(Boolean),
+            ),
+        );
+        await generateIdeas(userCategories);
     };
 
     const handleParseTask = async () => {
         if (!inputText.trim()) return;
 
-        setIsLoading(true);
-        setErrorMessage(null);
-        setParsedData(null);
+        const categories = Array.from(
+            new Set(
+                (account?.tasks || [])
+                    .map((taskItem) => taskItem.category)
+                    .filter(Boolean),
+            ),
+        );
 
-        try {
-            const categories = Array.from(
-                new Set(
-                    (account?.tasks || [])
-                        .map((taskItem) => taskItem.category)
-                        .filter(Boolean),
-                ),
-            );
-
-            const data = await parseTaskWithAi(
-                inputText,
-                new Date().toISOString(),
-                categories,
-            );
-            setParsedData(data);
-        } catch (err: unknown) {
-            const msg =
-                err instanceof Error ? err.message : "Đã xảy ra lỗi phân tích";
-            setErrorMessage(msg);
-        } finally {
-            setIsLoading(false);
-        }
+        await parseTask(inputText, categories);
     };
 
     const handleConfirmAdd = async () => {
@@ -245,7 +207,7 @@ export function AiQuickTaskModal({
         setIsSuccess(true);
         setTimeout(() => {
             setIsSuccess(false);
-            setParsedData(null);
+            resetParsedData();
             setInputText("");
             onOpenChange(false);
         }, 500);
@@ -253,7 +215,7 @@ export function AiQuickTaskModal({
 
     const handleClose = () => {
         setInputText("");
-        setParsedData(null);
+        resetParsedData();
         setErrorMessage(null);
         setIsSuccess(false);
         setCustomAiIdeas(null);
@@ -291,18 +253,16 @@ export function AiQuickTaskModal({
                             {/* Khu vực nhập mô tả */}
                             <div className="flex flex-col gap-2">
                                 <div
-                                    className={`transition-all duration-300 rounded-2xl ${
-                                        isLoading
-                                            ? "ai-border-spinning shadow-md shadow-primary/20"
-                                            : ""
-                                    }`}
+                                    className={`transition-all duration-300 rounded-2xl ${isLoading
+                                        ? "ai-border-spinning shadow-md shadow-primary/20"
+                                        : ""
+                                        }`}
                                 >
                                     <div
-                                        className={`transition-all duration-300 rounded-2xl ${
-                                            isLoading
-                                                ? "relative z-10 rounded-[14px] bg-background dark:bg-[#18181b]"
-                                                : ""
-                                        }`}
+                                        className={`transition-all duration-300 rounded-2xl ${isLoading
+                                            ? "relative z-10 rounded-[14px] bg-background dark:bg-[#18181b]"
+                                            : ""
+                                            }`}
                                     >
                                         <TextArea
                                             variant="secondary"
@@ -342,8 +302,8 @@ export function AiQuickTaskModal({
                                                 <span>
                                                     {isGeneratingIdeas
                                                         ? t(
-                                                              "ai.generatingIdeas",
-                                                          )
+                                                            "ai.generatingIdeas",
+                                                        )
                                                         : t("ai.generateIdeas")}
                                                 </span>
                                             </button>

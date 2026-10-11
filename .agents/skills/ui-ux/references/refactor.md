@@ -25,13 +25,13 @@ thì theo đề.
 Cảm giác "code loạn quá" gần như luôn **đúng về triệu chứng** và gần như luôn
 **sai về nguyên nhân**. Ở đợt refactor đó, mọi giả định ban đầu đều lệch sau khi đo:
 
-| Tưởng là | Đo ra |
-| --- | --- |
-| "Không có design system" | Có 3 tầng: tài liệu 20KB + `tokens.css` 304 dòng + 93 biến màu |
-| "`globals.css` là chỗ chứa CSS" | Kho thật là `prototype.css` — 8.668 dòng, gấp 2,4 lần |
-| "Không ai dùng token" | 2.245 lần dùng `var(--…)`, tỉ lệ token/màu-thô 3.6:1 |
-| "Tailwind chưa cài" | Cài rồi, `@import` rồi, chỉ thiếu `@theme` |
-| "Code ẩu" | Comment ghi rõ ngày + nguyên nhân + vì sao cách sửa hiển nhiên là sai |
+| Tưởng là                        | Đo ra                                                                 |
+| ------------------------------- | --------------------------------------------------------------------- |
+| "Không có design system"        | Có 3 tầng: tài liệu 20KB + `tokens.css` 304 dòng + 93 biến màu        |
+| "`globals.css` là chỗ chứa CSS" | Kho thật là `prototype.css` — 8.668 dòng, gấp 2,4 lần                 |
+| "Không ai dùng token"           | 2.245 lần dùng `var(--…)`, tỉ lệ token/màu-thô 3.6:1                  |
+| "Tailwind chưa cài"             | Cài rồi, `@import` rồi, chỉ thiếu `@theme`                            |
+| "Code ẩu"                       | Comment ghi rõ ngày + nguyên nhân + vì sao cách sửa hiển nhiên là sai |
 
 Bộ lệnh đo mở màn, chạy **trước khi mở file nào**:
 
@@ -73,10 +73,10 @@ trước** — tầng primitive, CSS Module, thư mục component — rồi mớ
 
 Ở dự án đó, ba nguồn cùng mô tả một thang chữ, cả ba khác nhau:
 
-| Token | `docs/design-system.md` | `AGENTS.md` | file token (chạy thật) |
-| --- | --- | ---: | ---: |
-| `--text-sm` | *(mô tả sản phẩm khác)* | 13px | **15px** |
-| `--text-base` | *(mô tả sản phẩm khác)* | 14px | **16px** |
+| Token         | `docs/design-system.md` | `AGENTS.md` | file token (chạy thật) |
+| ------------- | ----------------------- | ----------: | ---------------------: |
+| `--text-sm`   | _(mô tả sản phẩm khác)_ |        13px |               **15px** |
+| `--text-base` | _(mô tả sản phẩm khác)_ |        14px |               **16px** |
 
 Cách kiểm chân lý duy nhất — đọc CSS mà **trình duyệt thật nhận được**:
 
@@ -95,7 +95,7 @@ sửa code cho khớp tài liệu.
 ## L4. Ảnh "trước" không dựng lại được
 
 Xoá CSS cũ xong là mất luôn khả năng render trạng thái cũ. Không có ảnh thì không
-còn căn cứ nào để cãi *"trông vẫn ổn mà"*.
+còn căn cứ nào để cãi _"trông vẫn ổn mà"_.
 
 Chụp **trước khi gõ dòng đầu tiên**, ở đủ các khổ màn (ít nhất 375px và desktop).
 
@@ -156,7 +156,7 @@ Cách đúng: trang nào refactor thì viết viền thẳng ở đó, xoá dầ
 không còn ai đọc hai biến kia nữa thì xoá luôn chúng.
 
 Cùng loại bẫy: một khối `NO-BORDER CLEANUP` **635 dòng** sinh ra vì set
-`--border-subtle: transparent` làm hỏng mọi chỗ dùng token đó làm *nền*. Sửa tận
+`--border-subtle: transparent` làm hỏng mọi chỗ dùng token đó làm _nền_. Sửa tận
 gốc thì phải tách token viền khỏi token nền — tới giờ vẫn chưa làm.
 
 **Bài học chung: một token mang hai vai thì không sửa được vai nào.** Xem `M25`.
@@ -197,7 +197,7 @@ Mỗi lần thêm/sửa/xoá gì đều ghi một mục. Mục đích: **ba thá
 biết vì sao đã làm thế**, không chỉ là đã làm gì — phần "vì sao" mới là thứ
 `git log` không kể được đầy đủ.
 
-Quy ước ghi: **Ngày · Việc** → *thay đổi gì* · *vì sao* · *cái gì suýt sai*.
+Quy ước ghi: **Ngày · Việc** → _thay đổi gì_ · _vì sao_ · _cái gì suýt sai_.
 
 Vận hành file nhật ký:
 

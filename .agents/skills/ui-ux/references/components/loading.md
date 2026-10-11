@@ -4,18 +4,18 @@ Câu cần hỏi trước khi vẽ: **người dùng đang chờ cái gì, và t
 Mỗi ca một hình. Lỗi hay gặp nhất của AI là dùng một hình cho mọi ca: cứ chờ là
 skeleton, cứ bấm là spinner.
 
-| Ca | Hình |
-| --- | --- |
-| Tải lần đầu, dữ liệu qua mạng | Khung chờ đúng hình (mục dưới) |
+| Ca                                                           | Hình                                                                               |
+| ------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| Tải lần đầu, dữ liệu qua mạng                                | Khung chờ đúng hình (mục dưới)                                                     |
 | Tải lần đầu, dữ liệu đọc từ máy (localStorage, state sẵn có) | Không khung chờ, không spinner. Một dòng chữ mờ như `empty-state.md`, chỉ khác chữ |
-| **Tải lần hai**: đổi lọc, đổi trang, đổi tab, gõ tìm | **Giữ dữ liệu cũ** + thanh mảnh trên đầu khung |
-| **Đổi ngay trên màn**: toggle, tick, kéo thẻ, đổi thứ tự | Đổi luôn, không spinner. Lỗi thì trả lại như cũ + toast |
-| Bấm nút gửi, lưu, tạo | Spinner thế chỗ icon trong nút (`button.md`) |
-| Tự lưu (cài đặt, trình soạn thảo) | Dấu "Đang lưu… / Đã lưu" cạnh chỗ vừa đổi |
-| "Xem thêm" cuối danh sách | Spinner đè giữa nút, nút giữ bề rộng (`timeline.md`) |
-| **Việc chạy lâu**: xuất tệp, nhập dữ liệu | Có tiến độ, chạy nền, xong báo toast |
-| Tải tệp lên | `file-upload.md` |
-| AI đang trả lời | `chat.md` |
+| **Tải lần hai**: đổi lọc, đổi trang, đổi tab, gõ tìm         | **Giữ dữ liệu cũ** + thanh mảnh trên đầu khung                                     |
+| **Đổi ngay trên màn**: toggle, tick, kéo thẻ, đổi thứ tự     | Đổi luôn, không spinner. Lỗi thì trả lại như cũ + toast                            |
+| Bấm nút gửi, lưu, tạo                                        | Spinner thế chỗ icon trong nút (`button.md`)                                       |
+| Tự lưu (cài đặt, trình soạn thảo)                            | Dấu "Đang lưu… / Đã lưu" cạnh chỗ vừa đổi                                          |
+| "Xem thêm" cuối danh sách                                    | Spinner đè giữa nút, nút giữ bề rộng (`timeline.md`)                               |
+| **Việc chạy lâu**: xuất tệp, nhập dữ liệu                    | Có tiến độ, chạy nền, xong báo toast                                               |
+| Tải tệp lên                                                  | `file-upload.md`                                                                   |
+| AI đang trả lời                                              | `chat.md`                                                                          |
 
 Không bao giờ một vòng xoay giữa màn thay cho cả trang (`I19`). Chuyển trang thì
 header, sidebar đứng yên, chỉ vùng nội dung thành khung chờ.
@@ -28,14 +28,23 @@ Theo `I19`: khung chờ **đúng hình** dòng thật, để lúc dữ liệu v�
 
 ```html
 <ul aria-busy="true" class="divide-y divide-border">
-  <li class="flex items-center gap-3 px-4 py-3">   <!-- cùng padding, cùng divide với dòng thật -->
-    <div class="size-8 shrink-0 animate-pulse rounded-full bg-foreground/5 motion-reduce:animate-none"></div>
-    <div class="min-w-0 flex-1 space-y-2">
-      <div class="h-3 w-2/5 animate-pulse rounded-full bg-foreground/5 motion-reduce:animate-none"></div>
-      <div class="h-3 w-1/4 animate-pulse rounded-full bg-foreground/5 motion-reduce:animate-none"></div>
-    </div>
-    <div class="h-3 w-16 animate-pulse rounded-full bg-foreground/5 motion-reduce:animate-none"></div>
-  </li>
+    <li class="flex items-center gap-3 px-4 py-3">
+        <!-- cùng padding, cùng divide với dòng thật -->
+        <div
+            class="size-8 shrink-0 animate-pulse rounded-full bg-foreground/5 motion-reduce:animate-none"
+        ></div>
+        <div class="min-w-0 flex-1 space-y-2">
+            <div
+                class="h-3 w-2/5 animate-pulse rounded-full bg-foreground/5 motion-reduce:animate-none"
+            ></div>
+            <div
+                class="h-3 w-1/4 animate-pulse rounded-full bg-foreground/5 motion-reduce:animate-none"
+            ></div>
+        </div>
+        <div
+            class="h-3 w-16 animate-pulse rounded-full bg-foreground/5 motion-reduce:animate-none"
+        ></div>
+    </li>
 </ul>
 <span class="sr-only" role="status">Đang tải danh sách khách hàng</span>
 ```
@@ -60,23 +69,34 @@ trong ô tìm là bảng chớp một lần. Giữ nguyên dữ liệu cũ tới
 báo "đang chạy" bằng một thanh mảnh chạy ở mép trên khung.
 
 ```html
-<div aria-busy="true" class="relative overflow-hidden rounded-2xl border border-border">
-  <!-- Thanh chạy: chỉ có khi đang tải lại -->
-  <div class="absolute inset-x-0 top-0 h-0.5 overflow-hidden">
-    <div class="h-full w-1/3 animate-progress-slide bg-primary motion-reduce:animate-pulse"></div>
-  </div>
-  <table>…dữ liệu cũ, giữ nguyên…</table>
+<div
+    aria-busy="true"
+    class="relative overflow-hidden rounded-2xl border border-border"
+>
+    <!-- Thanh chạy: chỉ có khi đang tải lại -->
+    <div class="absolute inset-x-0 top-0 h-0.5 overflow-hidden">
+        <div
+            class="h-full w-1/3 animate-progress-slide bg-primary motion-reduce:animate-pulse"
+        ></div>
+    </div>
+    <table>
+        …dữ liệu cũ, giữ nguyên…
+    </table>
 </div>
 <span class="sr-only" role="status">Đang tải kết quả</span>
 ```
 
 ```css
 @theme {
-  --animate-progress-slide: progress-slide 1.2s ease-in-out infinite;
-  @keyframes progress-slide {
-    from { translate: -100% 0; }
-    to { translate: 300% 0; }
-  }
+    --animate-progress-slide: progress-slide 1.2s ease-in-out infinite;
+    @keyframes progress-slide {
+        from {
+            translate: -100% 0;
+        }
+        to {
+            translate: 300% 0;
+        }
+    }
 }
 ```
 
@@ -101,29 +121,39 @@ biến ngay, nhìn như lỗi. Ngược lại, khung vừa hiện được 50ms 
 
 ```ts
 // Hiện cờ đang tải sau delayMs; đã hiện thì giữ ít nhất minVisibleMs.
-export function useDelayedLoading(isLoading: boolean, delayMs = 300, minVisibleMs = 500) {
-  const [isVisible, setIsVisible] = useState(false);
-  const shownAtRef = useRef(0);
+export function useDelayedLoading(
+    isLoading: boolean,
+    delayMs = 300,
+    minVisibleMs = 500,
+) {
+    const [isVisible, setIsVisible] = useState(false);
+    const shownAtRef = useRef(0);
 
-  useEffect(() => {
-    if (isLoading) {
-      if (isVisible) return;
+    useEffect(() => {
+        if (isLoading) {
+            if (isVisible) return;
 
-      const showTimer = window.setTimeout(() => {
-        shownAtRef.current = Date.now();
-        setIsVisible(true);
-      }, delayMs);
-      return () => window.clearTimeout(showTimer);
-    }
+            const showTimer = window.setTimeout(() => {
+                shownAtRef.current = Date.now();
+                setIsVisible(true);
+            }, delayMs);
+            return () => window.clearTimeout(showTimer);
+        }
 
-    if (!isVisible) return;
+        if (!isVisible) return;
 
-    const remainingMs = Math.max(0, minVisibleMs - (Date.now() - shownAtRef.current));
-    const hideTimer = window.setTimeout(() => setIsVisible(false), remainingMs);
-    return () => window.clearTimeout(hideTimer);
-  }, [isLoading, isVisible, delayMs, minVisibleMs]);
+        const remainingMs = Math.max(
+            0,
+            minVisibleMs - (Date.now() - shownAtRef.current),
+        );
+        const hideTimer = window.setTimeout(
+            () => setIsVisible(false),
+            remainingMs,
+        );
+        return () => window.clearTimeout(hideTimer);
+    }, [isLoading, isVisible, delayMs, minVisibleMs]);
 
-  return isVisible;
+    return isVisible;
 }
 ```
 
@@ -133,7 +163,15 @@ Lúc giữ 500ms mà dữ liệu đã về thì vẫn hiện dữ liệu ngay; c
 ```tsx
 const isSkeletonVisible = useDelayedLoading(isLoading);
 
-{isSkeletonVisible ? <CustomerListSkeleton /> : isLoading ? <div className="min-h-96" /> : <CustomerList />}
+{
+    isSkeletonVisible ? (
+        <CustomerListSkeleton />
+    ) : isLoading ? (
+        <div className="min-h-96" />
+    ) : (
+        <CustomerList />
+    );
+}
 ```
 
 ---
@@ -159,16 +197,16 @@ cạnh tiêu đề tài liệu ở header trình soạn thảo.
 
 ```html
 <span role="status" class="inline-flex items-center gap-1 text-xs text-muted">
-  <!-- Đang lưu: chỉ chữ -->
-  Đang lưu…
-  <!-- Đã lưu: <i data-lucide="check" class="size-3.5"></i> Đã lưu -->
+    <!-- Đang lưu: chỉ chữ -->
+    Đang lưu…
+    <!-- Đã lưu: <i data-lucide="check" class="size-3.5"></i> Đã lưu -->
 </span>
 ```
 
-| Trạng thái | Hình |
-| --- | --- |
-| Đang lưu | "Đang lưu…" `text-xs text-muted`, không spinner. Hiện theo luật 300ms |
-| Đã lưu | icon `check` `size-3.5` + "Đã lưu", cùng màu `text-muted`, không xanh lá. Cài đặt: tắt sau ~2 giây. Trình soạn thảo: ở lại, thành "Đã lưu lúc 14:32" |
+| Trạng thái     | Hình                                                                                                                                                                                                                                              |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Đang lưu       | "Đang lưu…" `text-xs text-muted`, không spinner. Hiện theo luật 300ms                                                                                                                                                                             |
+| Đã lưu         | icon `check` `size-3.5` + "Đã lưu", cùng màu `text-muted`, không xanh lá. Cài đặt: tắt sau ~2 giây. Trình soạn thảo: ở lại, thành "Đã lưu lúc 14:32"                                                                                              |
 | Không lưu được | **Điều khiển trả về giá trị đã lưu** (công tắc gạt về, select về lựa chọn cũ), cạnh nhãn "Chưa lưu được" `text-red-600` + link chữ "Thử lại" (áp lại đúng thay đổi vừa hỏng). Ở lại tới khi lưu được. Không thêm toast: lỗi đã nói tại chỗ (`N3`) |
 
 - **Hỏng mà công tắc vẫn nằm ở vị trí mới thì màn đang nói sai**: công tắc tắt cạnh "Chưa lưu được", người đọc không biết máy chủ đang bật hay tắt. Trả về giá trị đã lưu, như ca đổi ngay trên màn. **Riêng ô chữ giữ nguyên chữ đã gõ**, không xoá thứ người dùng gõ.

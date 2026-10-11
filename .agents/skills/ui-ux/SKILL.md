@@ -57,17 +57,17 @@ các bước, và về người phải duyệt.
 Đọc đề theo thứ tự bảng, gặp dòng đầu tiên khớp thì dừng. Chủ dự án chốt: **dòng
 cuối là mặc định**, chín dòng trên chỉ khi đề nói rõ (tiếng Việt hay tiếng Anh).
 
-| Đề nói | Đi đâu |
-| --- | --- |
-| **So bản mới với bản gốc** ("so với bản gốc", "so với trang gốc", "có gì hơn", "hơn hay thua", "đã ổn chưa so với…", "compare with the original", "is it better than before") | `references/review.md`, `V6`: chụp hai bản như nhau, bảng tiêu chí gốc / mới / bên hơn, phải tìm dòng thua, đề xuất sửa từng dòng thua. Không sửa tới khi người dùng chọn dòng. **Dừng mục 0 tại đây** ⚑ |
-| **Muốn biết UI đang có chỗ nào chưa ổn** ("xem giúp", "review", "chỗ nào chưa ổn", "nhìn rối", "check this UI", "what's wrong with", gửi ảnh hay link app của họ nhờ xem) | Mở `references/review.md`, nhánh `V` **chế độ soi**: lập bảng trước/sau, người dùng chọn dòng rồi mới sửa. **Dừng mục 0 tại đây**, lúc giao theo `V5` chứ không theo `S15` ⚑ |
-| **Làm lại mà giữ brand / giữ giao diện** ("giữ brand", "giữ màu", "giữ giao diện hiện tại", "chỉ làm gọn", "keep the brand", "keep the current look") | `references/review.md`, **chế độ dựng lại giữ brand**: giữ khung trang, thay control gốc bằng component của skill, giữ vai màu. Đề nói bỏ style cũ thì không phải dòng này, xem dòng dựng lại theo gu skill. **Dừng mục 0 tại đây** ⚑ |
-| **Refactor / dọn code mà giữ nguyên hình** ("refactor", "chuyển sang Tailwind", "dọn CSS") | Mở `references/refactor.md`, nhánh `L`. **Dừng mục 0 tại đây** — nhánh đó có bộ mặc định riêng, bắt đầu bằng "đo trước khi kết luận" |
-| **Làm logo** ("làm logo", "dựng logo", "thay logo", "design a logo") | Mở `references/components/logo.md`: audit câu 2, rồi **trang chọn logo** ba hướng đặt trong sidebar, màn đăng nhập, tab trình duyệt. **Một cổng**: người dùng chọn hướng; đề có "luôn" thì dựng thẳng hướng khuyên dùng. **Dừng mục 0 tại đây** ⚑ |
-| **Dựng luôn, không wireframe** ("dựng luôn", "không cần wireframe", "just build it", "skip the wireframe") | Nhánh `U` **không vẽ wireframe**: làm `U1`, `U2`, chọn phương án sẽ khuyên dùng trong đầu, rồi dựng thẳng theo nó (`design-process.md`, đầu file). Không hỏi. Audit câu 2 vẫn chạy, ở `U1`. **Dừng mục 0 tại đây** |
-| **Dựng design system trước** ("design system", "dựng component trước", "UI kit", "chốt token / spacing / typography trước", "build a design system", "component library first") | Mở `references/system.md`, `D9`: token, bảy nguyên tố của `D1` cộng thứ đề nêu tên, một trang xem design system. Không vẽ wireframe. **Một cổng**: duyệt trang đó; màn dựng sau đi lối bình thường. **Dừng mục 0 tại đây**, trừ audit câu 2 ⚑ |
-| **Việc nhỏ hơn một màn**: sửa một component, thêm một dropdown, sửa một lỗi, đổi một màu | Đi tiếp câu 2, dựng theo bố cục mặc định (câu 4), không hỏi |
-| **Dựng lại theo gu skill, bỏ style cũ** ("hoàn toàn theo gu skill", "bỏ style cũ", "đổi sang gu của skill", "không cần giữ style cũ") | `references/review.md`, **chế độ dựng lại theo gu skill**: giữ khung trang, đổi cả dáng lẫn vai màu theo gu skill. **Dừng mục 0 tại đây** ⚑ |
+| Đề nói                                                                                                                                                                                                                          | Đi đâu                                                                                                                                                                                                                                                 |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **So bản mới với bản gốc** ("so với bản gốc", "so với trang gốc", "có gì hơn", "hơn hay thua", "đã ổn chưa so với…", "compare with the original", "is it better than before")                                                   | `references/review.md`, `V6`: chụp hai bản như nhau, bảng tiêu chí gốc / mới / bên hơn, phải tìm dòng thua, đề xuất sửa từng dòng thua. Không sửa tới khi người dùng chọn dòng. **Dừng mục 0 tại đây** ⚑                                               |
+| **Muốn biết UI đang có chỗ nào chưa ổn** ("xem giúp", "review", "chỗ nào chưa ổn", "nhìn rối", "check this UI", "what's wrong with", gửi ảnh hay link app của họ nhờ xem)                                                       | Mở `references/review.md`, nhánh `V` **chế độ soi**: lập bảng trước/sau, người dùng chọn dòng rồi mới sửa. **Dừng mục 0 tại đây**, lúc giao theo `V5` chứ không theo `S15` ⚑                                                                           |
+| **Làm lại mà giữ brand / giữ giao diện** ("giữ brand", "giữ màu", "giữ giao diện hiện tại", "chỉ làm gọn", "keep the brand", "keep the current look")                                                                           | `references/review.md`, **chế độ dựng lại giữ brand**: giữ khung trang, thay control gốc bằng component của skill, giữ vai màu. Đề nói bỏ style cũ thì không phải dòng này, xem dòng dựng lại theo gu skill. **Dừng mục 0 tại đây** ⚑                  |
+| **Refactor / dọn code mà giữ nguyên hình** ("refactor", "chuyển sang Tailwind", "dọn CSS")                                                                                                                                      | Mở `references/refactor.md`, nhánh `L`. **Dừng mục 0 tại đây** — nhánh đó có bộ mặc định riêng, bắt đầu bằng "đo trước khi kết luận"                                                                                                                   |
+| **Làm logo** ("làm logo", "dựng logo", "thay logo", "design a logo")                                                                                                                                                            | Mở `references/components/logo.md`: audit câu 2, rồi **trang chọn logo** ba hướng đặt trong sidebar, màn đăng nhập, tab trình duyệt. **Một cổng**: người dùng chọn hướng; đề có "luôn" thì dựng thẳng hướng khuyên dùng. **Dừng mục 0 tại đây** ⚑      |
+| **Dựng luôn, không wireframe** ("dựng luôn", "không cần wireframe", "just build it", "skip the wireframe")                                                                                                                      | Nhánh `U` **không vẽ wireframe**: làm `U1`, `U2`, chọn phương án sẽ khuyên dùng trong đầu, rồi dựng thẳng theo nó (`design-process.md`, đầu file). Không hỏi. Audit câu 2 vẫn chạy, ở `U1`. **Dừng mục 0 tại đây**                                     |
+| **Dựng design system trước** ("design system", "dựng component trước", "UI kit", "chốt token / spacing / typography trước", "build a design system", "component library first")                                                 | Mở `references/system.md`, `D9`: token, bảy nguyên tố của `D1` cộng thứ đề nêu tên, một trang xem design system. Không vẽ wireframe. **Một cổng**: duyệt trang đó; màn dựng sau đi lối bình thường. **Dừng mục 0 tại đây**, trừ audit câu 2 ⚑          |
+| **Việc nhỏ hơn một màn**: sửa một component, thêm một dropdown, sửa một lỗi, đổi một màu                                                                                                                                        | Đi tiếp câu 2, dựng theo bố cục mặc định (câu 4), không hỏi                                                                                                                                                                                            |
+| **Dựng lại theo gu skill, bỏ style cũ** ("hoàn toàn theo gu skill", "bỏ style cũ", "đổi sang gu của skill", "không cần giữ style cũ")                                                                                           | `references/review.md`, **chế độ dựng lại theo gu skill**: giữ khung trang, đổi cả dáng lẫn vai màu theo gu skill. **Dừng mục 0 tại đây** ⚑                                                                                                            |
 | **Mọi đề dựng hay làm lại một màn trở lên** ("dựng màn danh sách đơn hàng", "làm lại trang này cho đẹp", "dựng lại theo skill", "thiết kế từ đầu", "build a settings page", "redesign this screen"), sản phẩm mới hay màn đã có | **Mặc định.** Mở `references/design-process.md`, nhánh `U`: brief và việc chính của từng màn, rồi 2–3 wireframe, người dùng chọn rồi mới dựng. **Dừng mục 0 tại đây**, trừ audit câu 2: vẫn chạy ở `U1`, trước khi viết brief, cho cả dự án đã có UI ⚑ |
 
 Đề có ảnh wireframe của chính họ thì đó đã là bước wireframe: vào nhánh `U` từ `U4`, dựng
@@ -149,14 +149,14 @@ Dòng `Audit:` thêm phần phong cách:
 
 Rồi áp theo bảng này:
 
-| Tìm thấy | Làm gì |
-| --- | --- |
-| **Tailwind** (mặc định của skill) | Dùng utility bình thường. Tailwind v4 thì đọc `references/tailwind-v4-traps.md` trước khi đụng `@theme` |
-| **Không có Tailwind** | **Theo quy ước của họ** — CSS Module, styled-components, SCSS, gì cũng được. Skill này chi phối *token, nhịp, bố cục, phạm vi*, không chi phối cách bro viết style. Luật trong skill ghi class Tailwind; **màu thì dịch sang biến trong `references/tokens.css`**, đừng tự chọn mã: `text-rose-700` → `var(--danger)`, badge `bg-emerald-50 text-emerald-700` → `--success-bg` / `--success`. Bảng đối chiếu ở `M7`, `M30`; màu avatar ở `components/avatar.md` |
-| **shadcn / Radix / MUI / Ant / bộ nội bộ** | **Dùng component của họ.** Viết lại một cái `Button` trong project đã có shadcn là làm hỏng tính nhất quán, không phải làm đẹp thêm |
+| Tìm thấy                                                     | Làm gì                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Tailwind** (mặc định của skill)                            | Dùng utility bình thường. Tailwind v4 thì đọc `references/tailwind-v4-traps.md` trước khi đụng `@theme`                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| **Không có Tailwind**                                        | **Theo quy ước của họ** — CSS Module, styled-components, SCSS, gì cũng được. Skill này chi phối _token, nhịp, bố cục, phạm vi_, không chi phối cách bro viết style. Luật trong skill ghi class Tailwind; **màu thì dịch sang biến trong `references/tokens.css`**, đừng tự chọn mã: `text-rose-700` → `var(--danger)`, badge `bg-emerald-50 text-emerald-700` → `--success-bg` / `--success`. Bảng đối chiếu ở `M7`, `M30`; màu avatar ở `components/avatar.md`                                                                           |
+| **shadcn / Radix / MUI / Ant / bộ nội bộ**                   | **Dùng component của họ.** Viết lại một cái `Button` trong project đã có shadcn là làm hỏng tính nhất quán, không phải làm đẹp thêm                                                                                                                                                                                                                                                                                                                                                                                                       |
 | **Thư viện chuyên dụng** (biểu đồ, lịch, bảng, danh sách ảo) | **Có thì dùng đúng nó**, chỉnh cho ra hình của skill (tắt thứ nó bật sẵn, màu lấy token). **Chưa có thì không tự cài**: dựng như bình thường theo mẫu trong `references/components/`, và **chỉ đề xuất khi có nhu cầu tự dựng sẽ tốn** (dữ liệu lớn, phóng to, thời gian thực, nhiều loại biểu đồ). Chọn theo tiêu chí: nhẹ, giải quyết đúng nhu cầu, tô được bằng token, còn bảo trì, hợp hệ sinh thái sẵn có. Đề xuất một dòng kèm lý do; cài hay không là người dùng quyết (`N10`). Bảng cấu hình cho biểu đồ ở `components/charts.md` |
-| **Chưa có component nào** | Gợi ý code từ `references/components/`. Nói rõ đây là gợi ý để họ đặt vào đâu thì đặt |
-| **Không có `package.json`** | HTML/CSS thuần, hoặc WordPress, PHP, Rails, Django. Mẫu trong `references/components/` viết bằng `.tsx` — **dịch sang thẻ HTML + class rồi mới đưa**, đừng dán JSX vào dự án không có React. `references/tokens.css` thì dán thẳng được, nó là CSS thuần |
+| **Chưa có component nào**                                    | Gợi ý code từ `references/components/`. Nói rõ đây là gợi ý để họ đặt vào đâu thì đặt                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| **Không có `package.json`**                                  | HTML/CSS thuần, hoặc WordPress, PHP, Rails, Django. Mẫu trong `references/components/` viết bằng `.tsx` — **dịch sang thẻ HTML + class rồi mới đưa**, đừng dán JSX vào dự án không có React. `references/tokens.css` thì dán thẳng được, nó là CSS thuần                                                                                                                                                                                                                                                                                  |
 
 **Ngôn ngữ của copy cũng tự tìm ở bước này** — grep i18n và nhãn hiện có, luật
 `T24`. Chốt trước khi viết cái nhãn đầu tiên, vì đoán sai thì phải sửa lại toàn
@@ -199,11 +199,11 @@ qua phần còn lại của câu này.
 **Họ nói "chưa biết", "tuỳ bro", "làm sao đẹp thì làm" → dựng hướng A, báo một
 dòng lúc giao** rằng còn hướng B và C, muốn thì nói. Không hỏi trước.
 
-| Hướng | Hình thức | Hợp khi |
-| --- | --- | --- |
-| **A. Đường tóc phẳng** *(mặc định của skill)* | Nền xám nhạt, card trắng, viền 1px rất nhạt, bo ~12px, **không bóng**. Thứ bậc bằng cỡ chữ và độ đậm | Hầu hết dashboard. Nhiều khối nhỏ cạnh nhau vẫn đọc ra ranh giới. Đây là hướng mọi luật trong skill viết theo |
-| **B. Khối chìm** | Không viền. Tách khối bằng **chênh lệch nền + khoảng trắng**, card trắng nổi trên nền xám. Bo góc lớn hơn | Màn ít khối, mỗi khối lớn. Trông thoáng và mềm hơn A. Trả giá: khối nhỏ cạnh nhau thì ranh giới mờ |
-| **C. Dày đặc dữ liệu** | Bảng là nhân vật chính. Chữ nhỏ, hàng sát, bo góc nhỏ, đường kẻ rõ, ưu tiên nhìn được nhiều dòng một lúc | Màn hình người ta ngồi cả ngày: bảng vận hành, sổ giao dịch, log. Trả giá: nhìn "dày", không hợp màn tổng quan |
+| Hướng                                         | Hình thức                                                                                                 | Hợp khi                                                                                                        |
+| --------------------------------------------- | --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **A. Đường tóc phẳng** _(mặc định của skill)_ | Nền xám nhạt, card trắng, viền 1px rất nhạt, bo ~12px, **không bóng**. Thứ bậc bằng cỡ chữ và độ đậm      | Hầu hết dashboard. Nhiều khối nhỏ cạnh nhau vẫn đọc ra ranh giới. Đây là hướng mọi luật trong skill viết theo  |
+| **B. Khối chìm**                              | Không viền. Tách khối bằng **chênh lệch nền + khoảng trắng**, card trắng nổi trên nền xám. Bo góc lớn hơn | Màn ít khối, mỗi khối lớn. Trông thoáng và mềm hơn A. Trả giá: khối nhỏ cạnh nhau thì ranh giới mờ             |
+| **C. Dày đặc dữ liệu**                        | Bảng là nhân vật chính. Chữ nhỏ, hàng sát, bo góc nhỏ, đường kẻ rõ, ưu tiên nhìn được nhiều dòng một lúc  | Màn hình người ta ngồi cả ngày: bảng vận hành, sổ giao dịch, log. Trả giá: nhìn "dày", không hợp màn tổng quan |
 
 Chọn **B** hoặc **C** thì nói rõ nó **đè lên luật nào**: B đè `M13` (tách bằng
 viền) và `M15`; C đè phần nhịp trong `references/budgets.md`. Ghi một dòng lúc
@@ -213,8 +213,8 @@ Chọn xong thì trả lời luôn câu này: **có cần dark mode không.** M�
 không — xem `M20`.
 
 **Đề có form: ô nhập mặc định KHÔNG có icon trái.** Đừng hỏi, cứ dựng không icon
-rồi **báo một dòng** lúc giao: *"ô nhập đang để trơn, muốn có icon
-trái thì nói."* Họ muốn thì dựng theo `references/components/input.md`, lấy icon
+rồi **báo một dòng** lúc giao: _"ô nhập đang để trơn, muốn có icon
+trái thì nói."_ Họ muốn thì dựng theo `references/components/input.md`, lấy icon
 theo `F15`.
 
 Cùng cách làm với bộ mặc định của màn xác thực trong
@@ -252,13 +252,13 @@ nuôi nhiều phương án cho mọi loại màn. Nhánh `U` mặc định (ch�
 phải luật đó sống lại: người dùng chọn sau khi **đã thấy** wireframe có nội dung thật, đã
 probe, bấm mở được; mỗi file layout vẫn chỉ nuôi một bố cục mặc định.
 
-| Loại màn hình | Mở |
-| --- | --- |
-| Dashboard, các bước bắt đầu (onboarding checklist), danh sách, bảng, danh sách rỗng, cài đặt, hồ sơ cá nhân, bảo mật (xác thực hai lớp, phiên đăng nhập), khoá API, thành viên và phân quyền, trang lịch (lịch tháng), trang lỗi (404, 403, 500, bảo trì), trang báo cáo (doanh thu, phân tích theo khoảng ngày), đầu trang (đường dẫn + tên + nút), trang chi tiết bản ghi | `references/layouts/app.md` |
-| Đăng nhập, đăng ký, quên mật khẩu, form nhiều trường, form nhiều bước (thanh các bước), trạng thái lỗi | `references/layouts/form.md` |
-| Modal, panel trượt, dropdown, command palette, panel thông báo, toast, **chuyển động mở đóng của mọi khối nổi** (cả select, date picker), **đề yêu cầu animation mà không nói thư viện** (mục "Đề yêu cầu animation mà không nói thư viện") | `references/layouts/overlay.md` |
-| Bảng giá, trang chọn gói | `references/layouts/pricing.md` |
-| **Nhiều hơn một màn trong cùng một đề** | Vào nhánh `U` như mọi đề dựng; `references/system.md` — hợp đồng nguyên tố chốt ở `U4`, trước màn đầu tiên. Bố cục mặc định chỉ dùng thẳng ở lối dựng luôn hoặc việc nhỏ |
+| Loại màn hình                                                                                                                                                                                                                                                                                                                                                               | Mở                                                                                                                                                                       |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Dashboard, các bước bắt đầu (onboarding checklist), danh sách, bảng, danh sách rỗng, cài đặt, hồ sơ cá nhân, bảo mật (xác thực hai lớp, phiên đăng nhập), khoá API, thành viên và phân quyền, trang lịch (lịch tháng), trang lỗi (404, 403, 500, bảo trì), trang báo cáo (doanh thu, phân tích theo khoảng ngày), đầu trang (đường dẫn + tên + nút), trang chi tiết bản ghi | `references/layouts/app.md`                                                                                                                                              |
+| Đăng nhập, đăng ký, quên mật khẩu, form nhiều trường, form nhiều bước (thanh các bước), trạng thái lỗi                                                                                                                                                                                                                                                                      | `references/layouts/form.md`                                                                                                                                             |
+| Modal, panel trượt, dropdown, command palette, panel thông báo, toast, **chuyển động mở đóng của mọi khối nổi** (cả select, date picker), **đề yêu cầu animation mà không nói thư viện** (mục "Đề yêu cầu animation mà không nói thư viện")                                                                                                                                 | `references/layouts/overlay.md`                                                                                                                                          |
+| Bảng giá, trang chọn gói                                                                                                                                                                                                                                                                                                                                                    | `references/layouts/pricing.md`                                                                                                                                          |
+| **Nhiều hơn một màn trong cùng một đề**                                                                                                                                                                                                                                                                                                                                     | Vào nhánh `U` như mọi đề dựng; `references/system.md` — hợp đồng nguyên tố chốt ở `U4`, trước màn đầu tiên. Bố cục mặc định chỉ dùng thẳng ở lối dựng luôn hoặc việc nhỏ |
 
 **Có wireframe rồi thì bỏ qua câu 4**, đi thẳng xuống mục 1 và bám ảnh theo luật
 `S13`, `S14`, `S15`.
@@ -324,17 +324,17 @@ nói rõ dùng thư viện nào thì **theo họ, đừng cãi**.
 
 **S10. Gặp từ mơ hồ trong đề thì lấy nghĩa mặc định, và NÓI RA lúc giao.**
 
-| Từ | Nghĩa mặc định | Nghĩa kia, chỉ khi đề nói rõ |
-| --- | --- | --- |
-| bảng | **table dữ liệu** | board kiểu kanban ("kéo thả", "cột trạng thái", "board") |
-| thẻ | **card** | tab |
-| danh sách | **list dọc** | dropdown |
-| khung | **vùng bố cục** | modal ("bật lên", "popup") |
-| trang | **một route** | một tờ trong nhiều bước ("bước 2") |
-| lịch | **lịch tháng** | dòng thời gian ("timeline") |
+| Từ        | Nghĩa mặc định    | Nghĩa kia, chỉ khi đề nói rõ                             |
+| --------- | ----------------- | -------------------------------------------------------- |
+| bảng      | **table dữ liệu** | board kiểu kanban ("kéo thả", "cột trạng thái", "board") |
+| thẻ       | **card**          | tab                                                      |
+| danh sách | **list dọc**      | dropdown                                                 |
+| khung     | **vùng bố cục**   | modal ("bật lên", "popup")                               |
+| trang     | **một route**     | một tờ trong nhiều bước ("bước 2")                       |
+| lịch      | **lịch tháng**    | dòng thời gian ("timeline")                              |
 
-**Câu đầu tiên lúc giao** nói thẳng cách hiểu: *"Mình hiểu **bảng** là table dữ
-liệu. Nếu ý bạn là board kanban thì nói, mình đổi."* Hiểu sai thì người dùng thấy
+**Câu đầu tiên lúc giao** nói thẳng cách hiểu: _"Mình hiểu **bảng** là table dữ
+liệu. Nếu ý bạn là board kanban thì nói, mình đổi."_ Hiểu sai thì người dùng thấy
 ngay ở câu đầu, không phải tới lúc test mới lộ. Bài học gốc: "bảng quản lý dự án"
 từng bị hiểu thành kanban mà không ai nói ra, cả vòng test coi như bỏ.
 Lỗi lúc đó là **im lặng chọn nghĩa hiếm**, không phải chuyện không hỏi.
@@ -348,7 +348,7 @@ kanban mẫu thì rất dễ đọc mọi thứ mơ hồ thành kanban.
 - **Mặc định là design ref**: bám bố cục, bảng màu, kiểu dáng.
 - **Là wireframe** khi đề gọi nó là wireframe / phác thảo / khung, hoặc ảnh chỉ có đen trắng xám, khối chữ nhật, chữ giả: chỉ lấy bố cục, màu và kiểu dáng theo skill.
 - **Là ảnh hiện trạng** khi đó là ảnh app của chính người dùng mà họ nhờ xem: đề có "xem giúp", "review", "chỗ nào chưa ổn", "sao trông kỳ", "nhìn rối". Ảnh này là **thứ để soi lỗi, không phải mẫu để bám**. Đi nhánh `V` (`references/review.md`). Ảnh khớp một route trong repo mà đề không có từ soi, chỉ bảo dựng hay làm lại, thì đó là **ảnh "trước" của nhánh `U`**: đọc ở `U1`, đặt cạnh ảnh sau lúc giao, không xếp `V`. ⚑
-- Lúc giao nói một dòng: *"Mình dùng ảnh làm design ref (bám cả màu)"*, *"…làm wireframe (chỉ lấy bố cục)"*, hoặc *"…là ảnh hiện trạng app của bạn (soi lỗi)"*.
+- Lúc giao nói một dòng: _"Mình dùng ảnh làm design ref (bám cả màu)"_, _"…làm wireframe (chỉ lấy bố cục)"_, hoặc _"…là ảnh hiện trạng app của bạn (soi lỗi)"_.
 
 **S13. Bố cục gồm cả vị trí, không chỉ danh sách phần tử.** Badge nằm giữa mép
 trên card thì để giữa. Ô icon đứng cạnh giá thì giữ đúng chỗ. Thứ tự các khối giữ
@@ -396,62 +396,62 @@ Tám hình vẽ gần giống nhau cho tám mục thì trang trông "nhìn chán
 trỏ số hiệu, không được chép lại nội dung luật. Thấy hai chỗ cùng nói một luật
 thì một trong hai chỗ là sai.
 
-| Nhóm | File | Dùng cho |
-| --- | --- | --- |
-| **S** | `SKILL.md` mục 1 | Phạm vi: được làm gì, không được tự thêm gì |
-| **N** | `references/principles.md` | **Mười hai nguyên tắc đứng sau mọi luật khác**, mỗi cái một phép thử. Chỗ nào không có spec thì bám nó |
-| **M** | `references/rules-color.md` | Màu, viền, bóng, dark mode, token |
-| **T** | `references/rules-type.md` | Chữ, font, xuống dòng, cắt chữ, copy, ngôn ngữ trả lời và copy tiếng Anh |
-| **F** | `references/rules-form.md` | Khối, lưới, bo góc, khoảng thở, icon, hiệu ứng |
-| **I** | `references/rules-state.md` | Nút, hover, focus, danh sách, modal |
-| **R** | `references/responsive.md` | **Mọi luật về màn hẹp, ngưỡng kiểm 375px** |
-| **D** | `references/system.md` | Đề nhiều hơn một màn: hợp đồng nguyên tố; dựng design system trước (`D9`) |
-| **V** | `references/review.md` | Soi UI đang có: ba hạng lỗi, quét bề rộng, dark mode của dự án, bảng trước/sau; so bản mới với bản gốc (`V6`) |
-| **L** | `references/refactor.md` | Refactor codebase đã có |
-| **U** | `references/design-process.md` | Thiết kế từ đầu: brief, việc chính của từng màn, wireframe phương án, dựng |
-| **W** | `references/tailwind-v4-traps.md` | Bẫy Tailwind v4 khi có CSS cũ |
-| **P** | `references/styles.md` | Phong cách thị giác: flat, nổi, glass, gradient, tối. Luật nào được đè, bẫy riêng, **tương phản** |
+| Nhóm  | File                              | Dùng cho                                                                                                      |
+| ----- | --------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| **S** | `SKILL.md` mục 1                  | Phạm vi: được làm gì, không được tự thêm gì                                                                   |
+| **N** | `references/principles.md`        | **Mười hai nguyên tắc đứng sau mọi luật khác**, mỗi cái một phép thử. Chỗ nào không có spec thì bám nó        |
+| **M** | `references/rules-color.md`       | Màu, viền, bóng, dark mode, token                                                                             |
+| **T** | `references/rules-type.md`        | Chữ, font, xuống dòng, cắt chữ, copy, ngôn ngữ trả lời và copy tiếng Anh                                      |
+| **F** | `references/rules-form.md`        | Khối, lưới, bo góc, khoảng thở, icon, hiệu ứng                                                                |
+| **I** | `references/rules-state.md`       | Nút, hover, focus, danh sách, modal                                                                           |
+| **R** | `references/responsive.md`        | **Mọi luật về màn hẹp, ngưỡng kiểm 375px**                                                                    |
+| **D** | `references/system.md`            | Đề nhiều hơn một màn: hợp đồng nguyên tố; dựng design system trước (`D9`)                                     |
+| **V** | `references/review.md`            | Soi UI đang có: ba hạng lỗi, quét bề rộng, dark mode của dự án, bảng trước/sau; so bản mới với bản gốc (`V6`) |
+| **L** | `references/refactor.md`          | Refactor codebase đã có                                                                                       |
+| **U** | `references/design-process.md`    | Thiết kế từ đầu: brief, việc chính của từng màn, wireframe phương án, dựng                                    |
+| **W** | `references/tailwind-v4-traps.md` | Bẫy Tailwind v4 khi có CSS cũ                                                                                 |
+| **P** | `references/styles.md`            | Phong cách thị giác: flat, nổi, glass, gradient, tối. Luật nào được đè, bẫy riêng, **tương phản**             |
 
 **Luôn mở, mọi task:**
 
-| Cần | Mở |
-| --- | --- |
-| Nguyên tắc chung, phép thử cho UI chưa có mẫu | `references/principles.md` |
-| Ngân sách, nhịp, thang cỡ chữ | `references/budgets.md` |
-| Bảng màu, font, cách đổi thương hiệu | `references/brand-tokens.md` + `references/tokens.css` |
-| Kiểm trước khi báo xong | `references/checklist.md` |
-| Luật chủ dự án đã chốt và lý lẽ đã bị bác: mở trước khi chọn màu, mức nặng của nút (đỏ hay trung tính, `primary` hay viền) | `references/locked-rules.md` |
+| Cần                                                                                                                        | Mở                                                     |
+| -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| Nguyên tắc chung, phép thử cho UI chưa có mẫu                                                                              | `references/principles.md`                             |
+| Ngân sách, nhịp, thang cỡ chữ                                                                                              | `references/budgets.md`                                |
+| Bảng màu, font, cách đổi thương hiệu                                                                                       | `references/brand-tokens.md` + `references/tokens.css` |
+| Kiểm trước khi báo xong                                                                                                    | `references/checklist.md`                              |
+| Luật chủ dự án đã chốt và lý lẽ đã bị bác: mở trước khi chọn màu, mức nặng của nút (đỏ hay trung tính, `primary` hay viền) | `references/locked-rules.md`                           |
 
 **Mở khi dựng đúng khối đó:**
 
-| Cần dựng | Mở |
-| --- | --- |
-| Card, widget, panel | `references/components/card.md` |
-| Khối nhãn và giá trị của trang chi tiết | `references/components/description-list.md` |
-| Nút | `references/components/button.md` |
-| Ô nhập, form field | `references/components/input.md` |
-| Ô nhập mã OTP | `references/components/otp-input.md` |
-| Ô nhập số lượng có nút − + | `references/components/quantity-input.md` |
-| Tên sửa tại chỗ ở đầu trang (tên dự án, tài liệu) | `references/components/inline-edit.md` |
-| Đường dẫn (breadcrumb) trên thanh header hoặc trên tên trang | `references/components/breadcrumb.md` |
-| Tiêu đề cột bảng bấm để sắp xếp | `references/components/sortable-header.md` |
-| Checkbox, radio, công tắc, select, ô chọn giờ, ô chọn ngày, khoảng ngày, ngày giờ, lựa chọn dạng card | `references/components/choice-controls.md` |
-| Dòng trong danh sách | `references/components/list-row.md` |
-| Dòng thời gian, lịch sử hoạt động | `references/components/timeline.md` |
-| Cây thư mục, cây lồng nhau mở đóng được | `references/components/tree.md` |
-| Accordion, FAQ, mục mở/đóng tại chỗ | `references/components/accordion.md` |
-| Khu bình luận, trả lời lồng nhau | `references/components/comment-thread.md` |
-| Khung chat với trợ lý AI: tin nhắn hai phía, bước dùng công cụ, gợi ý hỏi tiếp, ô soạn tin | `references/components/chat.md` |
-| Thanh trượt chọn khoảng số, khoảng giá | `references/components/range-slider.md` |
-| Ô nhập nhiều tag (email người nhận, nhãn) | `references/components/tag-input.md` |
-| Danh sách rỗng, lỗi tải | `references/components/empty-state.md` |
-| Đang tải: khung chờ, tải lần hai, đổi ngay trên màn, "Đang lưu… / Đã lưu", việc chạy lâu | `references/components/loading.md` |
-| Thanh thông báo trong trang (thông tin, cần chú ý, lỗi) | `references/components/banner.md` |
-| Chip lọc, chip lọc đang áp dụng (có ×), nút chỉ có icon, thanh tab (4 variant), phân trang | `references/components/small-controls.md` |
-| Avatar, nhóm avatar chồng nhau | `references/components/avatar.md` |
-| Logo sản phẩm (đầu sidebar, màn xác thực, trang lỗi đứng riêng) và favicon, khi dự án chưa có logo | `references/components/logo.md` |
-| Biểu đồ cột, biểu đồ đường, số liệu, thanh tiến độ | `references/components/charts.md` |
-| Khung kéo thả tệp, danh sách tệp đang tải lên | `references/components/file-upload.md` |
+| Cần dựng                                                                                              | Mở                                          |
+| ----------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| Card, widget, panel                                                                                   | `references/components/card.md`             |
+| Khối nhãn và giá trị của trang chi tiết                                                               | `references/components/description-list.md` |
+| Nút                                                                                                   | `references/components/button.md`           |
+| Ô nhập, form field                                                                                    | `references/components/input.md`            |
+| Ô nhập mã OTP                                                                                         | `references/components/otp-input.md`        |
+| Ô nhập số lượng có nút − +                                                                            | `references/components/quantity-input.md`   |
+| Tên sửa tại chỗ ở đầu trang (tên dự án, tài liệu)                                                     | `references/components/inline-edit.md`      |
+| Đường dẫn (breadcrumb) trên thanh header hoặc trên tên trang                                          | `references/components/breadcrumb.md`       |
+| Tiêu đề cột bảng bấm để sắp xếp                                                                       | `references/components/sortable-header.md`  |
+| Checkbox, radio, công tắc, select, ô chọn giờ, ô chọn ngày, khoảng ngày, ngày giờ, lựa chọn dạng card | `references/components/choice-controls.md`  |
+| Dòng trong danh sách                                                                                  | `references/components/list-row.md`         |
+| Dòng thời gian, lịch sử hoạt động                                                                     | `references/components/timeline.md`         |
+| Cây thư mục, cây lồng nhau mở đóng được                                                               | `references/components/tree.md`             |
+| Accordion, FAQ, mục mở/đóng tại chỗ                                                                   | `references/components/accordion.md`        |
+| Khu bình luận, trả lời lồng nhau                                                                      | `references/components/comment-thread.md`   |
+| Khung chat với trợ lý AI: tin nhắn hai phía, bước dùng công cụ, gợi ý hỏi tiếp, ô soạn tin            | `references/components/chat.md`             |
+| Thanh trượt chọn khoảng số, khoảng giá                                                                | `references/components/range-slider.md`     |
+| Ô nhập nhiều tag (email người nhận, nhãn)                                                             | `references/components/tag-input.md`        |
+| Danh sách rỗng, lỗi tải                                                                               | `references/components/empty-state.md`      |
+| Đang tải: khung chờ, tải lần hai, đổi ngay trên màn, "Đang lưu… / Đã lưu", việc chạy lâu              | `references/components/loading.md`          |
+| Thanh thông báo trong trang (thông tin, cần chú ý, lỗi)                                               | `references/components/banner.md`           |
+| Chip lọc, chip lọc đang áp dụng (có ×), nút chỉ có icon, thanh tab (4 variant), phân trang            | `references/components/small-controls.md`   |
+| Avatar, nhóm avatar chồng nhau                                                                        | `references/components/avatar.md`           |
+| Logo sản phẩm (đầu sidebar, màn xác thực, trang lỗi đứng riêng) và favicon, khi dự án chưa có logo    | `references/components/logo.md`             |
+| Biểu đồ cột, biểu đồ đường, số liệu, thanh tiến độ                                                    | `references/components/charts.md`           |
+| Khung kéo thả tệp, danh sách tệp đang tải lên                                                         | `references/components/file-upload.md`      |
 
 **Dựng một trang là RÁP, không phải vẽ lại.** Trên trang có phần tử nào nằm
 trong bảng trên thì mở đúng file đó và chép công thức, kể cả khi nó chỉ là một
@@ -459,7 +459,7 @@ nút nhỏ ở góc. Không tự nặn biến thể "cho hợp trang này": cùn
 một kiểu, drawer một kiểu là hai app ghép lại (`D1`, `D2`). Trang cần một phần
 tử chưa có file thì theo luồng **"Dựng một thứ chưa có mẫu"** ở cuối
 `references/principles.md`: mượn khuôn gần nhất, dựng cả ca biên, probe tự sửa, soi
-năm câu bằng mắt, lúc giao nói một dòng *"X chưa có mẫu đã duyệt, mình mượn khuôn của Y"*.
+năm câu bằng mắt, lúc giao nói một dòng _"X chưa có mẫu đã duyệt, mình mượn khuôn của Y"_.
 
 **Code mẫu đã duyệt** (chỉ mở sau khi chốt loại màn hình, luật `S11`):
 `references/layouts/app-kanban.html`

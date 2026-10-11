@@ -7,33 +7,48 @@ file đã có (`N5`): danh sách bước dùng công cụ mượn đường dọ
 
 ```html
 <div class="mx-auto flex h-full w-full max-w-3xl flex-col">
-  <ol class="flex-1 space-y-8 overflow-y-auto px-4 py-6"><!-- vùng tin cuộn, ô soạn đứng yên -->
-    <li class="space-y-6">
-      <!-- Tin người dùng: bong bóng bên phải -->
-      <p class="ml-auto w-fit max-w-[80%] rounded-3xl bg-surface px-4 py-2.5 text-base whitespace-pre-wrap [overflow-wrap:anywhere]">…</p>
+    <ol class="flex-1 space-y-8 overflow-y-auto px-4 py-6">
+        <!-- vùng tin cuộn, ô soạn đứng yên -->
+        <li class="space-y-6">
+            <!-- Tin người dùng: bong bóng bên phải -->
+            <p
+                class="ml-auto w-fit max-w-[80%] rounded-3xl bg-surface px-4 py-2.5 text-base whitespace-pre-wrap [overflow-wrap:anywhere]"
+            >
+                …
+            </p>
 
-      <!-- Câu trả lời: không bong bóng, không avatar, thẳng mép trái cột -->
-      <div class="max-w-[55ch] space-y-3">
-        <!-- Không nền rê nên không px: chữ tự thẳng mép cột, không -ml-2 (button.md, N11) -->
-        <button class="flex h-8 cursor-pointer items-center gap-2 rounded-md text-sm text-muted outline-hidden hover:text-foreground" aria-expanded="false">
-          <!-- ô đầu size-4: ChevronRight (xoay 90° khi mở), hoặc LoaderCircle khi chưa có bước nào -->
-          Đã dùng 3 công cụ
-        </button>
-        <ul class="ml-[7px] space-y-3 border-l border-border-strong pl-5"><!-- đường dọc ở tâm chevron -->
-          <li class="flex gap-2">
-            <!-- Check size-4 text-muted | LoaderCircle animate-spin | CircleAlert text-red-600 -->
-            <div class="min-w-0">
-              <p class="text-sm text-foreground">Tra cứu đơn hàng</p>
-              <p class="text-xs text-muted">1.284 đơn đã giao, không tính 37 đơn hoàn</p>
+            <!-- Câu trả lời: không bong bóng, không avatar, thẳng mép trái cột -->
+            <div class="max-w-[55ch] space-y-3">
+                <!-- Không nền rê nên không px: chữ tự thẳng mép cột, không -ml-2 (button.md, N11) -->
+                <button
+                    class="flex h-8 cursor-pointer items-center gap-2 rounded-md text-sm text-muted outline-hidden hover:text-foreground"
+                    aria-expanded="false"
+                >
+                    <!-- ô đầu size-4: ChevronRight (xoay 90° khi mở), hoặc LoaderCircle khi chưa có bước nào -->
+                    Đã dùng 3 công cụ
+                </button>
+                <ul
+                    class="ml-[7px] space-y-3 border-l border-border-strong pl-5"
+                >
+                    <!-- đường dọc ở tâm chevron -->
+                    <li class="flex gap-2">
+                        <!-- Check size-4 text-muted | LoaderCircle animate-spin | CircleAlert text-red-600 -->
+                        <div class="min-w-0">
+                            <p class="text-sm text-foreground">
+                                Tra cứu đơn hàng
+                            </p>
+                            <p class="text-xs text-muted">
+                                1.284 đơn đã giao, không tính 37 đơn hoàn
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+                <div class="text-base text-pretty">…</div>
+                <!-- hàng thao tác: Sao chép, Tạo lại -->
             </div>
-          </li>
-        </ul>
-        <div class="text-base text-pretty">…</div>
-        <!-- hàng thao tác: Sao chép, Tạo lại -->
-      </div>
-    </li>
-  </ol>
-  <!-- ô soạn, xem mục dưới -->
+        </li>
+    </ol>
+    <!-- ô soạn, xem mục dưới -->
 </div>
 ```
 
@@ -88,10 +103,12 @@ Nút chỉ icon `ghost` `size-8`, có tooltip và `aria-label`: `Copy` "Sao ché
 
 ```html
 <div class="space-y-2">
-  <p class="text-sm text-muted">Hỏi tiếp</p>
-  <button class="block w-fit max-w-full cursor-pointer rounded-xl border border-border-strong bg-surface px-3 py-2 text-left text-sm text-foreground outline-hidden hover:bg-button-hover">
-    Chi nhánh cửa hàng nào giảm nhiều nhất?
-  </button>
+    <p class="text-sm text-muted">Hỏi tiếp</p>
+    <button
+        class="block w-fit max-w-full cursor-pointer rounded-xl border border-border-strong bg-surface px-3 py-2 text-left text-sm text-foreground outline-hidden hover:bg-button-hover"
+    >
+        Chi nhánh cửa hàng nào giảm nhiều nhất?
+    </button>
 </div>
 ```
 
@@ -108,11 +125,21 @@ Nút chỉ icon `ghost` `size-8`, có tooltip và `aria-label`: `Copy` "Sao ché
 ## Ô soạn
 
 ```html
-<form class="mx-4 mb-4 flex items-end gap-2 rounded-3xl border border-border-strong bg-surface p-2 focus-within:border-focus focus-within:ring-2 focus-within:ring-focus">
-  <textarea rows="1" class="max-h-60 min-h-10 flex-1 resize-none bg-transparent px-3 py-2 text-base outline-hidden placeholder:text-muted" placeholder="Hỏi về đơn hàng, doanh thu"></textarea>
-  <button class="grid size-10 shrink-0 cursor-pointer place-items-center rounded-2xl bg-primary text-primary-foreground outline-hidden hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-30" aria-label="Gửi" disabled>
-    <!-- ArrowUp size-4. Đang chạy: Square size-3.5 fill-current, aria-label="Dừng trả lời", không disabled -->
-  </button>
+<form
+    class="mx-4 mb-4 flex items-end gap-2 rounded-3xl border border-border-strong bg-surface p-2 focus-within:border-focus focus-within:ring-2 focus-within:ring-focus"
+>
+    <textarea
+        rows="1"
+        class="max-h-60 min-h-10 flex-1 resize-none bg-transparent px-3 py-2 text-base outline-hidden placeholder:text-muted"
+        placeholder="Hỏi về đơn hàng, doanh thu"
+    ></textarea>
+    <button
+        class="grid size-10 shrink-0 cursor-pointer place-items-center rounded-2xl bg-primary text-primary-foreground outline-hidden hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-30"
+        aria-label="Gửi"
+        disabled
+    >
+        <!-- ArrowUp size-4. Đang chạy: Square size-3.5 fill-current, aria-label="Dừng trả lời", không disabled -->
+    </button>
 </form>
 ```
 

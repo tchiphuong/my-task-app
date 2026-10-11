@@ -43,8 +43,10 @@ Và luôn giữ: **ngày tháng, nhãn phụ phải nhỏ hơn tiêu đề ít n
 
 <!-- Đúng: khối cha chỉ padding dọc, các khối khác tự mang lề, khung cuộn chạm mép -->
 <section class="py-3 sm:py-5">
-  <h2 class="px-3 sm:px-5">…</h2>
-  <div class="overflow-x-auto"><div class="flex gap-4 px-3 sm:px-5">...</div></div>
+    <h2 class="px-3 sm:px-5">…</h2>
+    <div class="overflow-x-auto">
+        <div class="flex gap-4 px-3 sm:px-5">...</div>
+    </div>
 </section>
 ```
 
@@ -76,9 +78,11 @@ vẫn `h-11 md:h-10`, xem `budgets.md`.
 ```html
 <!-- Khung trang py-4 sm:py-6, các khối khác px-4 sm:px-6 (R6); khung cuộn không padding cha để kéo ra -->
 <div class="overflow-x-auto">
-  <div class="min-w-[44rem] px-4 sm:px-6">
-    <table class="w-full">…</table>
-  </div>
+    <div class="min-w-[44rem] px-4 sm:px-6">
+        <table class="w-full">
+            …
+        </table>
+    </div>
 </div>
 ```
 
@@ -108,16 +112,24 @@ sidebar mở, quá 6 cột là bắt đầu chật.
 
 ```tsx
 <div className="relative min-w-0">
-  <div ref={scrollerRef} className="scrollbar-clean overflow-x-auto …mask mép mờ…">{items}</div>
-  {canScrollLeft ? (
-    <div className="pointer-events-none absolute inset-y-0 left-0 hidden items-center any-pointer-fine:flex">
-      <IconButton label="Cuộn sang trái" onClick={() => scrollByPage(-1)}
-        className="pointer-events-auto size-8 rounded-full border border-border-strong bg-surface">
-        <ChevronLeft className="size-4" />
-      </IconButton>
+    <div
+        ref={scrollerRef}
+        className="scrollbar-clean overflow-x-auto …mask mép mờ…"
+    >
+        {items}
     </div>
-  ) : null}
-  {/* canScrollRight: cùng khối, right-0, ChevronRight, scrollByPage(1) */}
+    {canScrollLeft ? (
+        <div className="pointer-events-none absolute inset-y-0 left-0 hidden items-center any-pointer-fine:flex">
+            <IconButton
+                label="Cuộn sang trái"
+                onClick={() => scrollByPage(-1)}
+                className="pointer-events-auto size-8 rounded-full border border-border-strong bg-surface"
+            >
+                <ChevronLeft className="size-4" />
+            </IconButton>
+        </div>
+    ) : null}
+    {/* canScrollRight: cùng khối, right-0, ChevronRight, scrollByPage(1) */}
 </div>
 ```
 
@@ -142,14 +154,24 @@ khít mép khung.
 
 ```tsx
 <div className="relative min-w-0">
-  <div ref={scrollerRef} className="flex overflow-x-auto scrollbar-clean …">{items}</div>
-  {isOverflowing ? (
-    <div aria-hidden className="pointer-events-none absolute inset-x-0 top-full mt-1 h-[3px] overflow-hidden rounded-full bg-foreground/5">
-      {/* Bề rộng và vị trí đổi theo từng pixel cuộn: style, không class. */}
-      <div className="absolute inset-y-0 rounded-full bg-foreground/15"
-        style={{ width: `${visibleRatio * 100}%`, left: `${offsetRatio * 100}%` }} />
+    <div ref={scrollerRef} className="flex overflow-x-auto scrollbar-clean …">
+        {items}
     </div>
-  ) : null}
+    {isOverflowing ? (
+        <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 top-full mt-1 h-[3px] overflow-hidden rounded-full bg-foreground/5"
+        >
+            {/* Bề rộng và vị trí đổi theo từng pixel cuộn: style, không class. */}
+            <div
+                className="absolute inset-y-0 rounded-full bg-foreground/15"
+                style={{
+                    width: `${visibleRatio * 100}%`,
+                    left: `${offsetRatio * 100}%`,
+                }}
+            />
+        </div>
+    ) : null}
 </div>
 ```
 
@@ -170,15 +192,15 @@ thu còn icon.
 
 ## Bảng hạ bậc ở mobile, đừng bê nguyên nhịp desktop xuống
 
-| | Mobile (dưới `sm`) | Từ `sm` trở lên |
-| --- | --- | --- |
-| Padding trang | `p-4` | `sm:p-6` |
-| Padding card | `p-4`, tối đa `p-5` | xem `budgets.md` |
-| Chiều cao nút | `h-10` | xem `budgets.md` |
-| Tiêu đề trong card | `text-base` | `text-base` (không đổi theo breakpoint, `D8`) |
-| Mô tả trong card | `text-sm` | `text-sm`: tiêu đề card `text-base` nên chữ bên trong tối đa `text-sm` (`T8`) |
-| Ngày tháng, nhãn phụ | `text-xs`, luôn nhỏ hơn tiêu đề một bậc | như trên |
-| Ô nhập, textarea, select | **`text-base`, không hạ.** Dưới 16px thì iOS tự zoom | `md:text-sm` |
+|                          | Mobile (dưới `sm`)                                   | Từ `sm` trở lên                                                               |
+| ------------------------ | ---------------------------------------------------- | ----------------------------------------------------------------------------- |
+| Padding trang            | `p-4`                                                | `sm:p-6`                                                                      |
+| Padding card             | `p-4`, tối đa `p-5`                                  | xem `budgets.md`                                                              |
+| Chiều cao nút            | `h-10`                                               | xem `budgets.md`                                                              |
+| Tiêu đề trong card       | `text-base`                                          | `text-base` (không đổi theo breakpoint, `D8`)                                 |
+| Mô tả trong card         | `text-sm`                                            | `text-sm`: tiêu đề card `text-base` nên chữ bên trong tối đa `text-sm` (`T8`) |
+| Ngày tháng, nhãn phụ     | `text-xs`, luôn nhỏ hơn tiêu đề một bậc              | như trên                                                                      |
+| Ô nhập, textarea, select | **`text-base`, không hạ.** Dưới 16px thì iOS tự zoom | `md:text-sm`                                                                  |
 
 `p-8` là nhịp của màn rộng. Bê xuống 375px thì riêng lề đã ăn
 mất một phần năm bề ngang.

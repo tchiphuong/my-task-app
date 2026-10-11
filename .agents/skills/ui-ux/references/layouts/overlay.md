@@ -5,10 +5,10 @@ dưới đây, báo một dòng lúc giao. Xem câu 4 trong `../../SKILL.md`.
 
 **Nền, viền, bóng của khung** (`M15`, `M21`, `M23`), một bảng cho mọi khối nổi:
 
-| Khối | Khung |
-| --- | --- |
+| Khối                                                    | Khung                                                                                     |
+| ------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
 | Dropdown, menu, popover, select, toast, command palette | `border border-border bg-surface-overlay shadow-popover` (command palette `shadow-modal`) |
-| Modal, hộp xác nhận, panel trượt | `border border-border bg-surface shadow-modal` |
+| Modal, hộp xác nhận, panel trượt                        | `border border-border bg-surface shadow-modal`                                            |
 
 Nền sáng thì `bg-surface-overlay` bằng card và viền gần như không thấy, nên bản sáng trông
 như cũ. Nền tối thì lớp nổi nhỏ sáng hơn card một bậc, viền 1px tách khung khỏi trang, bóng
@@ -30,28 +30,40 @@ như cũ. Nền tối thì lớp nổi nhỏ sáng hơn card một bậc, viền
 ```
 
 ```html
-<div role="alertdialog" aria-labelledby="confirm-title" aria-describedby="confirm-desc" class="w-full max-w-md rounded-2xl border border-border bg-surface p-6 shadow-modal">
-  <!-- Lưới hai cột: hàng đầu là icon + tiêu đề (items-center tự đưa tâm icon về tâm dòng tiêu
+<div
+    role="alertdialog"
+    aria-labelledby="confirm-title"
+    aria-describedby="confirm-desc"
+    class="w-full max-w-md rounded-2xl border border-border bg-surface p-6 shadow-modal"
+>
+    <!-- Lưới hai cột: hàng đầu là icon + tiêu đề (items-center tự đưa tâm icon về tâm dòng tiêu
        đề, không cần nhích bằng margin âm). Thân (câu hậu quả, ô gõ lại tên) dưới sm trải hết bề
        rộng, thẳng mép nút; từ sm nằm ở cột chữ, thẳng mép tiêu đề. -->
-  <div class="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-4">
-    <div class="flex size-10 shrink-0 items-center justify-center rounded-full bg-rose-500/10">
-      <i data-lucide="trash-2" class="size-5 text-rose-700"></i>
-    </div>
-    <h2 id="confirm-title" class="text-lg font-semibold">Xoá dự án?</h2>
-    <!-- mt-2 dưới sm: cách đáy icon 8px. sm:mt-0.5: hàng đầu cao 40px, tiêu đề 28px nằm giữa
+    <div class="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-4">
+        <div
+            class="flex size-10 shrink-0 items-center justify-center rounded-full bg-rose-500/10"
+        >
+            <i data-lucide="trash-2" class="size-5 text-rose-700"></i>
+        </div>
+        <h2 id="confirm-title" class="text-lg font-semibold">Xoá dự án?</h2>
+        <!-- mt-2 dưới sm: cách đáy icon 8px. sm:mt-0.5: hàng đầu cao 40px, tiêu đề 28px nằm giữa
          (dư 6px dưới), cộng 2px ra 8px chữ tới chữ như T30. -->
-    <div class="col-span-2 mt-2 min-w-0 sm:col-span-1 sm:col-start-2 sm:mt-0.5">
-      <p id="confirm-desc" class="text-sm/6 text-muted">
-        <span class="font-medium text-foreground">Website bán hàng 2026</span>
-        cùng 48 công việc bên trong sẽ bị xoá vĩnh viễn, không khôi phục được.
-      </p>
-      <!-- Ô gõ lại tên (nếu có): mt-4, cùng khối thân này -->
+        <div
+            class="col-span-2 mt-2 min-w-0 sm:col-span-1 sm:col-start-2 sm:mt-0.5"
+        >
+            <p id="confirm-desc" class="text-sm/6 text-muted">
+                <span class="font-medium text-foreground"
+                    >Website bán hàng 2026</span
+                >
+                cùng 48 công việc bên trong sẽ bị xoá vĩnh viễn, không khôi phục
+                được.
+            </p>
+            <!-- Ô gõ lại tên (nếu có): mt-4, cùng khối thân này -->
+        </div>
     </div>
-  </div>
-  <div class="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-    <!-- Huỷ: nút phụ nền --secondary. Xoá: nền rose mờ theo I4. Cả hai chỉ có chữ. -->
-  </div>
+    <div class="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+        <!-- Huỷ: nút phụ nền --secondary. Xoá: nền rose mờ theo I4. Cả hai chỉ có chữ. -->
+    </div>
 </div>
 ```
 
@@ -73,6 +85,7 @@ không kết thúc thứ gì đang chạy, không cắt quyền của ai). Có v
 thứ một lúc: gửi lại lời mời hàng loạt, gửi email cho 240 khách hàng, xuất bản thay đổi cho
 cả nhóm. "Không mất dữ liệu" thôi thì **chưa đủ** để vào khuôn này: huỷ gói, đăng xuất cũng
 không mất dữ liệu mà vẫn đỏ (`I4`). Cùng khuôn trên, chỉ đổi màu:
+
 - icon tròn `bg-background`, glyph `text-foreground` (không `rose`);
 - nút xác nhận `primary` (ngoại lệ có tên của `I2`: đây là nút duy nhất đi tiếp của hộp),
   vẫn lặp động từ + đối tượng: "Gửi lại 12 lời mời";
@@ -86,6 +99,7 @@ dùng được tới hết kỳ; đừng để icon xám, nút xác nhận đen.
 
 **Hộp xác nhận có ô gõ lại tên** (xoá workspace, tổ chức; khi nào dựng xem `D3` ở
 `../system.md`). Cùng khuôn trên, thêm ô dưới câu hậu quả, trong khối thân (`mt-4`):
+
 - Nhãn là một câu, tên đậm ở giữa: "Nhập **Evondev Studio** để xác nhận", `text-sm`, tên
   `font-semibold`, xuống dòng chứ không cắt (`N8`). Không placeholder ghi sẵn tên: trông như
   đã điền hộ.
@@ -211,21 +225,32 @@ thu rồi mở sidebar, bấm mở lại. Menu phải nằm sát nút cả hai l
 
 ```html
 <!-- Khung chỉ padding dọc, mỗi nhóm mục px-1: vạch giữa hai nhóm tự chạm mép (F25, N11) -->
-<div class="min-w-56 rounded-2xl border border-border bg-surface-overlay py-1 shadow-popover">
-  <div class="flex flex-col gap-1 px-1">
-    <button class="flex min-h-10 w-full cursor-pointer items-center gap-2.5 rounded-xl px-3 text-sm outline-hidden hover:bg-item-hover focus-visible:bg-item-hover">…</button>
-  </div>
-  <!-- Vạch chia cùng token với viền khung, không border-strong: đậm hơn viền là vạch nổi hơn khung.
+<div
+    class="min-w-56 rounded-2xl border border-border bg-surface-overlay py-1 shadow-popover"
+>
+    <div class="flex flex-col gap-1 px-1">
+        <button
+            class="flex min-h-10 w-full cursor-pointer items-center gap-2.5 rounded-xl px-3 text-sm outline-hidden hover:bg-item-hover focus-visible:bg-item-hover"
+        >
+            …
+        </button>
+    </div>
+    <!-- Vạch chia cùng token với viền khung, không border-strong: đậm hơn viền là vạch nổi hơn khung.
        Khung cũng border-border: bóng shadow-popover đã tách khung khỏi trang. Khung và vạch cùng border-strong
        thì menu kẻ ô như bảng -->
-  <hr class="my-1 border-border" />
-  <div class="flex flex-col gap-1 px-1">
-    <!-- Mục nguy hiểm: lúc thường y như mục khác, rê vào mới đỏ (I4) -->
-    <button class="group flex min-h-10 w-full cursor-pointer items-center gap-2.5 rounded-xl px-3 text-sm text-foreground outline-hidden hover:bg-rose-500/10 hover:text-rose-700 focus-visible:bg-rose-500/10 focus-visible:text-rose-700 dark:hover:text-rose-400 dark:focus-visible:text-rose-400">
-      <i data-lucide="trash-2" class="size-4 shrink-0 text-muted group-hover:text-rose-700 group-focus-visible:text-rose-700 dark:group-hover:text-rose-400 dark:group-focus-visible:text-rose-400"></i>
-      Xoá
-    </button>
-  </div>
+    <hr class="my-1 border-border" />
+    <div class="flex flex-col gap-1 px-1">
+        <!-- Mục nguy hiểm: lúc thường y như mục khác, rê vào mới đỏ (I4) -->
+        <button
+            class="group flex min-h-10 w-full cursor-pointer items-center gap-2.5 rounded-xl px-3 text-sm text-foreground outline-hidden hover:bg-rose-500/10 hover:text-rose-700 focus-visible:bg-rose-500/10 focus-visible:text-rose-700 dark:hover:text-rose-400 dark:focus-visible:text-rose-400"
+        >
+            <i
+                data-lucide="trash-2"
+                class="size-4 shrink-0 text-muted group-hover:text-rose-700 group-focus-visible:text-rose-700 dark:group-hover:text-rose-400 dark:group-focus-visible:text-rose-400"
+            ></i>
+            Xoá
+        </button>
+    </div>
 </div>
 ```
 
@@ -233,13 +258,13 @@ Mục xoá: chữ **`rose-700`**, không `rose-500` (3.2:1 trên nền `rose-500
 trượt 4.5:1). Lúc chưa rê thì chữ `--foreground`, icon `text-muted` như mọi mục,
 đỏ sẵn là sai `I4`.
 
-| Thứ | Giá trị | Vì sao |
-| --- | --- | --- |
-| Khung | `rounded-2xl` 16px | |
-| Khe quanh mục | 4px: `p-1` ở khung; menu có vạch chia thì `py-1` ở khung + `px-1` ở từng nhóm mục | Khe hở giữa nền hover và mép khung; vạch chạm mép mà không cần `-mx-1` (`F25`) |
-| Mục | `min-h-10` 40px, không `h-10` | Cùng chiều cao link sidebar, nút, ô nhập. Mục 36px trông chật. **Chữ dài thì xuống dòng, mục cao theo chữ** (`py-2.5`, icon và dấu `check` bám dòng đầu): `h-10` cố định thì tên ba dòng tràn khỏi mục, đè lên mục dưới (dính 05/10/2026, lọc theo tên khoá học; probe báo "Mục trong lớp nổi cao cố định mà chữ tràn") |
-| Khe giữa hai mục | **`gap-1` 4px** (danh sách `flex flex-col gap-1`), không `gap-0.5` 2px, không dính sát | Mục xuống hai dòng đứng sát nhau thì chữ hai mục liền thành một khối, không đọc ra đâu là ranh giới; 2px vẫn dính. Probe báo "Mục kề nhau cách dưới 4px" |
-| Nền hover của mục | `rounded-xl` 12px | **16 = 12 + 4**, hai góc đồng tâm. Mục cao 40px nên bo 12px (`F1`) |
+| Thứ               | Giá trị                                                                                | Vì sao                                                                                                                                                                                                                                                                                                                  |
+| ----------------- | -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Khung             | `rounded-2xl` 16px                                                                     |                                                                                                                                                                                                                                                                                                                         |
+| Khe quanh mục     | 4px: `p-1` ở khung; menu có vạch chia thì `py-1` ở khung + `px-1` ở từng nhóm mục      | Khe hở giữa nền hover và mép khung; vạch chạm mép mà không cần `-mx-1` (`F25`)                                                                                                                                                                                                                                          |
+| Mục               | `min-h-10` 40px, không `h-10`                                                          | Cùng chiều cao link sidebar, nút, ô nhập. Mục 36px trông chật. **Chữ dài thì xuống dòng, mục cao theo chữ** (`py-2.5`, icon và dấu `check` bám dòng đầu): `h-10` cố định thì tên ba dòng tràn khỏi mục, đè lên mục dưới (dính 05/10/2026, lọc theo tên khoá học; probe báo "Mục trong lớp nổi cao cố định mà chữ tràn") |
+| Khe giữa hai mục  | **`gap-1` 4px** (danh sách `flex flex-col gap-1`), không `gap-0.5` 2px, không dính sát | Mục xuống hai dòng đứng sát nhau thì chữ hai mục liền thành một khối, không đọc ra đâu là ranh giới; 2px vẫn dính. Probe báo "Mục kề nhau cách dưới 4px"                                                                                                                                                                |
+| Nền hover của mục | `rounded-xl` 12px                                                                      | **16 = 12 + 4**, hai góc đồng tâm. Mục cao 40px nên bo 12px (`F1`)                                                                                                                                                                                                                                                      |
 
 Dùng shadcn / Radix thì thay cả `hover:` lẫn `focus-visible:` bằng
 `data-[highlighted]:bg-item-hover`, để chuột và phím mũi tên dùng chung **một**
@@ -312,9 +337,9 @@ thành một component (vd `AccountEmail`) dùng chung:
 
 ```tsx
 <span className="flex min-w-0 text-xs text-muted" title={email}>
-  <span className="min-w-0 truncate">{localPart}</span>
-  {/* shrink-0: tên miền không co. max-w-full: tên miền dài hơn cả hàng (hiếm) thì nó cắt, không tràn. */}
-  <span className="max-w-full shrink-0 truncate">{domainPart}</span>
+    <span className="min-w-0 truncate">{localPart}</span>
+    {/* shrink-0: tên miền không co. max-w-full: tên miền dài hơn cả hàng (hiếm) thì nó cắt, không tràn. */}
+    <span className="max-w-full shrink-0 truncate">{domainPart}</span>
 </span>
 ```
 
@@ -355,10 +380,12 @@ Mục nào có phím tắt thì hiện ở **mép phải**, `text-xs text-muted`
 ngoặc giữa dòng.
 
 ```html
-<button class="flex h-10 w-full cursor-pointer items-center gap-2.5 rounded-xl px-3 text-sm outline-hidden hover:bg-item-hover">
-  <i data-lucide="user" class="h-4 w-4 shrink-0 text-muted"></i>
-  <span class="min-w-0 flex-1 truncate text-left">Hồ sơ của bạn</span>
-  <span class="shrink-0 text-xs text-muted">⌘1</span>
+<button
+    class="flex h-10 w-full cursor-pointer items-center gap-2.5 rounded-xl px-3 text-sm outline-hidden hover:bg-item-hover"
+>
+    <i data-lucide="user" class="h-4 w-4 shrink-0 text-muted"></i>
+    <span class="min-w-0 flex-1 truncate text-left">Hồ sơ của bạn</span>
+    <span class="shrink-0 text-xs text-muted">⌘1</span>
 </button>
 ```
 
@@ -388,21 +415,38 @@ bấm không ăn, mất lòng tin ngay.
 
 ```html
 <!-- Ghim từ trên, không căn giữa dọc -->
-<div role="dialog" aria-label="Tìm trang" class="fixed inset-x-4 top-4 mx-auto w-auto max-w-xl overflow-hidden rounded-2xl border border-border bg-surface-overlay shadow-modal sm:top-[15vh]">
-  <div class="flex h-14 items-center gap-3 border-b border-border px-5">
-    <i data-lucide="search" class="size-4 shrink-0 text-muted"></i>
-    <input class="min-w-0 flex-1 bg-transparent text-base outline-hidden placeholder:text-muted md:text-sm" placeholder="Tìm trang" />
-  </div>
-  <!-- pr-1 + gutter stable: khe phải = 4px + thanh 4px = 8px, bằng khe trái, dù có cuộn hay không -->
-  <div role="listbox" class="max-h-[min(22rem,60vh)] overflow-y-auto p-2 pr-1 [scrollbar-gutter:stable] [&::-webkit-scrollbar-track]:mt-2 [&::-webkit-scrollbar-track]:mb-4">
-    <button role="option" class="flex h-10 w-full cursor-pointer items-center gap-3 rounded-lg px-3 text-sm outline-hidden data-[selected=true]:bg-item-hover">
-      <i data-lucide="house" class="size-4 shrink-0 text-muted"></i>
-      <span class="min-w-0 flex-1 truncate text-left">Tổng quan</span>
-    </button>
-    <!-- Nhãn nhóm: trên rộng, dưới hẹp. Nhóm đầu tiên có nhãn thì pt-2. -->
-    <div class="px-3 pt-5 pb-1 text-xs font-medium uppercase tracking-wide text-muted">Công việc</div>
-    …
-  </div>
+<div
+    role="dialog"
+    aria-label="Tìm trang"
+    class="fixed inset-x-4 top-4 mx-auto w-auto max-w-xl overflow-hidden rounded-2xl border border-border bg-surface-overlay shadow-modal sm:top-[15vh]"
+>
+    <div class="flex h-14 items-center gap-3 border-b border-border px-5">
+        <i data-lucide="search" class="size-4 shrink-0 text-muted"></i>
+        <input
+            class="min-w-0 flex-1 bg-transparent text-base outline-hidden placeholder:text-muted md:text-sm"
+            placeholder="Tìm trang"
+        />
+    </div>
+    <!-- pr-1 + gutter stable: khe phải = 4px + thanh 4px = 8px, bằng khe trái, dù có cuộn hay không -->
+    <div
+        role="listbox"
+        class="max-h-[min(22rem,60vh)] overflow-y-auto p-2 pr-1 [scrollbar-gutter:stable] [&::-webkit-scrollbar-track]:mt-2 [&::-webkit-scrollbar-track]:mb-4"
+    >
+        <button
+            role="option"
+            class="flex h-10 w-full cursor-pointer items-center gap-3 rounded-lg px-3 text-sm outline-hidden data-[selected=true]:bg-item-hover"
+        >
+            <i data-lucide="house" class="size-4 shrink-0 text-muted"></i>
+            <span class="min-w-0 flex-1 truncate text-left">Tổng quan</span>
+        </button>
+        <!-- Nhãn nhóm: trên rộng, dưới hẹp. Nhóm đầu tiên có nhãn thì pt-2. -->
+        <div
+            class="px-3 pt-5 pb-1 text-xs font-medium uppercase tracking-wide text-muted"
+        >
+            Công việc
+        </div>
+        …
+    </div>
 </div>
 ```
 
@@ -475,13 +519,21 @@ form; toast bật ra ở đáy đúng lúc vừa bấm nút là che mất nửa 
 ```
 
 ```html
-<div role="status" class="flex w-auto min-w-72 max-w-md items-center gap-3 rounded-2xl border border-border bg-surface-overlay py-3 pl-4 pr-3 shadow-popover">
-  <i data-lucide="circle-check" class="size-5 shrink-0 text-emerald-600"></i>
-  <p class="min-w-0 flex-1 text-sm">Đã xoá đơn #2041</p>
-  <div class="flex shrink-0 items-center gap-1">
-    <!-- Hành động: nút thật, không phải chữ đậm trơn -->
-    <button type="button" class="h-8 cursor-pointer rounded-lg px-3 text-sm font-medium hover:bg-item-hover outline-hidden">Hoàn tác</button>
-  </div>
+<div
+    role="status"
+    class="flex w-auto min-w-72 max-w-md items-center gap-3 rounded-2xl border border-border bg-surface-overlay py-3 pl-4 pr-3 shadow-popover"
+>
+    <i data-lucide="circle-check" class="size-5 shrink-0 text-emerald-600"></i>
+    <p class="min-w-0 flex-1 text-sm">Đã xoá đơn #2041</p>
+    <div class="flex shrink-0 items-center gap-1">
+        <!-- Hành động: nút thật, không phải chữ đậm trơn -->
+        <button
+            type="button"
+            class="h-8 cursor-pointer rounded-lg px-3 text-sm font-medium hover:bg-item-hover outline-hidden"
+        >
+            Hoàn tác
+        </button>
+    </div>
 </div>
 ```
 
@@ -498,9 +550,9 @@ form; toast bật ra ở đáy đúng lúc vừa bấm nút là che mất nửa 
 - Nhiều toast cùng lúc thì xếp chồng cột, `gap-2`, cái mới nhất gần mép màn nhất. Tối đa 3 cái.
 - Gợi ý thời gian (người dùng quyết): tự tắt sau khoảng 4 giây, có Hoàn tác thì lâu hơn và dừng đếm khi rê chuột vào. Hoàn tác, Thử lại gọi gì là handler rỗng (`onUndo`, `onRetry`).
 - **Toast có chuyển động vào và ra** theo bảng "Chuyển động" bên dưới: trượt lên từ đáy (màn hẹp: trượt xuống từ đỉnh), hết giờ thì trượt về. Quãng trượt là cả chiều cao toast, không phải 8px: 8px trong 200ms mắt gần như không bắt được, toast trông như bật "phựt" ra.
-  - **Bẫy: `{toast && <Toast />}` thì không có chuyển động ra.** Hết giờ là phần tử bị gỡ khỏi DOM ngay, không còn gì để trượt. Giữ toast trong DOM qua một pha "đang đóng": đổi cờ → chạy chuyển động ra → `onTransitionEnd`/`onAnimationEnd` mới gỡ. Dự án có Sonner thì nó lo sẵn, dùng nó.
-  - **Toast mới thay toast cũ** thì đổi `key` để toast mới chạy lại chuyển động vào, không đổi chữ tại chỗ trong cùng một khung.
-  - `motion-reduce`: chỉ `opacity`, không trượt.
+    - **Bẫy: `{toast && <Toast />}` thì không có chuyển động ra.** Hết giờ là phần tử bị gỡ khỏi DOM ngay, không còn gì để trượt. Giữ toast trong DOM qua một pha "đang đóng": đổi cờ → chạy chuyển động ra → `onTransitionEnd`/`onAnimationEnd` mới gỡ. Dự án có Sonner thì nó lo sẵn, dùng nó.
+    - **Toast mới thay toast cũ** thì đổi `key` để toast mới chạy lại chuyển động vào, không đổi chữ tại chỗ trong cùng một khung.
+    - `motion-reduce`: chỉ `opacity`, không trượt.
 - **Toast có email thì email xuống tầng dưới**, tầng trên là việc vừa xong ("Đã gửi lại lời mời"), tầng dưới là email bọc `EmailText` (`../components/description-list.md`) để xuống dòng sau `@`. **Không đặt `wrap-anywhere` cho cả khối chữ của toast**: nó bẻ bất kỳ chỗ nào, ra "…@congtymi" / "nhphat.com.vn". Câu một dòng thì không cần bẻ; tầng nào có chuỗi dài không dấu cách (email, link) thì bọc riêng chuỗi đó.
 - Duyệt toast thì bày **từng loại một bản tĩnh** cạnh nhau, không dựng nút bấm giả lỗi (phạm vi ở `../../SKILL.md`).
 
@@ -513,15 +565,15 @@ Mọi khối nổi **có chuyển động vào và ra**, không bật "phựt" r
 từ mép màn. Một nguồn cho cả app: modal, dropdown, select, date picker, panel, toast đều
 lấy số ở bảng này.
 
-| Khối | Vào | Ra |
-| --- | --- | --- |
-| **Modal, hộp xác nhận** | `opacity 0→1` + `scale-95→100`, gốc ở tâm, **150ms `ease-out`** | ngược lại, **100ms `ease-in`** |
-| **Lớp phủ** (sau modal, panel) | `opacity 0→1`, **cùng thời gian và đường cong với khối nó đi kèm** (sau modal 150ms, sau panel 500ms) | cùng thời gian với khối lúc ra |
-| **Panel trượt** | **chỉ** `translate-x-full → 0`, không `scale`, không `opacity` trên panel. **500ms** `cubic-bezier(0.32,0.72,0,1)` (đường cong sheet của iOS, `vaul`) | `0 → translate-x-full`, **350ms** cùng đường cong |
-| **Dropdown, popover, select, date picker** | `opacity` + `scale-95→100` + **dịch 4px từ phía nút**: mở xuống thì từ trên xuống (`-translate-y-1 → 0`), lật lên thì từ dưới lên (`translate-y-1 → 0`). Gốc biến hình ở mép gần nút. 150ms `ease-out` | `opacity` + `scale-95`, 100ms `ease-in`, không dịch |
-| **Toast** | trượt ra từ mép màn gần nhất, **quãng bằng cả chiều cao toast**: toast ở đáy `translate-y-full → 0` (dưới lên), toast ở đỉnh (màn hẹp) `-translate-y-full → 0`; kèm `opacity 0→1`. **300ms `ease-out`** | trượt ngược về mép đã ra + `opacity → 0`, **200ms `ease-in`** |
-| **Tooltip** | chỉ `opacity`, trễ 300–500ms mới hiện, 100ms | 100ms |
-| **Sidebar thu gọn, nhóm mở đóng** | theo `app.md`: `transition-[width]` và `grid-rows`, 200ms | như vào |
+| Khối                                       | Vào                                                                                                                                                                                                     | Ra                                                            |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| **Modal, hộp xác nhận**                    | `opacity 0→1` + `scale-95→100`, gốc ở tâm, **150ms `ease-out`**                                                                                                                                         | ngược lại, **100ms `ease-in`**                                |
+| **Lớp phủ** (sau modal, panel)             | `opacity 0→1`, **cùng thời gian và đường cong với khối nó đi kèm** (sau modal 150ms, sau panel 500ms)                                                                                                   | cùng thời gian với khối lúc ra                                |
+| **Panel trượt**                            | **chỉ** `translate-x-full → 0`, không `scale`, không `opacity` trên panel. **500ms** `cubic-bezier(0.32,0.72,0,1)` (đường cong sheet của iOS, `vaul`)                                                   | `0 → translate-x-full`, **350ms** cùng đường cong             |
+| **Dropdown, popover, select, date picker** | `opacity` + `scale-95→100` + **dịch 4px từ phía nút**: mở xuống thì từ trên xuống (`-translate-y-1 → 0`), lật lên thì từ dưới lên (`translate-y-1 → 0`). Gốc biến hình ở mép gần nút. 150ms `ease-out`  | `opacity` + `scale-95`, 100ms `ease-in`, không dịch           |
+| **Toast**                                  | trượt ra từ mép màn gần nhất, **quãng bằng cả chiều cao toast**: toast ở đáy `translate-y-full → 0` (dưới lên), toast ở đỉnh (màn hẹp) `-translate-y-full → 0`; kèm `opacity 0→1`. **300ms `ease-out`** | trượt ngược về mép đã ra + `opacity → 0`, **200ms `ease-in`** |
+| **Tooltip**                                | chỉ `opacity`, trễ 300–500ms mới hiện, 100ms                                                                                                                                                            | 100ms                                                         |
+| **Sidebar thu gọn, nhóm mở đóng**          | theo `app.md`: `transition-[width]` và `grid-rows`, 200ms                                                                                                                                               | như vào                                                       |
 
 - **Tooltip mang nội dung người dùng đặt** (tên tệp, tên dự án, email) thì không `whitespace-nowrap`: `max-w-[min(20rem,calc(100vw-1rem))] whitespace-normal wrap-anywhere`. Tooltip nhãn nút ngắn ("Đơn trước") giữ một dòng. Chi tiết và ca đã dính ở `../components/tree.md`.
 
@@ -535,12 +587,12 @@ lấy số ở bảng này.
   lại giữa chừng làm cả trang dưới lớp nền xô ngang.
 - **Ra nhanh hơn vào.** Vào `ease-out` (nhanh đầu, chậm cuối, như đồ vật đặt xuống), ra `ease-in` và ngắn hơn: người đã bấm đóng thì không muốn chờ.
 - **Bẫy khi dựng panel** — panel "chạy từ trong ra, cách lề một khoảng rồi giật mạnh vào lề", tooltip nhấp nháy, cả chuyển động giật cục:
-  - **Panel dính `zoom-in-95` chép từ modal.** Phóng 95% quanh tâm thì mép phải panel bắt đầu cách lề màn ~11px, chạy xong mới nhảy vào lề. Panel chỉ `translate`, **không bao giờ `scale`**: nó đến từ mép, không mọc từ tâm.
-  - **Radix (Dialog, Sheet) chỉ chờ `@keyframes`, không chờ `transition`.** Presence của Radix đọc `animation-name` để biết khi nào gỡ phần tử; viết bằng `transition` thì lúc mở phần tử gắn vào đã ở vị trí cuối (không chạy), lúc đóng bị gỡ ngay (giật mất). Với Radix dùng `data-[state=open]:animate-in data-[state=open]:slide-in-from-right data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right` (`tw-animate-css`, mặc định dịch 100%). Không Radix thì dùng `transition-transform` nhưng giữ phần tử trong DOM suốt lúc đóng.
-  - **Hai cơ chế chạy cùng lúc**: `transition-all` trên panel cộng thêm keyframe của `animate-in` là hai chuyển động giành nhau, ra cảnh giật. Chọn một.
-  - **Tiêu điểm nhảy vào nút icon có tooltip** ngay lúc mở: Radix tự focus phần tử bấm được đầu tiên (nút ⋯), tooltip của Radix mở ngay khi focus, không chờ trễ, nên nó nhấp nháy và chạy theo panel. Mở panel thì **đưa tiêu điểm vào chính khung panel hoặc tiêu đề** (`tabIndex={-1}`, `onOpenAutoFocus={(e) => { e.preventDefault(); panelRef.current?.focus() }}`); có ô nhập thì vào ô nhập đầu tiên. Không bao giờ vào nút icon.
-  - **`backdrop-blur` trên lớp phủ** bắt trình duyệt làm mờ cả trang mỗi khung hình, chuyển động rớt khung. Lớp phủ chỉ là màu đen trong suốt.
-  - **Animate `right`, `left`, `width` của panel** thay vì `transform` là tính lại bố cục mỗi khung hình. Chỉ `translate`; thêm `will-change-transform` nếu vẫn rớt khung.
+    - **Panel dính `zoom-in-95` chép từ modal.** Phóng 95% quanh tâm thì mép phải panel bắt đầu cách lề màn ~11px, chạy xong mới nhảy vào lề. Panel chỉ `translate`, **không bao giờ `scale`**: nó đến từ mép, không mọc từ tâm.
+    - **Radix (Dialog, Sheet) chỉ chờ `@keyframes`, không chờ `transition`.** Presence của Radix đọc `animation-name` để biết khi nào gỡ phần tử; viết bằng `transition` thì lúc mở phần tử gắn vào đã ở vị trí cuối (không chạy), lúc đóng bị gỡ ngay (giật mất). Với Radix dùng `data-[state=open]:animate-in data-[state=open]:slide-in-from-right data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right` (`tw-animate-css`, mặc định dịch 100%). Không Radix thì dùng `transition-transform` nhưng giữ phần tử trong DOM suốt lúc đóng.
+    - **Hai cơ chế chạy cùng lúc**: `transition-all` trên panel cộng thêm keyframe của `animate-in` là hai chuyển động giành nhau, ra cảnh giật. Chọn một.
+    - **Tiêu điểm nhảy vào nút icon có tooltip** ngay lúc mở: Radix tự focus phần tử bấm được đầu tiên (nút ⋯), tooltip của Radix mở ngay khi focus, không chờ trễ, nên nó nhấp nháy và chạy theo panel. Mở panel thì **đưa tiêu điểm vào chính khung panel hoặc tiêu đề** (`tabIndex={-1}`, `onOpenAutoFocus={(e) => { e.preventDefault(); panelRef.current?.focus() }}`); có ô nhập thì vào ô nhập đầu tiên. Không bao giờ vào nút icon.
+    - **`backdrop-blur` trên lớp phủ** bắt trình duyệt làm mờ cả trang mỗi khung hình, chuyển động rớt khung. Lớp phủ chỉ là màu đen trong suốt.
+    - **Animate `right`, `left`, `width` của panel** thay vì `transform` là tính lại bố cục mỗi khung hình. Chỉ `translate`; thêm `will-change-transform` nếu vẫn rớt khung.
 - **Không nảy, không lố.** Không `spring` vượt đích, không `scale` dưới 95%, dropdown không dịch quá 8px. Đồ vật trong app làm việc thì đặt xuống, không nhảy ra.
 - **Chỉ `transform` và `opacity`.** Không animate `height`, `top`, `left`, `width` (trừ sidebar thu gọn, đã có lý do riêng ở `app.md`): làm trang giật và tính lại bố cục mỗi khung hình.
 - **Gốc biến hình đúng mép**: dropdown mở từ nút bên phải thì `origin-top-right`. Dùng Radix thì lấy sẵn `origin-(--radix-dropdown-menu-content-transform-origin)` (popover, select có biến tương tự), nó tự đổi khi menu lật.
@@ -558,10 +610,9 @@ Chọn theo thứ tự, dừng ở bậc đầu tiên làm được việc:
 1. **Dự án đã có thư viện chuyển động** (`gsap`, `motion`, `framer-motion`, `react-spring`…, xem `package.json`) thì dùng nó, không cài cái thứ hai (`S9`).
 2. **CSS / Tailwind làm được thì không cài gì**: mở đóng lớp nổi, rê, chuyển tab, mọc dần khi cuộn tới (`IntersectionObserver` + `transition`), các số ở bảng trên.
 3. **Cần thư viện** (timeline nhiều bước nối nhau, chuyển động bám theo cuộn, chữ chạy, số đếm, nền động) thì **ưu tiên gói gọn nhẹ** và đề xuất lúc giao, không hỏi trước:
-   - **GSAP**: timeline và chuyển động theo cuộn. Không phụ thuộc framework; chỉ import plugin cần dùng (`ScrollTrigger`), không nạp cả bộ.
-   - **React Bits**: hiệu ứng dựng sẵn (chữ, nền, con trỏ) cho dự án React. Chép đúng component cần vào dự án, không cài cả bộ; đọc phụ thuộc của nó trước khi chép: component kéo theo thư viện 3D (`three`, `ogl`) thì nặng hơn cả trang, chọn component khác hoặc làm bằng CSS.
+    - **GSAP**: timeline và chuyển động theo cuộn. Không phụ thuộc framework; chỉ import plugin cần dùng (`ScrollTrigger`), không nạp cả bộ.
+    - **React Bits**: hiệu ứng dựng sẵn (chữ, nền, con trỏ) cho dự án React. Chép đúng component cần vào dự án, không cài cả bộ; đọc phụ thuộc của nó trước khi chép: component kéo theo thư viện 3D (`three`, `ogl`) thì nặng hơn cả trang, chọn component khác hoặc làm bằng CSS.
 
-   Lúc giao báo một dòng (`S15`): đã dùng gì, vì sao cần, và lựa chọn còn lại. Ví dụ: *"Chữ tiêu đề chạy lần lượt dùng GSAP (chỉ phần lõi). Muốn bỏ thư viện thì đổi sang chữ mờ dần bằng CSS, mất hiệu ứng chạy từng chữ."*
+    Lúc giao báo một dòng (`S15`): đã dùng gì, vì sao cần, và lựa chọn còn lại. Ví dụ: _"Chữ tiêu đề chạy lần lượt dùng GSAP (chỉ phần lõi). Muốn bỏ thư viện thì đổi sang chữ mờ dần bằng CSS, mất hiệu ứng chạy từng chữ."_
 
 Thư viện nào cũng vẫn theo luật ở trên: chỉ `transform` và `opacity`, có bản `prefers-reduced-motion`, màn app làm việc không nảy.
-

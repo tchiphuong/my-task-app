@@ -13,51 +13,64 @@
 type ButtonVariant = "outline" | "primary" | "secondary" | "ghost";
 
 function getVariantClasses(variant: ButtonVariant): string {
-  return cn(
-    // MẶC ĐỊNH. Dựng nút mới thì dùng cái này.
-    // Hover: CHỈ đổi nền sang --button-hover (màu đặc), viền giữ nguyên.
-    variant === "outline" &&
-      "border border-border-strong bg-surface text-foreground hover:bg-button-hover",
-    // Hành động chính DUY NHẤT của một khu, khi thật cần nổi.
-    variant === "primary" &&
-      "bg-primary text-primary-foreground hover:bg-primary-hover",
-    // Nút phụ cần nhỉnh hơn ghost mà không tranh chỗ nút chính. Không viền.
-    variant === "secondary" &&
-      "bg-secondary text-foreground hover:bg-secondary-hover",
-    // Hành động phụ nằm trong hàng, mờ đi lúc thường.
-    // Hover foreground/5, KHÔNG bg-background: ghost hay đứng thẳng trên nền trang
-    // xám (header, toolbar), tô --background ở đó thì rê vào không thấy gì.
-    variant === "ghost" &&
-      "bg-transparent text-muted hover:bg-foreground/5 hover:text-foreground",
-  );
+    return cn(
+        // MẶC ĐỊNH. Dựng nút mới thì dùng cái này.
+        // Hover: CHỈ đổi nền sang --button-hover (màu đặc), viền giữ nguyên.
+        variant === "outline" &&
+            "border border-border-strong bg-surface text-foreground hover:bg-button-hover",
+        // Hành động chính DUY NHẤT của một khu, khi thật cần nổi.
+        variant === "primary" &&
+            "bg-primary text-primary-foreground hover:bg-primary-hover",
+        // Nút phụ cần nhỉnh hơn ghost mà không tranh chỗ nút chính. Không viền.
+        variant === "secondary" &&
+            "bg-secondary text-foreground hover:bg-secondary-hover",
+        // Hành động phụ nằm trong hàng, mờ đi lúc thường.
+        // Hover foreground/5, KHÔNG bg-background: ghost hay đứng thẳng trên nền trang
+        // xám (header, toolbar), tô --background ở đó thì rê vào không thấy gì.
+        variant === "ghost" &&
+            "bg-transparent text-muted hover:bg-foreground/5 hover:text-foreground",
+    );
 }
 
 <button
-  className={cn(
-    "inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl",
-    // Cao 40px cố định cho nhãn một dòng, viền hay không viền cũng vậy. min-h chứ không h:
-    // nhãn dài xuống dòng thì nút cao thêm (T15).
-    "min-h-10 px-4 py-2 text-sm font-medium transition-colors",
-    // Nhãn tiếng Việt dài thì cho xuống dòng, đừng để tràn. Luật T15.
-    "max-w-full text-center leading-tight [overflow-wrap:anywhere]",
-    // Không vòng focus (I13). Dự án cần accessibility thì trả vòng lại đúng ở dòng này (I14)
-    "outline-hidden",
-    "disabled:cursor-not-allowed disabled:not-aria-busy:opacity-50",
-    getVariantClasses(variant),
-  )}
+    className={cn(
+        "inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl",
+        // Cao 40px cố định cho nhãn một dòng, viền hay không viền cũng vậy. min-h chứ không h:
+        // nhãn dài xuống dòng thì nút cao thêm (T15).
+        "min-h-10 px-4 py-2 text-sm font-medium transition-colors",
+        // Nhãn tiếng Việt dài thì cho xuống dòng, đừng để tràn. Luật T15.
+        "max-w-full text-center leading-tight [overflow-wrap:anywhere]",
+        // Không vòng focus (I13). Dự án cần accessibility thì trả vòng lại đúng ở dòng này (I14)
+        "outline-hidden",
+        "disabled:cursor-not-allowed disabled:not-aria-busy:opacity-50",
+        getVariantClasses(variant),
+    )}
 >
-  {Icon ? <Icon className="size-4 shrink-0" aria-hidden /> : null}
-  {children}
-</button>
+    {Icon ? <Icon className="size-4 shrink-0" aria-hidden /> : null}
+    {children}
+</button>;
 ```
 
 **Đang xử lý (loading)**
 
 ```tsx
-<Button variant="primary" aria-disabled={isSending || undefined} aria-busy={isSending || undefined}
-  onClick={(event) => { if (isSending) event.preventDefault(); }}>
-  {isSending ? <LoaderCircle className="size-4 shrink-0 animate-spin motion-reduce:animate-none" aria-hidden /> : <Send className="size-4 shrink-0" aria-hidden />}
-  Gửi lời mời
+<Button
+    variant="primary"
+    aria-disabled={isSending || undefined}
+    aria-busy={isSending || undefined}
+    onClick={(event) => {
+        if (isSending) event.preventDefault();
+    }}
+>
+    {isSending ? (
+        <LoaderCircle
+            className="size-4 shrink-0 animate-spin motion-reduce:animate-none"
+            aria-hidden
+        />
+    ) : (
+        <Send className="size-4 shrink-0" aria-hidden />
+    )}
+    Gửi lời mời
 </Button>
 ```
 
@@ -74,9 +87,9 @@ function getVariantClasses(variant: ButtonVariant): string {
 - **Nút mở danh sách lựa chọn** (nút lọc "Vai trò ▾", "Trạng thái: Tất cả ▾", "Mỗi trang 10 ▾") **là ô Select, không phải nút viền**: dùng đúng class của ô Select (`choice-controls.md`), tức **không có hover**, chỉ `cursor-pointer`; lúc mở `aria-expanded:border-focus aria-expanded:ring-2 aria-expanded:ring-focus`, nền giữ `bg-surface`, mũi tên xoay. Mũi tên + con trỏ đã nói "bấm được", như ô Select trong form và ô nhập vốn không có hover; thêm hover nữa là tín hiệu thứ hai cho một ý (`N3`), và lệch khuôn với ô Select ngay trong modal (`N5`). Chủ dự án chốt. Nút mở **menu thao tác** (⋯, "Xuất ▾") thì không phải ô chọn: lúc mở giữ nền rê `aria-expanded:bg-foreground/5`.
 - **`secondary` (nền xám, không viền)** dùng khi nút phụ cần có mặt rõ hơn `ghost` nhưng viền mảnh trông rỗng: nút rộng hết card (các gói thường trong bảng giá, `layouts/pricing.md`), hoặc nút phụ đứng cạnh nút `primary` trong footer. Không thay `outline` làm mặc định (chủ dự án chốt).
 - **`ghost` đứng đầu hàng, thẳng cột với chữ phía trên.** Nền trong suốt nên mắt thấy mép của chữ chứ không thấy mép nút, để nguyên thì cả hàng trông lệch vào 16px so với tiêu đề và nhãn bên dưới. Nút có nền hoặc viền thì không bù. Bù theo thứ tự, không kéo nút ra bằng `-ml-*` / `-mr-*` (`N11`):
-  1. **Nút nằm ở đầu hay cuối một hàng riêng** (header, dòng danh sách): **hàng bớt padding phía đó** đúng bằng `px` của nút, ví dụ header `pl-4 pr-3` khi nút cuối `h-8 px-3` trong hàng `px-6`. Chữ "Đánh dấu đã đọc" ở header panel thông báo thẳng cột với chấm chưa đọc bên dưới; lúc rê vào nền xám sát mép panel hơn tiêu đề bên trái là đúng ý. Trùng từng pixel với bản số âm.
-  2. **Nút chỉ đổi màu chữ khi rê, không nền** (nút mở danh sách bước công cụ trong chat): bỏ `px`, chữ tự thẳng mép.
-  3. **Nút có nền rê nằm giữa một cột chữ** (hàng Sao chép / Tạo lại dưới câu trả lời): không có hàng riêng để bớt padding; chia padding từng khối thì mọi khối con phải tự nhớ `px-2` và `max-w` phải cộng bù (bong bóng `max-w-[80%]` và cột `55ch` lệch theo). Giữ `-ml-2` kèm comment lý do (`N11` bước 4).
+    1. **Nút nằm ở đầu hay cuối một hàng riêng** (header, dòng danh sách): **hàng bớt padding phía đó** đúng bằng `px` của nút, ví dụ header `pl-4 pr-3` khi nút cuối `h-8 px-3` trong hàng `px-6`. Chữ "Đánh dấu đã đọc" ở header panel thông báo thẳng cột với chấm chưa đọc bên dưới; lúc rê vào nền xám sát mép panel hơn tiêu đề bên trái là đúng ý. Trùng từng pixel với bản số âm.
+    2. **Nút chỉ đổi màu chữ khi rê, không nền** (nút mở danh sách bước công cụ trong chat): bỏ `px`, chữ tự thẳng mép.
+    3. **Nút có nền rê nằm giữa một cột chữ** (hàng Sao chép / Tạo lại dưới câu trả lời): không có hàng riêng để bớt padding; chia padding từng khối thì mọi khối con phải tự nhớ `px-2` và `max-w` phải cộng bù (bong bóng `max-w-[80%]` và cột `55ch` lệch theo). Giữ `-ml-2` kèm comment lý do (`N11` bước 4).
 - Icon lucide **bên trái chữ**, `size-4`, `shrink-0` để nó không bị bóp khi nhãn dài. `aria-hidden` vì chữ đã nói rồi.
 - **Không `white-space: nowrap`.** Đo thật ở một dự án: hộp 140px, nút nowrap rộng 192px, tràn 60px ra ngoài. `leading-tight` để hai dòng không dính nhau. Luật `T15`.
 - **Không `shadow`.** Nút nằm trong trang (`M15`).
@@ -96,11 +109,11 @@ tới thì nền đậm lên một bậc:
 
 ```tsx
 <Button
-  variant="ghost"
-  className="bg-rose-500/10 text-rose-700 hover:bg-rose-500/15 hover:text-rose-700 dark:text-rose-400"
+    variant="ghost"
+    className="bg-rose-500/10 text-rose-700 hover:bg-rose-500/15 hover:text-rose-700 dark:text-rose-400"
 >
-  <Trash2 className="size-4 shrink-0" aria-hidden />
-  Xoá
+    <Trash2 className="size-4 shrink-0" aria-hidden />
+    Xoá
 </Button>
 ```
 
@@ -123,10 +136,10 @@ Vuông, cao **bằng đúng** nút chữ đứng cạnh nó, và luôn có `aria
 
 ```tsx
 <button
-  aria-label="Lọc danh sách"
-  className="inline-flex size-10 cursor-pointer items-center justify-center rounded-xl border border-border-strong bg-surface text-muted outline-hidden hover:bg-button-hover hover:text-foreground"
+    aria-label="Lọc danh sách"
+    className="inline-flex size-10 cursor-pointer items-center justify-center rounded-xl border border-border-strong bg-surface text-muted outline-hidden hover:bg-button-hover hover:text-foreground"
 >
-  <SlidersHorizontal className="size-4" aria-hidden />
+    <SlidersHorizontal className="size-4" aria-hidden />
 </button>
 ```
 

@@ -1,8 +1,8 @@
 # Nhiều màn hình — luật D
 
 Mở file này khi đề bài **nhiều hơn một bề mặt**, hoặc đề đòi dựng design system trước
-(`D9`). Một câu như *"dựng kanban board
-quản lý công việc và table quản lý project, có đủ CRUD"* không phải hai màn, mà
+(`D9`). Một câu như _"dựng kanban board
+quản lý công việc và table quản lý project, có đủ CRUD"_ không phải hai màn, mà
 là khoảng **tám bề mặt**: board, thẻ, cột rỗng, bảng, dòng bảng, form tạo, form
 sửa, hộp xác nhận xoá, bộ lọc.
 
@@ -10,9 +10,9 @@ sửa, hộp xác nhận xoá, bộ lọc.
 rằng thẻ kanban và dòng bảng phải nói cùng một ngôn ngữ. Từng màn đều hợp lệ,
 ghép lại thành hai app khác nhau.
 
-Phàn nàn thật từ một người dùng: *có config design system sẵn mà output vẫn không
+Phàn nàn thật từ một người dùng: _có config design system sẵn mà output vẫn không
 đồng bộ giữa các màn · không đẹp, AI cứ chọn màu xám tối · phải prompt chỉnh
-nhiều lần.*
+nhiều lần._
 
 ---
 
@@ -21,15 +21,15 @@ nhiều lần.*
 Trước khi dựng màn đầu tiên, khai ra bảy nguyên tố dưới đây. Mọi màn sau dùng
 đúng bộ đó. **Cấm đẻ biến thể giữa chừng.**
 
-| Nguyên tố | Phải chốt |
-| --- | --- |
-| Nút | bốn dạng ở `I1`, cỡ, có icon hay không |
-| Badge trạng thái | hình dạng, nền hay chỉ chữ màu, cỡ chữ |
-| Ô nhập | chiều cao, viền, hành vi lúc focus |
-| Card | padding, bo góc, có viền hay không |
-| Dòng danh sách | chiều cao, padding, hành vi hover |
-| Modal | bề rộng, chỗ đặt nút, có cho bấm ra ngoài không |
-| Trạng thái rỗng | icon, tiêu đề, câu phụ, có nút không |
+| Nguyên tố        | Phải chốt                                       |
+| ---------------- | ----------------------------------------------- |
+| Nút              | bốn dạng ở `I1`, cỡ, có icon hay không          |
+| Badge trạng thái | hình dạng, nền hay chỉ chữ màu, cỡ chữ          |
+| Ô nhập           | chiều cao, viền, hành vi lúc focus              |
+| Card             | padding, bo góc, có viền hay không              |
+| Dòng danh sách   | chiều cao, padding, hành vi hover               |
+| Modal            | bề rộng, chỗ đặt nút, có cho bấm ra ngoài không |
+| Trạng thái rỗng  | icon, tiêu đề, câu phụ, có nút không            |
 
 Viết bảy dòng này ra **trong lượt trả lời**, trước khi viết HTML. Nó dài chưa tới
 mười lăm dòng và nó cứu cả đợt dựng.
@@ -42,7 +42,7 @@ phải đi tìm**, không phải danh sách phải viết. Xem `S9`.
 ## D2. Một bảng ánh xạ trạng thái duy nhất
 
 `todo` / `doing` / `done`, mức ưu tiên, vai trò — khai **một chỗ** thành cặp
-*nhãn + màu*, dùng y hệt ở mọi bề mặt.
+_nhãn + màu_, dùng y hệt ở mọi bề mặt.
 
 Cấm board dùng badge nền màu còn bảng dùng chấm tròn. Cùng một trạng thái mà hai
 hình dạng thì người dùng phải học hai lần.
@@ -162,7 +162,7 @@ bảy dòng chữ trong lượt trả lời, mà thành code thật và một tr
    `M14`, component của họ chỉnh token cho khớp (`S9`). Không dựng bộ thứ hai cạnh bộ cũ.
    Với shadcn: **giữ tên token của shadcn, trỏ giá trị về token của skill**, để component shadcn
    thêm sau vẫn đúng màu. Tên trùng mà khác nghĩa thì theo shadcn: `--muted` của shadcn là
-   *nền*, nên chữ phụ của skill (`text-muted`) viết thành `text-muted-foreground` trong cả dự
+   _nền_, nên chữ phụ của skill (`text-muted`) viết thành `text-muted-foreground` trong cả dự
    án.
 2. **Brief một khối, không dừng**: sản phẩm, người dùng, màu nhấn, font, phong cách (`P1`),
    chỉ sáng hay có tối (`M20`), ngôn ngữ của copy (`T24`). Đề không nói thì lấy mặc định
@@ -182,34 +182,35 @@ bảy dòng chữ trong lượt trả lời, mà thành code thật và một tr
    story thay cho trang; không có app thì một file HTML). Dự án có dark mode thì trang có
    nút đổi theme ở đầu trang (`M31`) để duyệt cả hai bản, và bảng màu ghi mã cả hai theme.
    Thứ tự khối:
-   - **Màu**: ô màu kèm tên token và mã; cặp chữ trên nền chính kèm tỉ lệ tương phản. Cột
-     tỉ lệ chỉ ghi số; **chỉ cặp trượt mới có nhãn** ("Dưới 4.5:1", màu cảnh báo), cặp đạt
-     để trống. Mười một dòng "Đạt AA" xanh giống nhau là một ý nói mười một lần, mắt phải dò
-     hết cột mới biết có cặp nào trượt không.
-   - **Chữ**: từng bậc của thang cỡ chữ, viết bằng câu thật theo ngôn ngữ của dự án (tiếng
-     Việt thì có đủ dấu, `T5`), ghi cỡ và độ đậm.
-   - **Khoảng cách, bo góc, viền, bóng**: các bậc đang dùng, hai vai viền đặt cạnh nhau,
-     bóng của lớp nổi.
-   - **Từng component**, mỗi trạng thái một ví dụ tĩnh đặt cạnh nhau (thường, rê, focus,
-     khoá, đang tải, lỗi), không bắt bấm mới thấy. Trang dùng **chính component vừa
-     dựng**, không vẽ lại cho đẹp: trang đẹp mà component lệch thì duyệt nhầm.
-     **Nhãn trạng thái ("Thường", "Rê", "Đang gõ", "Lỗi", "Khoá") nằm cùng một chỗ ở mọi
-     khối**: chữ nhỏ `text-xs text-muted` ngay trên ví dụ. Không đặt nhãn vào chỗ câu gợi ý
-     hay câu lỗi dưới ô nhập: "Đang gõ" nằm dưới ô trông y như câu gợi ý thật của ô đó. Ô
-     nhập bày cạnh nhau thì cách nhau như trong form thật (`gap-y-5` trở lên), không `gap-y-2`:
-     câu gợi ý của ô trên chỉ cách nhãn ô dưới 10px, đọc ra là nhãn của ô dưới.
+    - **Màu**: ô màu kèm tên token và mã; cặp chữ trên nền chính kèm tỉ lệ tương phản. Cột
+      tỉ lệ chỉ ghi số; **chỉ cặp trượt mới có nhãn** ("Dưới 4.5:1", màu cảnh báo), cặp đạt
+      để trống. Mười một dòng "Đạt AA" xanh giống nhau là một ý nói mười một lần, mắt phải dò
+      hết cột mới biết có cặp nào trượt không.
+    - **Chữ**: từng bậc của thang cỡ chữ, viết bằng câu thật theo ngôn ngữ của dự án (tiếng
+      Việt thì có đủ dấu, `T5`), ghi cỡ và độ đậm.
+    - **Khoảng cách, bo góc, viền, bóng**: các bậc đang dùng, hai vai viền đặt cạnh nhau,
+      bóng của lớp nổi.
+    - **Từng component**, mỗi trạng thái một ví dụ tĩnh đặt cạnh nhau (thường, rê, focus,
+      khoá, đang tải, lỗi), không bắt bấm mới thấy. Trang dùng **chính component vừa
+      dựng**, không vẽ lại cho đẹp: trang đẹp mà component lệch thì duyệt nhầm.
+      **Nhãn trạng thái ("Thường", "Rê", "Đang gõ", "Lỗi", "Khoá") nằm cùng một chỗ ở mọi
+      khối**: chữ nhỏ `text-xs text-muted` ngay trên ví dụ. Không đặt nhãn vào chỗ câu gợi ý
+      hay câu lỗi dưới ô nhập: "Đang gõ" nằm dưới ô trông y như câu gợi ý thật của ô đó. Ô
+      nhập bày cạnh nhau thì cách nhau như trong form thật (`gap-y-5` trở lên), không `gap-y-2`:
+      câu gợi ý của ô trên chỉ cách nhãn ô dưới 10px, đọc ra là nhãn của ô dưới.
 
-   **Ví dụ ép trạng thái** (nút tô sẵn nền rê, ô vẽ sẵn viền focus, select và modal mở sẵn trong
-   khung tĩnh, nút nhãn dài trong khung hẹp) bọc trong `<div inert data-demo-state="hover">` (giá
-   trị là tên trạng thái). `inert`: Tab không dừng ở ô giả focus, rê vào không đổi gì. Probe bỏ
-   qua các khối này ở phép đo rê, lớp nổi, viền trang trí, nút xuống dòng; không bọc thì mỗi
-   ví dụ thành một mục Hỏng giả. Ví dụ "Thường" thì **không** bọc,
-   đó là component thật để probe đo.
+    **Ví dụ ép trạng thái** (nút tô sẵn nền rê, ô vẽ sẵn viền focus, select và modal mở sẵn trong
+    khung tĩnh, nút nhãn dài trong khung hẹp) bọc trong `<div inert data-demo-state="hover">` (giá
+    trị là tên trạng thái). `inert`: Tab không dừng ở ô giả focus, rê vào không đổi gì. Probe bỏ
+    qua các khối này ở phép đo rê, lớp nổi, viền trang trí, nút xuống dòng; không bọc thì mỗi
+    ví dụ thành một mục Hỏng giả. Ví dụ "Thường" thì **không** bọc,
+    đó là component thật để probe đo.
 
-   Trang là công cụ để duyệt: flat như gu skill, không hero, không lời quảng cáo.
+    Trang là công cụ để duyệt: flat như gu skill, không hero, không lời quảng cáo.
+
 6. **Probe trang đó** (`--sweep`) tới khi danh sách `P` trống, tối đa ba vòng.
-7. **Cổng duy nhất của lối này**: gửi link, kèm một dòng *"Duyệt thì trả lời `ok`. Muốn đổi
-   màu nhấn, font, bo góc thì nói: đổi ở token, mọi component đổi theo."* Dừng chờ.
+7. **Cổng duy nhất của lối này**: gửi link, kèm một dòng _"Duyệt thì trả lời `ok`. Muốn đổi
+   màu nhấn, font, bo góc thì nói: đổi ở token, mọi component đổi theo."_ Dừng chờ.
 
 Duyệt xong thì ghi màu nhấn đang hiện trên trang (màu người dùng chọn trong nhóm gợi ý, không
 chọn thì màu đầu) vào file token trước khi làm màn. Màn sau đi lối bình thường (mặc định nhánh

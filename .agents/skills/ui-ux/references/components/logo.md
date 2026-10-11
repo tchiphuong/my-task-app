@@ -49,11 +49,11 @@ nhận diện của agency; người dùng có logo thật thì thay vào một 
 
 Lấy tên sản phẩm và việc chính ở `U1`, `U2`. Mỗi hướng một dấu:
 
-| Hướng | Cách nặn | Ví dụ |
-| --- | --- | --- |
-| **1. Chữ đầu dựng bằng khối** (khuyên dùng khi tên ngắn, dễ nhớ) | Chữ cái đầu tên dựng lại từ hình cơ bản, không gõ bằng font: có một khoảng cắt hay một góc lệch để nó thành dấu, không còn là chữ | "Lumen": chữ L từ hai thanh, góc trong là một chấm tròn |
-| **2. Ẩn dụ việc chính** | Một hình gợi việc người dùng làm, trừu tượng hoá tới mức không còn là icon | đặt lịch: hai ô vuông bo lệch nhau; tài chính: ba thanh tăng dần, thanh cuối là nửa tròn |
-| **3. Hai hình ghép** | Hai hình cơ bản chồng hay cắt nhau, phần giao là khoảng trống | vòng tròn bị một hình vuông cắt mất góc |
+| Hướng                                                            | Cách nặn                                                                                                                          | Ví dụ                                                                                    |
+| ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| **1. Chữ đầu dựng bằng khối** (khuyên dùng khi tên ngắn, dễ nhớ) | Chữ cái đầu tên dựng lại từ hình cơ bản, không gõ bằng font: có một khoảng cắt hay một góc lệch để nó thành dấu, không còn là chữ | "Lumen": chữ L từ hai thanh, góc trong là một chấm tròn                                  |
+| **2. Ẩn dụ việc chính**                                          | Một hình gợi việc người dùng làm, trừu tượng hoá tới mức không còn là icon                                                        | đặt lịch: hai ô vuông bo lệch nhau; tài chính: ba thanh tăng dần, thanh cuối là nửa tròn |
+| **3. Hai hình ghép**                                             | Hai hình cơ bản chồng hay cắt nhau, phần giao là khoảng trống                                                                     | vòng tròn bị một hình vuông cắt mất góc                                                  |
 
 Ghi một câu vì sao cho mỗi hướng, bám tên hay việc chính, không viết "hiện đại, tối giản".
 
@@ -76,12 +76,17 @@ import type { ComponentProps } from "react";
 
 // Dấu của sản phẩm. Thay path khi có logo thật.
 export function ProductMark(props: ComponentProps<"svg">) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
-      <path d="M6 4h3.5v12.5H18V20H6z" />
-      <circle cx="15.5" cy="8.5" r="2.5" />
-    </svg>
-  );
+    return (
+        <svg
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+            {...props}
+        >
+            <path d="M6 4h3.5v12.5H18V20H6z" />
+            <circle cx="15.5" cy="8.5" r="2.5" />
+        </svg>
+    );
 }
 ```
 
@@ -91,19 +96,21 @@ import { cn } from "@/lib/utils";
 import { ProductMark } from "./product-mark";
 
 interface ProductBrandProps {
-  name: string;
-  className?: string;
+    name: string;
+    className?: string;
 }
 
 export default function ProductBrand({ name, className }: ProductBrandProps) {
-  return (
-    <span className={cn("flex min-w-0 items-center gap-2.5", className)}>
-      <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-        <ProductMark className="size-5" />
-      </span>
-      <span className="truncate text-sm font-semibold text-foreground">{name}</span>
-    </span>
-  );
+    return (
+        <span className={cn("flex min-w-0 items-center gap-2.5", className)}>
+            <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+                <ProductMark className="size-5" />
+            </span>
+            <span className="truncate text-sm font-semibold text-foreground">
+                {name}
+            </span>
+        </span>
+    );
 }
 ```
 
@@ -135,13 +142,13 @@ control, khung lý do). Chưa chọn thì không đụng file nào của dự á
   như `U3`).
 - **Khung lý do**: tên hướng, nhãn "Khuyên dùng", một câu vì sao bám tên hay việc chính.
 - **Mỗi hướng hiện dấu ở chỗ nó sẽ sống**, không hiện một dấu to giữa trang trắng:
-  1. Đầu sidebar thật của dự án (ô, tên, vài mục nav có icon bên dưới), cả bản mở và bản thu gọn.
-  2. Khối logo của màn đăng nhập.
-  3. Một dải tab trình duyệt sáng và một dải tối, favicon 16px cạnh tên trang.
-  4. Hàng cỡ 16, 32, 64px trên nền màu nhấn và trên nền trắng.
+    1. Đầu sidebar thật của dự án (ô, tên, vài mục nav có icon bên dưới), cả bản mở và bản thu gọn.
+    2. Khối logo của màn đăng nhập.
+    3. Một dải tab trình duyệt sáng và một dải tối, favicon 16px cạnh tên trang.
+    4. Hàng cỡ 16, 32, 64px trên nền màu nhấn và trên nền trắng.
 - Chụp ảnh trang ở cả ba hướng, tự xem theo "Kiểm trước khi đưa" (trên) rồi mới gửi.
-- Gửi link bấm được kèm một câu: *"Chọn `1`, `2` hay `3`; trả lời `ok` là dựng hướng khuyên dùng.
-  Muốn sửa một hướng thì nói (ví dụ "2 nhưng bo tròn hơn")."* Người dùng xin sửa thì vẽ lại hướng
+- Gửi link bấm được kèm một câu: _"Chọn `1`, `2` hay `3`; trả lời `ok` là dựng hướng khuyên dùng.
+  Muốn sửa một hướng thì nói (ví dụ "2 nhưng bo tròn hơn")."_ Người dùng xin sửa thì vẽ lại hướng
   đó trên cùng trang, gửi lại.
-- **Lúc giao** một dòng trong phần mặc định của `S15`: *"Logo: hướng [n], [một câu vì sao]. Dấu
-  ở `product-mark.tsx`, có logo thật thì thay path ở đó; muốn hướng khác thì nói."*
+- **Lúc giao** một dòng trong phần mặc định của `S15`: _"Logo: hướng [n], [một câu vì sao]. Dấu
+  ở `product-mark.tsx`, có logo thật thì thay path ở đó; muốn hướng khác thì nói."_

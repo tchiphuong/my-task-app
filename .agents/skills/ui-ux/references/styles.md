@@ -12,11 +12,11 @@ tầng 3. File này dạy cách **đọc** kết quả.
 
 Ba ca, chọn đúng một:
 
-| Ca | Làm gì |
-| --- | --- |
-| **Người dùng tự nêu phong cách** ("làm trang giá kiểu glassmorphism") | Làm theo phong cách đó, **không hỏi lại** |
-| **Audit thấy dự án có phong cách khác flat** (`P4`) | **Theo phong cách dự án**, dựng luôn, báo một dòng lúc giao (mẫu bên dưới) |
-| **Dự án flat hoặc trống**, người dùng không nêu gì | Flat (`P6`). Không hỏi về phong cách. Có màu (`P12`) chỉ khi người dùng tự xin trong đề; hai chế độ dựng lại: dòng Có màu (`V1d`), không chọn sẵn. Wireframe không còn nấc Có màu |
+| Ca                                                                    | Làm gì                                                                                                                                                                            |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Người dùng tự nêu phong cách** ("làm trang giá kiểu glassmorphism") | Làm theo phong cách đó, **không hỏi lại**                                                                                                                                         |
+| **Audit thấy dự án có phong cách khác flat** (`P4`)                   | **Theo phong cách dự án**, dựng luôn, báo một dòng lúc giao (mẫu bên dưới)                                                                                                        |
+| **Dự án flat hoặc trống**, người dùng không nêu gì                    | Flat (`P6`). Không hỏi về phong cách. Có màu (`P12`) chỉ khi người dùng tự xin trong đề; hai chế độ dựng lại: dòng Có màu (`V1d`), không chọn sẵn. Wireframe không còn nấc Có màu |
 
 Vì sao theo dự án chứ không theo flat: một màn flat giữa app glass là màn lạc
 loài, người dùng thấy ngay. Nhất quán thắng gu.
@@ -35,35 +35,35 @@ trắng, xanh), mà người dùng chọn theo phong cách dự án thì:
 - **Theo:** gradient tím, bo góc lớn, nền tối. Đó là phong cách.
 - **Không theo:** ba nút ba màu cùng nặng như nhau. Đó là lỗi `I3`. Chỉ một nút được là nút chính, dù phong cách là gì.
 
-Phép thử: *bỏ thứ này đi thì màn hình trông **khác**, hay trông **tệ hơn**?*
+Phép thử: _bỏ thứ này đi thì màn hình trông **khác**, hay trông **tệ hơn**?_
 Khác là phong cách, cứ theo. Tệ hơn là nguyên tắc, không được bỏ.
 
 **P2. Luật nào phong cách được đè, luật nào không.**
 
-| Loại | Luật | Phong cách đã chọn theo `P1` được đè không |
-| --- | --- | --- |
-| **Gu flat** | `M1` nền xám nhạt · `M2` tỉ lệ 95/5 · `M12` không gradient · `M13` tách bằng viền · `M15` bóng chỉ cho lớp nổi · `M20` mặc định sáng · `M23` tối là navy · `M29` card một mình không viền · `F19` không glass · `F20` không phát sáng · `F22` không animate hình khối | **Được**, theo đúng khối của phong cách đó bên dưới |
-| **Nguyên tắc** | Toàn bộ `N` `S` `T` `I` `R` · `M3` một màu nhấn · `M4` màu báo trạng thái (ngoại lệ hẹp: `P12` công thức B đè chỉ ở ô icon card số liệu, ô icon đầu dòng theo loại và chuỗi biểu đồ) · `M11` ba sắc độ chữ · `M19` bo lồng · `M24`–`M28` token · `M30` hai sắc đỏ · bố cục `F1`–`F18`, `F21`, `F23`–`F25` · **`P3` tương phản** | **Không bao giờ** |
+| Loại           | Luật                                                                                                                                                                                                                                                                                                                            | Phong cách đã chọn theo `P1` được đè không          |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| **Gu flat**    | `M1` nền xám nhạt · `M2` tỉ lệ 95/5 · `M12` không gradient · `M13` tách bằng viền · `M15` bóng chỉ cho lớp nổi · `M20` mặc định sáng · `M23` tối là navy · `M29` card một mình không viền · `F19` không glass · `F20` không phát sáng · `F22` không animate hình khối                                                           | **Được**, theo đúng khối của phong cách đó bên dưới |
+| **Nguyên tắc** | Toàn bộ `N` `S` `T` `I` `R` · `M3` một màu nhấn · `M4` màu báo trạng thái (ngoại lệ hẹp: `P12` công thức B đè chỉ ở ô icon card số liệu, ô icon đầu dòng theo loại và chuỗi biểu đồ) · `M11` ba sắc độ chữ · `M19` bo lồng · `M24`–`M28` token · `M30` hai sắc đỏ · bố cục `F1`–`F18`, `F21`, `F23`–`F25` · **`P3` tương phản** | **Không bao giờ**                                   |
 
-Mỗi luật gu flat có dòng *"Gu flat"* ngay tại chỗ. Thấy dòng đó mà phong cách
+Mỗi luật gu flat có dòng _"Gu flat"_ ngay tại chỗ. Thấy dòng đó mà phong cách
 đã chọn không phải flat thì quay về đây.
 
 **P3. Tương phản chữ: con số cứng, ở mọi phong cách.**
 
-| Thứ | Tối thiểu |
-| --- | --- |
-| Chữ thường | **4.5 : 1** so với nền ngay phía sau |
-| Chữ lớn (từ 24px, hoặc từ 18.66px đậm) | **3 : 1** |
+| Thứ                                                         | Tối thiểu                                                                                                        |
+| ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Chữ thường                                                  | **4.5 : 1** so với nền ngay phía sau                                                                             |
+| Chữ lớn (từ 24px, hoặc từ 18.66px đậm)                      | **3 : 1**                                                                                                        |
 | Icon mang nghĩa; viền **ô nhập, checkbox, radio chưa chọn** | **3 : 1** so với nền kề bên. Nút có nhãn chữ **không** cần viền đạt 3:1 (WCAG 1.4.11: chữ đã nhận diện được nút) |
 
 Token mặc định:
 
-| Token | Nền sáng | Nền tối | Đạt |
-| --- | --- | --- | --- |
-| `--muted` (chữ phụ, placeholder) | 4.95 : 1 trên card, 4.51 : 1 trên nền trang | 6.1 : 1 | ✅ 4.5 |
-| `--border-focus` | 16.8 : 1 | 3.6 : 1 | ✅ 3 |
-| **Viền ô nhập, select, nút outline, checkbox, radio** (`--border-strong`) | ~1.2 : 1 | ~1.5 : 1 | ❌ 3 |
-| **Track công tắc lúc tắt** (`muted/40`) | ~1.6 : 1 | | ❌ 3 |
+| Token                                                                     | Nền sáng                                    | Nền tối  | Đạt    |
+| ------------------------------------------------------------------------- | ------------------------------------------- | -------- | ------ |
+| `--muted` (chữ phụ, placeholder)                                          | 4.95 : 1 trên card, 4.51 : 1 trên nền trang | 6.1 : 1  | ✅ 4.5 |
+| `--border-focus`                                                          | 16.8 : 1                                    | 3.6 : 1  | ✅ 3   |
+| **Viền ô nhập, select, nút outline, checkbox, radio** (`--border-strong`) | ~1.2 : 1                                    | ~1.5 : 1 | ❌ 3   |
+| **Track công tắc lúc tắt** (`muted/40`)                                   | ~1.6 : 1                                    |          | ❌ 3   |
 
 **`--muted` chỉ đạt trên ba nền sáng nhất**: card `--surface`, `--surface-hover`, nền trang
 `--background`. Trên nền xám đậm hơn nó trượt: `--secondary` 4.04, `--background-hover`
@@ -105,15 +105,15 @@ cách chỉ là "của dự án" khi nó có mặt trên bề mặt chính.**
 
 Chạy lệnh tầng 3 ở `SKILL.md` câu 2, rồi đọc số:
 
-| Kết quả | Kết luận |
-| --- | --- |
-| Tín hiệu có ở **từ 3 file component trở lên**, trên card, modal, header, sidebar | Đó là phong cách của dự án → **theo**, báo theo mẫu `P1` |
-| Chỉ 1–2 file | Ngoại lệ cục bộ: một banner, một trang quảng bá. **Không** tính là phong cách của dự án, làm flat |
-| Có token riêng cho nó (`--glass-bg`, `--gradient-*`, `--shadow-card`) | Tính là phong cách của dự án **dù đếm file ra ít**, vì có token là có chủ đích → **theo** |
-| **Tối**: layout gốc có nền tối | Tính là phong cách của dự án **chỉ với một file đó**, vì nền tối chỉ nằm ở gốc → **theo** |
+| Kết quả                                                                                                      | Kết luận                                                                                                                                                                                |
+| ------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Tín hiệu có ở **từ 3 file component trở lên**, trên card, modal, header, sidebar                             | Đó là phong cách của dự án → **theo**, báo theo mẫu `P1`                                                                                                                                |
+| Chỉ 1–2 file                                                                                                 | Ngoại lệ cục bộ: một banner, một trang quảng bá. **Không** tính là phong cách của dự án, làm flat                                                                                       |
+| Có token riêng cho nó (`--glass-bg`, `--gradient-*`, `--shadow-card`)                                        | Tính là phong cách của dự án **dù đếm file ra ít**, vì có token là có chủ đích → **theo**                                                                                               |
+| **Tối**: layout gốc có nền tối                                                                               | Tính là phong cách của dự án **chỉ với một file đó**, vì nền tối chỉ nằm ở gốc → **theo**                                                                                               |
 | **Màu**: nền, viền, chữ có sắc (chip tô màu nhấn nhạt, khối nền xanh nhạt, pill màu) ở **từ 3 file trở lên** | Dự án có ngôn ngữ màu → **theo**: màn mới dùng đúng những cách tô đó, không rút về xám (nguyên tắc "dự án đã có ngôn ngữ màu" ở đầu `principles.md`). Luật về nghĩa và đọc được vẫn giữ |
-| Có token thang màu biểu đồ (`--chart-1`…) | Biểu đồ phân loại dùng thang đó (`components/charts.md`) |
-| Không tín hiệu nào đáng kể | Flat hoặc dự án trống → flat (`P6`) |
+| Có token thang màu biểu đồ (`--chart-1`…)                                                                    | Biểu đồ phân loại dùng thang đó (`components/charts.md`)                                                                                                                                |
+| Không tín hiệu nào đáng kể                                                                                   | Flat hoặc dự án trống → flat (`P6`)                                                                                                                                                     |
 
 Đếm ra để **quyết định theo dự án hay flat**. Ngưỡng 3 file là để một banner lẻ
 không kéo cả màn sang phong cách khác.
@@ -150,17 +150,19 @@ Mỗi khối có bốn phần: nhận ra, luật được đè, công thức, b�
 - **Được đè:** `M13`, `M15`, `M29`. `F22` được đè một phần: card bấm được thì hover **tăng bóng** một bậc, vẫn không `scale`.
 
 ```html
-<div class="rounded-2xl bg-surface shadow-sm ring-1 ring-black/5 hover:shadow-md">
+<div
+    class="rounded-2xl bg-surface shadow-sm ring-1 ring-black/5 hover:shadow-md"
+></div>
 ```
 
 **Thang bóng, mỗi tầng một bậc, không hai tầng trùng nhau:**
 
-| Tầng | Bóng |
-| --- | --- |
-| Card | `shadow-sm` |
-| Card bấm được, khi hover | `shadow-md` |
-| Dropdown, popover | `shadow-popover` (= `shadow-lg`, `M15`) |
-| Modal, panel trượt, **gồm sidebar trượt ở màn hẹp** | `shadow-modal` (= `shadow-xl`) |
+| Tầng                                                | Bóng                                    |
+| --------------------------------------------------- | --------------------------------------- |
+| Card                                                | `shadow-sm`                             |
+| Card bấm được, khi hover                            | `shadow-md`                             |
+| Dropdown, popover                                   | `shadow-popover` (= `shadow-lg`, `M15`) |
+| Modal, panel trượt, **gồm sidebar trượt ở màn hẹp** | `shadow-modal` (= `shadow-xl`)          |
 
 **Bẫy**
 
@@ -179,12 +181,16 @@ Mỗi khối có bốn phần: nhận ra, luật được đè, công thức, b�
 ```html
 <!-- Nền tối -->
 <div class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl">
-
-<!-- Nền sáng -->
-<div class="rounded-2xl border border-white/50 bg-white/60 shadow-sm backdrop-blur-xl">
-
-<!-- Trình duyệt không hỗ trợ blur thì rơi về nền gần đặc -->
-<div class="bg-white/90 supports-[backdrop-filter]:bg-white/60 supports-[backdrop-filter]:backdrop-blur-xl">
+    <!-- Nền sáng -->
+    <div
+        class="rounded-2xl border border-white/50 bg-white/60 shadow-sm backdrop-blur-xl"
+    >
+        <!-- Trình duyệt không hỗ trợ blur thì rơi về nền gần đặc -->
+        <div
+            class="bg-white/90 supports-[backdrop-filter]:bg-white/60 supports-[backdrop-filter]:backdrop-blur-xl"
+        ></div>
+    </div>
+</div>
 ```
 
 **Bẫy**
@@ -206,8 +212,10 @@ ba màu là ba màu nhấn, tức là trượt `M3` và `I3` cùng lúc.
 
 ```html
 <!-- Gói đề xuất: đổ màu cả khối, nút đảo màu -->
-<div class="rounded-2xl bg-linear-to-br from-primary to-primary-hover text-primary-foreground">
-  <button class="bg-surface text-foreground">Chọn gói này</button>
+<div
+    class="rounded-2xl bg-linear-to-br from-primary to-primary-hover text-primary-foreground"
+>
+    <button class="bg-surface text-foreground">Chọn gói này</button>
 </div>
 ```
 
@@ -268,23 +276,23 @@ theo `P1`. Wireframe không có nấc Có màu (`design-process.md`, `U3`).
 
 **Công thức A, trang lướt để chọn**, đúng năm chỗ, không thêm chỗ thứ sáu:
 
-| Chỗ | Làm gì |
-| --- | --- |
+| Chỗ           | Làm gì                                                                                                                                                                                                                                                                                                                                                                    |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Dải đầu trang | Khối bọc header + ô tìm (hay hàng tên trang) nền màu nhấn đậm: `bg-primary`, hoặc `bg-linear-to-r from-primary to-primary-hover` (hai điểm gần nhau, `P9`). Chữ, link header trắng; ô tìm nền trắng; nút Tìm đảo màu (`bg-surface text-foreground`, `P9`). Dải hết ở dưới hàng tìm, nội dung bắt đầu trên nền trang như cũ, không kéo card lấn lên dải bằng số âm (`N11`) |
-| Chân trang | Cùng màu dải, chữ trắng. Trang không có chân thì bỏ |
-| Mục nổi bật | **Chỉ khi dữ liệu có trường đó** (gấp, hot, được tài trợ): nền `bg-primary/5`, viền `border-primary/25`, nhãn đặc `bg-primary text-primary-foreground` ở góc. Không có trường thì không bịa, lúc giao ghi "cần trường … để làm mục nổi bật" |
-| Chữ | Tiêu đề mục `font-semibold`; tên trang giữ `text-xl` (luật đã chốt 11) mà lên `font-semibold`, từ khoá hay con số trong tên trang tô `text-primary`; tiêu đề khối trong panel chi tiết `text-lg font-semibold`. Giá, lương giữ `font-semibold` như cũ |
-| Điểm nhỏ | Chấm đầu dòng danh sách trong chi tiết `marker:text-primary`; ô chữ viết tắt thay logo nền `bg-primary/10 text-primary` thay cho xám |
+| Chân trang    | Cùng màu dải, chữ trắng. Trang không có chân thì bỏ                                                                                                                                                                                                                                                                                                                       |
+| Mục nổi bật   | **Chỉ khi dữ liệu có trường đó** (gấp, hot, được tài trợ): nền `bg-primary/5`, viền `border-primary/25`, nhãn đặc `bg-primary text-primary-foreground` ở góc. Không có trường thì không bịa, lúc giao ghi "cần trường … để làm mục nổi bật"                                                                                                                               |
+| Chữ           | Tiêu đề mục `font-semibold`; tên trang giữ `text-xl` (luật đã chốt 11) mà lên `font-semibold`, từ khoá hay con số trong tên trang tô `text-primary`; tiêu đề khối trong panel chi tiết `text-lg font-semibold`. Giá, lương giữ `font-semibold` như cũ                                                                                                                     |
+| Điểm nhỏ      | Chấm đầu dòng danh sách trong chi tiết `marker:text-primary`; ô chữ viết tắt thay logo nền `bg-primary/10 text-primary` thay cho xám                                                                                                                                                                                                                                      |
 
 **Công thức B, dashboard và trang làm việc trong app**: không dải màu, không mục "hot" (lạc loài
 ở trang báo cáo). Đè thêm `M4` (màu để phân loại) **chỉ ở ô icon và chuỗi biểu đồ**:
 
-| Chỗ | Làm gì |
-| --- | --- |
-| Ô icon card số liệu | Ô `size-8 rounded-lg`, icon lucide `size-4`; mỗi card một sắc nhạt (`bg-indigo-50 text-indigo-600`, `bg-teal-50 text-teal-600`, `bg-violet-50 text-violet-600`, `bg-sky-50 text-sky-600`), tối đa bốn sắc một màn. Con số vẫn `text-foreground`, không tô |
-| Ô icon đầu dòng theo loại | Bộ phận, nhà cung cấp, loại giao dịch: cùng bộ sắc nhạt, **một loại một sắc cố định** trên mọi màn (Kỹ thuật luôn teal). Không có loại thì không ô |
-| Biểu đồ | Chuỗi chính màu nhấn; nhiều chuỗi thì lấy bộ sắc trên theo cùng thứ tự; kỳ chưa trọn nét đứt hay gạch (`charts.md`) |
-| Trạng thái | Như nấc Màu: `M4` trên thanh tiến độ, số vượt, quá hạn. Sắc phân loại không trùng sắc trạng thái trên cùng một thứ (thanh ngân sách không tô teal vì bộ phận là teal) |
+| Chỗ                                              | Làm gì                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Ô icon card số liệu                              | Ô `size-8 rounded-lg`, icon lucide `size-4`; mỗi card một sắc nhạt (`bg-indigo-50 text-indigo-600`, `bg-teal-50 text-teal-600`, `bg-violet-50 text-violet-600`, `bg-sky-50 text-sky-600`), tối đa bốn sắc một màn. Con số vẫn `text-foreground`, không tô                                                                                                                                                                                                                                                                                                                                                                      |
+| Ô icon đầu dòng theo loại                        | Bộ phận, nhà cung cấp, loại giao dịch: cùng bộ sắc nhạt, **một loại một sắc cố định** trên mọi màn (Kỹ thuật luôn teal). Không có loại thì không ô                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| Biểu đồ                                          | Chuỗi chính màu nhấn; nhiều chuỗi thì lấy bộ sắc trên theo cùng thứ tự; kỳ chưa trọn nét đứt hay gạch (`charts.md`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| Trạng thái                                       | Như nấc Màu: `M4` trên thanh tiến độ, số vượt, quá hạn. Sắc phân loại không trùng sắc trạng thái trên cùng một thứ (thanh ngân sách không tô teal vì bộ phận là teal)                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | Badge trạng thái (người dùng xin "badge có màu") | Đỏ, hổ phách, xanh lá giữ nghĩa `M7`. Các trạng thái xám (đang chạy đúng luồng) mới được lấy sắc phân loại, và **các sắc trong một bảng trạng thái cách nhau từ ~45° trên vòng màu**, không lấy hai sắc kề nhau: `sky`–`blue` (~23°), `blue`–`indigo`, `indigo`–`violet`, `emerald`–`teal`. Không trùng sắc màu nhấn (nút chính teal thì không badge teal). Không đủ sắc cách xa thì trạng thái nhiều dòng nhất (thường là bước bình thường nhất, vd "Đã xác nhận") giữ xám: một danh sách toàn một màu badge là mảng màu, không còn phân biệt. Sai: "Đã xác nhận" `sky-700` cạnh "Đang khám" `blue-700`, liếc ra một màu xanh |
 
 **Bẫy**

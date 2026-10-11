@@ -5,18 +5,24 @@ Mượn khuôn **menu con của sidebar** (`layouts/app.md`): cùng chiều cao 
 nền hover, cùng đường dọc, cùng cách báo mục đang chọn (`N5`).
 
 ```html
-<ul class="space-y-1 text-sm"><!-- 4px giữa các hàng, xem list-row.md -->
-  <li>
-    <button type="button" class="flex h-10 w-full cursor-pointer items-center gap-2 rounded-xl px-2 outline-hidden hover:bg-item-hover" aria-expanded="true">
-      <!-- h-10 rounded-xl: cao bằng link sidebar, bo theo F1. ChevronDown size-4 text-muted, xoay -rotate-90 khi đóng. Hàng file: một ô size-4 trống giữ chỗ.
+<ul class="space-y-1 text-sm">
+    <!-- 4px giữa các hàng, xem list-row.md -->
+    <li>
+        <button
+            type="button"
+            class="flex h-10 w-full cursor-pointer items-center gap-2 rounded-xl px-2 outline-hidden hover:bg-item-hover"
+            aria-expanded="true"
+        >
+            <!-- h-10 rounded-xl: cao bằng link sidebar, bo theo F1. ChevronDown size-4 text-muted, xoay -rotate-90 khi đóng. Hàng file: một ô size-4 trống giữ chỗ.
          Hàng đang chọn: bỏ hover, thêm bg-secondary font-medium, aria-current="page" -->
-      <!-- FolderOpen / Folder / FileText size-4 shrink-0 -->
-      <span class="min-w-0 truncate">Khách hàng doanh nghiệp</span>
-    </button>
-    <ul class="ml-4 space-y-1 border-l border-border-strong pl-2"><!-- đường dọc chạy ở tâm icon cha -->
-      …
-    </ul>
-  </li>
+            <!-- FolderOpen / Folder / FileText size-4 shrink-0 -->
+            <span class="min-w-0 truncate">Khách hàng doanh nghiệp</span>
+        </button>
+        <ul class="ml-4 space-y-1 border-l border-border-strong pl-2">
+            <!-- đường dọc chạy ở tâm icon cha -->
+            …
+        </ul>
+    </li>
 </ul>
 ```
 

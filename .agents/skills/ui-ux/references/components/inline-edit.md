@@ -124,5 +124,5 @@ Bấm vào tên thì chỉ khung hiện ra, chữ đứng yên từng pixel (`N1
 Đổi `px-2` thì đổi luôn ba chỗ `2.25` (9px). Đổi cỡ nút ✓ ✕ thì đổi `sm:pr-26 md:pr-24` (hai nút + hai
 khoảng `gap-2`).
 
-*Phép thử:* đo `x` của chữ tên bằng `Range` và `x` của link cấp cha / câu mô tả: bằng nhau. Bấm
+_Phép thử:_ đo `x` của chữ tên bằng `Range` và `x` của link cấp cha / câu mô tả: bằng nhau. Bấm
 vào một tên dài ở 1280px: số dòng và chữ đầu mỗi dòng không đổi.

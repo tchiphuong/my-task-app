@@ -19,8 +19,16 @@ tối đa hai dòng).
 
 ```html
 <header class="text-center">
-  <h1 class="text-balance font-heading text-2xl font-bold text-foreground sm:text-3xl">…</h1>
-  <p class="mx-auto mt-3 max-w-[55ch] text-balance text-sm/6 text-muted sm:text-base/7">…</p>
+    <h1
+        class="text-balance font-heading text-2xl font-bold text-foreground sm:text-3xl"
+    >
+        …
+    </h1>
+    <p
+        class="mx-auto mt-3 max-w-[55ch] text-balance text-sm/6 text-muted sm:text-base/7"
+    >
+        …
+    </p>
 </header>
 <div class="mt-8 sm:mt-12 …"><!-- dãy gói --></div>
 ```
@@ -55,11 +63,13 @@ không chừa `min-h-*` (đoán độ dài chữ là sai ngay ở ca `S8`):
 
 ```html
 <div class="grid gap-4 lg:grid-cols-3">
-  <!-- row-span-7 = số hàng trong sơ đồ. Thêm hàng thì đổi cả hai số. -->
-  <!-- Card chỉ padding DỌC, từng hàng tự px-7: vạch dưới giá tự tràn mép, không margin âm (N11). -->
-  <article class="row-span-7 grid grid-rows-subgrid gap-y-0 rounded-2xl border border-border bg-surface py-7 *:px-7">
-    …
-  </article>
+    <!-- row-span-7 = số hàng trong sơ đồ. Thêm hàng thì đổi cả hai số. -->
+    <!-- Card chỉ padding DỌC, từng hàng tự px-7: vạch dưới giá tự tràn mép, không margin âm (N11). -->
+    <article
+        class="row-span-7 grid grid-rows-subgrid gap-y-0 rounded-2xl border border-border bg-surface py-7 *:px-7"
+    >
+        …
+    </article>
 </div>
 ```
 
@@ -80,22 +90,24 @@ chồng**: `mx-auto max-w-lg lg:max-w-none`. Không chặn thì ở 768px mỗi 
 ~500px là vừa, như khi đứng cạnh nhau ở màn rộng.
 
 ```html
-<div class="mx-auto mt-8 grid max-w-lg grid-cols-1 gap-4 sm:mt-12 lg:max-w-none lg:grid-cols-3">
+<div
+    class="mx-auto mt-8 grid max-w-lg grid-cols-1 gap-4 sm:mt-12 lg:max-w-none lg:grid-cols-3"
+></div>
 ```
 
 ---
 
 ## Từng hàng
 
-| Hàng | Làm | Đừng |
-| --- | --- | --- |
-| Tên | `text-lg font-semibold`, tối đa khoảng 3 từ | To bằng giá. Đây là **ngoại lệ có chủ ý của `T8`**: giá là thứ đọc đầu tiên |
-| Mô tả | Đúng 1 câu, gói nào cũng có | Gói có gói không |
-| Giá | `text-3xl font-bold tabular-nums`, đơn vị `/tháng` cùng dòng, căn `baseline`. Gói miễn phí ghi "Miễn phí" | "0đ" |
-| Dòng phụ | Điều kiện riêng của gói (`T22`), **vừa một dòng**: "Trả theo năm: 990.000đ/tháng" | Câu dài bị chẻ giữa con số (`T10`) |
-| Tiêu đề danh sách | "Bao gồm:" ở gói thấp nhất, "Mọi thứ trong Pro, thêm:" ở gói trên. `text-sm text-muted` | "Toàn bộ quyền lợi của gói Pro" viết thành một mục có dấu check |
-| Tính năng | Check nét `Check` lucide `size-4`. Mục không có: `Minus` + chữ `--muted`. Con số đứng đầu: "4 buổi kèm 1-1 mỗi tháng" | Check tròn tô đặc, check mờ cho mục không có |
-| Nút | Rộng hết card, **`h-12`** ở mọi bề rộng, chữ `text-sm font-medium`. Chữ là động từ + gói: "Đăng ký gói Pro" | Ba nút cùng chữ "Chọn gói". Nút `h-10` của app |
+| Hàng              | Làm                                                                                                                   | Đừng                                                                        |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Tên               | `text-lg font-semibold`, tối đa khoảng 3 từ                                                                           | To bằng giá. Đây là **ngoại lệ có chủ ý của `T8`**: giá là thứ đọc đầu tiên |
+| Mô tả             | Đúng 1 câu, gói nào cũng có                                                                                           | Gói có gói không                                                            |
+| Giá               | `text-3xl font-bold tabular-nums`, đơn vị `/tháng` cùng dòng, căn `baseline`. Gói miễn phí ghi "Miễn phí"             | "0đ"                                                                        |
+| Dòng phụ          | Điều kiện riêng của gói (`T22`), **vừa một dòng**: "Trả theo năm: 990.000đ/tháng"                                     | Câu dài bị chẻ giữa con số (`T10`)                                          |
+| Tiêu đề danh sách | "Bao gồm:" ở gói thấp nhất, "Mọi thứ trong Pro, thêm:" ở gói trên. `text-sm text-muted`                               | "Toàn bộ quyền lợi của gói Pro" viết thành một mục có dấu check             |
+| Tính năng         | Check nét `Check` lucide `size-4`. Mục không có: `Minus` + chữ `--muted`. Con số đứng đầu: "4 buổi kèm 1-1 mỗi tháng" | Check tròn tô đặc, check mờ cho mục không có                                |
+| Nút               | Rộng hết card, **`h-12`** ở mọi bề rộng, chữ `text-sm font-medium`. Chữ là động từ + gói: "Đăng ký gói Pro"           | Ba nút cùng chữ "Chọn gói". Nút `h-10` của app                              |
 
 **Nút `h-12`, không `h-10`.** Đây là hành động chính của cả trang, nằm đáy một card
 cao ~520px dưới con số 30px: nút 40px trông mỏng, như nút phụ trong toolbar (chủ dự
@@ -111,7 +123,7 @@ cao ~520px dưới con số 30px: nút 40px trông mỏng, như nút phụ trong
    tiêu đề danh sách) `text-primary-foreground/70`; vạch dưới giá
    `border-primary-foreground/15`. Viền card cùng màu nền.
 2. **Badge** góc phải hàng tên: `rounded-full px-2.5 py-1 text-xs font-medium
-   bg-primary-foreground/15 text-primary-foreground`, chữ nói lý do ("Phổ biến nhất").
+bg-primary-foreground/15 text-primary-foreground`, chữ nói lý do ("Phổ biến nhất").
    Không emoji, không ngôi sao (`T21`).
 3. **Nút đảo theo card**: nền trắng chữ tối,
    `bg-surface text-foreground hover:bg-surface/90`. Dự án trả vòng focus lại (`I14`) thì
@@ -119,14 +131,23 @@ cao ~520px dưới con số 30px: nút 40px trông mỏng, như nút phụ trong
    là màu `--surface`, trên card tối thành một viền trắng thừa.
 
 ```html
-<article class="… rounded-2xl border border-primary bg-primary py-7 text-primary-foreground *:px-7">
-  <div class="flex items-center justify-between gap-3">
-    <h2 class="text-lg font-semibold">Pro</h2>
-    <span class="rounded-full bg-primary-foreground/15 px-2.5 py-1 text-xs font-medium">Phổ biến nhất</span>
-  </div>
-  <p class="mt-2 text-sm/6 text-primary-foreground/70">…</p>
-  …
-  <button class="h-12 w-full cursor-pointer rounded-xl bg-surface text-sm font-medium text-foreground outline-hidden hover:bg-surface/90">Đăng ký gói Pro</button>
+<article
+    class="… rounded-2xl border border-primary bg-primary py-7 text-primary-foreground *:px-7"
+>
+    <div class="flex items-center justify-between gap-3">
+        <h2 class="text-lg font-semibold">Pro</h2>
+        <span
+            class="rounded-full bg-primary-foreground/15 px-2.5 py-1 text-xs font-medium"
+            >Phổ biến nhất</span
+        >
+    </div>
+    <p class="mt-2 text-sm/6 text-primary-foreground/70">…</p>
+    …
+    <button
+        class="h-12 w-full cursor-pointer rounded-xl bg-surface text-sm font-medium text-foreground outline-hidden hover:bg-surface/90"
+    >
+        Đăng ký gói Pro
+    </button>
 </article>
 ```
 
@@ -150,11 +171,11 @@ viền mảnh thì trông rỗng.
 
 Màu nhấn chỉ nằm ở **card của gói nổi bật**. Còn lại trung tính (`M2`, `M3`).
 
-| Thứ | Theo `--primary`? |
-| --- | --- |
-| Nền card gói nổi bật | Có. Cả badge và nút bên trong đi theo card (mục trên) |
+| Thứ                              | Theo `--primary`?                                                                                                          |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Nền card gói nổi bật             | Có. Cả badge và nút bên trong đi theo card (mục trên)                                                                      |
 | Check, giá, tên gói ở card trắng | Không. Check tô màu ở cả dãy là gói nổi bật hết nổi; giá màu nhấn đọc ra là link, màu sáng còn không đạt tương phản (`P3`) |
-| Nút các gói khác | Không |
+| Nút các gói khác                 | Không                                                                                                                      |
 
 ---
 
@@ -180,13 +201,17 @@ chuyển động, hover, khung, cách kiểm đều nằm ở đó). Phần riê
 ```tsx
 // faq-section.tsx
 <section className="mx-auto mt-16 max-w-3xl sm:mt-20">
-  <h2 className="text-center font-heading text-xl font-bold text-foreground">Câu hỏi thường gặp</h2>
+    <h2 className="text-center font-heading text-xl font-bold text-foreground">
+        Câu hỏi thường gặp
+    </h2>
 
-  <div className="mt-6 divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface">
-    {faqItems.map((item) => (
-      <AccordionItem key={item.question} title={item.question}>{item.answer}</AccordionItem>
-    ))}
-  </div>
+    <div className="mt-6 divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface">
+        {faqItems.map((item) => (
+            <AccordionItem key={item.question} title={item.question}>
+                {item.answer}
+            </AccordionItem>
+        ))}
+    </div>
 </section>
 ```
 

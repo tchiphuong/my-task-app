@@ -11,11 +11,11 @@ Luật có dấu ⚑ là chưa qua vòng test nào.
 
 **M1. Nền trang xám nhạt, không trắng tinh. Card mới trắng.**
 
-*Gu flat — phong cách khác đã chọn theo `P1` thì xem `P2` trong `references/styles.md`.*
+_Gu flat — phong cách khác đã chọn theo `P1` thì xem `P2` trong `references/styles.md`._
 
 **M2. 95% trung tính, 5% điểm nhấn.**
 
-*Gu flat — phong cách khác đã chọn theo `P1` thì xem `P2` trong `references/styles.md`.*
+_Gu flat — phong cách khác đã chọn theo `P1` thì xem `P2` trong `references/styles.md`._
 
 Đây là luật quan trọng nhất trong nhóm, và là thứ quyết định một màn hình trông
 có chủ ý hay trông như chưa ai quyết định gì.
@@ -43,7 +43,7 @@ công thức phần tử bên dưới, `small-controls.md`). Màu thứ hai ph�
 
 **M4. Màu để báo trạng thái, không để phân loại.**
 
-*Có màu công thức B — ô icon card số liệu, ô icon đầu dòng theo loại và chuỗi biểu đồ dashboard được tô màu phân loại, xem `P12` trong `references/styles.md`.*
+_Có màu công thức B — ô icon card số liệu, ô icon đầu dòng theo loại và chuỗi biểu đồ dashboard được tô màu phân loại, xem `P12` trong `references/styles.md`._
 
 > `M4` và `M5` là **gu mặc định cho dự án chưa có ngôn ngữ màu**. Dự án đã tô màu
 > theo cách riêng (đếm ở `P4`) thì theo dự án; chỉ giữ các luật về nghĩa và đọc được
@@ -52,13 +52,13 @@ công thức phần tử bên dưới, `small-controls.md`). Màu thứ hai ph�
 
 Bảng màu của MỘT màn hình, không thêm:
 
-| Màu | Chỉ dùng cho |
-| --- | --- |
-| Xám trung tính | Mọi thứ còn lại: khung, chữ phụ, badge, icon, viền |
-| Màu nhấn | Nút hành động chính khi thật cần nổi, mục đang chọn, link. **Không** cho badge số đếm, **không** cho trạng thái |
-| Xanh lá | "Đang ổn", "đã xong": badge, thanh tiến độ xong (`M7`). Cố định, không lấy màu nhấn |
-| Hổ phách | "Cần chú ý": quá hạn, nộp trễ, bỏ lỡ |
-| Đỏ lỗi — `red` | Lỗi thật mà người dùng phải xử lý: bài bị từ chối, lỗi form |
+| Màu                   | Chỉ dùng cho                                                                                                                                                                                                                                                                     |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Xám trung tính        | Mọi thứ còn lại: khung, chữ phụ, badge, icon, viền                                                                                                                                                                                                                               |
+| Màu nhấn              | Nút hành động chính khi thật cần nổi, mục đang chọn, link. **Không** cho badge số đếm, **không** cho trạng thái                                                                                                                                                                  |
+| Xanh lá               | "Đang ổn", "đã xong": badge, thanh tiến độ xong (`M7`). Cố định, không lấy màu nhấn                                                                                                                                                                                              |
+| Hổ phách              | "Cần chú ý": quá hạn, nộp trễ, bỏ lỡ                                                                                                                                                                                                                                             |
+| Đỏ lỗi — `red`        | Lỗi thật mà người dùng phải xử lý: bài bị từ chối, lỗi form                                                                                                                                                                                                                      |
 | Đỏ nguy hiểm — `rose` | Hành động trả lời "có" ở một trong ba câu của `I4` (mất dữ liệu, kết thúc thứ đang chạy, cắt quyền): xoá, huỷ gói, thu hồi khoá, rời nhóm, đăng xuất. Lấy lại được không làm việc đó hết đỏ. Nút đứng riêng thì nền mờ + chữ đỏ luôn hiện; mục menu thì chỉ đỏ khi rê vào (`I4`) |
 
 Hai sắc đỏ là cố ý, không phải gõ nhầm — xem `M30`.
@@ -85,19 +85,21 @@ hơn bắt chữ; chấm xám + chữ đen thì cả cột trông như nhau ("Đ
 với "Ngừng giao dịch" chỉ khác nhau ở độ mờ của một chấm 4px).
 
 ```html
-<span class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700">
-  <span class="size-1.5 rounded-full bg-current"></span>Đang giao dịch
+<span
+    class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700"
+>
+    <span class="size-1.5 rounded-full bg-current"></span>Đang giao dịch
 </span>
 ```
 
 Bốn tông, không thêm. Trạng thái nào vào tông nào theo **nghĩa**, không theo sở thích:
 
-| Tông | Nền / chữ | Token (không Tailwind) | Nghĩa | Ví dụ |
-| --- | --- | --- | --- | --- |
-| Xám | `bg-zinc-100 text-zinc-600` | `--neutral-bg` / `--neutral` | Chờ, nháp, chưa bắt đầu, trung lập | Tiềm năng, Nháp, Cần làm |
-| Xanh lá | `bg-emerald-50 text-emerald-700` | `--success-bg` / `--success` | Đang ổn, đang chạy, đã xong | Đang giao dịch, Hoạt động, Đã thanh toán, Đã giao |
-| Hổ phách | `bg-amber-50 text-amber-700` | `--warning-bg` / `--warning` | Cần chú ý | Quá hạn, Sắp hết hạn, Tạm dừng |
-| Đỏ | `bg-red-50 text-red-700` | `--error-bg` / `--error-strong` | Đã dừng, thất bại, bị từ chối | Ngừng giao dịch, Đã huỷ, Lỗi |
+| Tông     | Nền / chữ                        | Token (không Tailwind)          | Nghĩa                              | Ví dụ                                             |
+| -------- | -------------------------------- | ------------------------------- | ---------------------------------- | ------------------------------------------------- |
+| Xám      | `bg-zinc-100 text-zinc-600`      | `--neutral-bg` / `--neutral`    | Chờ, nháp, chưa bắt đầu, trung lập | Tiềm năng, Nháp, Cần làm                          |
+| Xanh lá  | `bg-emerald-50 text-emerald-700` | `--success-bg` / `--success`    | Đang ổn, đang chạy, đã xong        | Đang giao dịch, Hoạt động, Đã thanh toán, Đã giao |
+| Hổ phách | `bg-amber-50 text-amber-700`     | `--warning-bg` / `--warning`    | Cần chú ý                          | Quá hạn, Sắp hết hạn, Tạm dừng                    |
+| Đỏ       | `bg-red-50 text-red-700`         | `--error-bg` / `--error-strong` | Đã dừng, thất bại, bị từ chối      | Ngừng giao dịch, Đã huỷ, Lỗi                      |
 
 **Dự án có dark mode thì mọi class `-700` của bảng trên đi kèm bản `dark:` `-400`**
 (`text-red-700 dark:text-red-400`; **riêng hổ phách là `text-amber-700 dark:text-orange-400`**, xem
@@ -129,13 +131,13 @@ Bốn tông không đủ cho luồng công việc: theo đoạn trên thì Cần
 bảng nhóm theo trạng thái ra ba nhóm xám một nhóm xanh, liếc không tách được nhóm nào với
 nhóm nào. Các app quản lý công việc lớn tách bằng **hình**, không thêm màu:
 
-| Trạng thái | Tông | Icon lucide | Vì sao |
-| --- | --- | --- | --- |
-| Cần làm | xám | `circle` | vòng rỗng: chưa bắt đầu |
-| Đang làm | xám | `circle-dot` | có lõi: đang có người làm, không ai khác phải làm gì |
-| Chờ duyệt | hổ phách | `circle-ellipsis` | người duyệt phải làm gì đó, cùng lý với "Chờ xử lý" |
-| Xong | xanh lá | `circle-check` | |
-| Đã huỷ | đỏ | `circle-x` | |
+| Trạng thái | Tông     | Icon lucide       | Vì sao                                               |
+| ---------- | -------- | ----------------- | ---------------------------------------------------- |
+| Cần làm    | xám      | `circle`          | vòng rỗng: chưa bắt đầu                              |
+| Đang làm   | xám      | `circle-dot`      | có lõi: đang có người làm, không ai khác phải làm gì |
+| Chờ duyệt  | hổ phách | `circle-ellipsis` | người duyệt phải làm gì đó, cùng lý với "Chờ xử lý"  |
+| Xong       | xanh lá  | `circle-check`    |                                                      |
+| Đã huỷ     | đỏ       | `circle-x`        |                                                      |
 
 Icon `size-3.5` trong badge (thay chấm), `size-4` ở đầu nhóm và đầu cột kanban, màu
 `-600` cùng tông (`text-zinc-500` cho xám). Một bảng này dùng cho mọi bề mặt (`D2`).
@@ -222,7 +224,7 @@ thật ra xem. Xem `refactor.md` luật L3.
 — avatar người dùng, icon workspace, logo tổ chức. Chúng là hình tròn hoặc vuông
 nhỏ dưới 40px, và gradient ở đó đóng vai ảnh chứ không đóng vai nền.
 
-*Gu flat — phong cách khác đã chọn theo `P1` thì xem `P2` trong `references/styles.md`.*
+_Gu flat — phong cách khác đã chọn theo `P1` thì xem `P2` trong `references/styles.md`._
 
 Không bao giờ cho nút, card, nền trang, hay chữ (`bg-clip-text text-transparent`).
 
@@ -236,26 +238,26 @@ Không bao giờ cho nút, card, nền trang, hay chữ (`bg-clip-text text-tran
 
 **M13. Tách khối bằng đường tóc 1px + bo góc, không bằng bóng.**
 
-*Gu flat — phong cách khác đã chọn theo `P1` thì xem `P2` trong `references/styles.md`.*
+_Gu flat — phong cách khác đã chọn theo `P1` thì xem `P2` trong `references/styles.md`._
 
 Trang phẳng, sạch; thứ bậc đến từ cỡ chữ, độ đậm và màu chữ.
 
-*Ngoại lệ: card đứng một mình giữa trang trống — xem `M29`.*
+_Ngoại lệ: card đứng một mình giữa trang trống — xem `M29`._
 
-| Phần tử | Công thức |
-| --- | --- |
-| Thẻ / khung | trắng, viền 1px xám rất nhạt, bo 16px `rounded-2xl` (`F1`), **không bóng** |
-| Danh sách nhiều mục | MỘT khung, các dòng chia bằng `divide-y`. Dòng tiêu đề và dòng hành động cuối nằm TRONG khung |
-| Khối tóm tắt phụ | nền xám nhạt + viền, bo như thẻ |
-| Mục sidebar, cây thư mục đang chọn | nền `--secondary` + `font-medium`, **không viền**, không màu nhấn; rê vào `--background`, mục chưa chọn không nền. Đang chọn đậm hơn nền rê một bậc (`I10`, `I15`) |
-| Tab ngang trên bảng / danh sách | tab đang chọn **nền `bg-tab-selected` (chữ phủ 8%, đúng trên cả card lẫn nền trang), viền trong suốt** (không nền trắng, không `--surface-hover`: trên card trắng liếc không thấy), mọi tab có `border`, mục chưa chọn `border-transparent`. Xem "Thanh tab" trong `components/small-controls.md` |
-| Ô nhập | viền — đây là chỗ viền đúng vai nhất, người ta phải nhìn ra ranh giới vùng gõ được |
+| Phần tử                            | Công thức                                                                                                                                                                                                                                                                                         |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Thẻ / khung                        | trắng, viền 1px xám rất nhạt, bo 16px `rounded-2xl` (`F1`), **không bóng**                                                                                                                                                                                                                        |
+| Danh sách nhiều mục                | MỘT khung, các dòng chia bằng `divide-y`. Dòng tiêu đề và dòng hành động cuối nằm TRONG khung                                                                                                                                                                                                     |
+| Khối tóm tắt phụ                   | nền xám nhạt + viền, bo như thẻ                                                                                                                                                                                                                                                                   |
+| Mục sidebar, cây thư mục đang chọn | nền `--secondary` + `font-medium`, **không viền**, không màu nhấn; rê vào `--background`, mục chưa chọn không nền. Đang chọn đậm hơn nền rê một bậc (`I10`, `I15`)                                                                                                                                |
+| Tab ngang trên bảng / danh sách    | tab đang chọn **nền `bg-tab-selected` (chữ phủ 8%, đúng trên cả card lẫn nền trang), viền trong suốt** (không nền trắng, không `--surface-hover`: trên card trắng liếc không thấy), mọi tab có `border`, mục chưa chọn `border-transparent`. Xem "Thanh tab" trong `components/small-controls.md` |
+| Ô nhập                             | viền — đây là chỗ viền đúng vai nhất, người ta phải nhìn ra ranh giới vùng gõ được                                                                                                                                                                                                                |
 
 **M14. Hai token viền, chia theo vai trò. Không có cái thứ ba.**
 
-| Token | Cho | Vì sao |
-| --- | --- | --- |
-| `--border` | Viền card, khung dropdown, đường chia trong danh sách và menu, **đường kẻ dưới đầu sidebar và dưới header** (cùng màu vạch trong menu, chủ dự án chốt, `layouts/app.md`) | **Trang trí**: chỉ vạch ranh giới, nhạt được bao nhiêu thì nhạt |
+| Token             | Cho                                                                                                                                                                                                                                                                                                          | Vì sao                                                                                                                          |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| `--border`        | Viền card, khung dropdown, đường chia trong danh sách và menu, **đường kẻ dưới đầu sidebar và dưới header** (cùng màu vạch trong menu, chủ dự án chốt, `layouts/app.md`)                                                                                                                                     | **Trang trí**: chỉ vạch ranh giới, nhạt được bao nhiêu thì nhạt                                                                 |
 | `--border-strong` | **Viền ô nhập**, **viền nút outline**, select, viền card khi hover, **mọi đường kẻ nằm thẳng trên nền trang xám** (footer trang; xem dưới bảng; riêng đường kẻ hàng tab `underline` là `--tab-rail`, `components/small-controls.md`), kẻ dọc sidebar **chỉ khi vùng nội dung cũng trắng** (`layouts/app.md`) | **Chức năng**: ô nhập và nút outline cùng nền trắng với card, viền là thứ duy nhất báo "đây là chỗ gõ", "đây là chỗ bấm" (`I8`) |
 
 Trong mỗi nhóm thì mọi chỗ dùng chung đúng một token, để đường tóc không chỗ
@@ -308,7 +310,7 @@ nghi mã màu.
 
 **M15. Bóng CHỈ cho lớp nổi.**
 
-*Gu flat — phong cách khác đã chọn theo `P1` thì xem `P2` trong `references/styles.md`.*
+_Gu flat — phong cách khác đã chọn theo `P1` thì xem `P2` trong `references/styles.md`._
 
 Modal, command palette, dropdown, popover, toast được đổ bóng vì chúng nằm **trên**
 trang. Mọi thứ nằm **trong** trang thì không.
@@ -321,9 +323,9 @@ cũng `border border-border`. Bảng nền của từng khối ở đầu `layou
 Định thêm `shadow-*` cho khối nằm trong trang → thử viền trước, xem có đủ tách
 khối không. Gần như luôn là đủ.
 
-*Ngoại lệ: card đứng một mình giữa trang trống — xem `M29`. Ô đang chọn của tab
+_Ngoại lệ: card đứng một mình giữa trang trống — xem `M29`. Ô đang chọn của tab
 `segmented` (phím nổi trên rãnh chìm), dùng đúng hai token `--shadow-segment-*` —
-xem "Thanh tab" trong `components/small-controls.md`.*
+xem "Thanh tab" trong `components/small-controls.md`._
 
 **M16. Không đẻ token viền mới từ màu nhấn.**
 
@@ -346,7 +348,7 @@ Hàng hover đổi nền (luật `I10`: `--item-hover` hoặc `--surface-hover`)
 avatar bên trong cũng dùng đúng token đó làm nền, hoặc chỉ có viền nhạt, thì rê
 chuột vào là chúng **biến mất**.
 
-*Cách kiểm:* rê chuột lên hàng, đếm xem còn nhìn thấy đủ mọi thứ không.
+_Cách kiểm:_ rê chuột lên hàng, đếm xem còn nhìn thấy đủ mọi thứ không.
 
 ---
 
@@ -362,19 +364,19 @@ R_ngoài = r_trong + d        d = padding của khung ngoài + độ dày viền
 chúng có **chung một tâm**. Công thức trên chính là điều kiện để hai tâm trùng
 nhau. Lệch khỏi nó thì khe hở ở góc khác khe hở ở cạnh:
 
-| Bán kính trong | Khe hở ở góc | Trông |
-| --- | --- | --- |
-| **Bằng** bán kính ngoài (12 trong 12) | **≈ 1.4 × d**, rộng hơn ở cạnh | Góc phình ra, như hai hình không khớp |
-| **= R − d** | **= d**, bằng đúng ở cạnh | Song song, gọn |
-| Nhỏ hơn nhiều, hoặc vuông | Hẹp hơn d, có thể về 0 | Góc trong bị ép sát, chọc vào đường cong ngoài |
+| Bán kính trong                        | Khe hở ở góc                   | Trông                                          |
+| ------------------------------------- | ------------------------------ | ---------------------------------------------- |
+| **Bằng** bán kính ngoài (12 trong 12) | **≈ 1.4 × d**, rộng hơn ở cạnh | Góc phình ra, như hai hình không khớp          |
+| **= R − d**                           | **= d**, bằng đúng ở cạnh      | Song song, gọn                                 |
+| Nhỏ hơn nhiều, hoặc vuông             | Hẹp hơn d, có thể về 0         | Góc trong bị ép sát, chọc vào đường cong ngoài |
 
 **Các cặp hay dùng, đều nằm trên thang Tailwind:**
 
-| Khung ngoài | Padding | Phần tử trong |
-| --- | --- | --- |
-| `rounded-xl` 12px | `p-1` 4px | `rounded-lg` 8px |
+| Khung ngoài        | Padding   | Phần tử trong     |
+| ------------------ | --------- | ----------------- |
+| `rounded-xl` 12px  | `p-1` 4px | `rounded-lg` 8px  |
 | `rounded-2xl` 16px | `p-1` 4px | `rounded-xl` 12px |
-| `rounded-2xl` 16px | `p-2` 8px | `rounded-lg` 8px |
+| `rounded-2xl` 16px | `p-2` 8px | `rounded-lg` 8px  |
 
 Cả ba cặp chỉ dùng bậc có trong thang bốn bậc của `F1`. Công thức ra một số
 ngoài thang (ví dụ `p-1.5` ra 6px) thì **đổi padding cho khớp thang**, đừng đẻ
@@ -403,17 +405,17 @@ là ngoại lệ.
 phải kiểm tương phản. Chỉ làm khi người dùng nói cần, và hỏi một câu lúc giao.
 Làm thì theo đủ `M21`–`M23`, `M31`–`M33`, và khối `.dark` của `tokens.css`.
 
-*Gu flat — phong cách khác đã chọn theo `P1` thì xem `P2` trong `references/styles.md`.*
+_Gu flat — phong cách khác đã chọn theo `P1` thì xem `P2` trong `references/styles.md`._
 
 **M21. Tầng nổi sáng dần ở nền tối; vùng tô là lớp phủ, giữ độ chênh với nền phía sau
 chứ không giữ chiều.**
 
 Hai loại bề mặt, hai cách đổi theme:
 
-| Loại | Gồm | Nền sáng | Nền tối |
-| --- | --- | --- | --- |
-| **Tầng** | nền trang → card → lớp nổi nhỏ (`--surface-overlay`) | trang xám, card và lớp nổi trắng | **sáng dần**: `#05060f` → `#0f111a` → `#171a26`, mỗi bậc ~1.07–1.09:1 |
-| **Vùng tô** | nút phụ, mục / tab đang chọn (`--secondary`), nền rê (`--item-hover`, `--button-hover`), rãnh, chip | phủ **tối** hơn nền phía sau | phủ **trắng mờ**, **sáng** hơn nền phía sau |
+| Loại        | Gồm                                                                                                 | Nền sáng                         | Nền tối                                                               |
+| ----------- | --------------------------------------------------------------------------------------------------- | -------------------------------- | --------------------------------------------------------------------- |
+| **Tầng**    | nền trang → card → lớp nổi nhỏ (`--surface-overlay`)                                                | trang xám, card và lớp nổi trắng | **sáng dần**: `#05060f` → `#0f111a` → `#171a26`, mỗi bậc ~1.07–1.09:1 |
+| **Vùng tô** | nút phụ, mục / tab đang chọn (`--secondary`), nền rê (`--item-hover`, `--button-hover`), rãnh, chip | phủ **tối** hơn nền phía sau     | phủ **trắng mờ**, **sáng** hơn nền phía sau                           |
 
 Vùng tô ở nền sáng tối hơn card, ở nền tối sáng hơn card: đúng ở cả hai. Thứ phải giữ
 là **độ chênh** với nền ngay sau nó, ngang nhau giữa hai theme (đang chọn `--secondary`
@@ -427,7 +429,7 @@ là **độ chênh** với nền ngay sau nó, ngang nhau giữa hai theme (đan
   là chìm xuống 1.07:1, gần như không thấy. Nền rê mục thụt vào là `--item-hover` (`I10`).
 - **Đang chọn đậm hơn rê đúng một bậc ở cả hai theme** (`I10`, `I15`).
 
-*Cách kiểm:* liệt kê nền trang, card, lớp nổi của mỗi theme: nền tối phải sáng dần. Rồi đo
+_Cách kiểm:_ liệt kê nền trang, card, lớp nổi của mỗi theme: nền tối phải sáng dần. Rồi đo
 nền rê và nền đang chọn trên card ở cả hai theme: độ chênh hai bản xấp xỉ nhau, đang chọn
 đậm hơn rê.
 
@@ -462,7 +464,7 @@ Dù gu nào:
 - **Không bóng màu ở nền tối** (bóng cam, bóng hổ phách dưới nút): trên nền tối nó thành
   vầng sáng bẩn. `dark:shadow-none` cho mọi bóng có sắc.
 
-*Gu flat — phong cách khác đã chọn theo `P1` thì xem `P2` trong `references/styles.md`.*
+_Gu flat — phong cách khác đã chọn theo `P1` thì xem `P2` trong `references/styles.md`._
 
 **M31. Nút đổi theme: Sáng / Tối / Hệ thống, mặc định Hệ thống.**
 
@@ -489,11 +491,16 @@ Next.js: `next-themes`.
 ```tsx
 // app/layout.tsx
 <html lang="vi" suppressHydrationWarning>
-  <body>
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-      {children}
-    </ThemeProvider>
-  </body>
+    <body>
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+        >
+            {children}
+        </ThemeProvider>
+    </body>
 </html>
 ```
 
@@ -503,19 +510,19 @@ thì lệch HTML lúc hydrate. Không Next thì script nội tuyến đầu `<he
 
 **M32. Ở nền tối, vài thứ đổi cách vẽ chứ không chỉ đổi màu.**
 
-| Thứ | Nền tối | Vì sao |
-| --- | --- | --- |
-| Ô nhập, select, textarea | **giữ viền** `--border-strong`, nền phủ mờ `dark:bg-white/4` | bỏ viền chỉ còn nền mờ là mất ranh giới vùng gõ; mọi bộ lớn đều giữ viền |
-| Nút đảo màu (nền `--foreground`, không phải `--primary`) | về variant `secondary`, hoặc nền trắng mờ + viền | đảo thẳng ra khối trắng chói, nặng hơn cả nút chính. Chỉ màu nhấn được thành khối sáng |
-| Tooltip | **đảo màu**: `bg-foreground text-background` | nền tối thì tooltip sáng, nổi khỏi mọi tầng |
-| Lớp phủ sau modal, panel, sidebar trượt | **`bg-black/…`** ở cả hai theme, không `bg-foreground/…` | `foreground` đảo sang gần trắng, lớp phủ thành màn sương sáng che trang |
-| Mục đang trỏ, đang chọn viết bằng điều kiện JS (`isHighlighted && …`, `isActive && …`) | `bg-item-hover` (trỏ), `bg-secondary` (chọn), như class `hover:` | `bg-background` trong điều kiện JS lọt khỏi mọi phép grep `hover:`; ở nền tối thành lỗ khoét trong dropdown (ô chọn, bảng lệnh) |
-| Chữ, icon màu trạng thái không nền (`text-amber-700`, `text-red-700`, `text-emerald-700`) | kèm `dark:text-*-400` cùng sắc (token `--warning`, `--error-strong`, `--success` đã lật sẵn) | `-700` trên nền tối chỉ 2,9–3,7:1, dưới ngưỡng chữ (`M7`) |
-| Nền nhạt `-50`, `-100` (badge, banner, chip, ô đáp án) | màu `-500` phủ 10–20%, chữ `-300`/`-400` | nền `-50` sang tối là khối trắng hồng giữa màn đen. Màu mang nghĩa đã có sẵn trong `tokens.css` |
-| Gradient, vệt màu loang trang trí | tắt (`dark:hidden`) hoặc thay bản tối | loang màu sáng trên nền tối là chói |
-| Biểu đồ | cột, vùng tô dùng `--chart-fill` (màu nhấn 70% ở nền tối); thang phân loại có bản tối (`components/charts.md`) | cột màu nhấn gần trắng 100% là khối chói nhất màn; xám "Khác" `slate-300` thành nổi nhất |
-| Ảnh nền trắng, logo | ảnh cần bản tối thì `<picture><source media="(prefers-color-scheme: dark)">` hoặc hai ảnh theo class; logo chuyển bản sáng | |
-| Avatar, ảnh nhỏ | vòng `ring-1 ring-border` | ảnh tối tan vào nền |
+| Thứ                                                                                       | Nền tối                                                                                                                    | Vì sao                                                                                                                          |
+| ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Ô nhập, select, textarea                                                                  | **giữ viền** `--border-strong`, nền phủ mờ `dark:bg-white/4`                                                               | bỏ viền chỉ còn nền mờ là mất ranh giới vùng gõ; mọi bộ lớn đều giữ viền                                                        |
+| Nút đảo màu (nền `--foreground`, không phải `--primary`)                                  | về variant `secondary`, hoặc nền trắng mờ + viền                                                                           | đảo thẳng ra khối trắng chói, nặng hơn cả nút chính. Chỉ màu nhấn được thành khối sáng                                          |
+| Tooltip                                                                                   | **đảo màu**: `bg-foreground text-background`                                                                               | nền tối thì tooltip sáng, nổi khỏi mọi tầng                                                                                     |
+| Lớp phủ sau modal, panel, sidebar trượt                                                   | **`bg-black/…`** ở cả hai theme, không `bg-foreground/…`                                                                   | `foreground` đảo sang gần trắng, lớp phủ thành màn sương sáng che trang                                                         |
+| Mục đang trỏ, đang chọn viết bằng điều kiện JS (`isHighlighted && …`, `isActive && …`)    | `bg-item-hover` (trỏ), `bg-secondary` (chọn), như class `hover:`                                                           | `bg-background` trong điều kiện JS lọt khỏi mọi phép grep `hover:`; ở nền tối thành lỗ khoét trong dropdown (ô chọn, bảng lệnh) |
+| Chữ, icon màu trạng thái không nền (`text-amber-700`, `text-red-700`, `text-emerald-700`) | kèm `dark:text-*-400` cùng sắc (token `--warning`, `--error-strong`, `--success` đã lật sẵn)                               | `-700` trên nền tối chỉ 2,9–3,7:1, dưới ngưỡng chữ (`M7`)                                                                       |
+| Nền nhạt `-50`, `-100` (badge, banner, chip, ô đáp án)                                    | màu `-500` phủ 10–20%, chữ `-300`/`-400`                                                                                   | nền `-50` sang tối là khối trắng hồng giữa màn đen. Màu mang nghĩa đã có sẵn trong `tokens.css`                                 |
+| Gradient, vệt màu loang trang trí                                                         | tắt (`dark:hidden`) hoặc thay bản tối                                                                                      | loang màu sáng trên nền tối là chói                                                                                             |
+| Biểu đồ                                                                                   | cột, vùng tô dùng `--chart-fill` (màu nhấn 70% ở nền tối); thang phân loại có bản tối (`components/charts.md`)             | cột màu nhấn gần trắng 100% là khối chói nhất màn; xám "Khác" `slate-300` thành nổi nhất                                        |
+| Ảnh nền trắng, logo                                                                       | ảnh cần bản tối thì `<picture><source media="(prefers-color-scheme: dark)">` hoặc hai ảnh theo class; logo chuyển bản sáng |                                                                                                                                 |
+| Avatar, ảnh nhỏ                                                                           | vòng `ring-1 ring-border`                                                                                                  | ảnh tối tan vào nền                                                                                                             |
 
 **M33. Vùng khoá theme khai lại token tại chỗ; thư viện bên ngoài đọc token.**
 
@@ -557,7 +564,7 @@ copy, không gõ lại từ trí nhớ, không tự nghĩ mã hex. Đã có lầ
 **M29. Màn chỉ có đúng MỘT card giữa trang trống thì bỏ viền. Chìm quá thì dùng
 bóng rất mờ, không phải viền đậm hơn.**
 
-*Gu flat — phong cách khác đã chọn theo `P1` thì xem `P2` trong `references/styles.md`.*
+_Gu flat — phong cách khác đã chọn theo `P1` thì xem `P2` trong `references/styles.md`._
 
 Đăng nhập, đăng ký, quên mật khẩu, màn onboarding một khối. (Trang lỗi không dùng card, xem
 "Trang lỗi" ở `layouts/app.md`.) Đặc điểm
@@ -589,17 +596,17 @@ nằm cạnh nhau trong trang, không về một card một mình.
 
 **M30. Đỏ có hai sắc cho hai việc. Không dùng lẫn, không thêm sắc thứ ba.**
 
-| | Sắc | Việc | Khi nào hiện | Ở đâu |
-| --- | --- | --- | --- | --- |
-| **Lỗi** | `red` | *Đã có gì đó sai*, phải sửa mới đi tiếp được | Sau khi người dùng làm sai | Ô nhập, câu lỗi, banner lỗi máy chủ |
-| **Nguy hiểm** | `rose` | *Bấm vào thì không lấy lại được* | Nút: luôn hiện, nền mờ. Mục menu: chỉ lúc rê vào (`I4`) | Xoá, huỷ tài khoản, rời nhóm, đăng xuất (mục menu) |
+|               | Sắc    | Việc                                         | Khi nào hiện                                            | Ở đâu                                              |
+| ------------- | ------ | -------------------------------------------- | ------------------------------------------------------- | -------------------------------------------------- |
+| **Lỗi**       | `red`  | _Đã có gì đó sai_, phải sửa mới đi tiếp được | Sau khi người dùng làm sai                              | Ô nhập, câu lỗi, banner lỗi máy chủ                |
+| **Nguy hiểm** | `rose` | _Bấm vào thì không lấy lại được_             | Nút: luôn hiện, nền mờ. Mục menu: chỉ lúc rê vào (`I4`) | Xoá, huỷ tài khoản, rời nhóm, đăng xuất (mục menu) |
 
 **Vì sao tách.** Hai việc khác nhau về thời điểm và mức nặng:
 
 - **Lỗi** là chuyện **đã xảy ra**. Nó phải nhận ra ngay, không lẫn với gì — nên dùng `red`, sắc đỏ chuẩn mà ai nhìn cũng đọc ra "sai".
 - **Nguy hiểm** là **lời nhắc trước khi bấm**, hiện lên chỉ vì chuột đi ngang qua. Chưa có gì sai cả. Nếu nó đỏ y như lỗi thì mỗi lần rê chuột qua menu, người dùng thấy như vừa làm hỏng gì — nên dùng `rose`, ngả hồng hơn, mềm hơn một bậc. Cùng tinh thần `I4`: nút xoá không hét vào mặt người dùng.
 
-**Phép thử khi phân vân:** *người dùng đã làm sai gì chưa?* Rồi → `red`. Chưa,
+**Phép thử khi phân vân:** _người dùng đã làm sai gì chưa?_ Rồi → `red`. Chưa,
 chỉ đang sắp bấm → `rose`.
 
 ### Bậc dùng — đừng tự chế
@@ -607,12 +614,12 @@ chỉ đang sắp bấm → `rose`.
 Mỗi ô ghi class Tailwind, token CSS trong ngoặc. Hai cách ra cùng một màu
 (`tokens.css`), dự án không có Tailwind thì dùng token.
 
-| Việc | Lỗi (`red`) | Nguy hiểm (`rose`) |
-| --- | --- | --- |
-| Chữ, icon | câu lỗi dưới ô: `text-red-600` (`--error-text`) — `red-500` trên nền trắng chỉ 3.8:1, trượt 4.5:1. Dấu `*` trường bắt buộc cũng sắc này (ngoại lệ `M9`) | `text-rose-700` (`--danger`) (nút luôn hiện, mục menu lúc rê vào) — `rose-500` trên nền mờ chỉ 3.2:1 |
-| Viền | `border-red-500` (`--error`) | — *(không có viền đỏ)* |
-| Nền mờ | `ring-red-500/10` (`--error-ring`) quanh ô nhập lỗi **đang focus** | nút: `bg-rose-500/10` (`--danger-bg`), rê vào `/15` (`--danger-bg-hover`) · mục menu: `hover:bg-rose-500/10` |
-| Banner | `bg-red-50` (`--error-bg`) · `border-red-200` (`--error-border`) · tiêu đề `red-700` (`--error-strong`), mô tả `text-foreground/80` (`components/banner.md`) | — *(không có banner)* |
+| Việc      | Lỗi (`red`)                                                                                                                                                  | Nguy hiểm (`rose`)                                                                                           |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| Chữ, icon | câu lỗi dưới ô: `text-red-600` (`--error-text`) — `red-500` trên nền trắng chỉ 3.8:1, trượt 4.5:1. Dấu `*` trường bắt buộc cũng sắc này (ngoại lệ `M9`)      | `text-rose-700` (`--danger`) (nút luôn hiện, mục menu lúc rê vào) — `rose-500` trên nền mờ chỉ 3.2:1         |
+| Viền      | `border-red-500` (`--error`)                                                                                                                                 | — _(không có viền đỏ)_                                                                                       |
+| Nền mờ    | `ring-red-500/10` (`--error-ring`) quanh ô nhập lỗi **đang focus**                                                                                           | nút: `bg-rose-500/10` (`--danger-bg`), rê vào `/15` (`--danger-bg-hover`) · mục menu: `hover:bg-rose-500/10` |
+| Banner    | `bg-red-50` (`--error-bg`) · `border-red-200` (`--error-border`) · tiêu đề `red-700` (`--error-strong`), mô tả `text-foreground/80` (`components/banner.md`) | — _(không có banner)_                                                                                        |
 
 Ô "—" là **cố ý trống**: hành động nguy hiểm không bao giờ có viền đỏ hay banner
 đỏ. Thấy mình định viết `border-rose-*` là đang biến lời nhắc thành cảnh báo.
