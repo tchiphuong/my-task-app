@@ -19,6 +19,7 @@
         "inputPlaceholder": "Nhập tự nhiên câu mô tả công việc hoặc thói quen của bạn...",
         "modalDesc": "Nhập mô tả bằng câu nói tự nhiên, trợ lý sẽ tự động nhận diện ngày giờ, mức độ ưu tiên và chu kỳ lặp lại",
         "modalTitle": "Nhập việc nhanh bằng trí tuệ nhân tạo",
+        "noDueDate": "Không có",
         "parseButton": "Phân tích bằng AI",
         "parsing": "Đang phân tích thông tin...",
         "personal1": "Mua quà sinh nhật cho mẹ vào cuối tuần này việc quan trọng",
@@ -385,6 +386,7 @@
             "title": "Tên công việc",
             "titlePlaceholder": "Tính làm chuyện gì nè..."
         },
+        "noDueDate": "Không có",
         "noTasks": "Hông tìm thấy việc nào khớp hết trọi nè.",
         "noTasksCompleted": "Chưa có việc nào hoàn thành hết trọi, ráng lên nha!",
         "noTasksDoing": "Chưa có việc nào đang gét-go thực hiện hết á.",
