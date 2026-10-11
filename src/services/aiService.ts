@@ -170,6 +170,8 @@ Quy tắc:
 3. KHÔNG bọc trong markdown, KHÔNG kèm văn bản giải thích thừa.`;
 }
 
+const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY || "";
+
 /**
  * Hàm phân tích công việc chính bằng AI (tự động xoay vòng model nếu chạm trần quota).
  */
@@ -184,7 +186,7 @@ export async function parseTaskWithAi(
     }
 
     const nowStr = currentDateStr || new Date().toISOString();
-    const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+    const apiKey = GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY || "";
 
     if (!apiKey || apiKey.trim() === "") {
         console.warn("[AI Service] Thiếu cấu hình NEXT_PUBLIC_GEMINI_API_KEY");
@@ -250,7 +252,7 @@ export async function suggestIdeasWithAi(
     currentDateStr?: string,
     categories?: string[],
 ): Promise<string[]> {
-    const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+    const apiKey = GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY || "";
 
     if (!apiKey || apiKey.trim() === "") {
         console.warn("[AI Service] Thiếu cấu hình NEXT_PUBLIC_GEMINI_API_KEY");
