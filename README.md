@@ -58,7 +58,7 @@ A modern, highly responsive task and habit management web application engineered
 | **Database & Auth** | Firebase Cloud Firestore, Firebase Authentication |
 | **AI Integration** | Google Gemini API & Smart Local NLP Parser |
 | **Charts & Export** | Recharts, SheetJS (xlsx), jsPDF |
-| **Localization** | i18next, react-i18next (Vietnamese locale) |
+| **Localization** | i18next, react-i18next |
 
 ---
 
