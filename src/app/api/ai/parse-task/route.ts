@@ -258,27 +258,20 @@ export async function POST(req: NextRequest) {
                 ? userCategories.join(", ")
                 : "Công việc, Cá nhân, Học tập, Sức khỏe, Gia đình, Tận hưởng";
 
-        const systemPrompt = `Bạn là trợ lý AI chuyên bóc tách thông tin công việc cho ứng dụng My Task App.
+        const systemPrompt = `Bạn là trợ lý AI thông minh quản lý công việc và thói quen cá nhân.
 Thời điểm hiện tại của người dùng là: ${nowStr}.
-Danh sách danh mục công việc hiện có gồm: ${categoryList}.
 
-Nhiệm vụ của bạn:
-1. Đọc kỹ câu mô tả bằng tiếng Việt tự nhiên của người dùng.
-2. Bóc tách và chuẩn hóa thông tin thành định dạng JSON chuẩn.
-3. Các trường cần trích xuất:
-   - title: Tiêu đề công việc ngắn gọn, rõ ràng, viết hoa chữ cái đầu.
-   - description: Mô tả chi tiết nếu có thêm thông tin phụ, hoặc để chuỗi rỗng nếu không có.
-   - dueDate: Ngày hoặc ngày giờ hạn chót theo định dạng YYYY-MM-DD hoặc YYYY-MM-DDTHH:mm nếu có giờ cụ thể. Tính toán chính xác dựa vào thời điểm hiện tại ${nowStr} và các từ chỉ thời gian như hôm nay, ngày mai, thứ 2 tuần sau, cuối tháng này... Nếu không nhắc đến ngày giờ thì để null.
-   - startDate: Ngày bắt đầu nếu người dùng có nói từ ngày nào đến ngày nào (định dạng YYYY-MM-DD), nếu không thì để null.
-   - priority: Mức độ ưu tiên, chỉ nhận 1 trong 3 giá trị: "low", "medium", "high". Mặc định là "medium" nếu không nhắc đến, nếu có từ như khẩn cấp, gấp, quan trọng thì chọn "high".
-   - category: Chọn 1 danh mục phù hợp nhất từ danh sách [${categoryList}], hoặc tự đặt tên danh mục ngắn gọn 1 đến 2 từ nếu chưa có.
-   - repeat: Chu kỳ lặp lại, chỉ nhận 1 trong các giá trị: "none", "daily", "weekdays", "weekly", "monthly".
-     + "daily": nếu có nhắc đến mỗi ngày, hàng ngày.
-     + "weekdays": nếu có nhắc đến ngày thường, từ thứ hai đến thứ sáu.
-     + "weekly": nếu có nhắc đến mỗi tuần, hàng tuần, thứ mấy hàng tuần.
-     + "monthly": nếu có nhắc đến mỗi tháng, hàng tháng.
-     + "none": nếu là việc làm 1 lần không lặp lại.
-   - isDaily: true nếu repeat khác "none" hoặc người dùng xem đây là thói quen hàng ngày, ngược lại là false.`;
+Hãy dùng khả năng thấu hiểu ngôn ngữ tự nhiên để tự do phân tích, suy luận ngữ cảnh từ bất kỳ câu nhập nào của người dùng thành một công việc hoàn chỉnh:
+- title: Tên công việc ngắn gọn, tự nhiên, làm nổi bật hành động cốt lõi (tự động loại bỏ thông tin thời gian, độ ưu tiên hoặc từ ngữ thừa).
+- description: Giữ nguyên câu nhập gốc của người dùng hoặc bổ sung mô tả chi tiết nếu có.
+- dueDate: Hạn chót công việc (ISO 8601 nếu có giờ cụ thể, hoặc YYYY-MM-DD nếu chỉ có ngày). Tự do suy luận chính xác mốc thời gian từ câu nói dựa trên thời điểm hiện tại. Nếu người dùng không nhắc đến bất kỳ mốc thời gian nào thì để null.
+- startDate: Ngày bắt đầu (YYYY-MM-DD), mặc định ngày hiện tại nếu không có mốc riêng.
+- priority: Mức độ ưu tiên ("low", "medium", "high") tự suy luận theo tính chất công việc hoặc sắc thái câu nói.
+- category: Danh mục phù hợp nhất tự suy luận theo ngữ cảnh thực tế (ưu tiên từ [${categoryList}] hoặc tự đề xuất danh mục tiếng Việt phù hợp).
+- repeat: Chu kỳ lặp lại ("none", "daily", "weekdays", "weekly", "monthly") nếu câu nói thể hiện thói quen hoặc việc định kỳ.
+- isDaily: true nếu là thói quen thực hiện mỗi ngày, ngược lại false.
+
+Nguyên tắc: Tự do tư duy và suy luận linh hoạt như con người thực thụ với mọi kiểu diễn đạt của người dùng.`;
 
         const geminiEndpoint =
             "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent";

@@ -51,23 +51,62 @@ export function fallbackParseTask(
     let targetDate = new Date(now);
     let hasExplicitDate = false;
 
-    if (/(ngày mai|sáng mai|chiều mai|tối mai|mai)/i.test(lower)) {
-        targetDate = addDays(now, 1);
-        hasExplicitDate = true;
-    } else if (/(ngày mốt|hôm sau)/i.test(lower)) {
+    // Bắt định dạng DD/MM/YYYY hoặc DD/MM hoặc DD-MM hoặc DD.MM (Ví dụ: "21/11", "21-11", "21.11", "ngày 21/11")
+    const specificDateRegex =
+        /(?:vào\s+)?(?:ngày\s+)?(\b\d{1,2})[\/\-\.](\d{1,2})(?:[\/\-\.](\d{4}))?\b/i;
+    const specificDateMatch = lower.match(specificDateRegex);
+
+    // Bắt định dạng ngày DD tháng MM (Ví dụ: "ngày 21 tháng 11", "21 thg 11")
+    const vietnameseDateRegex =
+        /(?:ngày\s+)?(\b\d{1,2})\s+(?:tháng|thg)\s+(\d{1,2})(?:\s+(?:năm\s+)?(\d{4}))?\b/i;
+    const vietnameseDateMatch = lower.match(vietnameseDateRegex);
+
+    if (specificDateMatch) {
+        const d = parseInt(specificDateMatch[1], 10);
+        const m = parseInt(specificDateMatch[2], 10);
+        const y = specificDateMatch[3]
+            ? parseInt(specificDateMatch[3], 10)
+            : now.getFullYear();
+
+        if (d >= 1 && d <= 31 && m >= 1 && m <= 12) {
+            targetDate = new Date(y, m - 1, d);
+            hasExplicitDate = true;
+        }
+    } else if (vietnameseDateMatch) {
+        const d = parseInt(vietnameseDateMatch[1], 10);
+        const m = parseInt(vietnameseDateMatch[2], 10);
+        const y = vietnameseDateMatch[3]
+            ? parseInt(vietnameseDateMatch[3], 10)
+            : now.getFullYear();
+
+        if (d >= 1 && d <= 31 && m >= 1 && m <= 12) {
+            targetDate = new Date(y, m - 1, d);
+            hasExplicitDate = true;
+        }
+    } else if (/(ngày mốt|hôm sau|bữa mốt)/i.test(lower)) {
         targetDate = addDays(now, 2);
         hasExplicitDate = true;
-    } else if (/(hôm nay|tối nay|chiều nay|trưa nay|sáng nay)/i.test(lower)) {
+    } else if (/(ngày mai|sáng mai|chiều mai|tối mai|mai)/i.test(lower)) {
+        targetDate = addDays(now, 1);
+        hasExplicitDate = true;
+    } else if (
+        /(hôm nay|tối nay|chiều nay|trưa nay|sáng nay|bữa nay|nay)/i.test(lower)
+    ) {
         targetDate = new Date(now);
         hasExplicitDate = true;
+    } else if (/(tuần sau|tuần tới)/i.test(lower)) {
+        targetDate = addDays(now, 7);
+        hasExplicitDate = true;
     } else {
+        const isNextWeek = /(tuần sau|tuần tới)/i.test(lower);
         const dayMatch = lower.match(
-            /(thứ hai|thứ 2|thứ ba|thứ 3|thứ tư|thứ 4|thứ năm|thứ 5|thứ sáu|thứ 6|thứ bảy|thứ 7|chủ nhật)/i,
+            /(thứ hai|thứ 2|thứ ba|thứ 3|thứ tư|thứ 4|thứ năm|thứ 5|thứ sáu|thứ 6|thứ bảy|thứ 7|chủ nhật|cn)/i,
         );
         if (dayMatch) {
             hasExplicitDate = true;
             const dayMap: Record<string, number> = {
                 "chủ nhật": 0,
+                cn: 0,
                 "thứ hai": 1,
                 "thứ 2": 1,
                 "thứ ba": 2,
@@ -86,6 +125,7 @@ export function fallbackParseTask(
                 const currentDay = getDay(now);
                 let diff = targetDay - currentDay;
                 if (diff <= 0) diff += 7;
+                if (isNextWeek) diff += 7;
                 targetDate = addDays(now, diff);
             }
         }
@@ -132,23 +172,29 @@ export function fallbackParseTask(
 
     // 5. Làm sạch Title
     let title = text
+        .replace(specificDateRegex, "")
+        .replace(vietnameseDateRegex, "")
         .replace(
-            /(khẩn cấp|gấp|quan trọng|cháy|ưu tiên cao|ưu tiên thấp|thong thả)/gi,
+            /(khẩn cấp|gấp|quan trọng|cháy|ưu tiên cao|ưu tiên thấp|thong thả|urgent)/gi,
             "",
         )
         .replace(
             /(mỗi ngày|hàng ngày|hằng ngày|mỗi tuần|hàng tuần|mỗi tháng|ngày thường)/gi,
             "",
         )
-        .replace(/(ngày mai|sáng mai|chiều mai|tối mai|mai|ngày mốt)/gi, "")
-        .replace(/(hôm nay|tối nay|chiều nay|trưa nay|sáng nay)/gi, "")
         .replace(
-            /(thứ hai|thứ 2|thứ ba|thứ 3|thứ tư|thứ 4|thứ năm|thứ 5|thứ sáu|thứ 6|thứ bảy|thứ 7|chủ nhật)/gi,
+            /(ngày mai|sáng mai|chiều mai|tối mai|mai|ngày mốt|bữa mốt)/gi,
+            "",
+        )
+        .replace(/(hôm nay|tối nay|chiều nay|trưa nay|sáng nay|bữa nay)/gi, "")
+        .replace(/(tuần sau|tuần tới)/gi, "")
+        .replace(
+            /(thứ hai|thứ 2|thứ ba|thứ 3|thứ tư|thứ 4|thứ năm|thứ 5|thứ sáu|thứ 6|thứ bảy|thứ 7|chủ nhật|cn)/gi,
             "",
         )
         .replace(hourRegex, "")
         .replace(
-            /\b(vào lúc|lúc|vào|ngày|hạn|deadline|nhớ|cần|phải|làm)\b/gi,
+            /\b(vào lúc|lúc|vào|ngày|hạn|deadline|nhớ|cần|phải)\b/gi,
             "",
         )
         .replace(/\s+/g, " ")
@@ -168,17 +214,25 @@ export function fallbackParseTask(
     if (matchedCat) {
         category = matchedCat;
     } else if (
-        /(tập|thể dục|gym|chạy bộ|uống nước|ngủ|sức khỏe)/i.test(lower)
+        /(đá banh|bóng đá|cầu lông|bơi|chạy bộ|gym|tập thể dục|yoga|bác sĩ|khám|thuốc|uống nước|ngủ|sức khỏe)/i.test(
+            lower,
+        )
     ) {
         category = "Sức khỏe";
     } else if (
-        /(học|đọc sách|ôn thi|bài tập|khóa học|tiếng anh)/i.test(lower)
+        /(học|đọc sách|ôn thi|bài tập|khóa học|tiếng anh|nghiên cứu)/i.test(lower)
     ) {
         category = "Học tập";
+    } else if (
+        /(xem phim|chơi game|đi chơi|nhậu|cafe|cà phê|ăn uống|chill|du lịch)/i.test(
+            lower,
+        )
+    ) {
+        category = "Giải trí";
     } else if (/(mua|chợ|dọn dẹp|gia đình|nấu ăn|nhà)/i.test(lower)) {
         category = "Cá nhân";
     } else if (
-        /(họp|báo cáo|dự án|khách hàng|code|release|deploy|gặp sếp)/i.test(
+        /(họp|báo cáo|dự án|khách hàng|code|release|deploy|gặp sếp|meeting|fix bug)/i.test(
             lower,
         )
     ) {
@@ -299,26 +353,26 @@ export async function parseTaskWithAi(
                 ? availableCategories.join(", ")
                 : "Công việc, Cá nhân, Học tập, Sức khỏe, Gia đình";
 
-        const systemPrompt = `Bạn là một trợ lý thông minh chuyên phân tích và bóc tách công việc từ ngôn ngữ tự nhiên tiếng Việt cho ứng dụng My Task App.
+        const systemPrompt = `Bạn là trợ lý AI thông minh quản lý công việc và thói quen cá nhân.
 Thời điểm hiện tại của người dùng là: ${nowStr}.
-Danh mục người dùng có sẵn: [${categoriesPrompt}].
 
-Nhiệm vụ của bạn là phân tích đoạn văn bản người dùng nhập vào thành JSON theo cấu trúc sau:
+Hãy dùng khả năng thấu hiểu ngôn ngữ tự nhiên để tự do phân tích, suy luận ngữ cảnh từ bất kỳ câu nhập nào của người dùng thành một công việc hoàn chỉnh:
+
+Cấu trúc JSON đầu ra:
 {
-  "title": string (Tiêu đề công việc ngắn gọn, rõ ràng, không chứa thời gian/độ ưu tiên thừa),
-  "description": string (Mô tả chi tiết hoặc giữ nguyên câu nói gốc),
-  "dueDate": string hoặc null (Định dạng ISO 8601 YYYY-MM-DDTHH:mm:ss.sssZ nếu có giờ cụ thể, hoặc YYYY-MM-DD nếu chỉ có ngày, tính toán chính xác dựa vào thời điểm hiện tại),
-  "startDate": string hoặc null (Ngày bắt đầu, định dạng YYYY-MM-DD, mặc định là ngày hôm nay nếu không có),
-  "priority": "low" | "medium" | "high" (Mức độ ưu tiên dựa vào từ ngữ như "khẩn cấp", "gấp", "quan trọng", "từ từ", mặc định "medium"),
-  "category": string (Chọn 1 danh mục phù hợp nhất từ danh mục người dùng có sẵn hoặc tự đề xuất 1 danh mục tiếng Việt phù hợp),
-  "repeat": "none" | "daily" | "weekdays" | "weekly" | "monthly" (Tần suất lặp lại nếu có từ khóa như "mỗi ngày", "hàng tuần", "ngày thường", mặc định "none"),
-  "isDaily": boolean (true nếu là thói quen hàng ngày lặp lại, ngược lại false)
+  "title": string, // Tên công việc ngắn gọn, tự nhiên, làm nổi bật hành động cốt lõi (tự động loại bỏ thông tin thời gian, độ ưu tiên hoặc từ ngữ thừa)
+  "description": string, // Nội dung chi tiết hoặc giữ nguyên câu nhập gốc của người dùng
+  "dueDate": string | null, // Hạn chót công việc: định dạng ISO 8601 (nếu có giờ cụ thể) hoặc YYYY-MM-DD (nếu chỉ có ngày). Tự do suy luận chính xác mốc thời gian từ câu nói dựa trên thời điểm hiện tại. Nếu người dùng không nhắc đến bất kỳ mốc thời gian nào thì để null
+  "startDate": string | null, // Ngày bắt đầu (YYYY-MM-DD), mặc định ngày hiện tại nếu không có mốc bắt đầu riêng
+  "priority": "low" | "medium" | "high", // Mức độ ưu tiên tự suy luận theo tính chất công việc hoặc sắc thái câu nói (mặc định "medium")
+  "category": string, // Danh mục công việc phù hợp nhất tự suy luận theo ngữ cảnh thực tế (ví dụ: Công việc, Thể thao, Sức khỏe, Học tập, Cá nhân, Giải trí...)
+  "repeat": "none" | "daily" | "weekdays" | "weekly" | "monthly", // Chu kỳ lặp lại nếu câu nói thể hiện thói quen hoặc việc định kỳ (mặc định "none")
+  "isDaily": boolean // true nếu là thói quen thực hiện mỗi ngày, ngược lại false
 }
 
-Quy tắc bắt buộc:
-1. Chỉ trả về DUY NHẤT một chuỗi JSON hợp lệ, KHÔNG bọc trong markdown \`\`\`json, KHÔNG kèm văn bản giải thích.
-2. Nếu người dùng nói "mai", "ngày mai" -> cộng thêm 1 ngày so với thời điểm hiện tại.
-3. Nếu người dùng nói "chiều nay 3h" -> đặt giờ là 15:00:00 của ngày hôm nay.`;
+Nguyên tắc:
+- Hãy tự do tư duy và suy luận linh hoạt như một con người thực thụ, người dùng có thể nhập bất kỳ cú pháp nào (viết tắt, tiếng lóng, ngày tháng bất kỳ kiểu nào, không dấu, có dấu, v.v.).
+- Chỉ trả về DUY NHẤT một chuỗi JSON hợp lệ, KHÔNG bọc trong markdown, KHÔNG kèm văn bản giải thích.`;
 
         const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey.trim()}`;
 
