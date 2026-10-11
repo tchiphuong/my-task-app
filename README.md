@@ -94,7 +94,7 @@ NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
 NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project.firebasestorage.app
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
 NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
-GEMINI_API_KEY=your_gemini_api_key
+NEXT_PUBLIC_GEMINI_API_KEY=your_gemini_api_key
 ```
 
 ### 3. Run Development Server
