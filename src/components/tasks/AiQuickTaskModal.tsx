@@ -19,6 +19,7 @@ import {
     RepeatType,
     TASK_STATUS,
 } from "@/constants";
+import { parseTaskWithAi, suggestIdeasWithAi } from "@/services/aiService";
 import { useTaskStore } from "@/store/useTaskStore";
 
 type ExampleCategory = "all" | "work" | "habit" | "study" | "personal";
@@ -168,26 +169,11 @@ export function AiQuickTaskModal({
                 ),
             );
 
-            const res = await fetch("/api/ai/suggest-ideas", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    currentDate: new Date().toISOString(),
-                    categories: userCategories,
-                }),
-            });
-
-            const data = await res.json();
-
-            if (!res.ok) {
-                throw new Error(data.error || "Không thể tạo gợi ý");
-            }
-
-            if (data.success && Array.isArray(data.ideas)) {
-                setCustomAiIdeas(data.ideas);
-            }
+            const ideas = await suggestIdeasWithAi(
+                new Date().toISOString(),
+                userCategories,
+            );
+            setCustomAiIdeas(ideas);
         } catch (err: unknown) {
             const msg =
                 err instanceof Error
@@ -214,29 +200,13 @@ export function AiQuickTaskModal({
                         .filter(Boolean),
                 ),
             );
-            const res = await fetch("/api/ai/parse-task", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    text: inputText,
-                    currentDate: new Date().toISOString(),
-                    categories,
-                }),
-            });
 
-            const data = await res.json();
-
-            if (!res.ok) {
-                throw new Error(data.error || "Không thể phân tích công việc");
-            }
-
-            if (data.success && data.data) {
-                setParsedData(data.data);
-            } else {
-                throw new Error("Dữ liệu nhận diện không hợp lệ");
-            }
+            const data = await parseTaskWithAi(
+                inputText,
+                new Date().toISOString(),
+                categories,
+            );
+            setParsedData(data);
         } catch (err: unknown) {
             const msg =
                 err instanceof Error ? err.message : "Đã xảy ra lỗi phân tích";
@@ -321,16 +291,18 @@ export function AiQuickTaskModal({
                             {/* Khu vực nhập mô tả */}
                             <div className="flex flex-col gap-2">
                                 <div
-                                    className={`transition-all duration-300 rounded-2xl ${isLoading
-                                        ? "ai-border-spinning shadow-md shadow-primary/20"
-                                        : ""
-                                        }`}
+                                    className={`transition-all duration-300 rounded-2xl ${
+                                        isLoading
+                                            ? "ai-border-spinning shadow-md shadow-primary/20"
+                                            : ""
+                                    }`}
                                 >
                                     <div
-                                        className={`transition-all duration-300 rounded-2xl ${isLoading
-                                            ? "relative z-10 rounded-[14px] bg-background dark:bg-[#18181b]"
-                                            : ""
-                                            }`}
+                                        className={`transition-all duration-300 rounded-2xl ${
+                                            isLoading
+                                                ? "relative z-10 rounded-[14px] bg-background dark:bg-[#18181b]"
+                                                : ""
+                                        }`}
                                     >
                                         <TextArea
                                             variant="secondary"
@@ -370,8 +342,8 @@ export function AiQuickTaskModal({
                                                 <span>
                                                     {isGeneratingIdeas
                                                         ? t(
-                                                            "ai.generatingIdeas",
-                                                        )
+                                                              "ai.generatingIdeas",
+                                                          )
                                                         : t("ai.generateIdeas")}
                                                 </span>
                                             </button>
