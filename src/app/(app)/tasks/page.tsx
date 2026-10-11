@@ -46,6 +46,9 @@ import {
     DATE_FORMATS,
     FILTER_ALL,
     PRIORITY_OPTIONS,
+    REPEAT_OPTIONS,
+    REPEAT_TYPE,
+    RepeatType,
     TASK_CATEGORIES,
     TASK_PRIORITY,
     TASK_STATUS,
@@ -60,6 +63,11 @@ export default function TasksPage() {
     const deleteTask = useTaskStore((state) => state.deleteTask);
     const [deleteTaskId, setDeleteTaskId] = useState<string | null>(null);
 
+    // Modal & Form State
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editingTask, setEditingTask] = useState<Task | null>(null);
+    const [hasDateRange, setHasDateRange] = useState(false);
+
     // Search & Filter state
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedCategory, setSelectedCategory] = useState(FILTER_ALL);
@@ -67,10 +75,6 @@ export default function TasksPage() {
 
     // Tab trạng thái trên mobile
     const [activeTab, setActiveTab] = useState<string>(TASK_STATUS.TODO);
-
-    // Modal State
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editingTask, setEditingTask] = useState<Task | null>(null);
 
     const tasks = account?.tasks || [];
 
@@ -102,11 +106,13 @@ export default function TasksPage() {
 
     const handleOpenAddModal = () => {
         setEditingTask(null);
+        setHasDateRange(false);
         setIsModalOpen(true);
     };
 
     const handleOpenEditModal = (task: Task) => {
         setEditingTask(task);
+        setHasDateRange(Boolean(task.startDate));
         setIsModalOpen(true);
     };
 
@@ -123,6 +129,13 @@ export default function TasksPage() {
 
         if (!data.title?.toString().trim()) return;
 
+        const repeat = (data.repeat as RepeatType) || REPEAT_TYPE.NONE;
+        const isDaily = repeat !== REPEAT_TYPE.NONE;
+        const startDate =
+            hasDateRange && data.startDate
+                ? (data.startDate as string)
+                : undefined;
+
         const taskData = {
             title: data.title as string,
             description: (data.description as string) || "",
@@ -130,10 +143,12 @@ export default function TasksPage() {
                 TASK_PRIORITY.MEDIUM) as Task["priority"],
             category: (data.category ||
                 TASK_CATEGORIES[0].name) as Task["category"],
+            startDate,
             dueDate:
                 (data.dueDate as string) ||
                 format(new Date(), DATE_FORMATS.DATE),
-            isDaily: data.isDaily === "true",
+            repeat,
+            isDaily,
             status: (editingTask
                 ? editingTask.status
                 : TASK_STATUS.TODO) as Task["status"],
@@ -272,17 +287,46 @@ export default function TasksPage() {
                         <Chip size="sm" variant="soft" color="default">
                             {task.category}
                         </Chip>
+                        {task.repeat && task.repeat !== REPEAT_TYPE.NONE && (
+                            <Chip size="sm" variant="soft" color="accent">
+                                {t(`repeat.${task.repeat}`)}
+                            </Chip>
+                        )}
                     </div>
 
                     <div className="flex justify-between items-center border-t border-default-50 dark:border-default-100/10 pt-2.5 mt-1">
-                        <span
-                            className={`text-2xs flex items-center gap-1 font-semibold ${isOverdue ? "text-danger-500 font-bold" : "text-default-400"}`}
-                        >
-                            <CalendarIcon className="w-3.5 h-3.5" />
-                            {isOverdue
-                                ? t("tasks.overdue", { date: formattedDueDate })
-                                : formattedDueDate}
-                        </span>
+                        <div className="flex flex-col gap-0.5 overflow-hidden">
+                            <span
+                                className={`text-2xs flex items-center gap-1 font-semibold truncate ${isOverdue ? "text-danger-500 font-bold" : "text-default-400"}`}
+                            >
+                                <CalendarIcon className="w-3.5 h-3.5 shrink-0" />
+                                {task.startDate && task.dueDate
+                                    ? t("tasks.dateRange", {
+                                          start: format(
+                                              parseISO(task.startDate),
+                                              DATE_FORMATS.SHORT_DISPLAY,
+                                          ),
+                                          end: formattedDueDate,
+                                      })
+                                    : isOverdue
+                                      ? t("tasks.overdue", {
+                                            date: formattedDueDate,
+                                        })
+                                      : formattedDueDate}
+                            </span>
+                            {task.status === TASK_STATUS.DONE &&
+                                task.completedAt && (
+                                    <span className="text-2xs text-success-600 dark:text-success-400 font-medium flex items-center gap-1">
+                                        <CheckSolid className="w-3 h-3 shrink-0" />
+                                        {t("tasks.completedAtLabel", {
+                                            date: format(
+                                                parseISO(task.completedAt),
+                                                DATE_FORMATS.SHORT_DISPLAY,
+                                            ),
+                                        })}
+                                    </span>
+                                )}
+                        </div>
 
                         <div className="flex gap-1">
                             {task.status !== TASK_STATUS.DONE && (
@@ -360,6 +404,7 @@ export default function TasksPage() {
                 <div className="flex gap-2 shrink-0">
                     <div className="w-32">
                         <Select
+                            variant="primary"
                             aria-label={t("tasks.category")}
                             placeholder={t("tasks.category")}
                             {...{
@@ -418,6 +463,7 @@ export default function TasksPage() {
 
                     <div className="w-32">
                         <Select
+                            variant="primary"
                             aria-label={t("tasks.priority")}
                             placeholder={t("tasks.priority")}
                             {...{
@@ -620,7 +666,7 @@ export default function TasksPage() {
                     <div className="flex justify-between items-center px-1 mb-1 relative z-10">
                         <span className="font-extrabold text-sm tracking-tight text-primary-600 dark:text-primary-400 flex items-center gap-1.5">
                             <PlayIcon className="w-4 h-4 text-primary-500" />
-                            {t("tasks.form.status.doing")}
+                            {t("tasks.form.status.in_progress")}
                         </span>
                         <Chip size="sm" variant="soft" color="accent">
                             {getTasksByStatus(TASK_STATUS.IN_PROGRESS).length}
@@ -646,7 +692,7 @@ export default function TasksPage() {
                     <div className="flex justify-between items-center px-1 mb-1 relative z-10">
                         <span className="font-extrabold text-sm tracking-tight text-success-600 dark:text-success-400 flex items-center gap-1.5">
                             <CheckIcon className="w-4 h-4 text-success-500" />
-                            {t("tasks.form.status.completed")}
+                            {t("tasks.form.status.done")}
                         </span>
                         <Chip size="sm" variant="soft" color="success">
                             {getTasksByStatus(TASK_STATUS.DONE).length}
@@ -788,54 +834,118 @@ export default function TasksPage() {
                                     </div>
 
                                     <div className="w-full">
-                                        <DatePicker
-                                            name="dueDate"
-                                            label={t("tasks.form.dueDate")}
+                                        <TextField
+                                            name="category"
                                             defaultValue={
-                                                editingTask?.dueDate
-                                                    ? parseDate(
-                                                          editingTask.dueDate,
-                                                      )
-                                                    : today(getLocalTimeZone())
+                                                editingTask?.category ||
+                                                TASK_CATEGORIES[0].name
                                             }
-                                        />
+                                        >
+                                            <Label>{t("tasks.category")}</Label>
+                                            <Input
+                                                placeholder={t(
+                                                    "tasks.form.categoryPlaceholder",
+                                                )}
+                                            />
+                                            <FieldError />
+                                        </TextField>
                                     </div>
                                 </div>
 
-                                <div className="w-full">
-                                    <TextField
-                                        name="category"
-                                        defaultValue={
-                                            editingTask?.category ||
-                                            TASK_CATEGORIES[0].name
-                                        }
+                                {/* Khoảng thời gian: Từ ngày đến ngày optional */}
+                                <div className="w-full flex flex-col gap-2 p-3 rounded-2xl bg-default-50/50 dark:bg-default-100/5 border border-default-100 dark:border-default-100/10">
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-xs font-semibold text-default-600">
+                                            {t("tasks.form.hasDateRange")}
+                                        </span>
+                                        <Switch
+                                            isSelected={hasDateRange}
+                                            onChange={setHasDateRange}
+                                        >
+                                            <Switch.Control>
+                                                <Switch.Thumb />
+                                            </Switch.Control>
+                                        </Switch>
+                                    </div>
+
+                                    <div
+                                        className={`grid ${hasDateRange ? "grid-cols-2" : "grid-cols-1"} gap-3 mt-1`}
                                     >
-                                        <Label>{t("tasks.category")}</Label>
-                                        <Input
-                                            placeholder={t(
-                                                "tasks.form.categoryPlaceholder",
-                                            )}
-                                        />
-                                        <FieldError />
-                                    </TextField>
+                                        {hasDateRange && (
+                                            <div className="w-full">
+                                                <DatePicker
+                                                    name="startDate"
+                                                    label={t(
+                                                        "tasks.form.startDate",
+                                                    )}
+                                                    defaultValue={
+                                                        editingTask?.startDate
+                                                            ? parseDate(
+                                                                  editingTask.startDate,
+                                                              )
+                                                            : today(
+                                                                  getLocalTimeZone(),
+                                                              )
+                                                    }
+                                                />
+                                            </div>
+                                        )}
+                                        <div className="w-full">
+                                            <DatePicker
+                                                name="dueDate"
+                                                label={t("tasks.form.dueDate")}
+                                                defaultValue={
+                                                    editingTask?.dueDate
+                                                        ? parseDate(
+                                                              editingTask.dueDate,
+                                                          )
+                                                        : today(
+                                                              getLocalTimeZone(),
+                                                          )
+                                                }
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <Switch
-                                    name="isDaily"
-                                    value="true"
-                                    defaultSelected={
-                                        editingTask
-                                            ? editingTask.isDaily
-                                            : false
-                                    }
-                                >
-                                    <Switch.Content>
-                                        <Switch.Control>
-                                            <Switch.Thumb />
-                                        </Switch.Control>
-                                        {t("tasks.form.isDaily")}
-                                    </Switch.Content>
-                                </Switch>
+                                {/* Tần suất lặp lại */}
+                                <div className="w-full">
+                                    <Select
+                                        name="repeat"
+                                        aria-label={t("repeat.title")}
+                                        placeholder={t("repeat.title")}
+                                        defaultValue={
+                                            editingTask?.repeat ||
+                                            (editingTask?.isDaily
+                                                ? REPEAT_TYPE.DAILY
+                                                : REPEAT_TYPE.NONE)
+                                        }
+                                    >
+                                        <Label>{t("repeat.title")}</Label>
+                                        <Select.Trigger>
+                                            <Select.Value />
+                                            <Select.Indicator />
+                                        </Select.Trigger>
+                                        <Select.Popover>
+                                            <ListBox>
+                                                {REPEAT_OPTIONS.map((opt) => (
+                                                    <ListBox.Item
+                                                        key={opt.code}
+                                                        id={opt.code}
+                                                        textValue={t(
+                                                            `repeat.${opt.code}`,
+                                                        )}
+                                                    >
+                                                        {t(
+                                                            `repeat.${opt.code}`,
+                                                        )}
+                                                    </ListBox.Item>
+                                                ))}
+                                            </ListBox>
+                                        </Select.Popover>
+                                        <FieldError />
+                                    </Select>
+                                </div>
                             </Form>
                         </Modal.Body>
                         <Modal.Footer className="w-full">

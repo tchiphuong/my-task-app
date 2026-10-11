@@ -7,7 +7,7 @@ import {
     ExclamationTriangleIcon,
     InformationCircleIcon,
 } from "@heroicons/react/24/solid";
-import { Badge, Button, Popover, ScrollShadow } from "@heroui/react";
+import { Button, Popover, ScrollShadow } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -86,37 +86,31 @@ export default function NotificationCenter() {
 
     const getBellIcon = () => {
         if (isOpen) {
-            return <BellSolid className="w-6 h-6 text-primary-500" />;
+            return <BellSolid className="w-5 h-5 text-primary-500" />;
         }
         return (
-            <BellOutline className="w-6 h-6 text-default-500 hover:text-default-700" />
+            <BellOutline className="w-5 h-5 text-default-500 hover:text-default-700" />
         );
     };
 
     return (
         <Popover isOpen={isOpen} onOpenChange={setIsOpen}>
-            {unreadCount > 0 ? (
-                <Badge.Anchor>
-                    <Button
-                        isIconOnly
-                        variant="ghost"
-                        aria-label={t("notifications.title")}
-                    >
-                        {getBellIcon()}
-                    </Button>
-                    <Badge color="danger" size="sm">
-                        {unreadCount}
-                    </Badge>
-                </Badge.Anchor>
-            ) : (
+            <Popover.Trigger>
                 <Button
                     isIconOnly
+                    size="sm"
                     variant="ghost"
                     aria-label={t("notifications.title")}
+                    className="relative"
                 >
                     {getBellIcon()}
+                    {unreadCount > 0 && (
+                        <span className="absolute top-1 right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-danger px-1 text-2xs font-bold text-white">
+                            {unreadCount}
+                        </span>
+                    )}
                 </Button>
-            )}
+            </Popover.Trigger>
 
             <Popover.Content
                 placement="bottom end"

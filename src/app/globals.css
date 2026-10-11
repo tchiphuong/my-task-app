@@ -87,9 +87,17 @@ body {
     font-family: var(--font-sans);
 }
 
-/* Các class phụ trợ bố cục */
+/* Các class phụ trợ bố cục hỗ trợ tối ưu iPhone Safe Area */
+.safe-top {
+    padding-top: env(safe-area-inset-top, 0px);
+}
+
 .safe-bottom {
-    padding-bottom: env(safe-area-inset-bottom);
+    padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));
+}
+
+.content-safe-bottom {
+    padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
 }
 
 .sidebar-transition {

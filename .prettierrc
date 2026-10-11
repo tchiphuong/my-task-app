@@ -1,7 +1,5 @@
 {
-  "jsonRecursiveSort": true,
-  "plugins": [
-    "prettier-plugin-sort-json"
-  ],
-  "tabWidth": 4
+    "jsonRecursiveSort": true,
+    "plugins": ["prettier-plugin-sort-json"],
+    "tabWidth": 4
 }

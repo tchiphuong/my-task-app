@@ -36,7 +36,11 @@ import {
     TASK_PRIORITY,
     TASK_STATUS,
 } from "@/constants";
-import { Task, useTaskStore } from "@/store/useTaskStore";
+import {
+    isTaskScheduledForDate,
+    Task,
+    useTaskStore,
+} from "@/store/useTaskStore";
 
 export default function DashboardPage() {
     const router = useRouter();
@@ -58,19 +62,21 @@ export default function DashboardPage() {
 
     // 1. Phân loại task hôm nay
     const regularTasksToday = tasks.filter(
-        (t) => !t.isDaily && t.dueDate === todayStr,
+        (t) => !t.isDaily && isTaskScheduledForDate(t, new Date()),
     );
 
-    const dailyTasks = tasks.filter((t) => t.isDaily);
+    const dailyTasksToday = tasks.filter(
+        (t) => t.isDaily && isTaskScheduledForDate(t, new Date()),
+    );
 
     // Tổng số task hoạt động hôm nay (task thông thường đến hạn hôm nay + daily tasks)
-    const totalTasksToday = regularTasksToday.length + dailyTasks.length;
+    const totalTasksToday = regularTasksToday.length + dailyTasksToday.length;
 
     // Task đã hoàn thành hôm nay
     const completedRegularToday = regularTasksToday.filter(
         (t) => t.status === TASK_STATUS.DONE,
     ).length;
-    const completedDailyToday = dailyTasks.filter((t) =>
+    const completedDailyToday = dailyTasksToday.filter((t) =>
         t.completedDates?.includes(todayStr),
     ).length;
 

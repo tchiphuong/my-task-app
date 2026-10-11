@@ -2,6 +2,7 @@
 
 import {
     ArrowDownTrayIcon,
+    ChartBarIcon,
     ChartPieIcon,
     CheckCircleIcon,
     ClipboardDocumentListIcon,
@@ -10,19 +11,37 @@ import {
     ExclamationCircleIcon,
     TableCellsIcon,
 } from "@heroicons/react/24/outline";
-import { Button, Chip, ListBox, Select, Table } from "@heroui/react";
+import { Button, Chip, ListBox, Select, Table, Tabs } from "@heroui/react";
 import {
+    addDays,
     endOfMonth,
+    endOfYear,
     format,
+    isSameDay,
     isWithinInterval,
     parseISO,
     startOfMonth,
+    startOfWeek,
+    startOfYear,
+    subMonths,
 } from "date-fns";
+import { vi } from "date-fns/locale";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+import {
+    Bar,
+    BarChart,
+    CartesianGrid,
+    Legend,
+    Pie,
+    PieChart,
+    ResponsiveContainer,
+    Tooltip,
+    XAxis,
+    YAxis,
+} from "recharts";
 import * as XLSX from "xlsx";
 
 import { AppCard as Card } from "@/components/common/AppCard";
@@ -44,14 +63,21 @@ export default function ReportsPage() {
     const currentMonthStr = format(new Date(), DATE_FORMATS.MONTH);
     const [selectedMonth, setSelectedMonth] = useState(currentMonthStr);
 
-    const tasks = account?.tasks || [];
+    // Chế độ xem biểu đồ hiệu suất: Tuần / Tháng / Năm
+    const [trendView, setTrendView] = useState<"week" | "month" | "year">(
+        "month",
+    );
+
+    const tasks = useMemo(() => account?.tasks || [], [account?.tasks]);
 
     // Tạo danh sách 6 tháng gần nhất để chọn lựa
     const monthOptions = Array.from({ length: 6 }).map((_, i) => {
         const d = subMonths(new Date(), i);
         return {
             key: format(d, DATE_FORMATS.MONTH),
-            label: `Tháng ${format(d, DATE_FORMATS.MONTH_DISPLAY)}`,
+            label: t("reports.monthFormat", {
+                month: format(d, DATE_FORMATS.MONTH_DISPLAY),
+            }),
         };
     });
 
@@ -109,6 +135,113 @@ export default function ReportsPage() {
         fill: CHART_COLORS[index % CHART_COLORS.length],
     }));
 
+    // Dữ liệu cho biểu đồ xu hướng hoàn thành theo tuần/tháng/năm
+    const trendData = useMemo(() => {
+        const now = new Date();
+
+        if (trendView === "week") {
+            // Tuần hiện tại: từ Thứ 2 đến Chủ nhật
+            const weekStart = startOfWeek(now, { weekStartsOn: 1 });
+            return Array.from({ length: 7 }).map((_, index) => {
+                const day = addDays(weekStart, index);
+                const dayStr = format(day, DATE_FORMATS.DATE);
+                const dayLabel = format(day, DATE_FORMATS.WEEKDAY, {
+                    locale: vi,
+                });
+
+                // Số việc thường hoàn thành trong ngày đó
+                const completedTasks = tasks.filter((t) => {
+                    if (t.isDaily || !t.completedAt) return false;
+                    return isSameDay(parseISO(t.completedAt), day);
+                }).length;
+
+                // Số thói quen hoàn thành trong ngày đó
+                const completedHabits = tasks.filter((t) => {
+                    if (!t.isDaily) return false;
+                    return t.completedDates?.includes(dayStr);
+                }).length;
+
+                return {
+                    name: `${dayLabel} - ${format(day, "dd/MM")}`,
+                    shortName: dayLabel,
+                    [t("reports.chartCompletedTasks")]: completedTasks,
+                    [t("reports.chartCompletedHabits")]: completedHabits,
+                };
+            });
+        }
+
+        if (trendView === "month") {
+            // 12 tháng của năm hiện tại
+            const currentYear = now.getFullYear();
+            return Array.from({ length: 12 }).map((_, monthIndex) => {
+                const monthDate = new Date(currentYear, monthIndex, 1);
+                const mStart = startOfMonth(monthDate);
+                const mEnd = endOfMonth(monthDate);
+
+                const completedTasks = tasks.filter((t) => {
+                    if (t.isDaily || !t.completedAt) return false;
+                    return isWithinInterval(parseISO(t.completedAt), {
+                        start: mStart,
+                        end: mEnd,
+                    });
+                }).length;
+
+                const completedHabits = tasks.filter((t) => {
+                    if (!t.isDaily) return false;
+                    return t.completedDates?.some((d) => {
+                        const parsed = parseISO(d);
+                        return isWithinInterval(parsed, {
+                            start: mStart,
+                            end: mEnd,
+                        });
+                    });
+                }).length;
+
+                return {
+                    name: `T${monthIndex + 1}`,
+                    shortName: `T${monthIndex + 1}`,
+                    [t("reports.chartCompletedTasks")]: completedTasks,
+                    [t("reports.chartCompletedHabits")]: completedHabits,
+                };
+            });
+        }
+
+        // Theo năm: 5 năm gần đây
+        const currentYear = now.getFullYear();
+        return Array.from({ length: 5 }).map((_, idx) => {
+            const yearNum = currentYear - 4 + idx;
+            const yDate = new Date(yearNum, 0, 1);
+            const yStart = startOfYear(yDate);
+            const yEnd = endOfYear(yDate);
+
+            const completedTasks = tasks.filter((t) => {
+                if (t.isDaily || !t.completedAt) return false;
+                return isWithinInterval(parseISO(t.completedAt), {
+                    start: yStart,
+                    end: yEnd,
+                });
+            }).length;
+
+            const completedHabits = tasks.filter((t) => {
+                if (!t.isDaily) return false;
+                return t.completedDates?.some((d) => {
+                    const parsed = parseISO(d);
+                    return isWithinInterval(parsed, {
+                        start: yStart,
+                        end: yEnd,
+                    });
+                });
+            }).length;
+
+            return {
+                name: `${yearNum}`,
+                shortName: `${yearNum}`,
+                [t("reports.chartCompletedTasks")]: completedTasks,
+                [t("reports.chartCompletedHabits")]: completedHabits,
+            };
+        });
+    }, [tasks, trendView, t]);
+
     const getPriorityLabelNoTone = (priority: Task["priority"]) => {
         return removeVietnameseTones(
             t(`tasks.form.priority.${priority || "low"}`),
@@ -139,7 +272,9 @@ export default function ReportsPage() {
             [removeVietnameseTones(t("reports.export.title"))]:
                 removeVietnameseTones(task.title),
             [removeVietnameseTones(t("reports.export.type"))]: task.isDaily
-                ? removeVietnameseTones(t("reports.taskTypeDaily"))
+                ? task.repeat
+                    ? removeVietnameseTones(t(`repeat.${task.repeat}`))
+                    : removeVietnameseTones(t("reports.taskTypeDaily"))
                 : removeVietnameseTones(t("reports.taskTypeNormal")),
             [removeVietnameseTones(t("reports.export.category"))]:
                 removeVietnameseTones(task.category),
@@ -147,7 +282,9 @@ export default function ReportsPage() {
                 getPriorityLabelNoTone(task.priority),
             [removeVietnameseTones(t("reports.export.dueDate"))]: task.isDaily
                 ? removeVietnameseTones(t("reports.everyday"))
-                : task.dueDate,
+                : task.startDate && task.dueDate
+                  ? `${task.startDate} - ${task.dueDate}`
+                  : task.dueDate,
             [removeVietnameseTones(t("reports.export.status"))]:
                 getStatusLabelNoTone(task.status),
             [removeVietnameseTones(t("reports.export.completedAt"))]:
@@ -165,10 +302,14 @@ export default function ReportsPage() {
 
         const worksheet = XLSX.utils.json_to_sheet(data);
         const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Tasks Report");
+        XLSX.utils.book_append_sheet(
+            workbook,
+            worksheet,
+            t("reports.export.sheetName"),
+        );
         XLSX.writeFile(
             workbook,
-            `Bao_cao_cong_viec_thang_${selectedMonth}.xlsx`,
+            t("reports.export.excelFileName", { month: selectedMonth }),
         );
     };
 
@@ -182,7 +323,7 @@ export default function ReportsPage() {
         doc.setFontSize(18);
         doc.text(
             removeVietnameseTones(
-                "BAO CAO TIEN DO CONG VIEC THANG " + selectedMonth,
+                t("reports.pdf.title", { month: selectedMonth }),
             ),
             14,
             20,
@@ -190,25 +331,52 @@ export default function ReportsPage() {
 
         doc.setFont("Helvetica", "normal");
         doc.setFontSize(11);
-        doc.text(`Tong so cong viec: ${totalTasks}`, 14, 30);
         doc.text(
-            `Da hoan thanh: ${completedCount} (${completionRate}%)`,
+            removeVietnameseTones(
+                t("reports.pdf.totalTasks", { count: totalTasks }),
+            ),
+            14,
+            30,
+        );
+        doc.text(
+            removeVietnameseTones(
+                t("reports.pdf.completed", {
+                    count: completedCount,
+                    rate: completionRate,
+                }),
+            ),
             14,
             37,
         );
-        doc.text(`Dang thuc hien: ${inProgressCount}`, 14, 44);
-        doc.text(`Cong viec tre han: ${overdueCount}`, 14, 51);
+        doc.text(
+            removeVietnameseTones(
+                t("reports.pdf.doing", { count: inProgressCount }),
+            ),
+            14,
+            44,
+        );
+        doc.text(
+            removeVietnameseTones(
+                t("reports.pdf.overdue", { count: overdueCount }),
+            ),
+            14,
+            51,
+        );
 
         const tableData = monthlyTasks.map((task) => [
             removeVietnameseTones(task.title),
             task.isDaily
-                ? removeVietnameseTones(t("reports.taskTypeDaily"))
+                ? task.repeat
+                    ? removeVietnameseTones(t(`repeat.${task.repeat}`))
+                    : removeVietnameseTones(t("reports.taskTypeDaily"))
                 : removeVietnameseTones(t("reports.taskTypeNormal")),
             removeVietnameseTones(task.category),
             getPriorityLabelNoTone(task.priority),
             task.isDaily
                 ? removeVietnameseTones(t("reports.everyday"))
-                : task.dueDate,
+                : task.startDate && task.dueDate
+                  ? `${task.startDate} - ${task.dueDate}`
+                  : task.dueDate,
             getStatusLabelNoTone(task.status),
         ]);
 
@@ -229,11 +397,11 @@ export default function ReportsPage() {
             styles: { fontSize: 9 },
         });
 
-        doc.save(`Bao_cao_thang_${selectedMonth}.pdf`);
+        doc.save(t("reports.export.pdfFileName", { month: selectedMonth }));
     };
 
     return (
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-4">
             {/* 1. Header Trang & Chọn tháng */}
             <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
                 <div>
@@ -349,9 +517,119 @@ export default function ReportsPage() {
                 </Card>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-                {/* 3. Phân bổ danh mục - Biểu đồ tròn (2 phần) */}
-                <Card className="lg:col-span-2">
+            {/* 3. Lưới biểu đồ phân tích 2 cột */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                {/* 3.1 Biểu đồ xu hướng hoàn thành theo Tuần / Tháng / Năm */}
+                <Card>
+                    <Card.Header className="px-5 pt-5 pb-3 flex flex-row items-center justify-between flex-wrap gap-2">
+                        <h2 className="font-black text-sm tracking-tight flex items-center gap-1.5">
+                            <ChartBarIcon className="w-4 h-4 text-default-500" />
+                            {t("reports.trendChartTitle")}
+                        </h2>
+                        <Tabs
+                            className="shrink-0"
+                            selectedKey={trendView}
+                            onSelectionChange={(key: React.Key) =>
+                                setTrendView(key as "week" | "month" | "year")
+                            }
+                            variant="primary"
+                        >
+                            <Tabs.ListContainer>
+                                <Tabs.List
+                                    aria-label={t("reports.trendChartTitle")}
+                                >
+                                    <Tabs.Tab id="week">
+                                        <span className="whitespace-nowrap px-1">
+                                            {t("reports.viewByWeek")}
+                                        </span>
+                                        <Tabs.Indicator />
+                                    </Tabs.Tab>
+                                    <Tabs.Tab id="month">
+                                        <span className="whitespace-nowrap px-1">
+                                            {t("reports.viewByMonth")}
+                                        </span>
+                                        <Tabs.Indicator />
+                                    </Tabs.Tab>
+                                    <Tabs.Tab id="year">
+                                        <span className="whitespace-nowrap px-1">
+                                            {t("reports.viewByYear")}
+                                        </span>
+                                        <Tabs.Indicator />
+                                    </Tabs.Tab>
+                                </Tabs.List>
+                            </Tabs.ListContainer>
+                        </Tabs>
+                    </Card.Header>
+                    <Card.Content className="p-4 flex items-center justify-center min-h-65">
+                        <div className="w-full h-65">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <BarChart
+                                    data={trendData}
+                                    margin={{
+                                        top: 10,
+                                        right: 10,
+                                        left: -20,
+                                        bottom: 0,
+                                    }}
+                                >
+                                    <CartesianGrid
+                                        strokeDasharray="3 3"
+                                        vertical={false}
+                                        stroke="currentColor"
+                                        className="text-default-100 dark:text-default-100/10"
+                                    />
+                                    <XAxis
+                                        dataKey="name"
+                                        stroke="currentColor"
+                                        fontSize={11}
+                                        tickLine={false}
+                                        axisLine={false}
+                                        className="text-default-400"
+                                    />
+                                    <YAxis
+                                        stroke="currentColor"
+                                        fontSize={11}
+                                        tickLine={false}
+                                        axisLine={false}
+                                        className="text-default-400"
+                                        allowDecimals={false}
+                                    />
+                                    <Tooltip
+                                        contentStyle={{
+                                            borderRadius: "12px",
+                                            border: "1px solid hsl(var(--border))",
+                                            backgroundColor:
+                                                "rgba(var(--background), 0.95)",
+                                            fontSize: "12px",
+                                        }}
+                                    />
+                                    <Legend
+                                        iconSize={8}
+                                        iconType="circle"
+                                        wrapperStyle={{ fontSize: "11px" }}
+                                    />
+                                    <Bar
+                                        dataKey={t(
+                                            "reports.chartCompletedTasks",
+                                        )}
+                                        fill="#3b82f6"
+                                        radius={[4, 4, 0, 0]}
+                                    />
+                                    <Bar
+                                        dataKey={t(
+                                            "reports.chartCompletedHabits",
+                                        )}
+                                        fill="#10b981"
+                                        radius={[4, 4, 0, 0]}
+                                    />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </Card.Content>
+                </Card>
+
+                {/* 3.2 Phân bổ danh mục - Biểu đồ tròn */}
+                <Card>
                     <Card.Header className="px-5 pt-5 pb-3">
                         <h2 className="font-black text-sm tracking-tight flex items-center gap-1.5">
                             <ChartPieIcon className="w-4 h-4 text-default-500" />
@@ -364,7 +642,7 @@ export default function ReportsPage() {
                                 {t("reports.noCategoryData")}
                             </div>
                         ) : (
-                            <div className="w-full h-55">
+                            <div className="w-full h-65">
                                 <ResponsiveContainer width="100%" height="100%">
                                     <PieChart>
                                         <Pie
@@ -396,123 +674,124 @@ export default function ReportsPage() {
                         )}
                     </Card.Content>
                 </Card>
+            </div>
 
-                {/* 4. Thống kê chi tiết & Xuất báo cáo (3 phần) */}
-                <Card className="lg:col-span-3">
-                    <Card.Header className="px-5 pt-5 pb-3 flex flex-row justify-between items-center">
-                        <h2 className="font-black text-sm tracking-tight flex items-center gap-1.5">
-                            <DocumentTextIcon className="w-4 h-4 text-default-500" />
-                            {t("reports.exportSummary")}
-                        </h2>
-                        <div className="flex gap-2">
-                            <Button
-                                size="sm"
-                                variant="secondary"
-                                className="font-bold text-xs text-primary"
-                                onClick={handleExportExcel}
-                                isDisabled={monthlyTasks.length === 0}
-                            >
-                                <TableCellsIcon className="w-4 h-4" />
-                                {t("reports.exportExcel")}
-                            </Button>
-                            <Button
-                                size="sm"
-                                variant="secondary"
-                                className="font-bold text-xs text-secondary"
-                                onClick={handleExportPDF}
-                                isDisabled={monthlyTasks.length === 0}
-                            >
-                                <ArrowDownTrayIcon className="w-4 h-4" />
-                                {t("reports.exportPdf")}
-                            </Button>
-                        </div>
-                    </Card.Header>
-                    <Card.Content className="p-0">
-                        <div className="max-h-65 overflow-y-auto w-full px-5 pb-5">
-                            {monthlyTasks.length === 0 ? (
-                                <div className="text-center py-16 text-default-400 text-xs">
-                                    {t("reports.noTasksThisMonth")}
-                                </div>
-                            ) : (
-                                <Table className="w-full">
-                                    <Table.ScrollContainer>
-                                        <Table.Content aria-label="Bảng tóm tắt công việc tháng">
-                                            <Table.Header>
-                                                <Table.Column
-                                                    isRowHeader
-                                                    className="text-xs font-bold"
-                                                >
-                                                    {t("reports.table.title")}
-                                                </Table.Column>
-                                                <Table.Column className="text-xs font-bold text-center">
-                                                    {t("reports.table.dueDate")}
-                                                </Table.Column>
-                                                <Table.Column className="text-xs font-bold text-center">
-                                                    {t("reports.table.status")}
-                                                </Table.Column>
-                                            </Table.Header>
-                                            <Table.Body>
-                                                {monthlyTasks.map((task) => (
-                                                    <Table.Row key={task.id}>
-                                                        <Table.Cell className="py-2.5">
-                                                            <div className="flex flex-col gap-0.5">
-                                                                <span className="text-xs font-bold text-default-900 truncate max-w-45">
-                                                                    {task.title}
-                                                                </span>
-                                                                <span className="text-xs text-default-400">
-                                                                    {
-                                                                        task.category
-                                                                    }{" "}
-                                                                    •{" "}
-                                                                    {task.isDaily
+            {/* 4. Thống kê chi tiết & Xuất báo cáo (3 phần) */}
+            <Card className="">
+                <Card.Header className="px-5 pt-5 pb-3 flex flex-row justify-between items-center">
+                    <h2 className="font-black text-sm tracking-tight flex items-center gap-1.5">
+                        <DocumentTextIcon className="w-4 h-4 text-default-500" />
+                        {t("reports.exportSummary")}
+                    </h2>
+                    <div className="flex gap-2">
+                        <Button
+                            size="sm"
+                            variant="secondary"
+                            className="font-bold text-xs text-primary"
+                            onClick={handleExportExcel}
+                            isDisabled={monthlyTasks.length === 0}
+                        >
+                            <TableCellsIcon className="w-4 h-4" />
+                            {t("reports.exportExcel")}
+                        </Button>
+                        <Button
+                            size="sm"
+                            variant="secondary"
+                            className="font-bold text-xs text-secondary"
+                            onClick={handleExportPDF}
+                            isDisabled={monthlyTasks.length === 0}
+                        >
+                            <ArrowDownTrayIcon className="w-4 h-4" />
+                            {t("reports.exportPdf")}
+                        </Button>
+                    </div>
+                </Card.Header>
+                <Card.Content className="p-0">
+                    <div className="max-h-[90vh] overflow-y-auto w-full px-5 pb-5">
+                        {monthlyTasks.length === 0 ? (
+                            <div className="text-center py-16 text-default-400 text-xs">
+                                {t("reports.noTasksThisMonth")}
+                            </div>
+                        ) : (
+                            <Table className="w-full">
+                                <Table.ScrollContainer>
+                                    <Table.Content
+                                        aria-label={t("reports.tableAriaLabel")}
+                                    >
+                                        <Table.Header>
+                                            <Table.Column
+                                                isRowHeader
+                                                className="text-xs font-bold min-w-50"
+                                            >
+                                                {t("reports.table.title")}
+                                            </Table.Column>
+                                            <Table.Column className="text-xs font-bold text-center min-w-37.5">
+                                                {t("reports.table.dueDate")}
+                                            </Table.Column>
+                                            <Table.Column className="text-xs font-bold text-start min-w-37.5">
+                                                {t("reports.table.status")}
+                                            </Table.Column>
+                                        </Table.Header>
+                                        <Table.Body>
+                                            {monthlyTasks.map((task) => (
+                                                <Table.Row key={task.id}>
+                                                    <Table.Cell className="py-2.5">
+                                                        <div className="flex flex-col gap-0.5">
+                                                            <span className="text-xs font-bold text-default-900 truncate max-w-45">
+                                                                {task.title}
+                                                            </span>
+                                                            <span className="text-xs text-default-400">
+                                                                {task.category}{" "}
+                                                                •{" "}
+                                                                {task.isDaily
+                                                                    ? task.repeat
                                                                         ? t(
-                                                                              "reports.taskTypeDaily",
+                                                                              `repeat.${task.repeat}`,
                                                                           )
                                                                         : t(
-                                                                              "reports.taskTypeNormal",
-                                                                          )}
-                                                                </span>
-                                                            </div>
-                                                        </Table.Cell>
-                                                        <Table.Cell className="text-center py-2.5">
-                                                            <span className="text-xs text-default-500 font-medium">
-                                                                {task.isDaily
-                                                                    ? t(
-                                                                          "reports.everyday",
-                                                                      )
-                                                                    : task.dueDate}
+                                                                              "reports.taskTypeDaily",
+                                                                          )
+                                                                    : t(
+                                                                          "reports.taskTypeNormal",
+                                                                      )}
                                                             </span>
-                                                        </Table.Cell>
-                                                        <Table.Cell className="text-center py-2.5">
-                                                            <Chip
-                                                                size="sm"
-                                                                variant="soft"
-                                                                color={getStatusColor(
-                                                                    task.status,
-                                                                )}
-                                                            >
-                                                                {getStatusLabel(
-                                                                    task.status,
-                                                                )}
-                                                            </Chip>
-                                                        </Table.Cell>
-                                                    </Table.Row>
-                                                ))}
-                                            </Table.Body>
-                                        </Table.Content>
-                                    </Table.ScrollContainer>
-                                </Table>
-                            )}
-                        </div>
-                    </Card.Content>
-                </Card>
-            </div>
+                                                        </div>
+                                                    </Table.Cell>
+                                                    <Table.Cell className="text-center py-2.5">
+                                                        <span className="text-xs text-default-500 font-medium">
+                                                            {task.isDaily
+                                                                ? t(
+                                                                      "reports.everyday",
+                                                                  )
+                                                                : task.startDate &&
+                                                                    task.dueDate
+                                                                  ? `${task.startDate} - ${task.dueDate}`
+                                                                  : task.dueDate}
+                                                        </span>
+                                                    </Table.Cell>
+                                                    <Table.Cell className="text-start py-2.5">
+                                                        <Chip
+                                                            size="sm"
+                                                            variant="soft"
+                                                            color={getStatusColor(
+                                                                task.status,
+                                                            )}
+                                                        >
+                                                            {getStatusLabel(
+                                                                task.status,
+                                                            )}
+                                                        </Chip>
+                                                    </Table.Cell>
+                                                </Table.Row>
+                                            ))}
+                                        </Table.Body>
+                                    </Table.Content>
+                                </Table.ScrollContainer>
+                            </Table>
+                        )}
+                    </div>
+                </Card.Content>
+            </Card>
         </div>
     );
-}
-
-function subMonths(date: Date, months: number): Date {
-    const result = new Date(date);
-    result.setMonth(result.getMonth() - months);
-    return result;
 }

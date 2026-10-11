@@ -1,6 +1,16 @@
 "use client";
 
-import { differenceInCalendarDays, format, parseISO, subDays } from "date-fns";
+import {
+    differenceInCalendarDays,
+    format,
+    isAfter,
+    isBefore,
+    isSameDay,
+    isWithinInterval,
+    parseISO,
+    startOfDay,
+    subDays,
+} from "date-fns";
 import {
     addDoc,
     collection,
@@ -16,7 +26,13 @@ import {
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-import { DATE_FORMATS, NOTIFICATION_TYPE, TASK_STATUS } from "@/constants";
+import {
+    DATE_FORMATS,
+    NOTIFICATION_TYPE,
+    REPEAT_TYPE,
+    RepeatType,
+    TASK_STATUS,
+} from "@/constants";
 import i18n from "@/i18n";
 import { db, isFirebaseConfigured } from "@/lib/firebase";
 
@@ -28,10 +44,12 @@ export interface Task {
     priority: "low" | "medium" | "high";
     category: string;
     dueDate: string; // YYYY-MM-DD
+    startDate?: string; // YYYY-MM-DD (Từ ngày - optional cho sự kiện/công việc)
     isDaily: boolean;
+    repeat?: RepeatType; // none | daily | weekdays | weekly | monthly
     completedDates?: string[]; // Dành cho daily tasks: lưu danh sách ngày hoàn thành YYYY-MM-DD
     createdAt: string;
-    completedAt?: string;
+    completedAt?: string; // Thời gian hoàn thành công việc
 }
 
 export interface Notification {
@@ -114,32 +132,87 @@ const generateUniqueId = (): string => {
     return Date.now().toString(36);
 };
 
-const countCompletedDates = (dailyTasks: Task[]) => {
-    const allCompletedDates: { [date: string]: number } = {};
-    dailyTasks.forEach((t) => {
-        t.completedDates?.forEach((d) => {
-            allCompletedDates[d] = (allCompletedDates[d] || 0) + 1;
-        });
-    });
-    return allCompletedDates;
-};
+/**
+ * Kiểm tra xem công việc/thói quen có được lên lịch vào ngày cụ thể hay không.
+ * @param task Công việc cần kiểm tra
+ * @param targetDate Đối tượng Date của ngày cần kiểm tra
+ */
+export const isTaskScheduledForDate = (
+    task: Task,
+    targetDate: Date,
+): boolean => {
+    const checkDate = startOfDay(targetDate);
 
-const countConsecutiveDays = (
-    completedGoalDates: string[],
-    startDate: Date,
-): number => {
-    let streak = 0;
-    let checkDate = startDate;
-    while (true) {
-        const checkStr = format(checkDate, DATE_FORMATS.DATE);
-        if (completedGoalDates.includes(checkStr)) {
-            streak++;
-            checkDate = subDays(checkDate, 1);
-        } else {
-            break;
-        }
+    // Xác định ngày bắt đầu dạng Date
+    const startDateRaw = task.startDate || task.dueDate || task.createdAt;
+    const startDate = startOfDay(
+        typeof startDateRaw === "string"
+            ? parseISO(startDateRaw)
+            : startDateRaw,
+    );
+
+    // Không lên lịch trước ngày bắt đầu
+    if (isBefore(checkDate, startDate)) {
+        return false;
     }
-    return streak;
+
+    // Nếu có ngày kết thúc (dueDate)
+    const endDate = task.dueDate
+        ? startOfDay(
+              typeof task.dueDate === "string"
+                  ? parseISO(task.dueDate)
+                  : task.dueDate,
+          )
+        : null;
+
+    // Nếu không phải là task lặp lại (sự kiện hoặc task thông thường trong khoảng ngày)
+    if (!task.isDaily && (!task.repeat || task.repeat === REPEAT_TYPE.NONE)) {
+        if (endDate) {
+            // Sự kiện có từ ngày (startDate) đến ngày (dueDate)
+            if (isAfter(startDate, endDate)) {
+                return isSameDay(checkDate, startDate);
+            }
+            return isWithinInterval(checkDate, {
+                start: startDate,
+                end: endDate,
+            });
+        }
+        return isSameDay(checkDate, startDate);
+    }
+
+    // Nếu là task lặp lại nhưng có giới hạn ngày kết thúc
+    if (endDate && task.startDate && isAfter(checkDate, endDate)) {
+        return false;
+    }
+
+    const repeatType = task.repeat || REPEAT_TYPE.DAILY;
+
+    switch (repeatType) {
+        case REPEAT_TYPE.DAILY:
+            return true;
+        case REPEAT_TYPE.WEEKDAYS: {
+            const dayOfWeek = checkDate.getDay(); // 0 là Chủ Nhật, 6 là Thứ 7
+            return dayOfWeek !== 0 && dayOfWeek !== 6;
+        }
+        case REPEAT_TYPE.WEEKLY:
+            return checkDate.getDay() === startDate.getDay();
+        case REPEAT_TYPE.MONTHLY: {
+            const targetDay = checkDate.getDate();
+            const startDay = startDate.getDate();
+            if (targetDay === startDay) return true;
+            // Xử lý ngày cuối tháng (ví dụ ngày bắt đầu là 31 nhưng tháng kiểm tra chỉ có 28/30 ngày)
+            const daysInMonth = new Date(
+                checkDate.getFullYear(),
+                checkDate.getMonth() + 1,
+                0,
+            ).getDate();
+            if (startDay > daysInMonth && targetDay === daysInMonth)
+                return true;
+            return false;
+        }
+        default:
+            return true;
+    }
 };
 
 const calculateStreak = (
@@ -152,26 +225,54 @@ const calculateStreak = (
     let newLastCompletedDate = lastCompletedDate;
 
     if (dailyTasks.length > 0) {
-        const todayStr = format(new Date(), DATE_FORMATS.DATE);
-        const yesterdayStr = format(subDays(new Date(), 1), DATE_FORMATS.DATE);
+        const today = new Date();
+        const todayStr = format(today, DATE_FORMATS.DATE);
+        const yesterday = subDays(today, 1);
+        const yesterdayStr = format(yesterday, DATE_FORMATS.DATE);
 
-        const allCompletedDates = countCompletedDates(dailyTasks);
-
-        const completedGoalDates = Object.keys(allCompletedDates).filter(
-            (d) => allCompletedDates[d] === dailyTasks.length,
+        // Kiểm tra xem hôm nay hoặc hôm qua có hoàn thành không để bắt đầu đếm chuỗi
+        const scheduledToday = dailyTasks.filter((t) =>
+            isTaskScheduledForDate(t, today),
         );
+        const completedToday =
+            scheduledToday.length > 0 &&
+            scheduledToday.every((t) => t.completedDates?.includes(todayStr));
 
-        completedGoalDates.sort((a, b) => b.localeCompare(a));
+        const scheduledYesterday = dailyTasks.filter((t) =>
+            isTaskScheduledForDate(t, yesterday),
+        );
+        const completedYesterday =
+            scheduledYesterday.length > 0 &&
+            scheduledYesterday.every((t) =>
+                t.completedDates?.includes(yesterdayStr),
+            );
 
-        if (
-            completedGoalDates.includes(todayStr) ||
-            completedGoalDates.includes(yesterdayStr)
-        ) {
-            const startDate = completedGoalDates.includes(todayStr)
-                ? new Date()
-                : subDays(new Date(), 1);
-            currentStreak = countConsecutiveDays(completedGoalDates, startDate);
-            newLastCompletedDate = completedGoalDates[0];
+        if (completedToday || completedYesterday) {
+            let checkDate = completedToday ? today : yesterday;
+            newLastCompletedDate = completedToday ? todayStr : yesterdayStr;
+
+            while (true) {
+                const dayStr = format(checkDate, DATE_FORMATS.DATE);
+                const scheduled = dailyTasks.filter((t) =>
+                    isTaskScheduledForDate(t, checkDate),
+                );
+
+                if (scheduled.length > 0) {
+                    const allDone = scheduled.every((t) =>
+                        t.completedDates?.includes(dayStr),
+                    );
+                    if (allDone) {
+                        currentStreak++;
+                        checkDate = subDays(checkDate, 1);
+                    } else {
+                        break;
+                    }
+                } else {
+                    // Ngày không có lịch (ví dụ cuối tuần với task weekdays) -> tiếp tục lùi mà không ngắt chuỗi
+                    checkDate = subDays(checkDate, 1);
+                    if (differenceInCalendarDays(today, checkDate) > 365) break;
+                }
+            }
         }
 
         if (currentStreak > newBestStreak) {
@@ -388,6 +489,20 @@ export const useTaskStore = create<TaskStore>()(
 
                 addTask: async (taskData) => {
                     const email = getActiveEmail();
+                    const isDaily =
+                        (taskData.repeat &&
+                            taskData.repeat !== REPEAT_TYPE.NONE) ||
+                        Boolean(taskData.isDaily);
+                    const completedAt =
+                        taskData.status === TASK_STATUS.DONE
+                            ? new Date().toISOString()
+                            : undefined;
+
+                    const finalData = {
+                        ...taskData,
+                        isDaily,
+                        completedAt: completedAt || null,
+                    };
 
                     if (isFirebaseConfigured && db && email !== "guest") {
                         try {
@@ -398,9 +513,9 @@ export const useTaskStore = create<TaskStore>()(
                                 "tasks",
                             );
                             await addDoc(tasksCollectionRef, {
-                                ...taskData,
+                                ...finalData,
                                 createdAt: new Date().toISOString(),
-                                completedDates: taskData.isDaily ? [] : null,
+                                completedDates: isDaily ? [] : null,
                             });
                         } catch (err) {
                             console.error("Lỗi thêm task lên Firestore:", err);
@@ -412,12 +527,11 @@ export const useTaskStore = create<TaskStore>()(
                                 ...initialAccountData,
                             };
                             const newTask: Task = {
-                                ...taskData,
+                                ...finalData,
                                 id: generateUniqueId(),
                                 createdAt: new Date().toISOString(),
-                                completedDates: taskData.isDaily
-                                    ? []
-                                    : undefined,
+                                completedDates: isDaily ? [] : undefined,
+                                completedAt,
                             };
 
                             return {
@@ -435,6 +549,33 @@ export const useTaskStore = create<TaskStore>()(
 
                 updateTask: async (taskId, updatedFields) => {
                     const email = getActiveEmail();
+                    const account = get().accounts[email];
+                    const oldTask = account?.tasks.find((t) => t.id === taskId);
+
+                    let isDaily = updatedFields.isDaily;
+                    if (updatedFields.repeat !== undefined) {
+                        isDaily = updatedFields.repeat !== REPEAT_TYPE.NONE;
+                    }
+
+                    let completedAt = oldTask?.completedAt;
+                    if (updatedFields.status !== undefined) {
+                        if (updatedFields.status === TASK_STATUS.DONE) {
+                            completedAt =
+                                oldTask?.status !== TASK_STATUS.DONE
+                                    ? new Date().toISOString()
+                                    : oldTask?.completedAt ||
+                                      new Date().toISOString();
+                        } else {
+                            completedAt = undefined;
+                        }
+                    }
+
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    const fieldsToUpdate: any = {
+                        ...updatedFields,
+                        ...(isDaily !== undefined ? { isDaily } : {}),
+                        completedAt: completedAt || null,
+                    };
 
                     if (isFirebaseConfigured && db && email !== "guest") {
                         try {
@@ -445,26 +586,6 @@ export const useTaskStore = create<TaskStore>()(
                                 "tasks",
                                 taskId,
                             );
-
-                            // Lấy thông tin trạng thái cũ
-                            const account = get().accounts[email];
-                            const oldTask = account?.tasks.find(
-                                (t) => t.id === taskId,
-                            );
-
-                            let completedAt: string | null = null;
-                            if (updatedFields.status === TASK_STATUS.DONE) {
-                                completedAt =
-                                    oldTask?.status !== TASK_STATUS.DONE
-                                        ? new Date().toISOString()
-                                        : oldTask?.completedAt || null;
-                            }
-                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                            const fieldsToUpdate: any = { ...updatedFields };
-                            if (updatedFields.status) {
-                                fieldsToUpdate.completedAt = completedAt;
-                            }
-
                             await updateDoc(taskDocRef, fieldsToUpdate);
                         } catch (err) {
                             console.error(
@@ -475,26 +596,17 @@ export const useTaskStore = create<TaskStore>()(
                     } else {
                         // Local fallback
                         set((state) => {
-                            const account = state.accounts[email] || {
+                            const acc = state.accounts[email] || {
                                 ...initialAccountData,
                             };
-                            const updatedTasks = account.tasks.map((task) => {
+                            const updatedTasks = acc.tasks.map((task) => {
                                 if (task.id === taskId) {
-                                    let completedAt: string | undefined =
-                                        undefined;
-                                    if (
-                                        updatedFields.status ===
-                                        TASK_STATUS.DONE
-                                    ) {
-                                        completedAt =
-                                            task.status !== TASK_STATUS.DONE
-                                                ? new Date().toISOString()
-                                                : task.completedAt;
-                                    }
-
                                     return {
                                         ...task,
                                         ...updatedFields,
+                                        ...(isDaily !== undefined
+                                            ? { isDaily }
+                                            : {}),
                                         completedAt,
                                     };
                                 }
@@ -505,7 +617,7 @@ export const useTaskStore = create<TaskStore>()(
                                 accounts: {
                                     ...state.accounts,
                                     [email]: {
-                                        ...account,
+                                        ...acc,
                                         tasks: updatedTasks,
                                     },
                                 },
@@ -571,10 +683,15 @@ export const useTaskStore = create<TaskStore>()(
                         : [...dates, dateStr]; // Tích chọn
 
                     let updatedStatus = targetTask.status;
+                    let updatedCompletedAt = targetTask.completedAt;
                     if (dateStr === format(new Date(), DATE_FORMATS.DATE)) {
-                        updatedStatus = !isCompletedOnDate
+                        const isNowDone = !isCompletedOnDate;
+                        updatedStatus = isNowDone
                             ? TASK_STATUS.DONE
                             : TASK_STATUS.TODO;
+                        updatedCompletedAt = isNowDone
+                            ? new Date().toISOString()
+                            : undefined;
                     }
 
                     // Tính toán lại Streak động dựa trên lịch sử
@@ -585,6 +702,7 @@ export const useTaskStore = create<TaskStore>()(
                                       ...t,
                                       completedDates: newDates,
                                       status: updatedStatus,
+                                      completedAt: updatedCompletedAt,
                                   }
                                 : t,
                         )

@@ -5,7 +5,6 @@ import {
     ArrowUpTrayIcon,
     FireIcon as FireOutline,
     MoonIcon,
-    Squares2X2Icon,
     SunIcon,
 } from "@heroicons/react/24/outline";
 import { FireIcon as FireSolid } from "@heroicons/react/24/solid";
@@ -53,9 +52,7 @@ export default function Header() {
     };
 
     const handleDropdownAction = (key: React.Key) => {
-        if (key === "dashboard") {
-            router.push("/dashboard");
-        } else if (key === "install") {
+        if (key === "install") {
             setIsInstallModalOpen(true);
         } else if (key === "logout") {
             handleLogout();
@@ -64,16 +61,16 @@ export default function Header() {
 
     return (
         <>
-            <header className="h-16 border-b border-default-100 flex items-center justify-between md:justify-end px-4 md:px-6 sticky top-0 bg-background/70 backdrop-blur-md z-40">
+            <header className="border-b border-default-100 flex items-center justify-between md:justify-end px-4 md:px-6 sticky top-0 bg-background/80 backdrop-blur-md z-40 safe-top min-h-16">
                 <div className="md:hidden">
                     <span className="font-extrabold text-transparent bg-clip-text bg-linear-to-r from-primary-500 to-secondary-500 text-lg md:text-xl tracking-tight">
                         {t("appName")}
                     </span>
                 </div>
 
-                <div className="flex items-center gap-2 md:gap-4">
+                <div className="flex items-center gap-1.5 sm:gap-3">
                     {/* Streak Count Widget */}
-                    <Chip variant="soft" color="warning">
+                    <Chip variant="soft" color="warning" size="sm">
                         {streakCount > 0 ? (
                             <FireSolid className="w-4 h-4 text-warning" />
                         ) : (
@@ -87,6 +84,7 @@ export default function Header() {
                     {/* Theme Toggle */}
                     <Button
                         isIconOnly
+                        size="sm"
                         variant="ghost"
                         aria-label={t("themeToggle")}
                         onPress={() =>
@@ -94,9 +92,9 @@ export default function Header() {
                         }
                     >
                         {theme === "dark" ? (
-                            <SunIcon className="w-5 h-5 text-warning-400" />
+                            <SunIcon className="w-4 h-4 text-warning-400" />
                         ) : (
-                            <MoonIcon className="w-5 h-5 text-default-500" />
+                            <MoonIcon className="w-4 h-4 text-default-500" />
                         )}
                     </Button>
 
@@ -109,9 +107,10 @@ export default function Header() {
                             <Button
                                 variant="ghost"
                                 isIconOnly
+                                size="sm"
                                 aria-label="User menu"
                             >
-                                <Avatar color="accent">
+                                <Avatar color="accent" size="sm">
                                     <Avatar.Image
                                         src={user.picture}
                                         alt={user.name}
@@ -121,28 +120,19 @@ export default function Header() {
                                     </Avatar.Fallback>
                                 </Avatar>
                             </Button>
-                            <Dropdown.Popover>
+                            <Dropdown.Popover placement="bottom end">
                                 <Dropdown.Menu onAction={handleDropdownAction}>
                                     <Dropdown.Item
                                         id="profile"
                                         textValue={t("menu.profile")}
                                     >
-                                        <div className="flex flex-col gap-0.5 text-left h-14 justify-center">
+                                        <div className="flex flex-col gap-0.5 text-left h-12 justify-center">
                                             <span className="font-semibold text-sm text-default-900 truncate">
                                                 {user.name}
                                             </span>
                                             <span className="font-medium text-xs text-default-500 truncate">
                                                 {user.email}
                                             </span>
-                                        </div>
-                                    </Dropdown.Item>
-                                    <Dropdown.Item
-                                        id="dashboard"
-                                        textValue={t("menu.dashboard")}
-                                    >
-                                        <div className="flex items-center gap-2">
-                                            <Squares2X2Icon className="w-4 h-4" />
-                                            <Label>{t("menu.dashboard")}</Label>
                                         </div>
                                     </Dropdown.Item>
                                     <Dropdown.Item

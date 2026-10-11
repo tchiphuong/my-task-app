@@ -98,7 +98,7 @@ export default function AppLayout({ children }: Readonly<AppLayoutProps>) {
                 <Header />
 
                 {/* Content body */}
-                <main className="flex-1 overflow-y-auto px-4 py-6 md:p-8 pb-[calc(80px+env(safe-area-inset-bottom,12px))] md:pb-8">
+                <main className="flex-1 overflow-y-auto px-4 py-6 md:p-8 content-safe-bottom md:pb-8">
                     <div className="max-w-screen-2xl mx-auto w-full">
                         {children}
                     </div>

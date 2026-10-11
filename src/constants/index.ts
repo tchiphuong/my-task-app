@@ -37,6 +37,27 @@ export const STATUS_OPTIONS = [
 ] as const;
 
 /**
+ * Các loại chu kỳ lặp lại của công việc và thói quen.
+ */
+export const REPEAT_TYPE = {
+    NONE: "none",
+    DAILY: "daily",
+    WEEKDAYS: "weekdays",
+    WEEKLY: "weekly",
+    MONTHLY: "monthly",
+} as const;
+
+export type RepeatType = (typeof REPEAT_TYPE)[keyof typeof REPEAT_TYPE];
+
+export const REPEAT_OPTIONS = [
+    { code: REPEAT_TYPE.NONE, name: "Không lặp lại" },
+    { code: REPEAT_TYPE.DAILY, name: "Mỗi ngày" },
+    { code: REPEAT_TYPE.WEEKDAYS, name: "Ngày thường - Thứ 2 đến Thứ 6" },
+    { code: REPEAT_TYPE.WEEKLY, name: "Mỗi tuần" },
+    { code: REPEAT_TYPE.MONTHLY, name: "Mỗi tháng" },
+] as const;
+
+/**
  * Bảng màu sắc được dùng chung cho các biểu đồ phân tích (Pie Chart, Bar Chart).
  */
 export const CHART_COLORS = [

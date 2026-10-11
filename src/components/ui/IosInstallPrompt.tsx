@@ -17,11 +17,11 @@ export default function IosInstallPrompt() {
             const userAgent = window.navigator.userAgent.toLowerCase();
             // Phát hiện thiết bị iOS (iPhone, iPad, iPod)
             const isIosDevice = /iphone|ipad|ipod/.test(userAgent);
-            // Kiểm tra xem app đã được chạy từ màn hình chính chưa (standalone mode)
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const isStandaloneMode =
                 window.matchMedia("(display-mode: standalone)").matches ||
-                (window.navigator as any).standalone === true;
+                ("standalone" in window.navigator &&
+                    (window.navigator as unknown as { standalone: boolean })
+                        .standalone === true);
 
             // Nếu là iOS, chưa cài đặt và chưa từng tắt thông báo này trước đó
             if (isIosDevice && !isStandaloneMode) {

@@ -28,11 +28,14 @@ import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
 import {
     DATE_FORMATS,
+    REPEAT_OPTIONS,
+    REPEAT_TYPE,
+    RepeatType,
     TASK_CATEGORIES,
     TASK_PRIORITY,
     TASK_STATUS,
 } from "@/constants";
-import { useTaskStore } from "@/store/useTaskStore";
+import { isTaskScheduledForDate, useTaskStore } from "@/store/useTaskStore";
 
 export default function DailyGoalsPage() {
     const { t } = useTranslation();
@@ -46,6 +49,9 @@ export default function DailyGoalsPage() {
     // Form thêm nhanh thói quen
     const [newDailyTitle, setNewDailyTitle] = useState("");
     const [newDailyCategory, setNewDailyCategory] = useState("Sức khỏe");
+    const [newDailyRepeat, setNewDailyRepeat] = useState<RepeatType>(
+        REPEAT_TYPE.DAILY,
+    );
     const [deleteTaskId, setDeleteTaskId] = useState<string | null>(null);
 
     const tasks = account?.tasks || [];
@@ -55,9 +61,14 @@ export default function DailyGoalsPage() {
     // Lọc ra các thói quen hàng ngày (Daily tasks)
     const dailyTasks = tasks.filter((t) => t.isDaily);
 
+    // Các thói quen được lên lịch cho ngày hôm nay
+    const todayScheduledTasks = dailyTasks.filter((t) =>
+        isTaskScheduledForDate(t, new Date()),
+    );
+
     // Tính toán tiến độ hôm nay
-    const totalDaily = dailyTasks.length;
-    const completedDailyToday = dailyTasks.filter((t) =>
+    const totalDaily = todayScheduledTasks.length;
+    const completedDailyToday = todayScheduledTasks.filter((t) =>
         t.completedDates?.includes(todayStr),
     ).length;
 
@@ -72,12 +83,13 @@ export default function DailyGoalsPage() {
 
         addTask({
             title: newDailyTitle,
-            description: "Thói quen lặp lại hàng ngày",
+            description: "Thói quen lặp lại",
             status: TASK_STATUS.TODO,
             priority: TASK_PRIORITY.MEDIUM,
             category: newDailyCategory,
             dueDate: todayStr,
             isDaily: true,
+            repeat: newDailyRepeat,
         });
 
         toast.success("Đã thêm thói quen mới", {
@@ -94,18 +106,18 @@ export default function DailyGoalsPage() {
         const dayName = format(day, DATE_FORMATS.WEEKDAY, { locale: vi });
         const dateFormatted = format(day, DATE_FORMATS.DAY_ONLY);
 
-        // Ngày đó được coi là hoàn thành mục tiêu ngày khi:
-        // Có ít nhất 1 thói quen và tất cả thói quen của ngày đó đều được tích hoàn thành
-        const completedCount = dailyTasks.filter((t) =>
+        // Lọc các task được lên lịch cho ngày đó
+        const scheduledForDay = dailyTasks.filter((t) =>
+            isTaskScheduledForDate(t, day),
+        );
+        const completedCount = scheduledForDay.filter((t) =>
             t.completedDates?.includes(dayStr),
         ).length;
+        const totalCount = scheduledForDay.length;
 
-        const isDayCompleted =
-            dailyTasks.length > 0 && completedCount === dailyTasks.length;
+        const isDayCompleted = totalCount > 0 && completedCount === totalCount;
         const isSomeCompleted =
-            dailyTasks.length > 0 &&
-            completedCount > 0 &&
-            completedCount < dailyTasks.length;
+            totalCount > 0 && completedCount > 0 && completedCount < totalCount;
 
         return {
             dateStr: dayStr,
@@ -114,7 +126,7 @@ export default function DailyGoalsPage() {
             isDayCompleted,
             isSomeCompleted,
             completedCount,
-            totalCount: dailyTasks.length,
+            totalCount,
             isToday: isSameDay(day, new Date()),
         };
     });
@@ -325,6 +337,37 @@ export default function DailyGoalsPage() {
                                     </Chip>
                                 ))}
                             </div>
+
+                            <div className="flex flex-wrap gap-2 py-1">
+                                <span className="text-xs font-semibold text-default-500 self-center w-full mb-1">
+                                    {t("daily.addHabit.repeatLabel")}
+                                </span>
+                                {REPEAT_OPTIONS.filter(
+                                    (opt) => opt.code !== REPEAT_TYPE.NONE,
+                                ).map((opt) => (
+                                    <Chip
+                                        key={opt.code}
+                                        onClick={() =>
+                                            setNewDailyRepeat(opt.code)
+                                        }
+                                        color={
+                                            newDailyRepeat === opt.code
+                                                ? "accent"
+                                                : "default"
+                                        }
+                                        variant={
+                                            newDailyRepeat === opt.code
+                                                ? "primary"
+                                                : "soft"
+                                        }
+                                        className="cursor-pointer font-bold"
+                                        size="sm"
+                                    >
+                                        {t(`repeat.${opt.code}`)}
+                                    </Chip>
+                                ))}
+                            </div>
+
                             <button
                                 type="submit"
                                 disabled={!newDailyTitle.trim()}
@@ -346,7 +389,7 @@ export default function DailyGoalsPage() {
                     </Card.Header>
                     <Card.Content className="px-3 py-0">
                         <ScrollShadow className="max-h-105 pb-4 px-2">
-                            {dailyTasks.length === 0 ? (
+                            {todayScheduledTasks.length === 0 ? (
                                 <div className="flex flex-col items-center justify-center py-20 text-center text-default-400">
                                     <SparklesIcon className="w-12 h-12 text-primary-300 mb-2" />
                                     <p className="text-sm font-semibold">
@@ -358,7 +401,7 @@ export default function DailyGoalsPage() {
                                 </div>
                             ) : (
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                                    {dailyTasks.map((task) => {
+                                    {todayScheduledTasks.map((task) => {
                                         const isCompletedToday =
                                             task.completedDates?.includes(
                                                 todayStr,
@@ -408,6 +451,15 @@ export default function DailyGoalsPage() {
                                                                 color="default"
                                                             >
                                                                 {task.category}
+                                                            </Chip>
+                                                            <Chip
+                                                                size="sm"
+                                                                variant="soft"
+                                                                color="accent"
+                                                            >
+                                                                {t(
+                                                                    `repeat.${task.repeat || "daily"}`,
+                                                                )}
                                                             </Chip>
                                                             <span className="text-xs text-default-400 font-medium">
                                                                 {t(
