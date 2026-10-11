@@ -1,79 +1,82 @@
-# My Task App - Quản Lý Công Việc & Thói Quen Cá Nhân
+# My Task App
 
 ![Next.js](https://img.shields.io/badge/Next.js-16.2-black?style=for-the-badge&logo=next.js&logoColor=white)
 ![React](https://img.shields.io/badge/React-19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![HeroUI](https://img.shields.io/badge/HeroUI-v3-000000?style=for-the-badge&logoColor=white)
+![HeroUI](https://img.shields.io/badge/HeroUI-v3-000000?style=for-the-badge&logo=white)
 ![Firebase](https://img.shields.io/badge/Firebase-Firestore-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
+![Framer Motion](https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white)
 
-Ứng dụng web quản lý công việc và thói quen hàng ngày hiện đại, tập trung vào trải nghiệm người dùng mượt mà, tốc độ phản hồi tức thì và khả năng hỗ trợ đắc lực từ trí tuệ nhân tạo (AI).
-
----
-
-## 🌟 Tính Năng Nổi Bật
-
-### 1. 🤖 Trợ Lý AI Thêm Việc Thần Tốc (AI Quick Task)
-- **Bóc tách ngôn ngữ tự nhiên thông minh**: Nhập câu nói hoặc ghi chú thông thường (ví dụ: *"Mai 9h sáng đi họp tiến độ dự án độ ưu tiên cao"*), hệ thống tự động nhận diện và trích xuất: tiêu đề, mô tả, ngày bắt đầu, hạn chót, độ ưu tiên, danh mục và thẻ tag.
-- **Kiến trúc phân tích kép (Dual-Engine)**: Kết hợp mô hình Gemini AI thế hệ mới cùng bộ giải thuật Smart Local NLP Heuristic Parser dự phòng cục bộ, đảm bảo thêm việc thành công 100% ngay cả khi mạng chập chờn hoặc gián đoạn dịch vụ AI.
-- **Hiệu ứng AI Glowing Border**: Hiệu ứng viền phát sáng động hiện đại trong suốt quá trình AI phân tích.
-
-### 2. 📋 Quản Lý Công Việc Đa Dạng
-- **Theo dõi toàn diện**: Phân loại rõ ràng các đầu việc cần làm, việc đang làm, việc hoàn thành và việc chưa làm xong (quá hạn).
-- **Bộ lọc & Tìm kiếm linh hoạt**: Lọc nhanh theo mức độ ưu tiên (Khẩn cấp, Cao, Trung bình, Thấp), theo danh mục công việc, hoặc trạng thái hoàn thành.
-- **Thao tác nhanh**: Đánh dấu hoàn thành, sửa đổi thông tin, kéo thả hoặc cập nhật tức thì với độ trễ 0ms (Optimistic Update).
-
-### 3. 🎯 Thói Quen Hàng Ngày (Daily Habits)
-- **Theo dõi thói quen**: Quản lý các công việc cần phải hoàn thành đều đặn mỗi ngày.
-- **Đếm chuỗi chu kỳ (Streak Counter)**: Khích lệ duy trì thói quen với chuỗi ngày hoàn thành liên tục.
-- **Xem lại 7 ngày gần nhất**: Lịch nhỏ trực quan hiển thị trạng thái hoàn thành trong tuần.
-
-### 4. 📊 Báo Cáo & Thống Kê Năng Suất
-- **Thống kê tiến độ thời gian thực**: Tổng hợp tỷ lệ hoàn thành công việc và độ kiên trì với thói quen.
-- **Báo cáo chu kỳ 1 tháng**: Phân tích biểu đồ năng suất 30 ngày trực quan (sử dụng thư viện Recharts).
-- **Xuất dữ liệu đa định dạng**: Hỗ trợ xuất báo cáo chuẩn xác ra file **Excel (.xlsx)** và **PDF (.pdf)**.
-
-### 5. ☁️ Đồng Bộ Đám Mây & Bảo Mật Cá Nhân
-- **Đăng nhập an toàn**: Tích hợp Google OAuth và Firebase Authentication.
-- **Không gian dữ liệu riêng biệt**: Dữ liệu công việc của mỗi tài khoản được phân vùng và đồng bộ hai chiều theo thời gian thực trên Cloud Firestore.
-- **Khả năng hoạt động ngoại tuyến (Offline-first)**: Lưu trữ cục bộ thông qua Zustand Persist giúp ứng dụng luôn phản hồi tức thì ngay cả khi mất kết nối mạng.
-
-### 6. 🎨 Thiết Kế Hiện Đại Chuẩn Mobile-First
-- Xây dựng trên nền tảng **HeroUI v3** kết hợp **Tailwind CSS v4** và **Framer Motion**.
-- Phong cách Liquid Glassmorphism sang trọng, hỗ trợ chuyển đổi mượt mà giữa Dark Mode và Light Mode.
-- Thanh điều hướng thông minh tối ưu riêng cho điện thoại di động, mang lại cảm giác mượt mà như một ứng dụng Native App thực thụ.
+A modern, highly responsive task and habit management web application engineered for maximum personal productivity. Built with a mobile-first philosophy on cutting-edge web technologies, the platform provides instant responses, real-time synchronization, and AI-assisted task ingestion.
 
 ---
 
-## 🛠️ Ngăn Xếp Công Nghệ (Tech Stack)
+## 🌟 Key Features
 
-| Thành phần | Công nghệ sử dụng |
+### 1. 🤖 AI-Powered Quick Task Ingestion
+- **Natural Language Parsing**: Type intuitive sentences or quick voice notes (e.g., *"Meeting with client tomorrow at 9 AM high priority"*), and the system automatically extracts title, description, start date, due date, priority flag, category, and tags.
+- **Dual-Engine Architecture**: Powered by Google Gemini AI backed by a smart, resilient Local NLP Heuristic Parser fallback, guaranteeing 100% ingestion reliability even during network degradation or rate limits.
+- **Dynamic AI Visual Feedback**: Interactive glowing border beam animations during real-time AI parsing and analysis.
+
+### 2. 📋 Comprehensive Task Management
+- **Status Lifecycle**: Clear tracking across Todo, In Progress, Overdue, and Completed states.
+- **Dynamic Filtering & Search**: Instant filtering by priority (Urgent, High, Medium, Low), custom categories, and completion state.
+- **Zero-Latency Optimistic Updates**: Instant UI transitions with automatic background synchronization to Firebase Firestore.
+
+### 3. 🎯 Daily Habits Tracker
+- **Habit Consistency**: Dedicated management for daily recurring routines and habits.
+- **Consecutive Streak Counter**: Encourages consistency with real-time streak badges.
+- **7-Day Lookback Calendar**: Visual weekly history indicators for quick glance status checking.
+
+### 4. 📊 Performance Analytics & Reporting
+- **Real-Time Productivity Metrics**: Track completion rates, task volumes, and habit adherence over time.
+- **30-Day Trend Visualizations**: Responsive, interactive trend charts powered by Recharts.
+- **Multi-Format Export**: Export detailed productivity records directly to **Excel (.xlsx)** and **PDF (.pdf)** formats.
+
+### 5. ☁️ Real-Time Cloud Sync & Security
+- **Authentication**: Seamless sign-in with Google OAuth and Firebase Authentication.
+- **Multi-Device Sync**: Real-time two-way synchronization powered by Firebase Cloud Firestore.
+- **Offline Resilience**: Local caching via Zustand Persist ensures lightning-fast performance and offline usability.
+
+### 6. 🎨 Mobile-First Liquid Glass Design
+- Built on top of **HeroUI v3**, **Tailwind CSS v4**, and **Framer Motion**.
+- Elegant Liquid Glassmorphism styling with seamless Light/Dark mode transitions.
+- Native App-like navigation and bottom dock designed specifically for mobile touch ergonomics.
+
+---
+
+## 🛠️ System Architecture & Tech Stack
+
+| Layer | Technologies |
 | :--- | :--- |
 | **Framework** | Next.js 16 (App Router, Turbopack, React Compiler) |
-| **Thư viện UI** | React 19, HeroUI v3 |
-| **Định kiểu (Styling)** | Tailwind CSS v4, Framer Motion |
-| **Bộ Icon** | Lucide React, Heroicons, Iconify |
-| **Quản lý State** | Zustand (kèm Persist Middleware) |
-| **Cơ sở dữ liệu & Auth** | Firebase Cloud Firestore, Firebase Authentication |
-| **Xử lý AI** | Google Gemini API & Smart Local NLP Parser |
-| **Biểu đồ & Báo cáo** | Recharts, SheetJS (xlsx), jsPDF |
-| **Đa ngôn ngữ** | i18next, react-i18next (100% chuẩn Tiếng Việt) |
+| **UI Library** | React 19, HeroUI v3 |
+| **Styling & Motion** | Tailwind CSS v4, Framer Motion |
+| **Icons** | Lucide React, Heroicons, Iconify |
+| **State Management** | Zustand (with Persist Middleware) |
+| **Database & Auth** | Firebase Cloud Firestore, Firebase Authentication |
+| **AI Integration** | Google Gemini API & Smart Local NLP Parser |
+| **Charts & Export** | Recharts, SheetJS (xlsx), jsPDF |
+| **Localization** | i18next, react-i18next (Vietnamese locale) |
 
 ---
 
-## 🚀 Hướng Dẫn Cài Đặt & Chạy Cục Bộ
+## 🚀 Getting Started
 
-### Yêu cầu môi trường
-- Đã cài đặt **Node.js** (phiên bản 20.x trở lên).
-- Trình quản lý gói `npm`.
+### Prerequisites
+- **Node.js** (v20.x or higher)
+- **npm** package manager
 
-### 1. Cài đặt các gói phụ thuộc
+### 1. Installation
+Clone the repository and install project dependencies:
+
 ```bash
 npm install
 ```
 
-### 2. Cấu hình biến môi trường
-Tạo file `.env.local` tại thư mục gốc và khai báo thông tin Firebase cùng khóa Gemini API:
+### 2. Environment Variables Configuration
+Create a `.env.local` file in the project root with your Firebase and Gemini credentials:
 
 ```env
 NEXT_PUBLIC_FIREBASE_API_KEY=your_firebase_api_key
@@ -85,20 +88,26 @@ NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
 GEMINI_API_KEY=your_gemini_api_key
 ```
 
-### 3. Khởi động môi trường phát triển
+### 3. Run Development Server
+Start the development server on port 8080:
+
 ```bash
 npm run dev
 ```
 
-Mở trình duyệt và truy cập: **`http://localhost:8080`**
+Open your browser and navigate to: **`http://localhost:8080`**
 
-### 4. Kiểm tra bản build
+### 4. Production Build Test
+Verify the static export bundle:
+
 ```bash
 npm run build
 ```
 
 ---
 
-## 📄 Bản Quyền
+## 📄 License & Copyright
 
-© 2026 tchiphuong. Bản quyền thuộc về tác giả.
+© 2026 tchiphuong. All Rights Reserved.
+
+This software and associated documentation files are the proprietary property of the author. Unauthorized copying, modification, or distribution is strictly prohibited.
