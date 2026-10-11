@@ -25,7 +25,11 @@ export function fallbackParseTask(
 
     // 1. Nhận diện Priority
     let priority: "low" | "medium" | "high" = "medium";
-    if (/(khẩn cấp|gấp|quan trọng|cháy|cực kỳ|ngay|ưu tiên cao)/i.test(lower)) {
+    if (
+        /(khẩn cấp|gấp|quan trọng|cháy|cực kỳ|ngay|ưu tiên cao|urgent)/i.test(
+            lower,
+        )
+    ) {
         priority = "high";
     } else if (
         /(thong thả|khi nào rảnh|chill|ưu tiên thấp|từ từ)/i.test(lower)
@@ -193,10 +197,7 @@ export function fallbackParseTask(
             "",
         )
         .replace(hourRegex, "")
-        .replace(
-            /\b(vào lúc|lúc|vào|ngày|hạn|deadline|nhớ|cần|phải)\b/gi,
-            "",
-        )
+        .replace(/\b(vào lúc|lúc|vào|ngày|hạn|deadline|nhớ|cần|phải)\b/gi, "")
         .replace(/\s+/g, " ")
         .trim();
 
@@ -220,7 +221,9 @@ export function fallbackParseTask(
     ) {
         category = "Sức khỏe";
     } else if (
-        /(học|đọc sách|ôn thi|bài tập|khóa học|tiếng anh|nghiên cứu)/i.test(lower)
+        /(học|đọc sách|ôn thi|bài tập|khóa học|tiếng anh|nghiên cứu)/i.test(
+            lower,
+        )
     ) {
         category = "Học tập";
     } else if (
@@ -324,6 +327,64 @@ async function fetchGeminiWithRetry(
 }
 
 /**
+ * Prompt chuẩn phân tích công việc tự nhiên dùng chung cho cả Client Service và Server Route.
+ */
+export function getParseTaskSystemPrompt(
+    nowStr: string,
+    categories?: string[],
+): string {
+    const categoriesPrompt =
+        categories && categories.length > 0
+            ? categories.join(", ")
+            : "Công việc, Cá nhân, Học tập, Sức khỏe, Gia đình";
+
+    return `Bạn là trợ lý AI thông minh quản lý công việc và thói quen cá nhân.
+Thời điểm hiện tại của người dùng là: ${nowStr}.
+Danh mục người dùng có sẵn: [${categoriesPrompt}].
+
+Hãy dùng khả năng thấu hiểu ngôn ngữ tự nhiên để tự do phân tích, suy luận ngữ cảnh từ bất kỳ câu nhập nào của người dùng thành một công việc hoàn chỉnh:
+
+Cấu trúc JSON đầu ra:
+{
+  "title": string, // Tên công việc ngắn gọn, tự nhiên, làm nổi bật hành động cốt lõi (tự động loại bỏ thông tin thời gian, độ ưu tiên hoặc từ ngữ thừa)
+  "description": string, // Nội dung chi tiết hoặc giữ nguyên câu nhập gốc của người dùng
+  "dueDate": string | null, // Hạn chót công việc: định dạng ISO 8601 (nếu có giờ cụ thể) hoặc YYYY-MM-DD (nếu chỉ có ngày). Tự do suy luận chính xác mốc thời gian từ câu nói dựa trên thời điểm hiện tại. Nếu người dùng không nhắc đến bất kỳ mốc thời gian nào thì để null
+  "startDate": string | null, // Ngày bắt đầu (YYYY-MM-DD), mặc định ngày hiện tại nếu không có mốc bắt đầu riêng
+  "priority": "low" | "medium" | "high", // Mức độ ưu tiên tự suy luận theo tính chất công việc hoặc sắc thái câu nói (mặc định "medium")
+  "category": string, // Danh mục công việc phù hợp nhất tự suy luận theo ngữ cảnh thực tế (ưu tiên từ danh mục có sẵn nếu phù hợp)
+  "repeat": "none" | "daily" | "weekdays" | "weekly" | "monthly", // Chu kỳ lặp lại nếu câu nói thể hiện thói quen hoặc việc định kỳ (mặc định "none")
+  "isDaily": boolean // true nếu là thói quen thực hiện mỗi ngày, ngược lại false
+}
+
+Nguyên tắc:
+- Hãy tự do tư duy và suy luận linh hoạt như một con người thực thụ, người dùng có thể nhập bất kỳ cú pháp nào (viết tắt, tiếng lóng, ngày tháng bất kỳ kiểu nào, không dấu, có dấu, v.v.).
+- Chỉ trả về DUY NHẤT một chuỗi JSON hợp lệ, KHÔNG bọc trong markdown, KHÔNG kèm văn bản giải thích.`;
+}
+
+/**
+ * Prompt chuẩn gợi ý ý tưởng công việc dùng chung cho cả Client Service và Server Route.
+ */
+export function getSuggestIdeasSystemPrompt(
+    nowStr: string,
+    categories?: string[],
+): string {
+    const categoryList =
+        categories && categories.length > 0
+            ? categories.join(", ")
+            : "Công việc, Cá nhân, Học tập, Sức khỏe, Gia đình";
+
+    return `Bạn là trợ lý gợi ý công việc cho ứng dụng My Task App.
+Thời điểm hiện tại của người dùng là: ${nowStr}.
+Danh mục người dùng quan tâm: [${categoryList}].
+
+Hãy gợi ý đúng 3 công việc thực tế, thông minh và hữu ích mà người dùng nên làm trong ngày hôm nay hoặc sắp tới.
+Quy tắc:
+1. Mỗi gợi ý nên bao gồm hành động cụ thể và mốc thời gian tự nhiên (ví dụ: "Soạn thảo tài liệu họp trước 10h sáng mai", "Đi bộ 30 phút lúc 6h chiều nay").
+2. Chỉ trả về một JSON Array chứa 3 chuỗi string, ví dụ: ["Gợi ý 1", "Gợi ý 2", "Gợi ý 3"].
+3. KHÔNG bọc trong markdown, KHÔNG kèm văn bản giải thích thừa.`;
+}
+
+/**
  * Hàm phân tích công việc chính:
  * 1. Thử gọi Google Gemini AI nếu có cấu hình API Key.
  * 2. Tự động chuyển đổi sang Smart Local NLP Parser nếu không có Key hoặc khi API gặp sự cố.
@@ -339,8 +400,7 @@ export async function parseTaskWithAi(
     }
 
     const nowStr = currentDateStr || new Date().toISOString();
-    const apiKey =
-        process.env.NEXT_PUBLIC_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+    const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
 
     // Nếu không có API Key, chạy ngay bộ Local NLP Parser tại client
     if (!apiKey || apiKey.trim() === "") {
@@ -348,31 +408,10 @@ export async function parseTaskWithAi(
     }
 
     try {
-        const categoriesPrompt =
-            availableCategories.length > 0
-                ? availableCategories.join(", ")
-                : "Công việc, Cá nhân, Học tập, Sức khỏe, Gia đình";
-
-        const systemPrompt = `Bạn là trợ lý AI thông minh quản lý công việc và thói quen cá nhân.
-Thời điểm hiện tại của người dùng là: ${nowStr}.
-
-Hãy dùng khả năng thấu hiểu ngôn ngữ tự nhiên để tự do phân tích, suy luận ngữ cảnh từ bất kỳ câu nhập nào của người dùng thành một công việc hoàn chỉnh:
-
-Cấu trúc JSON đầu ra:
-{
-  "title": string, // Tên công việc ngắn gọn, tự nhiên, làm nổi bật hành động cốt lõi (tự động loại bỏ thông tin thời gian, độ ưu tiên hoặc từ ngữ thừa)
-  "description": string, // Nội dung chi tiết hoặc giữ nguyên câu nhập gốc của người dùng
-  "dueDate": string | null, // Hạn chót công việc: định dạng ISO 8601 (nếu có giờ cụ thể) hoặc YYYY-MM-DD (nếu chỉ có ngày). Tự do suy luận chính xác mốc thời gian từ câu nói dựa trên thời điểm hiện tại. Nếu người dùng không nhắc đến bất kỳ mốc thời gian nào thì để null
-  "startDate": string | null, // Ngày bắt đầu (YYYY-MM-DD), mặc định ngày hiện tại nếu không có mốc bắt đầu riêng
-  "priority": "low" | "medium" | "high", // Mức độ ưu tiên tự suy luận theo tính chất công việc hoặc sắc thái câu nói (mặc định "medium")
-  "category": string, // Danh mục công việc phù hợp nhất tự suy luận theo ngữ cảnh thực tế (ví dụ: Công việc, Thể thao, Sức khỏe, Học tập, Cá nhân, Giải trí...)
-  "repeat": "none" | "daily" | "weekdays" | "weekly" | "monthly", // Chu kỳ lặp lại nếu câu nói thể hiện thói quen hoặc việc định kỳ (mặc định "none")
-  "isDaily": boolean // true nếu là thói quen thực hiện mỗi ngày, ngược lại false
-}
-
-Nguyên tắc:
-- Hãy tự do tư duy và suy luận linh hoạt như một con người thực thụ, người dùng có thể nhập bất kỳ cú pháp nào (viết tắt, tiếng lóng, ngày tháng bất kỳ kiểu nào, không dấu, có dấu, v.v.).
-- Chỉ trả về DUY NHẤT một chuỗi JSON hợp lệ, KHÔNG bọc trong markdown, KHÔNG kèm văn bản giải thích.`;
+        const systemPrompt = getParseTaskSystemPrompt(
+            nowStr,
+            availableCategories,
+        );
 
         const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey.trim()}`;
 
@@ -448,28 +487,14 @@ export async function suggestIdeasWithAi(
     currentDateStr?: string,
     categories?: string[],
 ): Promise<string[]> {
-    const apiKey =
-        process.env.NEXT_PUBLIC_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+    const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
 
     if (!apiKey || apiKey.trim() === "") {
         return generateSmartFallbackIdeas(categories);
     }
 
     const nowStr = currentDateStr || new Date().toISOString();
-    const categoryList =
-        categories && categories.length > 0
-            ? categories.join(", ")
-            : "Công việc, Cá nhân, Học tập, Sức khỏe, Gia đình";
-
-    const systemPrompt = `Bạn là trợ lý gợi ý công việc cho ứng dụng My Task App.
-Thời điểm hiện tại của người dùng là: ${nowStr}.
-Danh mục người dùng quan tâm: [${categoryList}].
-
-Hãy gợi ý đúng 3 công việc thực tế, thông minh và hữu ích mà người dùng nên làm trong ngày hôm nay hoặc sắp tới.
-Quy tắc:
-1. Mỗi gợi ý nên bao gồm hành động cụ thể và mốc thời gian tự nhiên (ví dụ: "Soạn thảo tài liệu họp trước 10h sáng mai", "Đi bộ 30 phút lúc 6h chiều nay").
-2. Chỉ trả về một JSON Array chứa 3 chuỗi string, ví dụ: ["Gợi ý 1", "Gợi ý 2", "Gợi ý 3"].
-3. KHÔNG bọc trong markdown, KHÔNG kèm văn bản giải thích thừa.`;
+    const systemPrompt = getSuggestIdeasSystemPrompt(nowStr, categories);
 
     try {
         const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey.trim()}`;

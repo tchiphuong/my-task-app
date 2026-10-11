@@ -291,16 +291,18 @@ export function AiQuickTaskModal({
                             {/* Khu vực nhập mô tả */}
                             <div className="flex flex-col gap-2">
                                 <div
-                                    className={`transition-all duration-300 rounded-2xl ${isLoading
+                                    className={`transition-all duration-300 rounded-2xl ${
+                                        isLoading
                                             ? "ai-border-spinning shadow-md shadow-primary/20"
                                             : ""
-                                        }`}
+                                    }`}
                                 >
                                     <div
-                                        className={`transition-all duration-300 rounded-2xl ${isLoading
+                                        className={`transition-all duration-300 rounded-2xl ${
+                                            isLoading
                                                 ? "relative z-10 rounded-[14px] bg-background dark:bg-[#18181b]"
                                                 : ""
-                                            }`}
+                                        }`}
                                     >
                                         <TextArea
                                             variant="secondary"
@@ -340,8 +342,8 @@ export function AiQuickTaskModal({
                                                 <span>
                                                     {isGeneratingIdeas
                                                         ? t(
-                                                            "ai.generatingIdeas",
-                                                        )
+                                                              "ai.generatingIdeas",
+                                                          )
                                                         : t("ai.generateIdeas")}
                                                 </span>
                                             </button>
