@@ -376,7 +376,7 @@ export default function TasksPage() {
     return (
         <div className="flex flex-col gap-6">
             {/* 1. Header Trang & Nút Thêm */}
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
                 <div>
                     <h1 className="text-xl md:text-2xl font-black text-default-900 tracking-tight">
                         {t("menu.tasks")}
@@ -385,18 +385,22 @@ export default function TasksPage() {
                         {t("tasks.subtitle")}
                     </p>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
+                    <Button
+                        variant="primary"
+                        onPress={handleOpenAddModal}
+                        className="font-semibold w-full sm:w-auto justify-center sm:order-2"
+                    >
+                        <PlusIcon className="w-5 h-5 shrink-0" />
+                        <span>{t("tasks.add")}</span>
+                    </Button>
                     <Button
                         variant="secondary"
                         onPress={() => setIsAiModalOpen(true)}
-                        className="font-semibold"
+                        className="font-semibold w-full sm:w-auto justify-center sm:order-1"
                     >
-                        <SparklesIcon className="w-4 h-4 text-primary" />
-                        {t("ai.quickAddAi")}
-                    </Button>
-                    <Button variant="primary" onPress={handleOpenAddModal}>
-                        <PlusIcon className="w-5 h-5" />
-                        {t("tasks.add")}
+                        <SparklesIcon className="w-4 h-4 text-primary shrink-0" />
+                        <span>{t("ai.quickAddAi")}</span>
                     </Button>
                 </div>
             </div>

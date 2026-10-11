@@ -307,8 +307,8 @@ export function AiQuickTaskModal({
                     <Modal.Dialog className="sm:max-w-lg">
                         <Modal.CloseTrigger />
                         <Modal.Header>
-                            <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                            <div className="flex items-start gap-2">
+                                <div className="min-w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
                                     <SparklesIcon className="w-5 h-5" />
                                 </div>
                                 <div>
@@ -358,8 +358,8 @@ export function AiQuickTaskModal({
                                                 <span>
                                                     {isGeneratingIdeas
                                                         ? t(
-                                                              "ai.generatingIdeas",
-                                                          )
+                                                            "ai.generatingIdeas",
+                                                        )
                                                         : t("ai.generateIdeas")}
                                                 </span>
                                             </button>
