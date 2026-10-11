@@ -10,18 +10,20 @@ import {
     TagIcon,
 } from "@heroicons/react/24/outline";
 import { Button, Chip, Modal } from "@heroui/react";
+import { format } from "date-fns";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { AppInput as Input } from "@/components/common/AppInput";
 import { AppTextArea as TextArea } from "@/components/common/AppTextArea";
 import {
+    DATE_FORMATS,
     PRIORITY_OPTIONS,
     REPEAT_TYPE,
     RepeatType,
     TASK_STATUS,
 } from "@/constants";
-import { useTaskStore } from "@/store/useTaskStore";
+import { Task, useTaskStore } from "@/store/useTaskStore";
 
 interface ParsedTaskData {
     title: string;
@@ -30,13 +32,13 @@ interface ParsedTaskData {
     startDate?: string | null;
     priority?: "low" | "medium" | "high" | "urgent";
     category?: string;
-    repeat?: "none" | "daily" | "weekly" | "monthly" | "weekday";
+    repeat?: "none" | "daily" | "weekly" | "monthly" | "weekday" | "weekdays";
     isDaily?: boolean;
 }
 
 interface AiQuickTaskModalProps {
-    isOpen: boolean;
-    onOpenChange: (open: boolean) => void;
+    readonly isOpen: boolean;
+    readonly onOpenChange: (open: boolean) => void;
 }
 
 const LOCAL_STORAGE_KEY = "my_task_app_gemini_api_key";
@@ -89,7 +91,13 @@ export function AiQuickTaskModal({
         setParsedData(null);
 
         try {
-            const categories = account?.categories || [];
+            const categories = Array.from(
+                new Set(
+                    (account?.tasks || [])
+                        .map((t) => t.category)
+                        .filter(Boolean),
+                ),
+            );
             const res = await fetch("/api/ai/parse-task", {
                 method: "POST",
                 headers: {
@@ -134,21 +142,39 @@ export function AiQuickTaskModal({
             (parsedData.repeat && parsedData.repeat !== "none"),
         );
 
+        let resolvedPriority: Task["priority"] = "medium";
+        if (
+            parsedData.priority === "high" ||
+            parsedData.priority === "urgent"
+        ) {
+            resolvedPriority = "high";
+        } else if (parsedData.priority === "low") {
+            resolvedPriority = "low";
+        }
+
+        let resolvedRepeat: RepeatType | undefined;
+        if (parsedData.repeat && parsedData.repeat !== "none") {
+            resolvedRepeat =
+                parsedData.repeat === "weekday"
+                    ? REPEAT_TYPE.WEEKDAYS
+                    : (parsedData.repeat as RepeatType);
+        } else if (isDailyTask) {
+            resolvedRepeat = REPEAT_TYPE.DAILY;
+        }
+
+        const fallbackDueDate = format(new Date(), DATE_FORMATS.DATE);
+        const resolvedDueDate = parsedData.dueDate || fallbackDueDate;
+
         addTask({
             title: parsedData.title,
             description: parsedData.description || "",
-            dueDate: parsedData.dueDate || undefined,
+            dueDate: resolvedDueDate,
             startDate: parsedData.startDate || undefined,
-            priority: parsedData.priority || "medium",
+            priority: resolvedPriority,
             category: parsedData.category || "Công việc",
             status: TASK_STATUS.TODO,
             isDaily: isDailyTask,
-            repeat:
-                parsedData.repeat && parsedData.repeat !== "none"
-                    ? (parsedData.repeat as RepeatType)
-                    : isDailyTask
-                      ? REPEAT_TYPE.DAILY
-                      : undefined,
+            repeat: resolvedRepeat,
         });
 
         setIsSuccess(true);
