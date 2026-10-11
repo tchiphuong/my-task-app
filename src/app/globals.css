@@ -124,3 +124,38 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(156, 163, 175, 0.5);
 }
+
+/* Animation viền xoay vòng quanh phong cách AI (Spinning Border Beam) */
+@keyframes spin-gradient {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.ai-border-spinning {
+    position: relative;
+    border-radius: 1rem;
+    padding: 2px;
+    overflow: hidden;
+}
+
+.ai-border-spinning::before {
+    content: "";
+    position: absolute;
+    inset: -150%;
+    background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        transparent 200deg,
+        #3b82f6 270deg,
+        #8b5cf6 315deg,
+        #ec4899 345deg,
+        #3b82f6 360deg
+    );
+    animation: spin-gradient 2s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+}

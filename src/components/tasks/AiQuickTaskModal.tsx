@@ -327,16 +327,33 @@ export function AiQuickTaskModal({
                         <Modal.Body className="flex flex-col gap-4 py-3">
                             {/* Khu vực nhập mô tả */}
                             <div className="flex flex-col gap-2">
-                                <TextArea
-                                    variant="secondary"
-                                    placeholder={t("ai.inputPlaceholder")}
-                                    value={inputText}
-                                    onChange={(e) =>
-                                        setInputText(e.target.value)
-                                    }
-                                    rows={3}
-                                    className="w-full text-sm"
-                                />
+                                <div
+                                    className={`transition-all duration-300 rounded-2xl ${isLoading
+                                        ? "ai-border-spinning shadow-md shadow-primary/20"
+                                        : ""
+                                        }`}
+                                >
+                                    <div
+                                        className={`transition-all duration-300 rounded-2xl ${isLoading
+                                            ? "relative z-10 rounded-[14px] bg-background dark:bg-[#18181b]"
+                                            : ""
+                                            }`}
+                                    >
+                                        <TextArea
+                                            variant="secondary"
+                                            placeholder={t(
+                                                "ai.inputPlaceholder",
+                                            )}
+                                            value={inputText}
+                                            onChange={(e) =>
+                                                setInputText(e.target.value)
+                                            }
+                                            rows={3}
+                                            className="w-full text-sm"
+                                            disabled={isLoading}
+                                        />
+                                    </div>
+                                </div>
 
                                 {/* Gợi ý câu mẫu linh hoạt */}
                                 <div className="flex flex-col gap-2 mt-1">
@@ -360,8 +377,8 @@ export function AiQuickTaskModal({
                                                 <span>
                                                     {isGeneratingIdeas
                                                         ? t(
-                                                              "ai.generatingIdeas",
-                                                          )
+                                                            "ai.generatingIdeas",
+                                                        )
                                                         : t("ai.generateIdeas")}
                                                 </span>
                                             </button>
@@ -445,11 +462,31 @@ export function AiQuickTaskModal({
                                 isDisabled={isLoading || !inputText.trim()}
                                 className="w-full font-semibold"
                             >
-                                <SparklesIcon className="w-4 h-4" />
+                                {isLoading ? (
+                                    <ArrowPathIcon className="w-4 h-4 animate-spin" />
+                                ) : (
+                                    <SparklesIcon className="w-4 h-4" />
+                                )}
                                 {isLoading
                                     ? t("ai.parsing")
                                     : t("ai.parseButton")}
                             </Button>
+
+                            {/* Trạng thái phân tích AI với hiệu ứng viền xoay */}
+                            {isLoading && (
+                                <div className="ai-border-spinning shadow-md shadow-primary/15">
+                                    <div className="relative z-10 rounded-[14px] bg-primary-50/90 dark:bg-primary-950/40 p-3.5 flex items-center justify-between text-xs text-primary font-medium backdrop-blur-md">
+                                        <div className="flex items-center gap-2">
+                                            <SparklesIcon className="w-4 h-4 text-primary animate-spin" />
+                                            <span>{t("ai.parsing")}</span>
+                                        </div>
+                                        <div className="flex items-center gap-1.5">
+                                            <span className="w-2 h-2 rounded-full bg-primary animate-ping" />
+                                            <span className="w-2 h-2 rounded-full bg-primary/70 animate-pulse" />
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
 
                             {/* Thông báo lỗi nếu có */}
                             {errorMessage && (
