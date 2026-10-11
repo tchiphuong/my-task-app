@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
             );
             return NextResponse.json(
                 {
-                    error: "Tính năng trí tuệ nhân tạo hiện chưa sẵn sàng. Bạn vui lòng thử lại sau nhé!",
+                    error: "Tính năng trí tuệ nhân tạo hiện chưa sẵn sàng. Bạn vui lòng thử lại sau nghen!",
                 },
                 { status: 503 },
             );
@@ -161,7 +161,7 @@ Nhiệm vụ của bạn:
             console.error("[Gemini API Error]:", errData);
             return NextResponse.json(
                 {
-                    error: "Không thể kết nối đến dịch vụ trí tuệ nhân tạo lúc này. Bạn vui lòng thử lại sau nhé!",
+                    error: "Không thể kết nối đến dịch vụ trí tuệ nhân tạo lúc này. Bạn vui lòng thử lại sau nghen!",
                 },
                 { status: 502 },
             );
@@ -173,7 +173,7 @@ Nhiệm vụ của bạn:
         if (!candidate) {
             return NextResponse.json(
                 {
-                    error: "Hệ thống chưa nhận diện được nội dung. Bạn vui lòng thử diễn đạt lại chi tiết hơn nhé!",
+                    error: "Hệ thống chưa nhận diện được nội dung. Bạn vui lòng thử diễn đạt lại chi tiết hơn nghen!",
                 },
                 { status: 422 },
             );
@@ -185,7 +185,7 @@ Nhiệm vụ của bạn:
         console.error("[AI Route Exception]:", err);
         return NextResponse.json(
             {
-                error: "Đã có sự cố xảy ra trong quá trình nhận diện. Bạn vui lòng thử lại sau nhé!",
+                error: "Đã có sự cố xảy ra trong quá trình nhận diện. Bạn vui lòng thử lại sau nghen!",
             },
             { status: 500 },
         );

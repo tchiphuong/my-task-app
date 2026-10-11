@@ -334,9 +334,9 @@ const handleStreakBreak = async (
             }
 
             addNotification(
-                "Đã ngắt chuỗi mục tiêu!",
-                "Chuỗi ngày hoàn thành mục tiêu liên tiếp đã bị reset. Không sao, mình bắt đầu lại chuỗi mới hôm nay nhé!",
-                "warning",
+                i18n.t("notifications.streakBrokenTitle"),
+                i18n.t("notifications.streakBrokenMessage"),
+                NOTIFICATION_TYPE.WARNING,
             );
         }
     }
