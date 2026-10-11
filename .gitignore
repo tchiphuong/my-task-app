@@ -42,3 +42,9 @@ next-env.d.ts
 
 # Ignore test evidence
 docs/evidence/
+
+# Local Deployment Docs & Scripts (Bảo mật - Không công khai lên GitHub)
+docs/DEPLOY.md
+docs/deploy*.md
+deploy.ps1
+deploy.bat
