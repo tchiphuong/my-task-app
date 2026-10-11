@@ -133,6 +133,21 @@ const generateUniqueId = (): string => {
 };
 
 /**
+ * Loại bỏ các trường có giá trị undefined để tránh lỗi Firestore Unsupported field value: undefined.
+ */
+const cleanFirestoreData = <T extends Record<string, unknown>>(
+    data: T,
+): Record<string, unknown> => {
+    const cleaned: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(data)) {
+        if (value !== undefined) {
+            cleaned[key] = value;
+        }
+    }
+    return cleaned;
+};
+
+/**
  * Kiểm tra xem công việc/thói quen có được lên lịch vào ngày cụ thể hay không.
  * @param task Công việc cần kiểm tra
  * @param targetDate Đối tượng Date của ngày cần kiểm tra
@@ -512,11 +527,12 @@ export const useTaskStore = create<TaskStore>()(
                                 email,
                                 "tasks",
                             );
-                            await addDoc(tasksCollectionRef, {
+                            const firestorePayload = cleanFirestoreData({
                                 ...finalData,
                                 createdAt: new Date().toISOString(),
                                 completedDates: isDaily ? [] : null,
                             });
+                            await addDoc(tasksCollectionRef, firestorePayload);
                         } catch (err) {
                             console.error("Lỗi thêm task lên Firestore:", err);
                         }
@@ -570,12 +586,11 @@ export const useTaskStore = create<TaskStore>()(
                         }
                     }
 
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    const fieldsToUpdate: any = {
+                    const fieldsToUpdate = cleanFirestoreData({
                         ...updatedFields,
                         ...(isDaily !== undefined ? { isDaily } : {}),
                         completedAt: completedAt || null,
-                    };
+                    });
 
                     if (isFirebaseConfigured && db && email !== "guest") {
                         try {

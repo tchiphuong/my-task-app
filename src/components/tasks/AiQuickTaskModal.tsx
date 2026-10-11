@@ -269,12 +269,14 @@ export function AiQuickTaskModal({
             title: parsedData.title,
             description: parsedData.description || "",
             dueDate: resolvedDueDate,
-            startDate: parsedData.startDate || undefined,
+            ...(parsedData.startDate
+                ? { startDate: parsedData.startDate }
+                : {}),
             priority: parsedData.priority || "medium",
             category: parsedData.category || "Công việc",
             status: TASK_STATUS.TODO,
             isDaily: isDailyTask,
-            repeat: resolvedRepeat,
+            ...(resolvedRepeat ? { repeat: resolvedRepeat } : {}),
         });
 
         setIsSuccess(true);
@@ -358,8 +360,8 @@ export function AiQuickTaskModal({
                                                 <span>
                                                     {isGeneratingIdeas
                                                         ? t(
-                                                            "ai.generatingIdeas",
-                                                        )
+                                                              "ai.generatingIdeas",
+                                                          )
                                                         : t("ai.generateIdeas")}
                                                 </span>
                                             </button>
