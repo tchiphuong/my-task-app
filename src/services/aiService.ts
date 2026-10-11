@@ -36,42 +36,80 @@ export function fallbackParseTask(
 }
 
 /**
- * Gọi Gemini REST API với cơ chế tự động thử lại khi gặp lỗi 429 / 503.
+ * Danh sách model Gemini sắp xếp theo thứ tự ưu tiên.
+ * Nếu model trước hết Quota (429), quá tải (503) hoặc không hỗ trợ (404),
+ * hệ thống sẽ tự động chuyển sang model tiếp theo ngay lập tức!
  */
-async function fetchGeminiWithRetry(
-    url: string,
-    options: RequestInit,
-    maxRetries = 2,
-    delayMs = 800,
-): Promise<Response> {
-    let lastResponse: Response | null = null;
-    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+const GEMINI_MODEL_POOL = [
+    "gemini-flash-latest",
+    "gemini-flash-lite-latest",
+    "gemini-3.7-flash",
+    "gemini-3.6-flash",
+    "gemini-3.5-flash",
+    "gemini-3.5-flash-lite",
+    "gemini-3.1-flash-lite",
+];
+
+interface GeminiPayload {
+    contents: Array<{ role?: string; parts: Array<{ text: string }> }>;
+    generationConfig?: {
+        temperature?: number;
+        responseMimeType?: string;
+    };
+}
+
+/**
+ * Gọi Gemini REST API với cơ chế tự động xoay vòng model thông minh.
+ */
+async function generateContentWithModelPool(
+    apiKey: string,
+    payload: GeminiPayload,
+): Promise<string> {
+    let lastErrorDetails: unknown = null;
+
+    for (const model of GEMINI_MODEL_POOL) {
         try {
-            const res = await fetch(url, options);
-            if (res.ok) {
-                return res;
-            }
-            lastResponse = res;
-            if (res.status === 503 || res.status === 429) {
-                if (attempt < maxRetries) {
-                    await new Promise((resolve) =>
-                        setTimeout(resolve, delayMs * (attempt + 1)),
-                    );
-                    continue;
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-goog-api-key": apiKey.trim(),
+                },
+                body: JSON.stringify(payload),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const candidateText =
+                    data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+                if (candidateText) {
+                    return candidateText;
                 }
-            } else {
-                return res;
             }
+
+            const errorData = await response.json().catch(() => null);
+            lastErrorDetails = errorData;
+            console.warn(
+                `[AI Service] Model ${model} gặp mã lỗi ${response.status}, đang tự động chuyển sang model tiếp theo...`,
+                errorData,
+            );
         } catch (err: unknown) {
-            if (attempt >= maxRetries) {
-                throw err;
-            }
-            await new Promise((resolve) =>
-                setTimeout(resolve, delayMs * (attempt + 1)),
+            lastErrorDetails = err;
+            console.warn(
+                `[AI Service] Model ${model} gặp ngoại lệ kết nối, đang thử model tiếp theo...`,
+                err,
             );
         }
     }
-    return lastResponse!;
+
+    console.error(
+        "[AI Service] Toàn bộ danh sách model Gemini đều không phản hồi:",
+        lastErrorDetails,
+    );
+    throw new Error(
+        "Hệ thống tạm thời không thể phân tích nội dung. Bạn vui lòng thử lại sau ít phút.",
+    );
 }
 
 /**
@@ -132,10 +170,8 @@ Quy tắc:
 3. KHÔNG bọc trong markdown, KHÔNG kèm văn bản giải thích thừa.`;
 }
 
-const GEMINI_MODEL = "gemini-flash-latest";
-
 /**
- * Hàm phân tích công việc chính bằng AI.
+ * Hàm phân tích công việc chính bằng AI (tự động xoay vòng model nếu chạm trần quota).
  */
 export async function parseTaskWithAi(
     text: string,
@@ -150,7 +186,6 @@ export async function parseTaskWithAi(
     const nowStr = currentDateStr || new Date().toISOString();
     const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
 
-    // Ghi log kỹ thuật nội bộ nếu thiếu key, không để lộ thông tin biến môi trường cho người dùng cuối
     if (!apiKey || apiKey.trim() === "") {
         console.warn("[AI Service] Thiếu cấu hình NEXT_PUBLIC_GEMINI_API_KEY");
         throw new Error(
@@ -159,57 +194,23 @@ export async function parseTaskWithAi(
     }
 
     const systemPrompt = getParseTaskSystemPrompt(nowStr, availableCategories);
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 
-    const response = await fetchGeminiWithRetry(
-        geminiUrl,
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-goog-api-key": apiKey.trim(),
-            },
-            body: JSON.stringify({
-                contents: [
+    const candidateText = await generateContentWithModelPool(apiKey, {
+        contents: [
+            {
+                role: "user",
+                parts: [
                     {
-                        role: "user",
-                        parts: [
-                            {
-                                text: `${systemPrompt}\n\nNội dung công việc cần phân tích:\n"${trimmed}"`,
-                            },
-                        ],
+                        text: `${systemPrompt}\n\nNội dung công việc cần phân tích:\n"${trimmed}"`,
                     },
                 ],
-                generationConfig: {
-                    temperature: 0.1,
-                    responseMimeType: "application/json",
-                },
-            }),
+            },
+        ],
+        generationConfig: {
+            temperature: 0.1,
+            responseMimeType: "application/json",
         },
-        2,
-        800,
-    );
-
-    if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        console.error(
-            `[AI Service] Phản hồi lỗi từ Gemini API (${response.status}):`,
-            errorData,
-        );
-        throw new Error(
-            "Hệ thống tạm thời không thể phân tích nội dung. Bạn vui lòng thử lại sau ít phút.",
-        );
-    }
-
-    const data = await response.json();
-    const candidateText =
-        data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-
-    if (!candidateText) {
-        throw new Error(
-            "Hệ thống không nhận được phản hồi phù hợp. Bạn vui lòng thử lại.",
-        );
-    }
+    });
 
     const cleanedJson = candidateText
         .replace(/^```json\s*/i, "")
@@ -221,7 +222,10 @@ export async function parseTaskWithAi(
     try {
         parsed = JSON.parse(cleanedJson) as ParsedTaskData;
     } catch {
-        console.error("[AI Service] Lỗi parse JSON từ candidateText:", candidateText);
+        console.error(
+            "[AI Service] Lỗi parse JSON từ candidateText:",
+            candidateText,
+        );
         throw new Error(
             "Hệ thống tạm thời chưa thể xử lý nội dung này. Bạn vui lòng thử lại.",
         );
@@ -240,7 +244,7 @@ export async function parseTaskWithAi(
 }
 
 /**
- * Hàm tạo gợi ý ý tưởng AI.
+ * Hàm tạo gợi ý ý tưởng AI (tự động xoay vòng model nếu chạm trần quota).
  */
 export async function suggestIdeasWithAi(
     currentDateStr?: string,
@@ -257,53 +261,19 @@ export async function suggestIdeasWithAi(
 
     const nowStr = currentDateStr || new Date().toISOString();
     const systemPrompt = getSuggestIdeasSystemPrompt(nowStr, categories);
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 
-    const response = await fetchGeminiWithRetry(
-        geminiUrl,
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-goog-api-key": apiKey.trim(),
+    const candidateText = await generateContentWithModelPool(apiKey, {
+        contents: [
+            {
+                role: "user",
+                parts: [{ text: systemPrompt }],
             },
-            body: JSON.stringify({
-                contents: [
-                    {
-                        role: "user",
-                        parts: [{ text: systemPrompt }],
-                    },
-                ],
-                generationConfig: {
-                    temperature: 0.7,
-                    responseMimeType: "application/json",
-                },
-            }),
+        ],
+        generationConfig: {
+            temperature: 0.7,
+            responseMimeType: "application/json",
         },
-        1,
-        500,
-    );
-
-    if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        console.error(
-            `[AI Service] Phản hồi lỗi khi tạo gợi ý (${response.status}):`,
-            errorData,
-        );
-        throw new Error(
-            "Hệ thống tạm thời chưa thể tạo gợi ý lúc này. Bạn vui lòng thử lại sau.",
-        );
-    }
-
-    const data = await response.json();
-    const candidateText =
-        data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-
-    if (!candidateText) {
-        throw new Error(
-            "Hệ thống tạm thời chưa thể tạo gợi ý lúc này. Bạn vui lòng thử lại sau.",
-        );
-    }
+    });
 
     const cleanedJson = candidateText
         .replace(/^```json\s*/i, "")
