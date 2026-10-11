@@ -185,17 +185,21 @@ export default function TasksPage() {
             task.dueDate < format(new Date(), DATE_FORMATS.DATE) &&
             task.status !== TASK_STATUS.DONE;
         const formattedDueDate = task.dueDate
-            ? format(parseISO(task.dueDate), DATE_FORMATS.SHORT_DISPLAY)
+            ? format(
+                parseISO(task.dueDate),
+                task.dueDate.includes("T")
+                    ? "HH:mm, dd/MM/yyyy"
+                    : DATE_FORMATS.SHORT_DISPLAY,
+            )
             : "";
 
         return (
             <Card
                 key={task.id}
-                className={`hover:-translate-y-0.5 ${
-                    isOverdue
-                        ? "border-danger-200 dark:border-danger-900/30 bg-danger-50/10"
-                        : ""
-                }`}
+                className={`hover:-translate-y-0.5 ${isOverdue
+                    ? "border-danger-200 dark:border-danger-900/30 bg-danger-50/10"
+                    : ""
+                    }`}
             >
                 <Card.Content className="p-4 flex flex-col gap-3">
                     <div className="flex justify-between items-start gap-2">
@@ -245,13 +249,13 @@ export default function TasksPage() {
                                     )}
                                     {task.status ===
                                         TASK_STATUS.IN_PROGRESS && (
-                                        <Dropdown.Item
-                                            id="stop"
-                                            textValue={t("tasks.pause")}
-                                        >
-                                            <Label>{t("tasks.pause")}</Label>
-                                        </Dropdown.Item>
-                                    )}
+                                            <Dropdown.Item
+                                                id="stop"
+                                                textValue={t("tasks.pause")}
+                                            >
+                                                <Label>{t("tasks.pause")}</Label>
+                                            </Dropdown.Item>
+                                        )}
                                     <Dropdown.Item
                                         id="delete"
                                         variant="danger"
@@ -305,17 +309,17 @@ export default function TasksPage() {
                                 <CalendarIcon className="w-3.5 h-3.5 shrink-0" />
                                 {task.startDate && task.dueDate
                                     ? t("tasks.dateRange", {
-                                          start: format(
-                                              parseISO(task.startDate),
-                                              DATE_FORMATS.SHORT_DISPLAY,
-                                          ),
-                                          end: formattedDueDate,
-                                      })
+                                        start: format(
+                                            parseISO(task.startDate),
+                                            DATE_FORMATS.SHORT_DISPLAY,
+                                        ),
+                                        end: formattedDueDate,
+                                    })
                                     : isOverdue
-                                      ? t("tasks.overdue", {
+                                        ? t("tasks.overdue", {
                                             date: formattedDueDate,
                                         })
-                                      : formattedDueDate}
+                                        : formattedDueDate}
                             </span>
                             {task.status === TASK_STATUS.DONE &&
                                 task.completedAt && (
@@ -687,7 +691,7 @@ export default function TasksPage() {
                     </div>
                     <div className="flex flex-col gap-3 max-h-150 overflow-y-auto pr-1 relative z-10">
                         {getTasksByStatus(TASK_STATUS.IN_PROGRESS).length ===
-                        0 ? (
+                            0 ? (
                             <div className="text-center py-12 text-default-400 text-xs border-2 border-dashed border-default-100 rounded-xl">
                                 {t("tasks.noTasksDoing")}
                             </div>
@@ -894,11 +898,11 @@ export default function TasksPage() {
                                                     defaultValue={
                                                         editingTask?.startDate
                                                             ? parseDate(
-                                                                  editingTask.startDate,
-                                                              )
+                                                                editingTask.startDate,
+                                                            )
                                                             : today(
-                                                                  getLocalTimeZone(),
-                                                              )
+                                                                getLocalTimeZone(),
+                                                            )
                                                     }
                                                 />
                                             </div>
@@ -910,11 +914,11 @@ export default function TasksPage() {
                                                 defaultValue={
                                                     editingTask?.dueDate
                                                         ? parseDate(
-                                                              editingTask.dueDate,
-                                                          )
+                                                            editingTask.dueDate,
+                                                        )
                                                         : today(
-                                                              getLocalTimeZone(),
-                                                          )
+                                                            getLocalTimeZone(),
+                                                        )
                                                 }
                                             />
                                         </div>

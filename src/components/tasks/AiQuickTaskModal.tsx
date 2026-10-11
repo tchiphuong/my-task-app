@@ -8,7 +8,7 @@ import {
     TagIcon,
 } from "@heroicons/react/24/outline";
 import { Button, Chip, Modal } from "@heroui/react";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -57,6 +57,24 @@ function getTimeOfDayKey(): string {
         return "ai.timeAfternoon";
     }
     return "ai.timeEvening";
+}
+
+function formatPreviewDate(dateStr?: string | null): string | null {
+    if (!dateStr) {
+        return null;
+    }
+    try {
+        const parsed = parseISO(dateStr);
+        if (Number.isNaN(parsed.getTime())) {
+            return dateStr;
+        }
+        if (dateStr.includes("T")) {
+            return format(parsed, "HH:mm, dd/MM/yyyy");
+        }
+        return format(parsed, DATE_FORMATS.SHORT_DISPLAY);
+    } catch {
+        return dateStr;
+    }
 }
 
 interface ParsedTaskData {
@@ -483,11 +501,25 @@ export function AiQuickTaskModal({
                                             <span>
                                                 {t("ai.previewDueDate")}:{" "}
                                                 <strong>
-                                                    {parsedData.dueDate ||
-                                                        t("tasks.noDueDate")}
+                                                    {formatPreviewDate(
+                                                        parsedData.dueDate,
+                                                    ) || t("tasks.noDueDate")}
                                                 </strong>
                                             </span>
                                         </div>
+                                        {parsedData.startDate && (
+                                            <div className="flex items-center gap-1.5">
+                                                <CalendarIcon className="w-3.5 h-3.5 text-default-400" />
+                                                <span>
+                                                    {t("ai.previewStartDate")}:{" "}
+                                                    <strong>
+                                                        {formatPreviewDate(
+                                                            parsedData.startDate,
+                                                        )}
+                                                    </strong>
+                                                </span>
+                                            </div>
+                                        )}
                                         {parsedData.repeat &&
                                             parsedData.repeat !== "none" && (
                                                 <div className="col-span-2 flex items-center gap-1.5 text-primary">
