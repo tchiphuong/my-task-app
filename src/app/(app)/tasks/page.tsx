@@ -8,6 +8,7 @@ import {
     FlagIcon,
     PlayIcon,
     PlusIcon,
+    SparklesIcon,
     TagIcon,
 } from "@heroicons/react/24/outline";
 import {
@@ -41,6 +42,7 @@ import {
     AppSelect as Select,
     AppTextArea as TextArea,
 } from "@/components/common";
+import { AiQuickTaskModal } from "@/components/tasks/AiQuickTaskModal";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
 import {
     DATE_FORMATS,
@@ -65,6 +67,7 @@ export default function TasksPage() {
 
     // Modal & Form State
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isAiModalOpen, setIsAiModalOpen] = useState(false);
     const [editingTask, setEditingTask] = useState<Task | null>(null);
     const [hasDateRange, setHasDateRange] = useState(false);
 
@@ -378,10 +381,20 @@ export default function TasksPage() {
                         {t("tasks.subtitle")}
                     </p>
                 </div>
-                <Button variant="primary" onPress={handleOpenAddModal}>
-                    <PlusIcon className="w-5 h-5" />
-                    {t("tasks.add")}
-                </Button>
+                <div className="flex items-center gap-2">
+                    <Button
+                        variant="secondary"
+                        onPress={() => setIsAiModalOpen(true)}
+                        className="font-semibold"
+                    >
+                        <SparklesIcon className="w-4 h-4 text-primary" />
+                        {t("ai.quickAddAi")}
+                    </Button>
+                    <Button variant="primary" onPress={handleOpenAddModal}>
+                        <PlusIcon className="w-5 h-5" />
+                        {t("tasks.add")}
+                    </Button>
+                </div>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3">
@@ -970,6 +983,12 @@ export default function TasksPage() {
                     </Modal.Dialog>
                 </Modal.Container>
             </Modal.Backdrop>
+
+            {/* Modal Nhập việc nhanh bằng AI */}
+            <AiQuickTaskModal
+                isOpen={isAiModalOpen}
+                onOpenChange={setIsAiModalOpen}
+            />
         </div>
     );
 }
